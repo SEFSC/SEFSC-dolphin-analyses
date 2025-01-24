@@ -4,189 +4,49 @@
     "href": "index.html",
     "title": "NOAA quarto book",
     "section": "",
-    "text": "Executive Summary\nI have made a change.",
+    "text": "1 Introduction\nHere we will be displaying various data summaries and analyses related to dolphin management in the U.S. South Atlantic.",
     "crumbs": [
-      "Executive Summary"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
-    "objectID": "content/setup.html",
-    "href": "content/setup.html",
-    "title": "1  Set-up",
+    "objectID": "index.html#load-libraries",
+    "href": "index.html#load-libraries",
+    "title": "NOAA quarto book",
+    "section": "1.1 Load Libraries",
+    "text": "1.1 Load Libraries\nThe documentation of this data exploration was developed in R, using R Studio and Quarto. The following R libraries were also used. The pals package allows for improved visualization with different color palettes (pals?). The rerddap package allows for efficient downloads of physical data from the ERDDAP server (rerddap?).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "FOSS.html",
+    "href": "FOSS.html",
+    "title": "2  Chapter 1 - NOAA Fisheries landings data",
     "section": "",
-    "text": "1.1 GitHub Set-up\nThis is a template for a simple Quarto book output to html, PDF or docx format. It includes a GitHub Action that will build the website automatically when you make changes to the files. The NOAA palette and fonts has been added to theme.scss. The webpage will be on the gh-pages branch. Serving the website files from this branch is a common way to keep all the website files from cluttering your main branch.\nThe GitHub Action installs R so you can have R code in your qmd or Rmd files. Note, you do not need to make changes to your Rmd files unless your need Quarto features like cross-references.",
+    "text": "2.1 Data access and upload\nHere we will explore commercial and recreational landings data accessed through the FOSS (Fisheries One Stop Shop) data portal. The advantage of this portal is that commercial and recreational data are available side-by-side in the same units (pounds landed).\nData are downloaded download data from NMFS FOSS site: [https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::].\nFor the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the “NMFS Regions” button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select “Dolphinfish” and “Dolphinfish**.” For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the “RUN REPORT” button then generates the data needed for the subsequent analysis, which can be downloaded under the “Actions” button.\nWe then read in the data file and clean it for analysis (removing the commas from the numbers so that R recognizes the values as numbers). We output the file header to make sure it was read in and that the numbers were converted correctly.\nYear     Region.Name     Pounds Dollars   Collection Metric.Tons\n1 2000            Gulf    582,576 689,637   Commercial         264\n2 2000            Gulf  5,641,491         Recreational       2,559\n3 2000     New England      6,545  12,414   Commercial           3\n4 2000  South Atlantic    537,077 821,743   Commercial         244\n5 2000  South Atlantic 16,049,049         Recreational       7,280\n6 2000 Middle Atlantic     36,048  65,004   Commercial          16\n\n\n  Year     Region.Name   Pounds Dollars   Collection Metric.Tons\n1 2000            Gulf   582576  689637   Commercial         264\n2 2000            Gulf  5641491      NA Recreational        2559\n3 2000     New England     6545   12414   Commercial           3\n4 2000  South Atlantic   537077  821743   Commercial         244\n5 2000  South Atlantic 16049049      NA Recreational        7280\n6 2000 Middle Atlantic    36048   65004   Commercial          16",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Set-up</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 - NOAA Fisheries landings data</span>"
     ]
   },
   {
-    "objectID": "content/setup.html#github-set-up",
-    "href": "content/setup.html#github-set-up",
-    "title": "1  Set-up",
-    "section": "",
-    "text": "Click the green “use template” button to make a repository with this content. Make sure to make your repo public (since GitHub Pages doesn’t work on private repos unless you have a paid account) and check box to include all the branches (so that you get the gh-pages branch). \nTurn on GitHub Pages under Settings &gt; Pages . You will set pages to be made from the gh-pages branch and root directory. \nTurn on GitHub Actions under Settings &gt; Actions &gt; General \nEdit the repo description and Readme to add a link to the webpage. When you edit the description, you will see the link url in the url box or you can click on the Actions tab or the Settings &gt; Pages page to find the url.",
+    "objectID": "FOSS.html#summarize-the-landings",
+    "href": "FOSS.html#summarize-the-landings",
+    "title": "2  Chapter 1 - NOAA Fisheries landings data",
+    "section": "2.2 Summarize the landings",
+    "text": "2.2 Summarize the landings\nWe then summarize the landings (in pounds) by year, sector, and region. The result is a new data frame with each row representing a year and each column representing the total landings for each region and sector.\n\n\n, , Gulf\n\n     Recreational Commercial\n1980            0      94984\n1981      1559544      73075\n1982      4197503     162457\n1983      2162936     190808\n1984      1189573     282976\n1985      2542089     269477\n\n, , Middle Atlantic\n\n     Recreational Commercial\n1980            0        400\n1981            0          0\n1982         2097        200\n1983        45927       1400\n1984            0       1700\n1985       113666       5000\n\n, , New England\n\n     Recreational Commercial\n1980            0        200\n1981            0          0\n1982            0          0\n1983            0        400\n1984            0        400\n1985            0       4800\n\n, , South Atlantic\n\n     Recreational Commercial\n1980            0      76042\n1981      8421898      59037\n1982      7573035     143960\n1983      9134022     127986\n1984      7265430     158901\n1985      6684821     142684\n\n\n     rec_Gulf com_Gulf   rec_SA  com_SA  rec_MA com_MA  rec_NE com_NE\n1980        0    94984        0   76042       0    400       0    200\n1981  1559544    73075  8421898   59037       0      0       0      0\n1982  4197503   162457  7573035  143960    2097    200       0      0\n1983  2162936   190808  9134022  127986   45927   1400       0    400\n1984  1189573   282976  7265430  158901       0   1700       0    400\n1985  2542089   269477  6684821  142684  113666   5000       0   4800\n1986  5540003   492212  6190187  189747  125653   4200       0    200\n1987  4209638   403703  6883546  212905  121433  13400       0   1100\n1988  1014312   491610  3134070  212709  130240  26600    2196  17800\n1989 12551461  1029628 13273504  426392 1386752  81700     437  15300\n1990 13389540  1098819  9283973  514980  624928  69106    2714  14233\n1991 13760600  1674124 14756442  650333  722090  90722    6294   9816\n1992 12481422   714369  5893700  326831  860112  74423    1411  10315\n1993  6873820   596967  7077105  520512 3001335  99420  200927  27069\n1994  5448709   679903 10554836  618614 1400635 101044   12586  12328\n1995 11142952  1177325 14318412 1164608 1096473 198425   24061  13811\n1996  7086006  1047020  9128895  548682 1077364  43581       0   7788\n1997 19958088   989648 12284366  877303 1422057 105559       0  13265\n1998  9324186   422501  7312090  406368 2920384  86502  120322  11553\n1999  7329953   612445 13973364  504263 1005852  98927    4458   5990\n2000  5641491   582576 16049049  537077 1433991  36048       0   6545\n2001  7355385   368503 14945284  470897  477081  51342    5189  29134\n2002  3513226   290601 13794853  436472 1295470  83534  600948  14836\n2003  4481937   310836 12112718  459351  929763  46851  129513  21275\n2004  2402315   435341  9707678  555973  427145  31916       0  29042\n2005  2537132   207695 10299670  376989  437472  19703       0  19982\n2006  3290474   224668 12805952  433121  887684  27724       0  19645\n2007  3754513   370423 13164377  739862  241212  77553   19542  40141\n2008  3937153   385011 10417536  627506  264017  53013       0  13448\n2009  3860527   497246 13251102 1006948 1538112  49946       0  76449\n2010  1216198   112802  8543542  571983  813738  34578       0  12910\n2011  3023914   312567 10774812  544333 2173136  14322  187289  22816\n2012  3229090   148474  9983276  704483  755558  42421   26892  43955\n2013  5425636   191201  8483569  584102  302421  39214  226988  16657\n2014  3074373   207261 11925345 1042822 2129222  48462  183673  51810\n2015  6286577   155696 14821772  920772 4501793  34858 1198628  31995\n2016  1777348    37733 12357817  828435 2212513  61336   16499  15747\n2017  2064106    68260  9457460  533082 1820541  16179   48607  30969\n2018  1626095    57052 11713866  435290 3104018  20514   97107  12667\n2019  3567170    85077  7967978  563708 1518629  47981      66  16918\n2020  1952241    26653  5653294  260503  679556  14040       0   1880\n2021  2893817    27212  6061024  177263 1051785  25799  123038  11421",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Set-up</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 - NOAA Fisheries landings data</span>"
     ]
   },
   {
-    "objectID": "content/add-content.html",
-    "href": "content/add-content.html",
-    "title": "2  Customize",
-    "section": "",
-    "text": "2.1 Edit and add your pages\nEdit the qmd or md files in the content folder. qmd files can include code (R, Python, Julia) and lots of Quarto markdown bells and whistles (like call-outs, cross-references, auto-citations and much more).\nEach page should start with\nand the first header will be the 2nd level, so ##. Note, there are situations where you leave off\nand start the qmd file with a level header #, but if using the default title yaml (in the --- fence) is a good habit since it makes it easy for Quarto convert your qmd file to other formats (like into a presentation).",
+    "objectID": "FOSS.html#plot-the-summary",
+    "href": "FOSS.html#plot-the-summary",
+    "title": "2  Chapter 1 - NOAA Fisheries landings data",
+    "section": "2.3 Plot the summary",
+    "text": "2.3 Plot the summary\nNow we plot the data, using similar color schemes by region. Because the recreational data have high imprecision prior to the 1990s we plot from 1990 to the last year of data.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Customize</span>"
-    ]
-  },
-  {
-    "objectID": "content/add-content.html#edit-and-add-your-pages",
-    "href": "content/add-content.html#edit-and-add-your-pages",
-    "title": "2  Customize",
-    "section": "",
-    "text": "---\ntitle: your title\n---\n\n---\ntitle: your title\n---",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Customize</span>"
-    ]
-  },
-  {
-    "objectID": "content/add-content.html#add-your-pages-the-project",
-    "href": "content/add-content.html#add-your-pages-the-project",
-    "title": "2  Customize",
-    "section": "2.2 Add your pages the project",
-    "text": "2.2 Add your pages the project\n\nAdd the files to _quarto.yml",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Customize</span>"
-    ]
-  },
-  {
-    "objectID": "content/customizing.html",
-    "href": "content/customizing.html",
-    "title": "3  Customization",
-    "section": "",
-    "text": "3.1 Quarto documentation\nQuarto allow many bells and whistles to make nice output. Read the documentation here Quarto documentation.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Customization</span>"
-    ]
-  },
-  {
-    "objectID": "content/customizing.html#examples",
-    "href": "content/customizing.html#examples",
-    "title": "3  Customization",
-    "section": "3.2 Examples",
-    "text": "3.2 Examples\nLooking at other people’s Quarto code is a great way to figure out how to do stuff. Most will have a link to a GitHub repo where you can see the raw code. Look for a link to edit page or see source code. This will usually be on the right. Or look for the GitHub icon somewhere.\n\nQuarto gallery\nnmfs-openscapes\nFaye lab manual\nquarto-titlepages Note the link to edit is broken. Go to repo and look in documentation directory.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Customization</span>"
-    ]
-  },
-  {
-    "objectID": "content/rendering.html",
-    "href": "content/rendering.html",
-    "title": "4  Rendering",
-    "section": "",
-    "text": "4.1 Step 1. Make sure you have a recent RStudio\nThe repo includes a GitHub Action that will render (build) the website automatically when you make changes to the files. It will be pushed to the gh-pages branch.\nBut when you are developing your content, you will want to render it locally.\nHave you updated RStudio since about August 2022? No? Then update to a newer version of RStudio. In general, you want to keep RStudio updated and it is required to have a recent version to use Quarto.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Rendering</span>"
-    ]
-  },
-  {
-    "objectID": "content/rendering.html#step-2.-clone-and-create-rstudio-project",
-    "href": "content/rendering.html#step-2.-clone-and-create-rstudio-project",
-    "title": "4  Rendering",
-    "section": "4.2 Step 2. Clone and create RStudio project",
-    "text": "4.2 Step 2. Clone and create RStudio project\nFirst, clone the repo onto your local computer. How? You can click File &gt; New Project and then select “Version Control”. Paste in the url of the repository. That will clone the repo on to your local computer. When you make changes, you will need to push those up.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Rendering</span>"
-    ]
-  },
-  {
-    "objectID": "content/rendering.html#step-3.-render-within-rstudio",
-    "href": "content/rendering.html#step-3.-render-within-rstudio",
-    "title": "4  Rendering",
-    "section": "4.3 Step 3. Render within RStudio",
-    "text": "4.3 Step 3. Render within RStudio\nRStudio will recognize that this is a Quarto project by the presence of the _quarto.yml file and will see the “Build” tab. Click the “Render website” button to render to the _site folder.\nPreviewing: You can either click index.html in the _site folder and specify “preview in browser” or set up RStudio to preview to the viewer panel. To do the latter, go to Tools &gt; Global Options &gt; R Markdown. Then select “Show output preview in: Viewer panel”.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Rendering</span>"
-    ]
-  },
-  {
-    "objectID": "content/figures_and_tables.html",
-    "href": "content/figures_and_tables.html",
-    "title": "5  Figures and Tables",
-    "section": "",
-    "text": "5.1 Code\nMarkdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.\nYou can embed an R code chunk like this:\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Figures and Tables</span>"
-    ]
-  },
-  {
-    "objectID": "content/figures_and_tables.html#including-plots",
-    "href": "content/figures_and_tables.html#including-plots",
-    "title": "5  Figures and Tables",
-    "section": "5.2 Including Plots",
-    "text": "5.2 Including Plots\nYou can also embed plots and reference them, like so Figure 5.1.\n\n\n\n\n\n\n\n\nFigure 5.1: Plot of pressure\n\n\n\n\n\nNote that the echo = FALSE parameter was added to the code chunk to prevent printing of the R code that generated the plot.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Figures and Tables</span>"
-    ]
-  },
-  {
-    "objectID": "content/figures_and_tables.html#including-tables",
-    "href": "content/figures_and_tables.html#including-tables",
-    "title": "5  Figures and Tables",
-    "section": "5.3 Including Tables",
-    "text": "5.3 Including Tables\nYou can also embed tables and reference them with Table 5.1.\n\nlibrary(knitr)\nkable(head(iris))\n\n\n\nTable 5.1: Iris Data\n\n\n\n\n\n\nSepal.Length\nSepal.Width\nPetal.Length\nPetal.Width\nSpecies\n\n\n\n\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n5.4\n3.9\n1.7\n0.4\nsetosa",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Figures and Tables</span>"
-    ]
-  },
-  {
-    "objectID": "content/code.html",
-    "href": "content/code.html",
-    "title": "6  Rendering with Code",
-    "section": "",
-    "text": "6.1 Modify the GitHub Action\nYou can have code (R, Python or Julia) in your qmd file. You will need to have these installed on your local computer, but presumably you do already if you are adding code to your qmd files.\nYou will need to change the GitHub Action in .github/workflows to install these and any needed packages in order for GitHub to be able to render your webpage. The GitHub Action install R since I used that in code.qmd. If you use Python or Julia instead, then you will need to update the GitHub Action to install those.\nIf getting the GitHub Action to work is too much hassle (and that definitely happens), you can alway render locally and publish to the gh-pages branch. If you do this, make sure to delete or rename the GitHub Action to something like\nso GitHub does not keep trying to run it. Nothing bad will happen if you don’t do this, but if you are not using the action (because it keeps failing), then you don’t need GitHub to run it.",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Rendering with Code</span>"
-    ]
-  },
-  {
-    "objectID": "content/code.html#modify-the-github-action",
-    "href": "content/code.html#modify-the-github-action",
-    "title": "6  Rendering with Code",
-    "section": "",
-    "text": "render-and-publish.old_yml",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Rendering with Code</span>"
-    ]
-  },
-  {
-    "objectID": "content/code.html#render-locally-and-publish-to-gh-pages-branch",
-    "href": "content/code.html#render-locally-and-publish-to-gh-pages-branch",
-    "title": "6  Rendering with Code",
-    "section": "6.2 Render locally and publish to gh-pages branch",
-    "text": "6.2 Render locally and publish to gh-pages branch\nTo render locally and push up to the gh-pages branch, open a terminal window and then cd to the directory with the Quarto project. Type this in the terminal:\nquarto render gh-pages",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Rendering with Code</span>"
-    ]
-  },
-  {
-    "objectID": "content/adding-refs.html",
-    "href": "content/adding-refs.html",
-    "title": "7  References",
-    "section": "",
-    "text": "Quarto has powerful references functionality. You can easily insert citations from Zotero libraries that you maintain in the cloud (on Zotero). This allows the whole team to update the library and you can sync up to that library. Read about this on the Quarto documentation on citations. Google youtube videos on this also to see it in action.\nAdd a .bib file in to your project or add a linked Zotero library via RStudio in Visual mode with Tools &gt; Project Options… &gt; R Markdown &gt; select custom libraries from the Zotero dropdown.\nThe you can type @ and you will see a dropdown of the references in your libraries. You can then select the ones to add. If you don’t see the one you need, you can paste in the DOI and it will be added to your references file (with all the info). The references will be added to your references section of your book automatically.\nSee the references.qmd file for how to include the references.\n\n@ansley1981 will produce Ansley and Davis (1981)\n[@ansley1981] will produce (Ansley and Davis 1981).\n\n\n\n\n\nAnsley, H. L. H., and C. D. Davis. 1981. “Migration and Standing Stock of Fishes Associated with Artificial and Natural Reefs on Georgia’s Outer Continental Shelf.” Brunswick, Georgia, USA.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>References</span>"
-    ]
-  },
-  {
-    "objectID": "content/references.html",
-    "href": "content/references.html",
-    "title": "References",
-    "section": "",
-    "text": "Ansley, H. L. H., and C. D. Davis. 1981. “Migration and Standing\nStock of Fishes Associated with Artificial and Natural Reefs on\nGeorgia’s Outer Continental Shelf.” Brunswick,\nGeorgia, USA.",
-    "crumbs": [
-      "References"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Chapter 1 - NOAA Fisheries landings data</span>"
     ]
   }
 ]
