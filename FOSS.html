@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -183,10 +217,15 @@ ul.task-list li input[type="checkbox"] {
 <p>Here we will explore commercial and recreational landings data accessed through the FOSS (Fisheries One Stop Shop) data portal. The advantage of this portal is that commercial and recreational data are available side-by-side in the same units (pounds landed).</p>
 <section id="data-access-and-upload" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">2.1</span> Data access and upload</h2>
-<p>Data are downloaded download data from NMFS FOSS site: [https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::].<br>
-For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the “NMFS Regions” button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select “Dolphinfish” and “Dolphinfish**.” For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the “RUN REPORT” button then generates the data needed for the subsequent analysis, which can be downloaded under the “Actions” button.</p>
+<p>Data are downloaded download data from the NOAA Fisheries [FOSS site] (https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::). For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the “NMFS Regions” button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select “Dolphinfish” and “Dolphinfish**.” For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the “RUN REPORT” button then generates the data needed for the subsequent analysis, which can be downloaded under the “Actions” button.</p>
 <p>We then read in the data file and clean it for analysis (removing the commas from the numbers so that R recognizes the values as numbers). We output the file header to make sure it was read in and that the numbers were converted correctly.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read in data file</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"data/foss_landings_comrec_USEEZ.csv"</span>, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Year     Region.Name     Pounds Dollars   Collection Metric.Tons
 1 2000            Gulf    582,576 689,637   Commercial         264
@@ -196,6 +235,11 @@ For the Data Set, we choose both commercial and recreational. For the Years, we 
 5 2000  South Atlantic 16,049,049         Recreational       7,280
 6 2000 Middle Atlantic     36,048  65,004   Commercial          16</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take commas out of file --------------------------</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Pounds <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, d<span class="sc">$</span>Pounds))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Dollars <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, d<span class="sc">$</span>Dollars))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Metric.Tons <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, d<span class="sc">$</span>Metric.Tons))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Year     Region.Name   Pounds Dollars   Collection Metric.Tons
 1 2000            Gulf   582576  689637   Commercial         264
@@ -211,91 +255,24 @@ For the Data Set, we choose both commercial and recreational. For the Years, we 
 <h2 data-number="2.2" class="anchored" data-anchor-id="summarize-the-landings"><span class="header-section-number">2.2</span> Summarize the landings</h2>
 <p>We then summarize the landings (in pounds) by year, sector, and region. The result is a new data frame with each row representing a year and each column representing the total landings for each region and sector.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compile by year for sectors and regions ---------------</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Collection <span class="ot">&lt;-</span> <span class="fu">factor</span>(d<span class="sc">$</span>Collection, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Recreational"</span>, <span class="st">"Commercial"</span>)) </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d<span class="sc">$</span>Pounds, <span class="fu">list</span>(d<span class="sc">$</span>Year, d<span class="sc">$</span>Collection, d<span class="sc">$</span>Region.Name), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tab[<span class="fu">is.na</span>(tab)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#head(tab)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(tab[, , <span class="st">"Gulf"</span>], tab[, , <span class="st">"South Atlantic"</span>], </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                        tab[, , <span class="st">"Middle Atlantic"</span>], tab[, , <span class="st">"New England"</span>]))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rec_Gulf"</span>, <span class="st">"com_Gulf"</span>, <span class="st">"rec_SA"</span>, <span class="st">"com_SA"</span>, <span class="st">"rec_MA"</span>, <span class="st">"com_MA"</span>, <span class="st">"rec_NE"</span>, <span class="st">"com_NE"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>, , Gulf
-
-     Recreational Commercial
-1980            0      94984
-1981      1559544      73075
-1982      4197503     162457
-1983      2162936     190808
-1984      1189573     282976
-1985      2542089     269477
-
-, , Middle Atlantic
-
-     Recreational Commercial
-1980            0        400
-1981            0          0
-1982         2097        200
-1983        45927       1400
-1984            0       1700
-1985       113666       5000
-
-, , New England
-
-     Recreational Commercial
-1980            0        200
-1981            0          0
-1982            0          0
-1983            0        400
-1984            0        400
-1985            0       4800
-
-, , South Atlantic
-
-     Recreational Commercial
-1980            0      76042
-1981      8421898      59037
-1982      7573035     143960
-1983      9134022     127986
-1984      7265430     158901
-1985      6684821     142684</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     rec_Gulf com_Gulf   rec_SA  com_SA  rec_MA com_MA  rec_NE com_NE
-1980        0    94984        0   76042       0    400       0    200
-1981  1559544    73075  8421898   59037       0      0       0      0
-1982  4197503   162457  7573035  143960    2097    200       0      0
-1983  2162936   190808  9134022  127986   45927   1400       0    400
-1984  1189573   282976  7265430  158901       0   1700       0    400
-1985  2542089   269477  6684821  142684  113666   5000       0   4800
-1986  5540003   492212  6190187  189747  125653   4200       0    200
-1987  4209638   403703  6883546  212905  121433  13400       0   1100
-1988  1014312   491610  3134070  212709  130240  26600    2196  17800
-1989 12551461  1029628 13273504  426392 1386752  81700     437  15300
-1990 13389540  1098819  9283973  514980  624928  69106    2714  14233
-1991 13760600  1674124 14756442  650333  722090  90722    6294   9816
-1992 12481422   714369  5893700  326831  860112  74423    1411  10315
-1993  6873820   596967  7077105  520512 3001335  99420  200927  27069
-1994  5448709   679903 10554836  618614 1400635 101044   12586  12328
-1995 11142952  1177325 14318412 1164608 1096473 198425   24061  13811
-1996  7086006  1047020  9128895  548682 1077364  43581       0   7788
-1997 19958088   989648 12284366  877303 1422057 105559       0  13265
-1998  9324186   422501  7312090  406368 2920384  86502  120322  11553
-1999  7329953   612445 13973364  504263 1005852  98927    4458   5990
-2000  5641491   582576 16049049  537077 1433991  36048       0   6545
-2001  7355385   368503 14945284  470897  477081  51342    5189  29134
-2002  3513226   290601 13794853  436472 1295470  83534  600948  14836
-2003  4481937   310836 12112718  459351  929763  46851  129513  21275
-2004  2402315   435341  9707678  555973  427145  31916       0  29042
-2005  2537132   207695 10299670  376989  437472  19703       0  19982
-2006  3290474   224668 12805952  433121  887684  27724       0  19645
-2007  3754513   370423 13164377  739862  241212  77553   19542  40141
-2008  3937153   385011 10417536  627506  264017  53013       0  13448
-2009  3860527   497246 13251102 1006948 1538112  49946       0  76449
-2010  1216198   112802  8543542  571983  813738  34578       0  12910
-2011  3023914   312567 10774812  544333 2173136  14322  187289  22816
-2012  3229090   148474  9983276  704483  755558  42421   26892  43955
-2013  5425636   191201  8483569  584102  302421  39214  226988  16657
-2014  3074373   207261 11925345 1042822 2129222  48462  183673  51810
-2015  6286577   155696 14821772  920772 4501793  34858 1198628  31995
-2016  1777348    37733 12357817  828435 2212513  61336   16499  15747
-2017  2064106    68260  9457460  533082 1820541  16179   48607  30969
-2018  1626095    57052 11713866  435290 3104018  20514   97107  12667
-2019  3567170    85077  7967978  563708 1518629  47981      66  16918
-2020  1952241    26653  5653294  260503  679556  14040       0   1880
-2021  2893817    27212  6061024  177263 1051785  25799  123038  11421</code></pre>
+<pre><code>     rec_Gulf com_Gulf  rec_SA com_SA rec_MA com_MA rec_NE com_NE
+1980        0    94984       0  76042      0    400      0    200
+1981  1559544    73075 8421898  59037      0      0      0      0
+1982  4197503   162457 7573035 143960   2097    200      0      0
+1983  2162936   190808 9134022 127986  45927   1400      0    400
+1984  1189573   282976 7265430 158901      0   1700      0    400
+1985  2542089   269477 6684821 142684 113666   5000      0   4800</code></pre>
 </div>
 </div>
 </section>
@@ -303,6 +280,31 @@ For the Data Set, we choose both commercial and recreational. For the Years, we 
 <h2 data-number="2.3" class="anchored" data-anchor-id="plot-the-summary"><span class="header-section-number">2.3</span> Plot the summary</h2>
 <p>Now we plot the data, using similar color schemes by region. Because the recreational data have high imprecision prior to the 1990s we plot from 1990 to the last year of data.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select years ---------------------</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat[<span class="fu">which</span>(<span class="fu">rownames</span>(dat) <span class="sc">&gt;</span> <span class="dv">1990</span>), ]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define colors and plot -------------------</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#0000FF30"</span>, <span class="dv">4</span>, <span class="st">"#FF000030"</span>, <span class="dv">2</span>, <span class="st">"#00FF0030"</span>, <span class="dv">3</span>, <span class="st">"#00000030"</span>, <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">rownames</span>(dat))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#yrs[seq(2, 32, 2)] &lt;- NA</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">barplot</span>(<span class="fu">t</span>(dat)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">names.arg =</span> yrs, <span class="at">col =</span> cols, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">43</span>), </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">border =</span> <span class="cn">NA</span>, <span class="at">las =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Dolphin landings in the U.S. EEZ"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#mtext(side = 3, line = -1.15, "Source: NMFS commerical and recreational landings statistics", cex = 0.9)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"top"</span>, <span class="fu">c</span>(<span class="st">"New England - commercial"</span>, <span class="st">"New England - recreational"</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Mid-Atlantic - commercial"</span>, <span class="st">"Mid-Atlantic - recreational"</span>, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"South Atlantic - commercial"</span>, <span class="st">"South Atlantic - recreational"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Gulf of Mexico - commercial"</span>, <span class="st">"Gulf of Mexico - recreational"</span>),</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> cols[<span class="dv">8</span><span class="sc">:</span><span class="dv">1</span>], <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">pt.cex =</span> <span class="fl">1.5</span>, <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">y.intersp =</span> <span class="fl">0.9</span>, <span class="at">cex =</span> <span class="fl">0.85</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#legend(15, 30, c("Commercial", "Recreational"), col = c(1, "#00000060"), </span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#       pch = 15, pt.cex = 2, bty = "n", y.intersp = 1.1)</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> b, <span class="at">lab =</span> <span class="fu">rep</span>(<span class="st">""</span>, <span class="fu">length</span>(b)), <span class="at">pos =</span> <span class="dv">0</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -316,10 +318,30 @@ For the Data Set, we choose both commercial and recreational. For the Years, we 
 <h1 data-number="3"><span class="header-section-number">3</span> Updated Gulf/Atlantic parsing of data</h1>
 <p>There are some issues with the way that the FOSS system splits out Gulf and Atlantic catches by Monroe County, which is on the border between the two jurisdictions. We received data from Mike Larkin of SERO which has the correct split out of data for Monroe County between the Gulf and Atlantic. We compare the total recreational catch for the Gulf and Atlantic between the FOSS data and the updated data. The numbers are very close; the average difference from the FOSS data is 2%.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv"</span>, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">skip =</span> <span class="dv">6</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> ml[<span class="fu">which</span>(ml<span class="sc">$</span>Year <span class="sc">&gt;</span> <span class="dv">1990</span>), ]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># select same years for FOSS data set </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat[<span class="fu">which</span>(yrs <span class="sc">&lt;=</span> <span class="fu">max</span>(ml<span class="sc">$</span>Year)), ]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># check that years match</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rownames</span>(dat) <span class="sc">==</span> ml<span class="sc">$</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Mode    TRUE 
 logical      31 </code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">rownames</span>(dat))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check that totals match</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>old <span class="ot">&lt;-</span> dat<span class="sc">$</span>rec_Gulf <span class="sc">+</span> dat<span class="sc">$</span>rec_SA <span class="sc">+</span> dat<span class="sc">$</span>rec_MA <span class="sc">+</span> dat<span class="sc">$</span>rec_NE</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> ml<span class="sc">$</span>GOM <span class="sc">+</span> ml<span class="sc">$</span>ATL</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot totals </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(yrs, <span class="fu">cbind</span>(old, new), <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>, </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total recreational landings</span><span class="sc">\n</span><span class="st">(Gulf + Atlantic, in pounds)"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Comparison of FOSS data with corrected split by Monroe County"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"FOSS data"</span>, <span class="st">"corrected data"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -327,12 +349,16 @@ logical      31 </code></pre>
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((old <span class="sc">-</span> new)<span class="sc">/</span>old<span class="sc">*</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -2.023886</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>((old <span class="sc">-</span> new)<span class="sc">/</span>old<span class="sc">*</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -13.008552   7.587789</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>((old <span class="sc">-</span> new)<span class="sc">/</span>old<span class="sc">*</span><span class="dv">100</span>, <span class="at">main =</span> <span class="st">"Percent difference from FOSS data"</span>, <span class="at">breaks =</span> <span class="dv">10</span>, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"(FOSS - update) / FOSS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -340,6 +366,11 @@ logical      31 </code></pre>
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace FOSS data with update data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>datnew <span class="ot">&lt;-</span> dat</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>datnew<span class="sc">$</span>rec_Gulf <span class="ot">&lt;-</span> ml<span class="sc">$</span>GOM</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>datnew<span class="sc">$</span>rec_SA <span class="ot">&lt;-</span> ml<span class="sc">$</span>ATL <span class="sc">-</span> (datnew<span class="sc">$</span>rec_MA <span class="sc">+</span> datnew<span class="sc">$</span>rec_NE)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     rec_Gulf com_Gulf   rec_SA com_SA  rec_MA com_MA rec_NE com_NE
 2016  1777348    37733 12357817 828435 2212513  61336  16499  15747
@@ -349,6 +380,7 @@ logical      31 </code></pre>
 2020  1952241    26653  5653294 260503  679556  14040      0   1880
 2021  2893817    27212  6061024 177263 1051785  25799 123038  11421</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(datnew)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     rec_Gulf com_Gulf   rec_SA com_SA  rec_MA com_MA rec_NE com_NE
 2016   751499    37733 13766851 828435 2212513  61336  16499  15747
