@@ -2,6 +2,6 @@
 
 Here we will be displaying various data summaries and analyses related to dolphin management in the U.S. South Atlantic.
 
-## Load Libraries
+## Details
 
-The documentation of this data exploration was developed in R, using R Studio and Quarto. The following R libraries were also used. The pals package allows for improved visualization with different color palettes [@pals]. The rerddap package allows for efficient downloads of physical data from the ERDDAP server [@rerddap].  
+The documentation of this data exploration was developed in R, using R Studio and Quarto. 

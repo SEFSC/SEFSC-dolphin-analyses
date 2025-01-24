@@ -19,6 +19,8 @@ book:
   chapters:
     - index.qmd
     - FOSS.qmd
+    - SAU.qmd
+    - SST.qmd
     
   page-footer:
     right: "This page is built with [Quarto](https://quarto.org/)."

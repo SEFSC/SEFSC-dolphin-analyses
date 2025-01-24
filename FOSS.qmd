@@ -4,7 +4,7 @@ Here we will explore commercial and recreational landings data accessed through 
 
 ## Data access and upload
 
-Data are downloaded download data from the NOAA Fisheries [FOSS site](https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::). For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select "Dolphinfish" and "Dolphinfish\*\*." For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded under the "Actions" button.
+Data are downloaded download data from the NOAA Fisheries [FOSS site](https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::). For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to the present. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select "Dolphinfish" and "Dolphinfish\*\*." For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded as a .csv file under the "Actions" button.
 
 We then read in the data file and clean it for analysis (removing the commas from the numbers so that R recognizes the values as numbers). We output the file header to make sure it was read in and that the numbers were converted correctly.
 
@@ -42,7 +42,7 @@ tab[is.na(tab)] <- 0
 dat <- data.frame(cbind(tab[, , "Gulf"], tab[, , "South Atlantic"], 
                         tab[, , "Middle Atlantic"], tab[, , "New England"]))
 names(dat) <- c("rec_Gulf", "com_Gulf", "rec_SA", "com_SA", "rec_MA", "com_MA", "rec_NE", "com_NE")
-head(dat)
+dat
 ```
 
 ## Plot the summary
@@ -74,7 +74,7 @@ abline(h=0)
 
 ```
 
-# Updated Gulf/Atlantic parsing of data
+## Updated Gulf/Atlantic parsing of data
 
 There are some issues with the way that the FOSS system splits out Gulf and Atlantic catches by Monroe County, which is on the border between the two jurisdictions. We received data from Mike Larkin (SERO) which has the correct split out of data for Monroe County between the Gulf and Atlantic. We compare the total recreational catch for the Gulf and Atlantic between the FOSS data and the updated data. The numbers are very close; the average difference from the FOSS data is 2%.
 
@@ -99,14 +99,14 @@ new <- ml$GOM + ml$ATL
 par(mar = c(4, 6, 2, 1), mgp = c(2.5, 1, 0))
 matplot(yrs, cbind(old, new), xlab = "", lty = 1, col = c(2, 4), type = "b", pch = 19, 
         ylab = "total recreational landings\n(Gulf + Atlantic, in pounds)",
-        main = "Comparison of FOSS data with corrected split by Monroe County")
+        main = "Comparison of FOSS data with data corrected for Monroe County")
 legend("topright", c("FOSS data", "corrected data"), col = c(2, 4), pch = 19, lty = 1)
 
 # average % difference between FOSS and updated data
 mean((old - new)/old*100)
 # min and max % difference between FOSS and updated data
 range((old - new)/old*100)
-hist((old - new)/old*100, main = "Percent difference from FOSS data", breaks = 10, 
+hist((old - new)/old*100, main = "Histogram of percent difference from FOSS data", breaks = 10, 
      xlab = "(FOSS - update) / FOSS")
 
 # replace FOSS data with update data
@@ -120,12 +120,14 @@ tail(dat)
 tail(datnew)
 ```
 
-We replace the FOSS values for Gulf and South Atlantic recreational catches with these new values and replot the full data set. We can also plot the landings as a line graph so that the relative magnitudes of catch across region and sector are more easily compared.
+## Plots with updated data
+
+We replace the FOSS values for Gulf and South Atlantic recreational catches with these new values and re-plot the full data set. We can also plot the landings as a line graph so that the relative magnitudes of catch across region and sector are more easily compared.
 
 ```{r}
 par(mar = c(4, 4, 1, 0), mgp = c(2.5, 1, 0))
 b <- barplot(t(datnew)/10^6, names.arg = yrs, col = cols, ylim = c(0, 43), 
-             border = NA, las = 2, ylab = "total landings (millions of pounds)", 
+             border = NA, las = 2, ylab = "total landings (millions of pounds)", xlab = "",
              main = "Dolphin landings in the U.S. EEZ -- correct Monroe County split")
 legend("top", c("New England - commercial", "New England - recreational", 
                 "Mid-Atlantic - commercial", "Mid-Atlantic - recreational", 
@@ -136,7 +138,7 @@ axis(1, at = b, lab = rep("", length(b)), pos = 0)
 abline(h=0)
 
 matplot(yrs, datnew/10^6, col = c(4, 4, 2, 2, 3, 3, 1, 1), lty = c(1, 3, 1, 3, 1, 3, 1, 3), type = "l",
-             las = 2, ylab = "total landings (millions of pounds)", lwd = 2, 
+             las = 2, xlab = "", ylab = "total landings (millions of pounds)", lwd = 2, 
              main = "Dolphin landings in the U.S. EEZ -- correct Monroe County split")
 legend("topright", c("Gulf of Mexico - recreational", "Gulf of Mexico - commercial", 
                      "South Atlantic - recreational", "South Atlantic - commercial",
