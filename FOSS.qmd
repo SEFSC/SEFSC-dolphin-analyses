@@ -1,52 +1,137 @@
 # Chapter 1 - NOAA Fisheries landings data
 
-Here we will explore commercial and recreational landings data accessed through the FOSS (Fisheries One Stop Shop) data portal. The advantage of this portal is that commercial and recreational data are available side-by-side in the same units (pounds landed).  
+Here we will explore commercial and recreational landings data accessed through the FOSS (Fisheries One Stop Shop) data portal. The advantage of this portal is that commercial and recreational data are available side-by-side in the same units (pounds landed).
 
-## Data access
+## Data access and upload
 
-Data are downloaded download data from NMFS FOSS site: [https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::].  
-For the Data Set, we choose both commercial and recreational.  For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box.  For the Species, we select "Dolphinfish" and "Dolphinfish**." For Report Format, we choose TOTALS BY YEAR/REGION.  Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded under the "Actions" button.   
+Data are downloaded download data from NMFS FOSS site: \[https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::\].\
+For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select "Dolphinfish" and "Dolphinfish\*\*." For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded under the "Actions" button.
 
+We then read in the data file and clean it for analysis (removing the commas from the numbers so that R recognizes the values as numbers). We output the file header to make sure it was read in and that the numbers were converted correctly.
 
 ```{r}
-#| warning: false
+# clear workspace
+rm(list = ls())
 
-# LOAD LIBRARIES
+# read in data file
+d <- read.table("data/foss_landings_comrec_USEEZ.csv", header = T, sep = ",")
+head(d)
 
-# READ IN DATA
+# take commas out of file --------------------------
+d$Pounds <- as.numeric(gsub(",", "", d$Pounds))
+d$Dollars <- as.numeric(gsub(",", "", d$Dollars))
+d$Metric.Tons <- as.numeric(gsub(",", "", d$Metric.Tons))
+head(d)
+```
+
+## Summarize the landings
+
+We then summarize the landings (in pounds) by year, sector, and region. The result is a new data frame with each row representing a year and each column representing the total landings for each region and sector.
+
+```{r}
+# compile by year for sectors and regions ---------------
+d$Collection <- factor(d$Collection, levels = c("Recreational", "Commercial")) 
+tab <- tapply(d$Pounds, list(d$Year, d$Collection, d$Region.Name), sum, na.rm = T)
+tab[is.na(tab)] <- 0
+head(tab)
+
+dat <- data.frame(cbind(tab[, , "Gulf"], tab[, , "South Atlantic"], 
+                        tab[, , "Middle Atlantic"], tab[, , "New England"]))
+names(dat) <- c("rec_Gulf", "com_Gulf", "rec_SA", "com_SA", "rec_MA", "com_MA", "rec_NE", "com_NE")
+dat
+```
+
+## Plot the summary
+
+Now we plot the data, using similar color schemes by region. Because the recreational data have high imprecision prior to the 1990s we plot from 1990 to the last year of data.
+
+```{r}
+# select years ---------------------
+dat <- dat[which(rownames(dat) > 1990), ]
+
+# define colors and plot -------------------
+cols <- c("#0000FF30", 4, "#FF000030", 2, "#00FF0030", 3, "#00000030", 1)
+
+par(mar = c(4, 4, 1, 0), mgp = c(2.5, 1, 0))
+yrs <- as.numeric(rownames(dat))
+#yrs[seq(2, 32, 2)] <- NA
+
+b <- barplot(t(dat)/10^6, names.arg = yrs, col = cols, ylim = c(0, 43), 
+             border = NA, las = 2, ylab = "total landings (millions of pounds)", 
+             main = "Dolphin landings in the U.S. EEZ")
+
+#mtext(side = 3, line = -1.15, "Source: NMFS commerical and recreational landings statistics", cex = 0.9)
+
+legend("top", c("New England - commercial", "New England - recreational", 
+                "Mid-Atlantic - commercial", "Mid-Atlantic - recreational", 
+                 "South Atlantic - commercial", "South Atlantic - recreational",
+                 "Gulf of Mexico - commercial", "Gulf of Mexico - recreational"),
+    col = cols[8:1], pch = 15, pt.cex = 1.5, bty = "n", y.intersp = 0.9, cex = 0.85)
+#legend(15, 30, c("Commercial", "Recreational"), col = c(1, "#00000060"), 
+#       pch = 15, pt.cex = 2, bty = "n", y.intersp = 1.1)
+axis(1, at = b, lab = rep("", length(b)), pos = 0)
+abline(h=0)
 
 ```
 
-## Check Key Columns
+# Updated Gulf/Atlantic parsing of data
 
-text
-
-```{r}
-# code
-```
-
-## Group by Taxon and Rank
-
-text
+There are some issues with the way that the FOSS system splits out Gulf and Atlantic catches by Monroe County, which is on the border between the two jurisdictions. We received data from Mike Larkin of SERO which has the correct split out of data for Monroe County between the Gulf and Atlantic. We compare the total recreational catch for the Gulf and Atlantic between the FOSS data and the updated data. The numbers are very close; the average difference from the FOSS data is 2%.
 
 ```{r}
-# OBTAIN RANK OF UNIQUE ITIS CODES USED IN ALS
-#code
+ml <- read.table("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", header = T, sep = ",", skip = 6)
+ml <- ml[which(ml$Year > 1990), ]
+
+# select same years for FOSS data set 
+dat <- dat[which(yrs <= max(ml$Year)), ]
+
+# check that years match
+summary(rownames(dat) == ml$Year)
+yrs <- as.numeric(rownames(dat))
+
+# check that totals match
+old <- dat$rec_Gulf + dat$rec_SA + dat$rec_MA + dat$rec_NE
+new <- ml$GOM + ml$ATL
+
+# plot totals 
+par(mar = c(4, 6, 2, 1), mgp = c(2.5, 1, 0))
+matplot(yrs, cbind(old, new), xlab = "", lty = 1, col = c(2, 4), type = "b", pch = 19, 
+        ylab = "total recreational landings\n(Gulf + Atlantic, in pounds)",
+        main = "Comparison of FOSS data with corrected split by Monroe County")
+legend("topright", c("FOSS data", "corrected data"), col = c(2, 4), pch = 19, lty = 1)
+
+mean((old - new)/old*100)
+range((old - new)/old*100)
+hist((old - new)/old*100, main = "Percent difference from FOSS data", breaks = 10, 
+     xlab = "(FOSS - update) / FOSS")
+
+# replace FOSS data with update data
+datnew <- dat
+datnew$rec_Gulf <- ml$GOM
+datnew$rec_SA <- ml$ATL - (datnew$rec_MA + datnew$rec_NE)
+tail(dat)
+tail(datnew)
 ```
 
-## Filter to USVI
+We replace the FOSS values for Gulf and South Atlantic recreational catches with these new values and replot the full data set.
 
 ```{r}
-# FORMAT YEAR AND FILTER TO USVI AND MOST RECENT COMPLETE YEAR
-#code
+par(mar = c(4, 4, 1, 0), mgp = c(2.5, 1, 0))
+b <- barplot(t(datnew)/10^6, names.arg = yrs, col = cols, ylim = c(0, 43), 
+             border = NA, las = 2, ylab = "total landings (millions of pounds)", 
+             main = "Dolphin landings in the U.S. EEZ -- correct Monroe County split")
+legend("top", c("New England - commercial", "New England - recreational", 
+                "Mid-Atlantic - commercial", "Mid-Atlantic - recreational", 
+                 "South Atlantic - commercial", "South Atlantic - recreational",
+                 "Gulf of Mexico - commercial", "Gulf of Mexico - recreational"),
+    col = cols[8:1], pch = 15, pt.cex = 1.5, bty = "n", y.intersp = 0.9, cex = 0.85)
+#legend(15, 30, c("Commercial", "Recreational"), col = c(1, "#00000060"), 
+#       pch = 15, pt.cex = 2, bty = "n", y.intersp = 1.1)
+axis(1, at = b, lab = rep("", length(b)), pos = 0)
+abline(h=0)
 ```
-
-The most complete calendar year for the ALS logbook data for USVI was set as `r yr_usvi_complete`. Data were filtered by retaining records associated with either the St. Thomas/St. John ("STTSTJ") or ST. Croix ("STX") Island platforms. The first year of data associated with St. Thomas/St. John was `r isl |> dplyr::filter(ISLAND == "STTSTJ") |> dplyr::pull(TRIP_YEAR) |> min()`. The first year of information for ST. Croix was `r isl |> dplyr::filter(ISLAND == "STX") |> dplyr::pull(TRIP_YEAR) |> min()`.
 
 ```{r}
 #| echo: false
-
-# SAVE OBJECTS
-#saveRDS(isl, file = here("Data", "index_isl.rds"))
 
 ```
