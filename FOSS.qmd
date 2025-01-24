@@ -1,0 +1,52 @@
+# Chapter 1 - NOAA Fisheries landings data
+
+Here we will explore commercial and recreational landings data accessed through the FOSS (Fisheries One Stop Shop) data portal. The advantage of this portal is that commercial and recreational data are available side-by-side in the same units (pounds landed).  
+
+## Data access
+
+Data are downloaded download data from NMFS FOSS site: [https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::].  
+For the Data Set, we choose both commercial and recreational.  For the Years, we select all years from 1980 to 2021. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box.  For the Species, we select "Dolphinfish" and "Dolphinfish**." For Report Format, we choose TOTALS BY YEAR/REGION.  Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded under the "Actions" button.   
+
+
+```{r}
+#| warning: false
+
+# LOAD LIBRARIES
+
+# READ IN DATA
+
+```
+
+## Check Key Columns
+
+text
+
+```{r}
+# code
+```
+
+## Group by Taxon and Rank
+
+text
+
+```{r}
+# OBTAIN RANK OF UNIQUE ITIS CODES USED IN ALS
+#code
+```
+
+## Filter to USVI
+
+```{r}
+# FORMAT YEAR AND FILTER TO USVI AND MOST RECENT COMPLETE YEAR
+#code
+```
+
+The most complete calendar year for the ALS logbook data for USVI was set as `r yr_usvi_complete`. Data were filtered by retaining records associated with either the St. Thomas/St. John ("STTSTJ") or ST. Croix ("STX") Island platforms. The first year of data associated with St. Thomas/St. John was `r isl |> dplyr::filter(ISLAND == "STTSTJ") |> dplyr::pull(TRIP_YEAR) |> min()`. The first year of information for ST. Croix was `r isl |> dplyr::filter(ISLAND == "STX") |> dplyr::pull(TRIP_YEAR) |> min()`.
+
+```{r}
+#| echo: false
+
+# SAVE OBJECTS
+#saveRDS(isl, file = here("Data", "index_isl.rds"))
+
+```
