@@ -64,7 +64,7 @@ apply(hs[1:13], 2, table)
 hs$pounds <- hs$tonnes * 1000 * 2.20462
 
 # produce barplot of key data fields
-par(mar = c(10, 5, 3, 1), mfrow = c(4, 2))
+#par(mar = c(10, 5, 3, 1), mfrow = c(4, 2))
 barplot(tapply(hs$pounds/10^6, hs$area_name, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area name")
 barplot(tapply(hs$pounds/10^6, hs$area_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area type")
 barplot(tapply(hs$pounds/10^6, hs$year, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Year")
