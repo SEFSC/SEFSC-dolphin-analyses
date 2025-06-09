@@ -3,7 +3,126 @@ title: "SAU"
 editor: visual
 ---
 
-# Analysis of international landings estimates
+# Analysis of international landings estimates from Sea Around Us database
 
-Coming soon
+Here we will explore commercial and recreational landings data as estimated by the [Sea Around Us Project](https://www.seaaroundus.org/data/#/eez). This data set includes reported data for fisheries worldwide as well as reconstructed estimates for unreported landings.  For each country, project scientists assemble available data on landings and use additional sociological and fishing data plus expert information and opinion, to produce their best estimates of total landings from all fishing sectors and for all species globally.  
+
+## Data access and upload
+
+For catches within each country's exclusive economic zones, data are downloaded download data from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. The high seas data are accessed in the Basic Search [High seas section of the site](https://www.seaaroundus.org/data/#/highseas). The individual regions can be clicked on (e.g., Atlantic, Western Central) and then the data are dowloaded using the Download Data button.
+
+The current version of data in use is version 50.1, accessed June 2024.  This was still the most recent version of data available as of June 2025.  
+    
+## Read in the high seas landings
+
+First we read in the high seas landings for the Western Central Atlantic and Northwest Atlantic zones. These are equivalent to FAO areas 21 and 31. 
+
+```{r}
+#| warning: false
+#| echo: true
+
+# clear workspace
+rm(list = ls())
+library(pals)
+
+# find data files
+hslis <- dir("data/SAU/")[grep("HighSeas", dir("data/SAU/"))]
+
+# identify areas 21 and 31
+print("File names:")
+hslis[1]
+hslis[3]
+
+#download data
+h1 <- read.csv(paste0("data/SAU/", hslis[1]))
+h3 <- read.csv(paste0("data/SAU/", hslis[3]))
+
+# confirm correct areas
+print("Areas:")
+unique(h1$area_name)
+unique(h3$area_name)
+
+hs <- rbind(h1, h3) 
+```
+
+We extract the data for dolphinfish and look at the characteristics of the landings. Most of the landings are in the Western Central Atlantic, and the primary fishing entities are Venezuela and Saint Lucia.  The fishing sector is all industrial, and the vast majority of the catch is reported landings, with only a tiny fraction of discards or unreported landings. The gear type is primarily long line.    
+
+```{r}
+#| warning: false
+#| echo: true
+
+# check species name and filter out dolphinfish
+unique(hs$common_name)[grep("dolphin", unique(hs$common_name))]
+hs <- hs[which(hs$common_name == "Common dolphinfish"), ]
+
+# look at the categories within each column of data
+apply(hs[1:13], 2, table)
+
+# convert from metric tonnes to pounds
+hs$pounds <- hs$tonnes * 1000 * 2.20462
+
+# produce barplot of key data fields
+par(mar = c(10, 5, 3, 1), mfrow = c(4, 2))
+barplot(tapply(hs$pounds/10^6, hs$area_name, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area name")
+barplot(tapply(hs$pounds/10^6, hs$area_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area type")
+barplot(tapply(hs$pounds/10^6, hs$year, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Year")
+barplot(tapply(hs$pounds/10^6, hs$fishing_entity, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Fishing entity")
+barplot(tapply(hs$pounds/10^6, hs$fishing_sector, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Fishing sector")
+barplot(tapply(hs$pounds/10^6, hs$catch_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Catch type")
+barplot(tapply(hs$pounds/10^6, hs$reporting_status, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Reporting status")
+barplot(tapply(hs$pounds/10^6, hs$gear_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Gear type")
+```
+
+We plot the annual catches by fishing entity to look at trends over time.  
+
+```{r}
+#| warning: false
+#| echo: true
+
+par(mar = c(5, 5, 1, 1), mfrow = c(1, 1))
+tab <- tapply(hs$pounds, list(hs$year, hs$fishing_entity), sum, na.rm = T)
+matplot(as.numeric(rownames(tab)), tab/10^6, type = "l", col = glasbey(ncol(tab)), lty = 1, lwd = 2, xlab = "year", ylab = "total catch (millions of pounds)", 
+        main = "High seas Western Central Atlantic dolphin catch")
+legend("topleft", colnames(tab), col = glasbey(ncol(tab)), lty = 1, lwd = 2, cex = 0.8, bty = "n")
+```
+
+Finally we output the subset of high seas dolphin catch for the two areas. Because we have already accounted for the USA landings in our national reporting and are aiming to only summarize international landings here, we filter out the USA landings from the Sea Around Us database.   
+
+```{r}
+#| warning: false
+#| echo: true
+
+hs <- hs[which(hs$fishing_entity != "USA"), ]
+#table(hs$fishing_entity)
+hs$year <- factor(hs$year, levels = 1950:2019)
+tab <- tapply(hs$pounds, list(hs$year, hs$area_name), sum, na.rm = T)
+tab[is.na(tab)] <- 0
+tab
+
+# write summary to merge with EEZ data 
+write.csv(tab, file = "data/SAU/high_seas_by_year.csv")
+```
+
+
+
+
+## Summarize the landings
+
+xxx
+
+```{r}
+#| echo: true
+
+
+```
+
+## xxx
+
+xxx
+
+```{r}
+#| echo: true
+
+
+```
 
