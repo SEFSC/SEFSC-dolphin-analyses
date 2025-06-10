@@ -416,7 +416,7 @@ v1 <- v[which(v$fishing_entity == "Unknown Fishing Country"), ]
 apply(v1, 2, table)
 
 # look at characteristics
-par(mar = c(3, 10, 1, 1), mfrow = c(2, 2), mpg = c(2, 1, 0))
+par(mar = c(3, 10, 1, 1), mfrow = c(2, 2), mex = 0.8)
 barplot(tapply(v1$pounds/10^6, v1$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Year", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
