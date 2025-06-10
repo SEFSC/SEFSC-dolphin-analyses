@@ -370,3 +370,79 @@ legend("topleft", c("international", "United States mainland"), col = c(2, 4), l
 # output international catches
 write.csv(data.frame(int_catch), file = "data/international_catches.csv", row.names = T)
 ```
+
+
+
+## Look at Venezuela catches in detail
+
+Note in the plot above a rapid increase in international catches within the Western Atlantic. This is driven by a sudden increase in catches reported within Sea Around Us within the EEZ. We investigate these catches in detail as it seems odd that a relatively small fleet would be able to ramp up effort so rapidly. Data can be downloaded on a country-specific basis, the catches by taxon in the waters of Venezuela are accessed [here](https://www.seaaroundus.org/data/#/eez/862?chart=catch-chart&dimension=taxon&measure=tonnage&limit=10).    
+
+```{r}
+#| echo: true
+
+rm(list = ls())  # clear the workspace
+
+# download the data for waters of Venezuela
+ven <- read.csv("data/SAU/SAU EEZ 862 v50-1.csv")  
+
+# subset dolphinfish from the data
+v <- ven[which(ven$common_name == "Common dolphinfish"), ]
+
+apply(v[1:13], 2, table)
+
+#convert to pounds
+v$pounds <- v$tonnes * 1000 * 2.20462
+#v$fishing_entity <- droplevels(v$fishing_entity)
+#v$gear_type <- droplevels(v$gear_type)
+
+# look at the characteristics of the data
+par(mar = c(5, 10, 1, 1), mfrow = c(3, 2), mex = 0.7)
+#barplot(tapply(v$pounds/10^6, v$area_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)
+#barplot(tapply(v$pounds/10^6, v$area_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area type", horiz = T)
+barplot(tapply(v$pounds/10^6, v$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
+barplot(tapply(v$pounds/10^6, v$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
+barplot(tapply(v$pounds/10^6, v$fishing_sector, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing sector", horiz = T)
+barplot(tapply(v$pounds/10^6, v$catch_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Catch type", horiz = T)
+barplot(tapply(v$pounds/10^6, v$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
+barplot(tapply(v$pounds/10^6, v$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
+```
+
+Note that a large portion of the catch in the database is listed as coming from an "Unknown Fishing Country." We extract these catches and further investigate the characteristics.  
+
+```{r}
+#| echo: true
+
+# extract the Unknown Fishing Country catch
+v1 <- v[which(v$fishing_entity == "Unknown Fishing Country"), ]
+apply(v1, 2, table)
+
+# look at characteristics
+par(mar = c(3, 10, 1, 1), mfrow = c(2, 2), mpg = c(2, 1, 0))
+barplot(tapply(v1$pounds/10^6, v1$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Year", horiz = T)
+barplot(tapply(v1$pounds/10^6, v1$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
+barplot(tapply(v1$pounds/10^6, v1$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
+barplot(tapply(v1$pounds/10^6, v1$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
+```
+Here is another look at the catches within the venezuelan EEZ, separated by fishing entity.  
+
+```{r}
+#| echo: true
+
+# summarize Venezuela EEZ catches by fishing entity
+tab <- tapply(v$pounds, list(v$year, v$fishing_entity), sum, na.rm = T)
+head(tab)
+
+matplot(rownames(tab), tab/10^6, las = 2, type = "b", lty = 1, lwd = 2, pch = 19, col = 1:5,
+        xlab = "", ylab = "total catch (millions of pounds)", axes = F, 
+        main = "Total dolphinfish catches in the Venezuelan EEZ")
+axis(1, at = seq(1950, 2020, 5)); axis(2, las = 2); box()
+legend("topleft", colnames(tab), col = 1:5, pch = 19, lty = 1, lwd = 3, bty = "n", title = "Fishing entity")
+
+text(2004, 6, cex = 0.8,
+     "These Unknown Fishing Country\ncatches appear in the database as an\nindustrial fleet using pole and line gear\nand are all listed as reported data\n('Assigned Tuna RFMO catch')")
+```
+The very substantial increase in international Western Atlantic dolphin catches can be attributed solely to this Unknown Fishing Country catches which appear in the database beginning in 2013. The documentation of the catch reconstruction can be found in the Sea Around Us documentation files (see Mendoza et al. 2015). We spoke to Jeremy Mendoza and other experts who were involved in the reconstruction of domestic catches in Venezuela, and they noted that the "Assigned tuna RFMO catch" actually emerge from spatially reshuffled landing reports to ICCAT, according to the methods of [Coulter et al. (2020)](https://www.sciencedirect.com/science/article/abs/pii/S0165783619302346). In this work, the Sea Around Us team developed a global spatial reallocation of landings of tunas and associated species that were reported to ICCAT. In short, this work uses the fraction of reported spatially disaggregated data to reallocate all data reported to ICCAT. This step is necessary because there are not many countries that report spatial data to ICCAT in the region, and this method may lead to a significant reallocation of landings from the Caribbean to the Venezuelan EEZ, where the local pole and line fishery is significant (J. Mendoza, personal communication). Thus, it is likely that landings from other EEZs, that were included in the reconstructed catch data layer, could have been reassigned to the Venezuelan EEZ.  
+
+Because there may be some overlap between the reconstructed data used in the national EEZ estimates, and the ICCAT reporting that was reassigned, there could potentially be a "double counting" of these catch estimates in the Sea Around Us database. These Unknown Fishing Country catches that lead to a large increase in total estimated catches within the Venezuelan EEZ should be treated with caution at this time, until we can verify with Sea Around Us database managers that the spatial disaggregation method used has not led to an overestimate.  
+
+
