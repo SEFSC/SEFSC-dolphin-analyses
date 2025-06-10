@@ -6,7 +6,8 @@ Here we will explore commercial and recreational landings data as estimated by t
 
 For catches within each country's exclusive economic zones, data are downloaded download data from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. The high seas data are accessed in the Basic Search [High seas section of the site](https://www.seaaroundus.org/data/#/highseas). The individual regions can be clicked on (e.g., Atlantic, Western Central) and then the data are dowloaded using the Download Data button.
 
-The current version of data in use is version 50.1, accessed June 2024. This was still the most recent version of data available as of June 2025.
+The current version of data in use is version 50.1, accessed June 2024 (the data files can be found on github in the SEFSC-dolphin-analyses/data
+/SAU/ folder). This was still the most recent version of data available as of June 2025. 
 
 ## Read in the high seas landings
 
@@ -19,7 +20,7 @@ First we read in the high seas landings for the Western Central Atlantic and Nor
 # clear workspace
 rm(list = ls())
 
-#install.packages("pals")
+install.packages("pals")
 library(pals)
 
 # find data files
@@ -113,7 +114,7 @@ rm(list = ls())
 d <- read.csv("data/SAU/SAU Taxa 600006 v50-1.csv", header = T, sep = ",")  # v. 50.1 - June 2024
 head(d)
 #dim(d)
-apply(d[1:13], 2, table)
+#apply(d[1:13], 2, table)
 
 # convert tonnes to pounds 
 d$lbs <- d$tonnes * 1000 * 2.20462
@@ -252,11 +253,11 @@ Now we will summarize the catch by region by grouping the catch across the EEZs 
 
 # summarize EEZ catch by region
 tab <- tapply(d$lbs, list(d$year, d$reg), sum, na.rm = T)
-head(tab)
+#head(tab)
 tab2 <- t(tab)
 tab3 <- tab2[order(rowSums(tab2, na.rm = T), decreasing = T), ]
 tab_glob <- t(tab3)
-head(tab_glob)
+#head(tab_glob)
 yrs <- as.numeric(rownames(tab))
 
 par(mar = c(5, 4, 4, 3), mgp = c(3, 1, 0))
@@ -273,7 +274,7 @@ We can see that the EEZ catches globally are dominated by areas outside of the A
 #| echo: true
 
 # remove other oceans
-head(tab_glob)
+#head(tab_glob)
 tab <- tab_glob[, -which(colnames(tab_glob) == "other oceans")]
 #head(tab)
 
@@ -282,7 +283,7 @@ matplot(yrs, tab/10^6, las = 2, type = "b", pch = 19, cex = 0.5, lty = 1, col = 
         main = "Dolphin catches from the Atlantic EEZs (commercial + recreational)")
 matplot(yrs, tab/10^6, las = 2, type = "l", pch = 19, lty = 1, lwd = 2, add = T, col = glasbey(ncol(tab)))
 axis(1, at = yrs[seq(1, 90, 2)], las = 2); axis(2); box()
-legend(1952, 22, colnames(tab), col = glasbey(ncol(tab)), pch = 19, lty = 1, lwd = 2, bty = "n")
+legend(1952, 25, colnames(tab), col = glasbey(ncol(tab)), pch = 19, lty = 1, lwd = 2, bty = "n", cex = 0.6)
 ```
 
 ## Merge high seas with catch with exclusive economic zones
@@ -296,8 +297,8 @@ hs <- read.csv("data/SAU/high_seas_by_year.csv")
 names(hs)[1] <- "year"
 
 # check that columns match
-head(tab)
-head(hs)
+#head(tab)
+#head(hs)
 table(rownames(tab) == hs$year)  
 
 tab[which(is.na(tab))] <- 0
@@ -322,14 +323,14 @@ dwc$reg[which(dwc$area_name == "US Virgin Isl.")] <- "United States Caribbean"
 #table(dwc$area_name, dwc$reg)
 
 tab_wc <- tapply(dwc$lbs, list(dwc$year, dwc$reg), sum, na.rm = T)
-head(tab_wc)
+#head(tab_wc)
 
 # reorder S to N
 tab_wc <- tab_wc[, c(5, 2, 4, 3, 1)]
 head(tab_wc)
 
 # merge in the high seas catch - check years match
-head(hs)
+#head(hs)
 table(rownames(tab_wc) == hs$year)
 
 high_seas <- hs$Atlantic..Western.Central + hs$Atlantic..Northwest
@@ -370,8 +371,6 @@ legend("topleft", c("international", "United States mainland"), col = c(2, 4), l
 # output international catches
 write.csv(data.frame(int_catch), file = "data/international_catches.csv", row.names = T)
 ```
-
-
 
 ## Look at Venezuela catches in detail
 
