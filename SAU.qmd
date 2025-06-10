@@ -57,7 +57,7 @@ apply(hs[1:13], 2, table)
 hs$pounds <- hs$tonnes * 1000 * 2.20462
 
 # produce barplot of key data fields
-par(mar = c(3, 20, 3, 1), mfrow = c(3, 2), mex = 0.6)
+par(mar = c(3, 20, 3, 1), mfrow = c(3, 2), mex = 0.5)
 barplot(tapply(hs$pounds/10^6, hs$area_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)
 #barplot(tapply(hs$pounds/10^6, hs$area_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area type")
 #barplot(tapply(hs$pounds/10^6, hs$year, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Year")
@@ -127,7 +127,7 @@ We look at the characteristics of the landings within EEZs. These are largely in
 #| echo: true
 
 # look at characteristics of data 
-par(mfrow = c(2, 2), mar = c(5, 5, 3, 1), mex = 0.8)
+par(mfrow = c(2, 2), mar = c(5, 5, 3, 1), mex = 0.5)
 barplot(tapply(d$lbs, d$fishing_sector, sum, na.rm = T)/10^6, ylab = "millions of pounds", main = "Fishing sector")
 barplot(tapply(d$lbs, d$catch_type, sum, na.rm = T)/10^6, ylab = "millions of pounds", main = "Catch type")
 barplot(tapply(d$lbs, d$reporting_status, sum, na.rm = T)/10^6, ylab = "millions of pounds", main = "Reporting status")
@@ -360,7 +360,7 @@ Separating out the mainland United States catches, here are the international an
 
 tab_int <- tab_wc[, c(1, 2, 5, 6)]
 head(tab_int)
-int_catch <- rowSums(tab_int, na.rm = T)
+int_catch <- round(rowSums(tab_int, na.rm = T), 2)
 dom_catch <- rowSums(tab_wc[, c(3, 4)], na.rm = T)
 
 matplot(yrs, cbind(int_catch, dom_catch)/10^6, las = 2, type = "l", lty = 1, lwd = 3, col = c(2, 4),
@@ -395,7 +395,7 @@ v$pounds <- v$tonnes * 1000 * 2.20462
 #v$gear_type <- droplevels(v$gear_type)
 
 # look at the characteristics of the data
-par(mar = c(5, 10, 1, 1), mfrow = c(3, 2), mex = 0.7)
+par(mar = c(5, 10, 1, 1), mfrow = c(3, 2), mex = 0.5)
 #barplot(tapply(v$pounds/10^6, v$area_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)
 #barplot(tapply(v$pounds/10^6, v$area_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area type", horiz = T)
 barplot(tapply(v$pounds/10^6, v$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
@@ -416,7 +416,7 @@ v1 <- v[which(v$fishing_entity == "Unknown Fishing Country"), ]
 apply(v1, 2, table)
 
 # look at characteristics
-par(mar = c(3, 10, 1, 1), mfrow = c(2, 2), mex = 0.8)
+par(mar = c(3, 10, 1, 1), mfrow = c(2, 2), mex = 0.6)
 barplot(tapply(v1$pounds/10^6, v1$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Year", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
