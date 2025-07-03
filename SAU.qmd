@@ -27,10 +27,10 @@ library(pals)
 hslis <- dir("data/SAU/")[grep("HighSeas", dir("data/SAU/"))]
 
 # identify areas 21 and 31
-hslis[1]; hslis[3]
+hslis[1]; hslis[3]   
 
 #download data
-h1 <- read.csv(paste0("data/SAU/", hslis[1]))
+h1 <- read.csv(paste0("data/SAU/", hslis[1]))   
 h3 <- read.csv(paste0("data/SAU/", hslis[3]))
 
 # confirm correct areas
@@ -127,11 +127,10 @@ We look at the characteristics of the landings within EEZs. These are largely in
 #| echo: true
 
 # look at characteristics of data 
-par(mfrow = c(2, 2), mar = c(5, 5, 3, 1), mex = 0.5)
-barplot(tapply(d$lbs, d$fishing_sector, sum, na.rm = T)/10^6, ylab = "millions of pounds", main = "Fishing sector")
-barplot(tapply(d$lbs, d$catch_type, sum, na.rm = T)/10^6, ylab = "millions of pounds", main = "Catch type")
-barplot(tapply(d$lbs, d$reporting_status, sum, na.rm = T)/10^6, ylab = "millions of pounds", main = "Reporting status")
-par(mar= c(12, 5, 3, 1))
+par(mfrow = c(2, 2), mar = c(12, 7, 3, 1), mex = 0.5, mgp = c(5, 1, 0))
+barplot(tapply(d$lbs, d$fishing_sector, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Fishing sector")
+barplot(tapply(d$lbs, d$catch_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Catch type")
+barplot(tapply(d$lbs, d$reporting_status, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Reporting status")
 barplot(tapply(d$lbs, d$gear_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Gear type")
 ```
 
@@ -146,7 +145,7 @@ Now we have to manually assign the different EEZs to respective areas. We separa
 d <- d[which(d$area_type != "high_seas"), ]   
 d$fishing_entity <- as.factor(d$fishing_entity)
 d$fishing_entity <- droplevels(d$fishing_entity)
-table(d$area_type)
+table(d$area_type)  # this should be all "eez"
 
 # Western Central Atlantic EEZs
 WCA <- c("Bahamas", "Barbados", "Cayman Isl. (UK)", "Dominica", "Dominican Republic", "Grenada", 
@@ -224,24 +223,15 @@ othlis[grep("USA", othlis)]
 print("French EEZs outside the Atlantic Ocean: ")
 othlis[grep("France", othlis)]
 
-print("Western Central EEZs:")
-unique(d$area_name[which(d$reg == "Western Central Atlantic EEZs")])
-print("Brazil EEZs:")
-unique(d$area_name[which(d$reg == "Brazil EEZ")])
-print("Canadian EEZs:")
-unique(d$area_name[which(d$reg == "Canadian EEZ")])
-print("United States EEZs:")
-unique(d$area_name[which(d$reg == "United States EEZ")])
-print("Northeast Atlantic EEZs:")
-unique(d$area_name[which(d$reg == "Northeast Atlantic EEZs")])
-print("Eastern Central Atlantic EEZs:")
-unique(d$area_name[which(d$reg == "Eastern Central Atlantic EEZs")])
-print("Southeast EEZs:")
-unique(d$area_name[which(d$reg == "Southeast Atlantic EEZs")])
-print("Southwest EEZs:")
-unique(d$area_name[which(d$reg == "Southwest Atlantic EEZs")])
-print("Mediterranean Sea EEZs:")
-unique(d$area_name[which(d$reg == "Mediterranean Sea EEZs")])
+unique(d$area_name[which(d$reg == "Western Central Atlantic EEZs")])   # Western Central EEZs:
+unique(d$area_name[which(d$reg == "Brazil EEZ")])   # Brazil EEZs:
+unique(d$area_name[which(d$reg == "Canadian EEZ")])   # Canadian EEZs:
+unique(d$area_name[which(d$reg == "United States EEZ")])  # United States EEZs:
+unique(d$area_name[which(d$reg == "Northeast Atlantic EEZs")])   # Northeast Atlantic EEZs:
+unique(d$area_name[which(d$reg == "Eastern Central Atlantic EEZs")])   # Eastern Central Atlantic EEZs:
+unique(d$area_name[which(d$reg == "Southeast Atlantic EEZs")])   # Southeast Atlantic EEZs:
+unique(d$area_name[which(d$reg == "Southwest Atlantic EEZs")])   # Southwest Atlantic EEZs:
+unique(d$area_name[which(d$reg == "Mediterranean Sea EEZs")])   # Mediterranean Sea EEZs:
 ```
 
 ## Summarize catch by regional EEZs
@@ -278,12 +268,12 @@ We can see that the EEZ catches globally are dominated by areas outside of the A
 tab <- tab_glob[, -which(colnames(tab_glob) == "other oceans")]
 #head(tab)
 
-matplot(yrs, tab/10^6, las = 2, type = "b", pch = 19, cex = 0.5, lty = 1, col = glasbey(ncol(tab)),   
+matplot(yrs, tab/10^6, las = 2, type = "b", pch = 19, cex = 0.5, lty = 1, col = glasbey(ncol(tab)+1)[-1],   
         xlab = "", ylab = "total catch (millions of pounds)", axes = F,
         main = "Dolphin catches from the Atlantic EEZs (commercial + recreational)")
-matplot(yrs, tab/10^6, las = 2, type = "l", pch = 19, lty = 1, lwd = 2, add = T, col = glasbey(ncol(tab)))
+matplot(yrs, tab/10^6, las = 2, type = "l", pch = 19, lty = 1, lwd = 2, add = T, col = glasbey(ncol(tab)+1)[-1])
 axis(1, at = yrs[seq(1, 90, 2)], las = 2); axis(2); box()
-legend(1952, 25, colnames(tab), col = glasbey(ncol(tab)), pch = 19, lty = 1, lwd = 2, bty = "n", cex = 0.6)
+legend(1952, 25, colnames(tab), col = glasbey(ncol(tab)+1)[-1], pch = 19, lty = 1, lwd = 2, bty = "n", cex = 0.6)
 ```
 
 ## Merge high seas with catch with exclusive economic zones
@@ -365,7 +355,7 @@ dom_catch <- rowSums(tab_wc[, c(3, 4)], na.rm = T)
 
 matplot(yrs, cbind(int_catch, dom_catch)/10^6, las = 2, type = "l", lty = 1, lwd = 3, col = c(2, 4),
         xlab = "", ylab = "total catch (millions of pounds)", 
-        main = "Western Atlantic dolphin catches in international vs domestic waters\n(FAO areas 31 and 31, commercial + recreational)")
+        main = "Western Atlantic dolphin catches in international vs domestic waters\n(FAO areas 21 and 31, commercial + recreational)")
 legend("topleft", c("international", "United States mainland"), col = c(2, 4), lty = 1, lwd = 3, bty = "n")
 
 # output international catches
@@ -387,12 +377,10 @@ ven <- read.csv("data/SAU/SAU EEZ 862 v50-1.csv")
 # subset dolphinfish from the data
 v <- ven[which(ven$common_name == "Common dolphinfish"), ]
 
-apply(v[1:13], 2, table)
+#apply(v[1:13], 2, table)
 
 #convert to pounds
 v$pounds <- v$tonnes * 1000 * 2.20462
-#v$fishing_entity <- droplevels(v$fishing_entity)
-#v$gear_type <- droplevels(v$gear_type)
 
 # look at the characteristics of the data
 par(mar = c(5, 10, 1, 1), mfrow = c(3, 2), mex = 0.5)
@@ -413,10 +401,10 @@ Note that a large portion of the catch in the database is listed as coming from 
 
 # extract the Unknown Fishing Country catch
 v1 <- v[which(v$fishing_entity == "Unknown Fishing Country"), ]
-apply(v1, 2, table)
+apply(v1[1:15], 2, table)
 
 # look at characteristics
-par(mar = c(3, 10, 1, 1), mfrow = c(2, 2), mex = 0.6)
+par(mar = c(3, 10, 1, 5), mfrow = c(2, 2), mex = 0.6)
 barplot(tapply(v1$pounds/10^6, v1$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Year", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
