@@ -1,0 +1,158 @@
+# NOAA Fisheries landings data
+
+Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total landings.
+
+## Data access and upload
+
+Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Aug19_MRIP_FES. The landings are in FES MRIP and the units are in pounds whole weight.
+
+```{r}
+#| warning: false
+#| echo: true
+
+# clear workspace
+rm(list = ls())
+
+# read in data file
+dat <- read.table("data/mrip_fes_rec81_25wv2_23June25.csv", header = T, sep = ",", skip = 0)  # most recent file on SFD server
+head(dat)
+
+#apply(dat[2:18], 2, table, useNA = "always")
+
+# confirm nomenclature for dolphin and subset by species --------------------------
+table(dat$NEW_COM[grep("dolphin", dat$NEW_COM)])
+table(dat$NEW_SCI[grep("dolphin", dat$NEW_COM)])
+
+d <- dat[which(dat$NEW_COM == "dolphin"), ]
+#apply(d[2:18], 2, table, useNA = "always")
+d <- d[which(d$YEAR < 2025), ]    # take out 2025 because incomplete year      
+
+```
+
+## Separate Gulf and Atlantic recreational landings
+
+Now we filter the data set to separate out the Gulf versus Atlantic landings.
+
+```{r}
+#| warning: false
+#| echo: true
+
+# codes: FL regions 1 (NW FL Panhandle- Escambia to Dixie co.) and 2 (SW FL Peninsula- Levy to Collier co), but retained FL region 3 (FL Keys- Monroe co.)
+table(d$FL_REG, useNA = "always")   
+
+# subregional codes: 6 is Atlantic and 7 is Gulf
+table(d$FL_REG, d$SUB_REG, useNA = "always")
+unique(d$NEW_STA)
+
+lis <- c("TX", "LA", "LA/MS", "MS", "AL", "AL/FLW")  # filter out the Gulf states
+d1 <- d[-which(d$NEW_STA %in% lis), ]
+unique(d1$NEW_STA)
+
+table(d1$FL_REG, d1$NEW_STA, useNA = "always")  
+
+dim(d1)
+d1 <- d1[-which(d1$FL_REG == 1 | d1$FL_REG == 2), ]   # filter out FL regions 1 and 2 but retain 3 (FL Keys)
+dim(d1)
+d1 <- d1[-which(is.na(d1$FL_REG) & d1$NEW_STA == "FLW"), ]  # filter out FLW with unknown FL region
+dim(d1)
+
+table(d1$FL_REG, d1$NEW_STA, useNA = "always")  # retained are all Atlantic states plus region 3 of Florida 
+
+```
+
+## Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
+
+```{r}
+#| warning: false
+#| echo: true
+
+# summarize by year and compare --------------------------
+
+tot1 <- tapply(d1$LBSEST_SECWWT, d1$YEAR, sum, na.rm = T)
+head(tot1)
+
+old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
+plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total catch (pounds)", lwd = 4, xlim = c(1980, 2025))
+lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2)
+
+```
+
+## Now we will partition out the total catches according to the dolphin MSE areas. The areas are as follows:
+
+-   FLK: Florida Keys to Indian River County County (FL)
+-   NCFL: Brevard (FL) to Southern NC (South of Hatteras)
+-   NNC: Northern NC (North of Hatteras to NC/VA border)
+-   VBM: Virginia to Maine
+
+```{r}
+#| warning: false
+#| echo: true
+
+# separate out 4 regions --------------------------
+
+d1$region <- "VBM"
+
+# select for FLK
+# FL_REG codes: 4: SE FL- Miami-Dade to Indian River County.; 5: NE FL- Brevard to Nassau County
+table(d1$FL_REG, d1$NEW_STA, useNA = "always")
+d1$region[which(d1$FL_REG == 3 | d1$FL_REG == 4)] <- "FLK"
+
+# select for NCFL
+d1$region[which(d1$FL_REG == 5)] <- "NCFL"
+lis <- c("SC", "GA", "FLE/GA")           # NCFL states
+d1$region[which(d1$NEW_STA %in% lis)] <- "NCFL"
+# NC_REG codes: N: North of Cape Hatteras; S: South of Cape Hatteras
+table(d1$NC_REG, d1$NEW_STA, useNA = "always")
+d1$region[which(d1$NC == "S")] <- "NCFL"
+
+# select for NNC
+d1$region[which(d1$NC == "N")] <- "NNC"
+
+table(d1$FL_REG, d1$NEW_STA, d1$region)
+table(d1$NC_REG, d1$NEW_STA, d1$region)  # check classification
+
+```
+
+## Now we will separate out the catches by recreational sector and plot the totals by region and sector.
+
+```{r}
+#| warning: false
+#| echo: true
+
+# separate out by for hire vs. private rec --------------------------
+d1$sector <- "ForHire"
+
+d1$sector[which(d1$NEW_MODEN == "Shore")] <- "Rec"
+d1$sector[which(d1$NEW_MODEN == "Priv")]  <- "Rec"
+
+table(d1$sector, d1$NEW_MODEN, useNA = "always")    # check classification
+
+tot <- tapply(d1$LBSEST_SECWWT, list(d1$YEAR, d1$region, d1$sector), sum, na.rm = T)
+
+head(tot)
+
+fin <- data.frame(cbind(tot[, , 1], tot[, , 2]))
+names(fin) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
+fin
+
+matplot(rownames(fin), fin, lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), type = "l", lwd = 2, 
+        xlab = "year", ylab = "total catch (pounds)")
+legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2)
+
+# check that totals match
+cor(rowSums(fin, na.rm = T), tot1)
+mean(rowSums(fin, na.rm = T) - tot1)   # very tiny differences
+
+```
+
+## Here are the final data for years 1981 to 2024.
+
+```{r}
+#| warning: false
+#| echo: true
+
+fin
+
+#write.csv(fin, file = "data/rec_dolphin_4areas.csv", row.names = T)
+
+```

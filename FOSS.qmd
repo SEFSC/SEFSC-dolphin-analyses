@@ -4,7 +4,7 @@ Here we will explore commercial and recreational landings data accessed through 
 
 ## Data access and upload
 
-Data are downloaded download data from the NOAA Fisheries [FOSS site](https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::). For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to the present. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select "Dolphinfish" and "Dolphinfish\*\*." For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded as a .csv file under the "Actions" button.
+Data are downloaded from the NOAA Fisheries [FOSS site](https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::). For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to the present. For NMFS Region, we select the "NMFS Regions" button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select "Dolphinfish" and "Dolphinfish\*\*." For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the "RUN REPORT" button then generates the data needed for the subsequent analysis, which can be downloaded as a .csv file under the "Actions" button.
 
 We then read in the data file and clean it for analysis (removing the commas from the numbers so that R recognizes the values as numbers). We output the file header to make sure it was read in and that the numbers were converted correctly.
 

@@ -18,8 +18,9 @@ book:
           
   chapters:
     - index.qmd
-    - FOSS.qmd
+    - MRIP.qmd
     - SAU.qmd
+    - FOSS.qmd
     - SST.qmd
     
   page-footer:
