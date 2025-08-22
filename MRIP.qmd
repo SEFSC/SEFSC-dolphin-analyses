@@ -1,4 +1,4 @@
-# NOAA Fisheries landings data
+# NOAA Fisheries recreational landings data
 
 Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total landings.
 
