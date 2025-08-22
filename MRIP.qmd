@@ -4,7 +4,7 @@ Here we will partition recreational landings data from NOAA Fisheries’ Marine 
 
 ## Data access and upload
 
-Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Aug19_MRIP_FES. The landings are in FES MRIP and the units are in pounds whole weight.
+Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Aug19_MRIP_FES/. The landings are in FES MRIP and the units are in pounds whole weight.
 
 ```{r}
 #| warning: false
@@ -56,8 +56,7 @@ dim(d1)
 d1 <- d1[-which(is.na(d1$FL_REG) & d1$NEW_STA == "FLW"), ]  # filter out FLW with unknown FL region
 dim(d1)
 
-table(d1$FL_REG, d1$NEW_STA, useNA = "always")  # retained are all Atlantic states plus region 3 of Florida 
-
+table(d1$FL_REG, d1$NEW_STA, useNA = "always")  # retained are all Atlantic states plus region 3 of Florida
 ```
 
 ## Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
@@ -154,5 +153,4 @@ mean(rowSums(fin, na.rm = T) - tot1)   # very tiny differences
 fin
 
 #write.csv(fin, file = "data/rec_dolphin_4areas.csv", row.names = T)
-
 ```
