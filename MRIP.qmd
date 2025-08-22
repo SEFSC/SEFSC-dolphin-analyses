@@ -14,7 +14,7 @@ Data are downloaded directly from the Miami server using the files provided to S
 rm(list = ls())
 
 # read in data file
-dat <- read.table("data/mrip_fes_rec81_25wv2_23June25.csv", header = T, sep = ",", skip = 0)  # most recent file on SFD server
+dat <- read.csv("C:/Users/mandy.karnauskas/Desktop/mrip_fes_rec81_25wv2_23June25.csv", header = T, skip = 0)  # most recent file on SFD server
 head(dat)
 
 #apply(dat[2:18], 2, table, useNA = "always")
@@ -34,7 +34,6 @@ d <- d[which(d$YEAR < 2025), ]    # take out 2025 because incomplete year
 Now we filter the data set to separate out the Gulf versus Atlantic landings.
 
 ```{r}
-#| warning: false
 #| echo: true
 
 # codes: FL regions 1 (NW FL Panhandle- Escambia to Dixie co.) and 2 (SW FL Peninsula- Levy to Collier co), but retained FL region 3 (FL Keys- Monroe co.)
@@ -59,10 +58,9 @@ dim(d1)
 table(d1$FL_REG, d1$NEW_STA, useNA = "always")  # retained are all Atlantic states plus region 3 of Florida
 ```
 
-## Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
+Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
 
 ```{r}
-#| warning: false
 #| echo: true
 
 # summarize by year and compare --------------------------
@@ -76,7 +74,9 @@ lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2)
 
 ```
 
-## Now we will partition out the total catches according to the dolphin MSE areas. The areas are as follows:
+## Partition catches by area and sector
+
+Now we will partition out the total catches according to the dolphin MSE areas. The areas are as follows:
 
 -   FLK: Florida Keys to Indian River County County (FL)
 -   NCFL: Brevard (FL) to Southern NC (South of Hatteras)
@@ -84,7 +84,6 @@ lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2)
 -   VBM: Virginia to Maine
 
 ```{r}
-#| warning: false
 #| echo: true
 
 # separate out 4 regions --------------------------
@@ -112,7 +111,7 @@ table(d1$NC_REG, d1$NEW_STA, d1$region)  # check classification
 
 ```
 
-## Now we will separate out the catches by recreational sector and plot the totals by region and sector.
+Now we will separate out the catches by recreational sector and plot the totals by region and sector.
 
 ```{r}
 #| warning: false
@@ -144,7 +143,7 @@ mean(rowSums(fin, na.rm = T) - tot1)   # very tiny differences
 
 ```
 
-## Here are the final data for years 1981 to 2024.
+Here are the final data for years 1981 to 2024.
 
 ```{r}
 #| warning: false

@@ -497,36 +497,2093 @@ Northwest Fisheries Science Center}}};
 Here we will be displaying various data summaries and analyses related
 to dolphin management in the U.S. South Atlantic.
 
-\section{Load Libraries}\label{load-libraries}
+\section{Details}\label{details}
 
 The documentation of this data exploration was developed in R, using R
-Studio and Quarto. The following R libraries were also used. The pals
-package allows for improved visualization with different color palettes
-(\textbf{pals?}). The rerddap package allows for efficient downloads of
-physical data from the ERDDAP server (\textbf{rerddap?}).
+Studio and Quarto.
 
 \bookmarksetup{startatroot}
 
-\chapter{Chapter 1 - NOAA Fisheries landings
-data}\label{chapter-1---noaa-fisheries-landings-data}
+\chapter{NOAA Fisheries landings
+data}\label{noaa-fisheries-landings-data}
+
+Here we will partition recreational landings data from NOAA Fisheries'
+Marine Recreational Information Program (MRIP), a standardized,
+peer-reviewed suite of recreational fishing surveys used to produce
+catch and effort estimates for quota monitoring and stock assessment in
+the United States. MRIP is a standardized survey suite that employs a
+complex statistical sampling design stratified across time, regions of
+the coast, and different fishing modes, which allows the intercept data
+to be scaled up by effort estimates to calculate total landings.
+
+\section{Data access and upload}\label{data-access-and-upload}
+
+Data are downloaded directly from the Miami server using the files
+provided to SERO for ACL monitoring. The current location is:
+M://SFD/SECM-SFD/ACL/2025\_Aug19\_MRIP\_FES/. The landings are in FES
+MRIP and the units are in pounds whole weight.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# clear workspace}
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\CommentTok{\# read in data file}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/mandy.karnauskas/Desktop/mrip\_fes\_rec81\_25wv2\_23June25.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{skip =} \DecValTok{0}\NormalTok{)  }\CommentTok{\# most recent file on SFD server}
+\FunctionTok{head}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  REC_ACL_MRIP_FES_ID YEAR MONTH WAVE SUB_REG NEW_ST NEW_STA NEW_MODE NEW_MODEN
+1            73407425 1989    NA    4       6      9      NC        4      Priv
+2            73407426 1989    NA    4       6      9      NC        4      Priv
+3            73407427 1989    NA    4       6      9      NC        4      Priv
+4            73407428 1989    NA    4       6      9      NC        4      Priv
+5            73407429 1989    NA    4       6      9      NC        4      Priv
+6            73407430 1989    NA    4       6      9      NC        4      Priv
+  AREA_X NEW_AREA  NEW_AREAN FL_REG NC_REG   DS               NEW_SCI
+1      5        5    Inshore     NA      S MRIP Centropristis striata
+2      5        5    Inshore     NA      N MRIP Centropristis striata
+3      2        2  Ocean>3mi     NA      N MRIP Centropristis striata
+4      2        2  Ocean>3mi     NA      S MRIP Centropristis striata
+5      1        1 Ocean<=3mi     NA      N MRIP Centropristis striata
+6      1        1 Ocean<=3mi     NA      S MRIP Centropristis striata
+         NEW_COM    SP_CODE SPECIES_ITIS SPECIES        AB1          B2
+1 black sea bass 8835020301       167687         34181.4033 121019.1368
+2 black sea bass 8835020301       167687           795.8612   4445.0527
+3 black sea bass 8835020301       167687           549.5390   2919.4840
+4 black sea bass 8835020301       167687         71823.2390  24548.2535
+5 black sea bass 8835020301       167687           415.7642     87.5928
+6 black sea bass 8835020301       167687         48728.5632  11859.6428
+           A         B1 LBSEST_SECWWT LBSEST_SECSOURCE SAMPLE_SIZE_USED
+1 31761.4755  2419.9278    11457.8425          srysmwa               41
+2   584.4155   211.4457      266.7782          srysmwa               41
+3   549.5390     0.0000      484.4319          srysmwa              119
+4 33343.1844 38480.0546    63313.9276          srysmwa              119
+5   415.7642     0.0000      294.0623          srysmwa               71
+6 40585.0152  8143.5480    34464.8156          srysmwa               71
+   AVG_LEN   AVG_WGT SRYSMWA_AVG_LEN SRYSMWA_AVG_WGT SRYSMWA_SAMPLE_SIZE
+1 203.4572 0.3352069        203.4572       0.3352069                  41
+2 203.4572 0.3352069        203.4572       0.3352069                  41
+3 296.2590 0.8815243        296.2590       0.8815243                 119
+4 296.2590 0.8815243        296.2590       0.8815243                 119
+5 261.9949 0.7072816        261.9949       0.7072816                  71
+6 261.9949 0.7072816        261.9949       0.7072816                  71
+  SRYSMWA_FLAGGED SRYSMW_AVG_LEN SRYSMW_AVG_WGT SRYSMW_SAMPLE_SIZE
+1              NA       269.2563      0.7310037                231
+2              NA       269.2563      0.7310037                231
+3              NA       269.2563      0.7310037                231
+4              NA       269.2563      0.7310037                231
+5              NA       269.2563      0.7310037                231
+6              NA       269.2563      0.7310037                231
+  SRYSMW_FLAGGED SRYSM_AVG_LEN SRYSM_AVG_WGT SRYSM_SAMPLE_SIZE SRYSM_FLAGGED
+1             NA      259.7694     0.6948228               556            NA
+2             NA      259.7694     0.6948228               556            NA
+3             NA      259.7694     0.6948228               556            NA
+4             NA      259.7694     0.6948228               556            NA
+5             NA      259.7694     0.6948228               556            NA
+6             NA      259.7694     0.6948228               556            NA
+  SRYS_AVG_LEN SRYS_AVG_WGT SRYS_SAMPLE_SIZE SRYS_FLAGGED SRY_AVG_LEN
+1      270.955    0.8099641              982           NA    269.1276
+2      270.955    0.8099641              982           NA    269.1276
+3      270.955    0.8099641              982           NA    269.1276
+4      270.955    0.8099641              982           NA    269.1276
+5      270.955    0.8099641              982           NA    269.1276
+6      270.955    0.8099641              982           NA    269.1276
+  SRY_AVG_WGT SRY_SAMPLE_SIZE SRY_FLAGGED SR_AVG_LEN SR_AVG_WGT SR_SAMPLE_SIZE
+1   0.8085211            1703          NA   303.6871   1.050403          46055
+2   0.8085211            1703          NA   303.6871   1.050403          46055
+3   0.8085211            1703          NA   303.6871   1.050403          46055
+4   0.8085211            1703          NA   303.6871   1.050403          46055
+5   0.8085211            1703          NA   303.6871   1.050403          46055
+6   0.8085211            1703          NA   303.6871   1.050403          46055
+  SR_FLAGGED S_AVG_LEN S_AVG_WGT S_SAMPLE_SIZE S_FLAGGED     VAR_B2   VAR_AB1
+1         NA  344.4373  1.364082        305089        NA 4072492794 310099094
+2         NA  344.4373  1.364082        305089        NA    2866289    258947
+3         NA  344.4373  1.364082        305089        NA          0         0
+4         NA  344.4373  1.364082        305089        NA  105731413 534702898
+5         NA  344.4373  1.364082        305089        NA          0         0
+6         NA  344.4373  1.364082        305089        NA   22265768 286196169
+         SA_LABEL GOM_LABEL REC_ACL MIGRA_GRP AGG_MODEN JURISDICTION PS_REG
+1 Snapper Grouper                 1             Private        State      6
+2 Snapper Grouper                 1             Private        State      5
+3 Snapper Grouper                 1             Private      Federal      5
+4 Snapper Grouper                 1             Private      Federal      6
+5 Snapper Grouper                 1             Private        State      5
+6 Snapper Grouper                 1             Private        State      6
+  COUNCILREG GFMC_FMP SAFMC_FMU LBSEST_SECGWT AGGR_AREA AREA FIRST_MONTH
+1          6                  Y     9710.0360             NA          NA
+2          5                  Y      226.0832             NA          NA
+3          5                  Y      410.5355             NA          NA
+4          6                  Y    53655.8708             NA          NA
+5          5                  Y      249.2054             NA          NA
+6          6                  Y    29207.4709             NA          NA
+  LAST_MONTH ALT_FLAG CHTS_CL CHTS_H CHTS_RL CHTS_WAB1C CHTS_WAB1H MODE_FX
+1         NA        0       0      0       0          0          0       7
+2         NA        0       0      0       0          0          0       7
+3         NA        0       0      0       0          0          0       7
+4         NA        0       0      0       0          0          0       7
+5         NA        0       0      0       0          0          0       7
+6         NA        0       0      0       0          0          0       7
+  NEW_SEASN SEASON
+1               NA
+2               NA
+3               NA
+4               NA
+5               NA
+6               NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#apply(dat[2:18], 2, table, useNA = "always")}
+
+\CommentTok{\# confirm nomenclature for dolphin and subset by species {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\FunctionTok{table}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{NEW\_COM[}\FunctionTok{grep}\NormalTok{(}\StringTok{"dolphin"}\NormalTok{, dat}\SpecialCharTok{$}\NormalTok{NEW\_COM)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+dolphin 
+   9377 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{NEW\_SCI[}\FunctionTok{grep}\NormalTok{(}\StringTok{"dolphin"}\NormalTok{, dat}\SpecialCharTok{$}\NormalTok{NEW\_COM)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Coryphaena hippurus 
+               9377 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ dat[}\FunctionTok{which}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{NEW\_COM }\SpecialCharTok{==} \StringTok{"dolphin"}\NormalTok{), ]}
+\CommentTok{\#apply(d[2:18], 2, table, useNA = "always")}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{YEAR }\SpecialCharTok{\textless{}} \DecValTok{2025}\NormalTok{), ]    }\CommentTok{\# take out 2025 because incomplete year      }
+\end{Highlighting}
+\end{Shaded}
+
+\section{Separate Gulf and Atlantic recreational
+landings}\label{separate-gulf-and-atlantic-recreational-landings}
+
+Now we filter the data set to separate out the Gulf versus Atlantic
+landings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# codes: FL regions 1 (NW FL Panhandle{-} Escambia to Dixie co.) and 2 (SW FL Peninsula{-} Levy to Collier co), but retained FL region 3 (FL Keys{-} Monroe co.)}
+\FunctionTok{table}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{FL\_REG, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)   }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+   1    2    3    4    5 <NA> 
+ 387  110  568 1022  312 6943 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# subregional codes: 6 is Atlantic and 7 is Gulf}
+\FunctionTok{table}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{FL\_REG, d}\SpecialCharTok{$}\NormalTok{SUB\_REG, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      
+          4    5    6    7 <NA>
+  1       0    0    0  387    0
+  2       0    0    0  110    0
+  3       0    0    0  568    0
+  4       0    0 1022    0    0
+  5       0    0  312    0    0
+  <NA>   96  585 3836 2426    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{NEW\_STA)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "NC"     "FLE"    "FLW"    "SC"     "GA"     "MS"     "AL"     "LA"    
+ [9] "TX"     "FLE/GA" "RI"     "VA"     "DE"     "MD"     "NJ"     "CT"    
+[17] "MA"     "NY"     "LA/MS"  "AL/FLW"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lis }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"TX"}\NormalTok{, }\StringTok{"LA"}\NormalTok{, }\StringTok{"LA/MS"}\NormalTok{, }\StringTok{"MS"}\NormalTok{, }\StringTok{"AL"}\NormalTok{, }\StringTok{"AL/FLW"}\NormalTok{)  }\CommentTok{\# filter out the Gulf states}
+\NormalTok{d1 }\OtherTok{\textless{}{-}}\NormalTok{ d[}\SpecialCharTok{{-}}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{NEW\_STA }\SpecialCharTok{\%in\%}\NormalTok{ lis), ]}
+\FunctionTok{unique}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NEW\_STA)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "NC"     "FLE"    "FLW"    "SC"     "GA"     "FLE/GA" "RI"     "VA"    
+ [9] "DE"     "MD"     "NJ"     "CT"     "MA"     "NY"    
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG, d1}\SpecialCharTok{$}\NormalTok{NEW\_STA, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  1       0    0    0      0  387    0    0    0    0    0    0    0    0    0
+  2       0    0    0      0  110    0    0    0    0    0    0    0    0    0
+  3       0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4       0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5       0    0  312      0    0    0    0    0    0    0    0    0    0    0
+  <NA>   14  114    0   1794  174   54   20  125 1344  108   73   62  644  165
+      
+       <NA>
+  1       0
+  2       0
+  3       0
+  4       0
+  5       0
+  <NA>    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(d1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 7090   83
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d1 }\OtherTok{\textless{}{-}}\NormalTok{ d1[}\SpecialCharTok{{-}}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG }\SpecialCharTok{==} \DecValTok{1} \SpecialCharTok{|}\NormalTok{ d1}\SpecialCharTok{$}\NormalTok{FL\_REG }\SpecialCharTok{==} \DecValTok{2}\NormalTok{), ]   }\CommentTok{\# filter out FL regions 1 and 2 but retain 3 (FL Keys)}
+\FunctionTok{dim}\NormalTok{(d1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 6593   83
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d1 }\OtherTok{\textless{}{-}}\NormalTok{ d1[}\SpecialCharTok{{-}}\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG) }\SpecialCharTok{\&}\NormalTok{ d1}\SpecialCharTok{$}\NormalTok{NEW\_STA }\SpecialCharTok{==} \StringTok{"FLW"}\NormalTok{), ]  }\CommentTok{\# filter out FLW with unknown FL region}
+\FunctionTok{dim}\NormalTok{(d1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 6419   83
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG, d1}\SpecialCharTok{$}\NormalTok{NEW\_STA, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)  }\CommentTok{\# retained are all Atlantic states plus region 3 of Florida}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3       0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4       0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5       0    0  312      0    0    0    0    0    0    0    0    0    0    0
+  <NA>   14  114    0   1794    0   54   20  125 1344  108   73   62  644  165
+      
+       <NA>
+  3       0
+  4       0
+  5       0
+  <NA>    0
+\end{verbatim}
+
+Now we can summarize the total dolphin landings in weight for the U.S.
+Atlantic, and compare to previous values sent for quota monitoring. We
+see that the values are almost identical.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summarize by year and compare {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\NormalTok{tot1 }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{LBSEST\_SECWWT, d1}\SpecialCharTok{$}\NormalTok{YEAR, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\FunctionTok{head}\NormalTok{(tot1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    1981     1982     1983     1984     1985     1986 
+ 9952644 10701659 11325575  8303073 10236339  9047438 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{old }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/RecreationalDolphinLandings\_SAandGOM\_MLarkin.csv"}\NormalTok{, }\AttributeTok{skip =} \DecValTok{6}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(old}\SpecialCharTok{$}\NormalTok{Year, old}\SpecialCharTok{$}\NormalTok{ATL, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (pounds)"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{, }\DecValTok{2025}\NormalTok{))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{names}\NormalTok{(tot1)), tot1, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MRIP_files/figure-pdf/unnamed-chunk-3-1.pdf}
+
+\section{Partition catches by area and
+sector}\label{partition-catches-by-area-and-sector}
+
+Now we will partition out the total catches according to the dolphin MSE
+areas. The areas are as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  FLK: Florida Keys to Indian River County County (FL)
+\item
+  NCFL: Brevard (FL) to Southern NC (South of Hatteras)
+\item
+  NNC: Northern NC (North of Hatteras to NC/VA border)
+\item
+  VBM: Virginia to Maine
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# separate out 4 regions {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{region }\OtherTok{\textless{}{-}} \StringTok{"VBM"}
+
+\CommentTok{\# select for FLK}
+\CommentTok{\# FL\_REG codes: 4: SE FL{-} Miami{-}Dade to Indian River County.; 5: NE FL{-} Brevard to Nassau County}
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG, d1}\SpecialCharTok{$}\NormalTok{NEW\_STA, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3       0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4       0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5       0    0  312      0    0    0    0    0    0    0    0    0    0    0
+  <NA>   14  114    0   1794    0   54   20  125 1344  108   73   62  644  165
+      
+       <NA>
+  3       0
+  4       0
+  5       0
+  <NA>    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{region[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG }\SpecialCharTok{==} \DecValTok{3} \SpecialCharTok{|}\NormalTok{ d1}\SpecialCharTok{$}\NormalTok{FL\_REG }\SpecialCharTok{==} \DecValTok{4}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"FLK"}
+
+\CommentTok{\# select for NCFL}
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{region[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG }\SpecialCharTok{==} \DecValTok{5}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"NCFL"}
+\NormalTok{lis }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"SC"}\NormalTok{, }\StringTok{"GA"}\NormalTok{, }\StringTok{"FLE/GA"}\NormalTok{)           }\CommentTok{\# NCFL states}
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{region[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NEW\_STA }\SpecialCharTok{\%in\%}\NormalTok{ lis)] }\OtherTok{\textless{}{-}} \StringTok{"NCFL"}
+\CommentTok{\# NC\_REG codes: N: North of Cape Hatteras; S: South of Cape Hatteras}
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NC\_REG, d1}\SpecialCharTok{$}\NormalTok{NEW\_STA, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+         14  114 1334   1794  568   54   20  125  586  108   73   62  644  165
+  N       0    0    0      0    0    0    0    0  420    0    0    0    0    0
+  S       0    0    0      0    0    0    0    0  338    0    0    0    0    0
+  <NA>    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+      
+       <NA>
+          0
+  N       0
+  S       0
+  <NA>    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{region[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NC }\SpecialCharTok{==} \StringTok{"S"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"NCFL"}
+
+\CommentTok{\# select for NNC}
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{region[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NC }\SpecialCharTok{==} \StringTok{"N"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"NNC"}
+
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{FL\_REG, d1}\SpecialCharTok{$}\NormalTok{NEW\_STA, d1}\SpecialCharTok{$}\NormalTok{region)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, ,  = FLK
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4    0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = NCFL
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  4    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0  312      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = NNC
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  4    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = VBM
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  4    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NC\_REG, d1}\SpecialCharTok{$}\NormalTok{NEW\_STA, d1}\SpecialCharTok{$}\NormalTok{region)  }\CommentTok{\# check classification}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, ,  = FLK
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+       0    0 1022      0  568    0    0    0    0    0    0    0    0    0
+  N    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = NCFL
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+       0    0  312   1794    0   54    0    0    0    0    0    0  644    0
+  N    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0  338    0    0    0    0    0
+
+, ,  = NNC
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+       0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  N    0    0    0      0    0    0    0    0  420    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = VBM
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+      14  114    0      0    0    0   20  125  586  108   73   62    0  165
+  N    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+\end{verbatim}
+
+Now we will separate out the catches by recreational sector and plot the
+totals by region and sector.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# separate out by for hire vs. private rec {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{sector }\OtherTok{\textless{}{-}} \StringTok{"ForHire"}
+
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{sector[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NEW\_MODEN }\SpecialCharTok{==} \StringTok{"Shore"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"Rec"}
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{sector[}\FunctionTok{which}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{NEW\_MODEN }\SpecialCharTok{==} \StringTok{"Priv"}\NormalTok{)]  }\OtherTok{\textless{}{-}} \StringTok{"Rec"}
+
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{sector, d1}\SpecialCharTok{$}\NormalTok{NEW\_MODEN, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)    }\CommentTok{\# check classification}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+         
+           Cbt Cbt/Hbt  Hbt Priv Shore <NA>
+  ForHire 1616     119 2912    0     0    0
+  Rec        0       0    0 1750    22    0
+  <NA>       0       0    0    0     0    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tot }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{LBSEST\_SECWWT, }\FunctionTok{list}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{YEAR, d1}\SpecialCharTok{$}\NormalTok{region, d1}\SpecialCharTok{$}\NormalTok{sector), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+
+\FunctionTok{head}\NormalTok{(tot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, , ForHire
+
+           FLK      NCFL       NNC       VBM
+1981  354639.5  74702.50 256755.24  1400.247
+1982  347458.2  92271.42  27578.44  2749.224
+1983 1020005.8  41784.04  88690.53  5379.177
+1984 1021086.8  74658.81        NA  4203.048
+1985  717523.0 172989.65  58514.13  8880.857
+1986 1562354.0  63555.89 817192.26 61658.193
+
+, , Rec
+
+          FLK      NCFL       NNC        VBM
+1981  8942641  322505.7        NA         NA
+1982  8422673 1711834.7 78367.161  18727.290
+1983 10000662  119370.4 44226.032   5456.237
+1984  6717044  486079.7        NA      0.000
+1985  7925301 1162708.4 77477.096 112944.274
+1986  5699311  736872.0  2549.586 103945.134
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fin }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(tot[, , }\DecValTok{1}\NormalTok{], tot[, , }\DecValTok{2}\NormalTok{]))}
+\FunctionTok{names}\NormalTok{(fin) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Hire\_FLK"}\NormalTok{, }\StringTok{"Hire\_NCFL"}\NormalTok{, }\StringTok{"Hire\_NNC"}\NormalTok{, }\StringTok{"Hire\_VBM"}\NormalTok{, }\StringTok{"Rec\_FLK"}\NormalTok{, }\StringTok{"Rec\_NCFL"}\NormalTok{, }\StringTok{"Rec\_NNC"}\NormalTok{, }\StringTok{"Rec\_VBM"}\NormalTok{)}
+\NormalTok{fin}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      Hire_FLK  Hire_NCFL   Hire_NNC   Hire_VBM  Rec_FLK  Rec_NCFL     Rec_NNC
+1981  354639.5   74702.50  256755.24   1400.247  8942641  322505.7          NA
+1982  347458.2   92271.42   27578.44   2749.224  8422673 1711834.7   78367.161
+1983 1020005.8   41784.04   88690.53   5379.177 10000662  119370.4   44226.032
+1984 1021086.8   74658.81         NA   4203.048  6717044  486079.7          NA
+1985  717523.0  172989.65   58514.13   8880.857  7925301 1162708.4   77477.096
+1986 1562354.0   63555.89  817192.26  61658.193  5699311  736872.0    2549.586
+1987 1774558.7   61243.58  848994.25  24967.877  6913585  161627.1   79540.365
+1988  826480.6   62392.87 1114627.05  94676.212  6655923  321023.1  202768.950
+1989 3398703.5  405140.01 1970776.23 451477.768 17965047 1079951.5  339371.567
+1990  868572.6  277783.17 1749965.55  31079.442 19900865  312333.3  118539.960
+1991 4268773.7  225552.64 1706751.50 159172.855 23093044  457667.1  277389.646
+1992 2548407.4  189514.34 1619685.06 161149.703 15788853  245395.8   89160.860
+1993 1343093.6  391254.33 1555850.09 741955.369  9967356  742741.8  296399.199
+1994 1131831.7  437642.72 1713981.98 573551.716  9532763 1708942.1  264907.193
+1995 2848691.7  667475.30 1673435.48 145798.587 15558489 1550136.0  271442.073
+1996 2892436.3  309604.42  923128.81 141976.431 10574454 1121937.8  196579.537
+1997 3271271.6  466891.67 2129471.46 110115.485 22423256 1316502.7  660257.843
+1998 1532460.0  252620.73 1921834.08 779364.855 12578694  619824.1  412304.292
+1999 1238462.0  457880.10 2014752.29 288625.130 13745135 1548217.4 1314805.374
+2000 1471481.3  369553.33 3139555.98   3016.589 13379647 2784424.2  826980.337
+2001 2361751.6 1090421.00 1638707.54  34335.241 11690170 3614370.3 1760721.144
+2002 1828918.7 1993778.99 3005172.92 168406.810  8105262 2483946.6  871930.660
+2003 1342339.1  958997.12  928894.01  55690.419 10294918 1860435.4  868200.254
+2004 1509660.5  771820.65 1116373.11 155510.796  6281794 1354303.7  593257.716
+2005  858090.6  734896.20 3153480.89  38020.553  4681210 1898945.9  904360.210
+2006  700089.5  483337.12 2656240.22 136715.477  8540432 1751853.5  749541.413
+2007  718651.9  506776.30 2518430.49  84908.300  8200488 2383417.1 1483630.590
+2008  736213.2 1235299.71 1620865.87 113592.877  8100550 1648662.2  223565.185
+2009 1016583.6  458562.82  928419.86 106262.915  6809447 3805127.7 2359177.817
+2010  552080.9  534671.06 1384434.93 120050.410  3579591 3139199.6 1110479.730
+2011  768597.7  275546.65 1577019.96  17844.729  6097050 1651096.4 2063315.642
+2012  856261.4  615430.34 1236410.76  21887.318  5916144 2867599.1 1082607.063
+2013  614150.1  394570.11  640465.60  16064.763 10124799 2064256.6  540676.961
+2014  897508.4  210198.76  916695.96  56760.758  9940020 1272477.3 1289704.416
+2015 1729825.9  196326.97 1374908.91 277867.986 12093928 1548428.5 3505194.743
+2016  841662.5  454053.51 1236565.76 195837.854  5002273 4372622.6 1704661.669
+2017 1227827.8  161188.31  835080.86  31185.061  5464893 2297930.0  801324.151
+2018  401703.0  105328.49 1465087.58  72211.785  7935729 2606091.5 1347724.203
+2019 1261827.1  250624.40  998102.45  93718.699  4064867 2132483.1 1687239.863
+2020  910431.4  225493.79  667501.79  51621.152  2906913 2052222.0 1089245.171
+2021 1244842.2  146893.15  871760.94 100997.979  3652596 1428508.3  596672.480
+2022  627020.6   90504.71  427953.34  18514.133  3828113 2701619.8  211394.537
+2023  274532.5  118528.80 1281254.55  72728.020  3045801 2639445.1  175189.224
+2024  629327.2   85572.19  506558.07  18752.239  3404227 1358519.1  106307.278
+         Rec_VBM
+1981          NA
+1982   18727.290
+1983    5456.237
+1984       0.000
+1985  112944.274
+1986  103945.134
+1987   52139.772
+1988   33566.163
+1989  996945.390
+1990  509424.981
+1991  464786.733
+1992  509297.261
+1993  871948.601
+1994  594467.414
+1995  609302.619
+1996  486106.187
+1997  197871.963
+1998  606769.298
+1999  523623.688
+2000 1608478.920
+2001  372623.273
+2002 1732356.036
+2003  904780.558
+2004  186538.567
+2005  489236.451
+2006 1214497.040
+2007  236769.123
+2008   96818.461
+2009 1607919.004
+2010  717410.858
+2011 2626410.052
+2012 1041694.282
+2013  364492.286
+2014 2040329.550
+2015 4645796.249
+2016 2186126.672
+2017 1826822.849
+2018 2871124.410
+2019 1440420.940
+2020  689099.471
+2021 1083268.811
+2022 1206278.324
+2023  872490.886
+2024 1346606.842
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(fin), fin, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
+        \AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (pounds)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(fin), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MRIP_files/figure-pdf/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check that totals match}
+\FunctionTok{cor}\NormalTok{(}\FunctionTok{rowSums}\NormalTok{(fin, }\AttributeTok{na.rm =}\NormalTok{ T), tot1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{rowSums}\NormalTok{(fin, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{{-}}\NormalTok{ tot1)   }\CommentTok{\# very tiny differences}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 4.233284e-11
+\end{verbatim}
+
+Here are the final data for years 1981 to 2024.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fin}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      Hire_FLK  Hire_NCFL   Hire_NNC   Hire_VBM  Rec_FLK  Rec_NCFL     Rec_NNC
+1981  354639.5   74702.50  256755.24   1400.247  8942641  322505.7          NA
+1982  347458.2   92271.42   27578.44   2749.224  8422673 1711834.7   78367.161
+1983 1020005.8   41784.04   88690.53   5379.177 10000662  119370.4   44226.032
+1984 1021086.8   74658.81         NA   4203.048  6717044  486079.7          NA
+1985  717523.0  172989.65   58514.13   8880.857  7925301 1162708.4   77477.096
+1986 1562354.0   63555.89  817192.26  61658.193  5699311  736872.0    2549.586
+1987 1774558.7   61243.58  848994.25  24967.877  6913585  161627.1   79540.365
+1988  826480.6   62392.87 1114627.05  94676.212  6655923  321023.1  202768.950
+1989 3398703.5  405140.01 1970776.23 451477.768 17965047 1079951.5  339371.567
+1990  868572.6  277783.17 1749965.55  31079.442 19900865  312333.3  118539.960
+1991 4268773.7  225552.64 1706751.50 159172.855 23093044  457667.1  277389.646
+1992 2548407.4  189514.34 1619685.06 161149.703 15788853  245395.8   89160.860
+1993 1343093.6  391254.33 1555850.09 741955.369  9967356  742741.8  296399.199
+1994 1131831.7  437642.72 1713981.98 573551.716  9532763 1708942.1  264907.193
+1995 2848691.7  667475.30 1673435.48 145798.587 15558489 1550136.0  271442.073
+1996 2892436.3  309604.42  923128.81 141976.431 10574454 1121937.8  196579.537
+1997 3271271.6  466891.67 2129471.46 110115.485 22423256 1316502.7  660257.843
+1998 1532460.0  252620.73 1921834.08 779364.855 12578694  619824.1  412304.292
+1999 1238462.0  457880.10 2014752.29 288625.130 13745135 1548217.4 1314805.374
+2000 1471481.3  369553.33 3139555.98   3016.589 13379647 2784424.2  826980.337
+2001 2361751.6 1090421.00 1638707.54  34335.241 11690170 3614370.3 1760721.144
+2002 1828918.7 1993778.99 3005172.92 168406.810  8105262 2483946.6  871930.660
+2003 1342339.1  958997.12  928894.01  55690.419 10294918 1860435.4  868200.254
+2004 1509660.5  771820.65 1116373.11 155510.796  6281794 1354303.7  593257.716
+2005  858090.6  734896.20 3153480.89  38020.553  4681210 1898945.9  904360.210
+2006  700089.5  483337.12 2656240.22 136715.477  8540432 1751853.5  749541.413
+2007  718651.9  506776.30 2518430.49  84908.300  8200488 2383417.1 1483630.590
+2008  736213.2 1235299.71 1620865.87 113592.877  8100550 1648662.2  223565.185
+2009 1016583.6  458562.82  928419.86 106262.915  6809447 3805127.7 2359177.817
+2010  552080.9  534671.06 1384434.93 120050.410  3579591 3139199.6 1110479.730
+2011  768597.7  275546.65 1577019.96  17844.729  6097050 1651096.4 2063315.642
+2012  856261.4  615430.34 1236410.76  21887.318  5916144 2867599.1 1082607.063
+2013  614150.1  394570.11  640465.60  16064.763 10124799 2064256.6  540676.961
+2014  897508.4  210198.76  916695.96  56760.758  9940020 1272477.3 1289704.416
+2015 1729825.9  196326.97 1374908.91 277867.986 12093928 1548428.5 3505194.743
+2016  841662.5  454053.51 1236565.76 195837.854  5002273 4372622.6 1704661.669
+2017 1227827.8  161188.31  835080.86  31185.061  5464893 2297930.0  801324.151
+2018  401703.0  105328.49 1465087.58  72211.785  7935729 2606091.5 1347724.203
+2019 1261827.1  250624.40  998102.45  93718.699  4064867 2132483.1 1687239.863
+2020  910431.4  225493.79  667501.79  51621.152  2906913 2052222.0 1089245.171
+2021 1244842.2  146893.15  871760.94 100997.979  3652596 1428508.3  596672.480
+2022  627020.6   90504.71  427953.34  18514.133  3828113 2701619.8  211394.537
+2023  274532.5  118528.80 1281254.55  72728.020  3045801 2639445.1  175189.224
+2024  629327.2   85572.19  506558.07  18752.239  3404227 1358519.1  106307.278
+         Rec_VBM
+1981          NA
+1982   18727.290
+1983    5456.237
+1984       0.000
+1985  112944.274
+1986  103945.134
+1987   52139.772
+1988   33566.163
+1989  996945.390
+1990  509424.981
+1991  464786.733
+1992  509297.261
+1993  871948.601
+1994  594467.414
+1995  609302.619
+1996  486106.187
+1997  197871.963
+1998  606769.298
+1999  523623.688
+2000 1608478.920
+2001  372623.273
+2002 1732356.036
+2003  904780.558
+2004  186538.567
+2005  489236.451
+2006 1214497.040
+2007  236769.123
+2008   96818.461
+2009 1607919.004
+2010  717410.858
+2011 2626410.052
+2012 1041694.282
+2013  364492.286
+2014 2040329.550
+2015 4645796.249
+2016 2186126.672
+2017 1826822.849
+2018 2871124.410
+2019 1440420.940
+2020  689099.471
+2021 1083268.811
+2022 1206278.324
+2023  872490.886
+2024 1346606.842
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#write.csv(fin, file = "data/rec\_dolphin\_4areas.csv", row.names = T)}
+\end{Highlighting}
+\end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\chapter{Analysis of international landings estimates from Sea Around Us
+database}\label{analysis-of-international-landings-estimates-from-sea-around-us-database}
+
+Here we will explore commercial and recreational landings data as
+estimated by the \href{https://www.seaaroundus.org/data/\#/eez}{Sea
+Around Us Project}. This data set includes reported data for fisheries
+worldwide as well as reconstructed estimates for unreported landings.
+For each country, project scientists assemble available data on landings
+and use additional sociological and fishing data plus expert information
+and opinion, to produce their best estimates of total landings from all
+fishing sectors and for all species globally.
+
+\section{Data access and upload}\label{data-access-and-upload-1}
+
+For catches within each country's exclusive economic zones, data are
+downloaded download data from the
+\href{https://www.seaaroundus.org/data/\#/topic/biodiversity}{Sea Around
+Us site}(Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by
+Taxon Tools and Data, we filter by EEZ for All regions, and then filter
+by Taxon at the Species level for Common dolphinfish (Coryphaena
+hippurus). After clicking ``View graphs'' one can access the full data
+set using the ``Download Data'' button. The high seas data are accessed
+in the Basic Search
+\href{https://www.seaaroundus.org/data/\#/highseas}{High seas section of
+the site}. The individual regions can be clicked on (e.g., Atlantic,
+Western Central) and then the data are dowloaded using the Download Data
+button.
+
+The current version of data in use is version 50.1, accessed June 2024
+(the data files can be found on github in the
+SEFSC-dolphin-analyses/data /SAU/ folder). This was still the most
+recent version of data available as of June 2025.
+
+\section{Read in the high seas
+landings}\label{read-in-the-high-seas-landings}
+
+First we read in the high seas landings for the Western Central Atlantic
+and Northwest Atlantic zones. These are equivalent to FAO areas 21 and
+31.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# clear workspace}
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\CommentTok{\#install.packages("pals")}
+\FunctionTok{library}\NormalTok{(pals)}
+
+\CommentTok{\# find data files}
+\NormalTok{hslis }\OtherTok{\textless{}{-}} \FunctionTok{dir}\NormalTok{(}\StringTok{"data/SAU/"}\NormalTok{)[}\FunctionTok{grep}\NormalTok{(}\StringTok{"HighSeas"}\NormalTok{, }\FunctionTok{dir}\NormalTok{(}\StringTok{"data/SAU/"}\NormalTok{))]}
+
+\CommentTok{\# identify areas 21 and 31}
+\NormalTok{hslis[}\DecValTok{1}\NormalTok{]; hslis[}\DecValTok{3}\NormalTok{]   }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "SAU HighSeas 21 v50-1.csv"
+\end{verbatim}
+
+\begin{verbatim}
+[1] "SAU HighSeas 31 v50-1.csv"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#download data}
+\NormalTok{h1 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"data/SAU/"}\NormalTok{, hslis[}\DecValTok{1}\NormalTok{]))   }
+\NormalTok{h3 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"data/SAU/"}\NormalTok{, hslis[}\DecValTok{3}\NormalTok{]))}
+
+\CommentTok{\# confirm correct areas}
+\CommentTok{\#unique(h1$area\_name)}
+\CommentTok{\#unique(h3$area\_name)}
+
+\NormalTok{hs }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(h1, h3) }
+\end{Highlighting}
+\end{Shaded}
+
+We extract the data for dolphinfish and look at the characteristics of
+the landings. Most of the landings are in the Western Central Atlantic,
+and the primary fishing entities are Venezuela and Saint Lucia. The
+fishing sector is all industrial, and the vast majority of the catch is
+reported landings, with only a tiny fraction of discards or unreported
+landings listed in the database. The gear type is primarily long line.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check species name and filter out dolphinfish}
+\FunctionTok{unique}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{common\_name)[}\FunctionTok{grep}\NormalTok{(}\StringTok{"dolphin"}\NormalTok{, }\FunctionTok{unique}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{common\_name))]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Common dolphinfish"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hs }\OtherTok{\textless{}{-}}\NormalTok{ hs[}\FunctionTok{which}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{common\_name }\SpecialCharTok{==} \StringTok{"Common dolphinfish"}\NormalTok{), ]}
+
+\CommentTok{\# look at the categories within each column of data}
+\FunctionTok{apply}\NormalTok{(hs[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{13}\NormalTok{], }\DecValTok{2}\NormalTok{, table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$area_name
+
+      Atlantic, Northwest Atlantic, Western Central 
+                      113                       160 
+
+$area_type
+
+high_seas 
+      273 
+
+$year
+
+1985 1986 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 
+   1    1    1    1    1    1    1    6    4    1    5   10    5    8   10   12 
+2013 2014 2015 2016 2017 2018 2019 
+  24   22   30   33   33   29   34 
+
+$scientific_name
+
+Coryphaena hippurus 
+                273 
+
+$common_name
+
+Common dolphinfish 
+               273 
+
+$functional_group
+
+Large pelagics (>=90 cm) 
+                     273 
+
+$commercial_group
+
+Perch-likes 
+        273 
+
+$fishing_entity
+
+                      Barbados                         Belize 
+                             6                              3 
+                        Brazil                         Canada 
+                            19                             18 
+                        Guyana                         Panama 
+                             1                              1 
+                   Saint Lucia Saint Vincent & the Grenadines 
+                             5                             28 
+                         Spain                       Suriname 
+                            80                              1 
+             Trinidad & Tobago                            USA 
+                            14                             74 
+                     Venezuela 
+                            23 
+
+$fishing_sector
+
+Industrial 
+       273 
+
+$catch_type
+
+Discards Landings 
+       5      268 
+
+$reporting_status
+
+  Reported Unreported 
+       253         20 
+
+$gear_type
+
+artisanal fishing gear           bottom trawl                gillnet 
+                     7                      9                     11 
+            hand lines               longline             mixed gear 
+                    17                    187                      1 
+         pole and line          pots or traps      unknown by source 
+                    19                      9                     13 
+
+$end_use_type
+
+                         Direct human consumption    Fishmeal and fish oil 
+                       5                      194                       37 
+                   Other 
+                      37 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# convert from metric tonnes to pounds}
+\NormalTok{hs}\SpecialCharTok{$}\NormalTok{pounds }\OtherTok{\textless{}{-}}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{tonnes }\SpecialCharTok{*} \DecValTok{1000} \SpecialCharTok{*} \FloatTok{2.20462}
+
+\CommentTok{\# produce barplot of key data fields}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mex =} \FloatTok{0.5}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, hs}\SpecialCharTok{$}\NormalTok{area\_name, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Area name"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\CommentTok{\#barplot(tapply(hs$pounds/10\^{}6, hs$area\_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area type")}
+\CommentTok{\#barplot(tapply(hs$pounds/10\^{}6, hs$year, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Year")}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, hs}\SpecialCharTok{$}\NormalTok{fishing\_entity, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing entity"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, hs}\SpecialCharTok{$}\NormalTok{fishing\_sector, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing sector"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, hs}\SpecialCharTok{$}\NormalTok{catch\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Catch type"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, hs}\SpecialCharTok{$}\NormalTok{reporting\_status, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Reporting status"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, hs}\SpecialCharTok{$}\NormalTok{gear\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Gear type"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-2-1.pdf}
+
+\section{Summarize the high seas
+landings}\label{summarize-the-high-seas-landings}
+
+We plot the annual catches by fishing entity to look at trends over
+time.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hs}\SpecialCharTok{$}\NormalTok{fishing\_entity }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{fishing\_entity)}
+\NormalTok{hs}\SpecialCharTok{$}\NormalTok{fishing\_entity }\OtherTok{\textless{}{-}} \FunctionTok{droplevels}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{fishing\_entity)}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds, }\FunctionTok{list}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{year, hs}\SpecialCharTok{$}\NormalTok{fishing\_entity), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab)), tab}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab)), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }
+        \AttributeTok{main =} \StringTok{"High seas Western Central Atlantic dolphin catch"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab), }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab)), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-3-1.pdf}
+
+Finally we output the subset of high seas dolphin catch for the two
+areas. Because we have already accounted for the USA landings in our
+national reporting and are aiming to only summarize international
+landings here, we filter out the USA landings from the Sea Around Us
+database.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hs }\OtherTok{\textless{}{-}}\NormalTok{ hs[}\FunctionTok{which}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{fishing\_entity }\SpecialCharTok{!=} \StringTok{"USA"}\NormalTok{), ]}
+
+\NormalTok{hs}\SpecialCharTok{$}\NormalTok{year }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{levels =} \DecValTok{1950}\SpecialCharTok{:}\DecValTok{2019}\NormalTok{)}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds, }\FunctionTok{list}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{year, hs}\SpecialCharTok{$}\NormalTok{area\_name), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\NormalTok{tab[}\FunctionTok{is.na}\NormalTok{(tab)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\FunctionTok{tail}\NormalTok{(tab, }\DecValTok{40}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Atlantic, Northwest Atlantic, Western Central
+1980               0.000                     0.000
+1981               0.000                     0.000
+1982               0.000                     0.000
+1983               0.000                     0.000
+1984               0.000                     0.000
+1985               0.000                 14037.129
+1986               0.000                  8748.399
+1987               0.000                     0.000
+1988               0.000                     0.000
+1989               0.000                     0.000
+1990               0.000                     0.000
+1991               0.000                     0.000
+1992               0.000                     0.000
+1993               0.000                     0.000
+1994               0.000                     0.000
+1995               0.000                     0.000
+1996               0.000                     0.000
+1997               0.000                     0.000
+1998               0.000                     0.000
+1999               0.000                 43168.296
+2000               0.000                 30284.627
+2001               0.000                164272.223
+2002               0.000                 22147.477
+2003               0.000                137103.181
+2004               0.000                 66058.258
+2005               0.000                115171.863
+2006               0.000                170522.101
+2007           14687.527                330838.620
+2008           28552.636                340863.719
+2009           18719.121                662720.661
+2010            4510.085                232093.837
+2011           21589.424                300498.224
+2012           72398.812               1059210.392
+2013           34741.604               2471791.396
+2014           27922.953               1247462.983
+2015           90313.638                710059.125
+2016           15319.433               1094893.891
+2017           34806.933               1374259.739
+2018           29328.358                885814.754
+2019           21870.621                632747.157
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# write summary to merge with EEZ data }
+\FunctionTok{write.csv}\NormalTok{(tab, }\AttributeTok{file =} \StringTok{"data/SAU/high\_seas\_by\_year.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Read in the landings within excluzive economic zones
+(EEZs)}\label{read-in-the-landings-within-excluzive-economic-zones-eezs}
+
+Now we read in the landings reported by each country or jurisdiction's
+respective EEZ. Because we have extracted dolphin landings for EEZs
+worldwide, we need to separate out the landings for the Atlantic Ocean
+basin.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/SAU/SAU Taxa 600006 v50{-}1.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)  }\CommentTok{\# v. 50.1 {-} June 2024}
+\FunctionTok{head}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     area_name area_type year     scientific_name        common_name
+1    Australia       eez 1950 Coryphaena hippurus Common dolphinfish
+2    Australia       eez 1950 Coryphaena hippurus Common dolphinfish
+3    Australia       eez 1950 Coryphaena hippurus Common dolphinfish
+4      Bahamas       eez 1950 Coryphaena hippurus Common dolphinfish
+5     Barbados       eez 1950 Coryphaena hippurus Common dolphinfish
+6 Bermuda (UK)       eez 1950 Coryphaena hippurus Common dolphinfish
+          functional_group commercial_group fishing_entity fishing_sector
+1 Large pelagics (>=90 cm)      Perch-likes      Australia     Industrial
+2 Large pelagics (>=90 cm)      Perch-likes      Australia     Industrial
+3 Large pelagics (>=90 cm)      Perch-likes      Australia     Industrial
+4 Large pelagics (>=90 cm)      Perch-likes        Bahamas   Recreational
+5 Large pelagics (>=90 cm)      Perch-likes       Barbados   Recreational
+6 Large pelagics (>=90 cm)      Perch-likes   Bermuda (UK)      Artisanal
+  catch_type reporting_status                 gear_type
+1   Landings         Reported                  longline
+2   Landings         Reported                  longline
+3   Landings         Reported                  longline
+4   Landings       Unreported recreational fishing gear
+5   Landings       Unreported recreational fishing gear
+6   Landings         Reported         small scale lines
+              end_use_type       tonnes landed_value
+1    Fishmeal and fish oil  0.003373202 3.438170e-05
+2 Direct human consumption  6.739657104 1.040254e+04
+3                    Other  0.003373202 3.438170e-05
+4 Direct human consumption 48.665105143 8.262728e+00
+5 Direct human consumption  0.009158559 4.846886e-04
+6 Direct human consumption  1.511085514 3.199403e+03
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#dim(d)}
+\CommentTok{\#apply(d[1:13], 2, table)}
+
+\CommentTok{\# convert tonnes to pounds }
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{lbs }\OtherTok{\textless{}{-}}\NormalTok{ d}\SpecialCharTok{$}\NormalTok{tonnes }\SpecialCharTok{*} \DecValTok{1000} \SpecialCharTok{*} \FloatTok{2.20462}
+\end{Highlighting}
+\end{Shaded}
+
+We look at the characteristics of the landings within EEZs. These are
+largely industrial and artisanal in nature. Landings are the majority of
+the catch but discards are also present. There are more unreported
+landings than reported landings and a variety of gear types are used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# look at characteristics of data }
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mex =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{mgp =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, d}\SpecialCharTok{$}\NormalTok{fishing\_sector, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing sector"}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, d}\SpecialCharTok{$}\NormalTok{catch\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Catch type"}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, d}\SpecialCharTok{$}\NormalTok{reporting\_status, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Reporting status"}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, d}\SpecialCharTok{$}\NormalTok{gear\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Gear type"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-6-1.pdf}
+
+\section{Separating the EEZs by area}\label{separating-the-eezs-by-area}
+
+Now we have to manually assign the different EEZs to respective areas.
+We separate the geographical areas within the Atlantic Ocean (North and
+South) and lump all other EEZs into ``other oceans.'' This latter
+category is largely the Pacific Ocean and to a lesser extent the Indian
+Ocean. We remove the high seas catch from this database as it is not
+ocean-specific and we have extracted the ocean-specific high seas catch
+previously.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# remove the high seas catch from this database}
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_type }\SpecialCharTok{!=} \StringTok{"high\_seas"}\NormalTok{), ]   }
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{fishing\_entity }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{fishing\_entity)}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{fishing\_entity }\OtherTok{\textless{}{-}} \FunctionTok{droplevels}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{fishing\_entity)}
+\FunctionTok{table}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_type)  }\CommentTok{\# this should be all "eez"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+  eez 
+63056 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Western Central Atlantic EEZs}
+\NormalTok{WCA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Bahamas"}\NormalTok{, }\StringTok{"Barbados"}\NormalTok{, }\StringTok{"Cayman Isl. (UK)"}\NormalTok{, }\StringTok{"Dominica"}\NormalTok{, }\StringTok{"Dominican Republic"}\NormalTok{, }\StringTok{"Grenada"}\NormalTok{, }
+         \StringTok{"Aruba (Netherlands)"}\NormalTok{, }\StringTok{"Haiti"}\NormalTok{, }\StringTok{"Guadeloupe  (France)"}\NormalTok{, }\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"Martinique (France)"}\NormalTok{,}
+         \StringTok{"Montserrat (UK)"}\NormalTok{, }\StringTok{"Nicaragua (Caribbean)"}\NormalTok{, }\StringTok{"Puerto Rico (USA)"}\NormalTok{, }\StringTok{"Saint Kitts \& Nevis"}\NormalTok{, }
+         \StringTok{"Saint Lucia"}\NormalTok{, }\StringTok{"Saint Vincent \& the Grenadines"}\NormalTok{, }\StringTok{"Trinidad \& Tobago"}\NormalTok{, }\StringTok{"US Virgin Isl."}\NormalTok{, }
+         \StringTok{"St Barthelemy (France)"}\NormalTok{, }\StringTok{"St Martin (France)"}\NormalTok{, }\StringTok{"Curaçao (Netherlands)"}\NormalTok{, }\StringTok{"Bonaire (Netherlands)"}\NormalTok{,}
+         \StringTok{"Saba and Sint Eustatius (Netherlands)"}\NormalTok{, }\StringTok{"Sint Maarten (Netherlands)"}\NormalTok{, }\StringTok{"Honduras (Caribbean)"}\NormalTok{,}
+         \StringTok{"Colombia (Caribbean)"}\NormalTok{, }\StringTok{"Mexico (Atlantic)"}\NormalTok{, }\StringTok{"Turks \& Caicos Isl. (UK)"}\NormalTok{, }\StringTok{"Guyana"}\NormalTok{, }\StringTok{"Venezuela"}\NormalTok{,}
+         \StringTok{"Antigua \& Barbuda"}\NormalTok{, }\StringTok{"Belize"}\NormalTok{, }\StringTok{"British Virgin Isl. (UK)"}\NormalTok{, }\StringTok{"French Guiana"}\NormalTok{, }\StringTok{"Cuba"}\NormalTok{, }
+         \StringTok{"Anguilla (UK)"}\NormalTok{, }\StringTok{"Suriname"}\NormalTok{, }\StringTok{"Costa Rica (Caribbean)"}\NormalTok{, }\StringTok{"Guatemala (Caribbean)"}\NormalTok{, }
+         \StringTok{"Panama (Caribbean)"}\NormalTok{, }\StringTok{"Bermuda (UK)"}\NormalTok{, }\StringTok{"CuraÃ§ao (Netherlands)"}\NormalTok{) }
+           
+\CommentTok{\# Brazil}
+\NormalTok{Bra }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Brazil (mainland)"}\NormalTok{, }\StringTok{"Fernando de Noronha (Brazil)"}\NormalTok{, }
+         \StringTok{"St Paul and St. Peter Archipelago (Brazil)"}\NormalTok{)}
+
+\CommentTok{\# Canada}
+\NormalTok{Can }\OtherTok{\textless{}{-}}  \FunctionTok{c}\NormalTok{(}\StringTok{"Canada (East Coast)"}\NormalTok{, }\StringTok{"Saint Pierre \& Miquelon (France)"}\NormalTok{)}
+
+\CommentTok{\# United States}
+\NormalTok{USA }\OtherTok{\textless{}{-}}  \FunctionTok{c}\NormalTok{(}\StringTok{"USA (East Coast)"}\NormalTok{, }\StringTok{"USA (Gulf of Mexico)"}\NormalTok{)}
+           
+\CommentTok{\# Northeast Atlantic EEZs}
+\NormalTok{NEA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Canary Isl. (Spain)"}\NormalTok{, }\StringTok{"Spain (mainland; Med and Gulf of Cadiz)"}\NormalTok{, }\StringTok{"Spain (Northwest)"}\NormalTok{, }
+         \StringTok{"Spain (mainland, Med and Gulf of Cadiz)"}\NormalTok{, }
+         \StringTok{"France (Atlantic Coast)"}\NormalTok{, }\StringTok{"Portugal (mainland)"}\NormalTok{, }\StringTok{"Azores Isl. (Portugal)"}\NormalTok{)}
+        
+\CommentTok{\# Eastern Central Atlantic EEZs}
+\NormalTok{ECA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Madeira Isl. (Portugal)"}\NormalTok{, }\StringTok{"Cape Verde"}\NormalTok{, }\StringTok{"Equatorial Guinea"}\NormalTok{, }\StringTok{"Benin"}\NormalTok{, }
+          \StringTok{"Sao Tome \& Principe "}\NormalTok{, }\StringTok{"Sao Tome \& Principe"}\NormalTok{, }\StringTok{"Morocco (Central)"}\NormalTok{, }\StringTok{"Ghana"}\NormalTok{, }
+          \StringTok{"Côte d\textquotesingle{}Ivoire"}\NormalTok{, }\StringTok{"CÃ´te d\textquotesingle{}Ivoire"}\NormalTok{, }\StringTok{"Guinea"}\NormalTok{, }\StringTok{"Liberia"}\NormalTok{, }\StringTok{"Sierra Leone"}\NormalTok{, }\StringTok{"Nigeria"}\NormalTok{, }\StringTok{"Togo"}\NormalTok{, }
+          \StringTok{"Guinea{-}Bissau"}\NormalTok{, }\StringTok{"Senegal"}\NormalTok{, }\StringTok{"Cameroon"}\NormalTok{, }\StringTok{"Gambia"}\NormalTok{, }\StringTok{"Mauritania"}\NormalTok{, }\StringTok{"Morocco (South)"}\NormalTok{, }
+          \StringTok{"Gabon"}\NormalTok{, }\StringTok{"Congo; R. of"}\NormalTok{, }\StringTok{"Congo, R. of"}\NormalTok{, }\StringTok{"Congo (ex{-}Zaire)"}\NormalTok{)}
+
+\CommentTok{\# Southeastern Atlantic EEZs}
+\NormalTok{SEA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Angola"}\NormalTok{, }\StringTok{"Namibia"}\NormalTok{, }\StringTok{"South Africa (Atlantic and Cape)"}\NormalTok{,  }
+           \StringTok{"Ascension Isl. (UK)"}\NormalTok{, }\StringTok{"Saint Helena (UK)"}\NormalTok{, }\StringTok{"Tristan da Cunha Isl. (UK)"}\NormalTok{)}
+
+\CommentTok{\# Southwest Atlantic EEZs}
+\NormalTok{SWA }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Trindade \& Martim Vaz Isl. (Brazil)"}\NormalTok{, }\StringTok{"Uruguay"}\NormalTok{)}
+
+\CommentTok{\# Mediterranean EEZs}
+\NormalTok{Med }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Italy (mainland)"}\NormalTok{, }\StringTok{"Libya"}\NormalTok{, }\StringTok{"Malta"}\NormalTok{, }\StringTok{"Syria"}\NormalTok{, }\StringTok{"Sicily (Italy)"}\NormalTok{,}\StringTok{"Sardinia (Italy)"}\NormalTok{, }
+         \StringTok{"Balearic Islands (Spain)"}\NormalTok{, }\StringTok{"Cyprus (North)"}\NormalTok{, }\StringTok{"Cyprus (South)"}\NormalTok{, }
+         \StringTok{"Gaza Strip"}\NormalTok{, }\StringTok{"Greece (without Crete)"}\NormalTok{, }\StringTok{"Crete (Greece)"}\NormalTok{, }\StringTok{"Lebanon"}\NormalTok{, }
+         \StringTok{"Turkey (Mediterranean Sea)"}\NormalTok{, }\StringTok{"Egypt (Mediterranean)"}\NormalTok{, }\StringTok{"Israel (Mediterranean)"}\NormalTok{, }\StringTok{"Tunisia"}\NormalTok{, }
+         \StringTok{"Algeria"}\NormalTok{, }\StringTok{"Albania"}\NormalTok{, }\StringTok{"Croatia"}\NormalTok{, }\StringTok{"Montenegro"}\NormalTok{, }\StringTok{"Morocco (Mediterranean)"}\NormalTok{, }
+         \StringTok{"France (Mediterranean)"}\NormalTok{, }\StringTok{"Corsica (France)"}\NormalTok{)}
+
+\CommentTok{\# add variable to specify region}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg }\OtherTok{\textless{}{-}} \StringTok{"other oceans"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ WCA)] }\OtherTok{\textless{}{-}} \StringTok{"Western Central Atlantic EEZs"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ Bra)] }\OtherTok{\textless{}{-}} \StringTok{"Brazil EEZ"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ Can)] }\OtherTok{\textless{}{-}} \StringTok{"Canadian EEZ"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ USA)] }\OtherTok{\textless{}{-}} \StringTok{"United States EEZ"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ NEA)] }\OtherTok{\textless{}{-}} \StringTok{"Northeast Atlantic EEZs"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ ECA)] }\OtherTok{\textless{}{-}} \StringTok{"Eastern Central Atlantic EEZs"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ SEA)] }\OtherTok{\textless{}{-}} \StringTok{"Southeast Atlantic EEZs"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ SWA)] }\OtherTok{\textless{}{-}} \StringTok{"Southwest Atlantic EEZs"}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{\%in\%}\NormalTok{ Med)] }\OtherTok{\textless{}{-}} \StringTok{"Mediterranean Sea EEZs"}
+\end{Highlighting}
+\end{Shaded}
+
+Now we will check that we have classified the regions correctly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check region designation }
+\NormalTok{othlis }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"other oceans"}\NormalTok{)])}
+\FunctionTok{print}\NormalTok{(}\StringTok{"EEZs of all other oceans: "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "EEZs of all other oceans: "
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{othlis}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  [1] "Australia"                          "China"                             
+  [3] "Taiwan"                             "Mayotte (France)"                  
+  [5] "French Polynesia"                   "Hong Kong (China)"                 
+  [7] "Andaman & Nicobar Isl. (India)"     "Indonesia (Eastern)"               
+  [9] "Japan (main islands)"               "Japan (Daito Islands)"             
+ [11] "Korea (South)"                      "Hawaii Northwest Islands (USA)"    
+ [13] "Nauru"                              "Niue (New Zealand)"                
+ [15] "Northern Marianas (USA)"            "Micronesia (Federated States of)"  
+ [17] "Marshall Isl."                      "Palau"                             
+ [19] "Pakistan"                           "Papua New Guinea"                  
+ [21] "Philippines"                        "Seychelles"                        
+ [23] "Viet Nam"                           "Tokelau (New Zealand)"             
+ [25] "Tonga"                              "Hawaii Main Islands (USA)"         
+ [27] "USA (West Coast)"                   "Wake Isl. (USA)"                   
+ [29] "Wallis & Futuna Isl. (France)"      "Samoa"                             
+ [31] "Guatemala (Pacific)"                "Kiribati (Gilbert Islands)"        
+ [33] "Mexico (Pacific)"                   "Japan (Ogasawara Islands)"         
+ [35] "Korea (North, Yellow Sea)"          "Korea (North, Sea of Japan)"       
+ [37] "Mauritius"                          "Solomon Isl."                      
+ [39] "Christmas Isl. (Australia)"         "Johnston Atoll (USA)"              
+ [41] "Timor Leste"                        "Palmyra Atoll & Kingman Reef (USA)"
+ [43] "Jarvis Isl. (USA)"                  "Howland & Baker Isl. (USA)"        
+ [45] "Indonesia (Central)"                "Indonesia (Indian Ocean)"          
+ [47] "Kiribati (Line Islands)"            "Kiribati (Phoenix Islands)"        
+ [49] "New Caledonia (France)"             "Vanuatu"                           
+ [51] "Lord Howe Isl. (Australia)"         "Myanmar"                           
+ [53] "Ecuador (mainland)"                 "El Salvador"                       
+ [55] "Fiji"                               "Malaysia (Peninsula West)"         
+ [57] "Norfolk Isl. (Australia)"           "Peru"                              
+ [59] "Pitcairn (UK)"                      "Colombia (Pacific)"                
+ [61] "Costa Rica (Pacific)"               "Nicaragua (Pacific)"               
+ [63] "Panama (Pacific)"                   "Thailand (Andaman Sea)"            
+ [65] "Thailand (Gulf of Thailand)"        "Cook Islands"                      
+ [67] "Kermadec Isl. (New Zealand)"        "Tuvalu"                            
+ [69] "Honduras (Pacific)"                 "American Samoa"                    
+ [71] "Galapagos Isl. (Ecuador)"           "New Zealand"                       
+ [73] "Brunei Darussalam"                  "Malaysia (Sabah)"                  
+ [75] "Malaysia (Sarawak)"                 "Guam (USA)"                        
+ [77] "Clipperton Isl. (France)"           "South Africa (Indian Ocean Coast)" 
+ [79] "Singapore"                          "Easter Isl. (Chile)"               
+ [81] "Madagascar"                         "Réunion (France)"                  
+ [83] "Chagos Archipelago (UK)"            "Comoros Isl."                      
+ [85] "Mozambique Channel Isl. (France)"   "Kenya"                             
+ [87] "Mozambique"                         "Somalia"                           
+ [89] "Tanzania"                           "Glorieuse Islands (France)"        
+ [91] "Yemen (Socotra)"                    "Oman"                              
+ [93] "St Paul & Amsterdam Isl. (France)"  "Iran (Sea of Oman)"                
+ [95] "Desventuradas Isl. (Chile)"         "India (mainland)"                  
+ [97] "Maldives"                           "Tromelin Isl. (France)"            
+ [99] "Cambodia"                           "Sri Lanka"                         
+[101] "Malaysia (Peninsula East)"          "Bangladesh"                        
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"U.S. EEZs outside the Atlantic Ocean: "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "U.S. EEZs outside the Atlantic Ocean: "
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{othlis[}\FunctionTok{grep}\NormalTok{(}\StringTok{"USA"}\NormalTok{, othlis)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "Hawaii Northwest Islands (USA)"     "Northern Marianas (USA)"           
+ [3] "Hawaii Main Islands (USA)"          "USA (West Coast)"                  
+ [5] "Wake Isl. (USA)"                    "Johnston Atoll (USA)"              
+ [7] "Palmyra Atoll & Kingman Reef (USA)" "Jarvis Isl. (USA)"                 
+ [9] "Howland & Baker Isl. (USA)"         "Guam (USA)"                        
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"French EEZs outside the Atlantic Ocean: "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "French EEZs outside the Atlantic Ocean: "
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{othlis[}\FunctionTok{grep}\NormalTok{(}\StringTok{"France"}\NormalTok{, othlis)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Mayotte (France)"                  "Wallis & Futuna Isl. (France)"    
+[3] "New Caledonia (France)"            "Clipperton Isl. (France)"         
+[5] "Réunion (France)"                  "Mozambique Channel Isl. (France)" 
+[7] "Glorieuse Islands (France)"        "St Paul & Amsterdam Isl. (France)"
+[9] "Tromelin Isl. (France)"           
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Western Central Atlantic EEZs"}\NormalTok{)])   }\CommentTok{\# Western Central EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "Bahamas"                              
+ [2] "Barbados"                             
+ [3] "Bermuda (UK)"                         
+ [4] "Cayman Isl. (UK)"                     
+ [5] "Dominica"                             
+ [6] "Dominican Republic"                   
+ [7] "Grenada"                              
+ [8] "Guadeloupe  (France)"                 
+ [9] "Haiti"                                
+[10] "Jamaica"                              
+[11] "Martinique (France)"                  
+[12] "Montserrat (UK)"                      
+[13] "Puerto Rico (USA)"                    
+[14] "Saint Kitts & Nevis"                  
+[15] "Saint Lucia"                          
+[16] "Saint Vincent & the Grenadines"       
+[17] "Trinidad & Tobago"                    
+[18] "US Virgin Isl."                       
+[19] "St Barthelemy (France)"               
+[20] "St Martin (France)"                   
+[21] "Curaçao (Netherlands)"                
+[22] "Bonaire (Netherlands)"                
+[23] "Saba and Sint Eustatius (Netherlands)"
+[24] "Sint Maarten (Netherlands)"           
+[25] "Honduras (Caribbean)"                 
+[26] "Colombia (Caribbean)"                 
+[27] "Mexico (Atlantic)"                    
+[28] "Turks & Caicos Isl. (UK)"             
+[29] "Costa Rica (Caribbean)"               
+[30] "Panama (Caribbean)"                   
+[31] "Antigua & Barbuda"                    
+[32] "Belize"                               
+[33] "British Virgin Isl. (UK)"             
+[34] "Cuba"                                 
+[35] "French Guiana"                        
+[36] "Guyana"                               
+[37] "Anguilla (UK)"                        
+[38] "Suriname"                             
+[39] "Venezuela"                            
+[40] "Guatemala (Caribbean)"                
+[41] "Aruba (Netherlands)"                  
+[42] "Nicaragua (Caribbean)"                
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Brazil EEZ"}\NormalTok{)])   }\CommentTok{\# Brazil EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Brazil (mainland)"                         
+[2] "Fernando de Noronha (Brazil)"              
+[3] "St Paul and St. Peter Archipelago (Brazil)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Canadian EEZ"}\NormalTok{)])   }\CommentTok{\# Canadian EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Canada (East Coast)"              "Saint Pierre & Miquelon (France)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"United States EEZ"}\NormalTok{)])  }\CommentTok{\# United States EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "USA (East Coast)"     "USA (Gulf of Mexico)"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Northeast Atlantic EEZs"}\NormalTok{)])   }\CommentTok{\# Northeast Atlantic EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Azores Isl. (Portugal)"                 
+[2] "Spain (mainland, Med and Gulf of Cadiz)"
+[3] "Canary Isl. (Spain)"                    
+[4] "Portugal (mainland)"                    
+[5] "France (Atlantic Coast)"                
+[6] "Spain (Northwest)"                      
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Eastern Central Atlantic EEZs"}\NormalTok{)])   }\CommentTok{\# Eastern Central Atlantic EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "Cape Verde"              "Equatorial Guinea"      
+ [3] "Sao Tome & Principe"     "Madeira Isl. (Portugal)"
+ [5] "Togo"                    "Ghana"                  
+ [7] "Guinea"                  "Liberia"                
+ [9] "Guinea-Bissau"           "Senegal"                
+[11] "Sierra Leone"            "Morocco (Central)"      
+[13] "Morocco (South)"         "Côte d'Ivoire"          
+[15] "Gabon"                   "Benin"                  
+[17] "Gambia"                  "Mauritania"             
+[19] "Nigeria"                 "Cameroon"               
+[21] "Congo, R. of"            "Congo (ex-Zaire)"       
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Southeast Atlantic EEZs"}\NormalTok{)])   }\CommentTok{\# Southeast Atlantic EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Ascension Isl. (UK)"              "South Africa (Atlantic and Cape)"
+[3] "Saint Helena (UK)"                "Angola"                          
+[5] "Namibia"                          "Tristan da Cunha Isl. (UK)"      
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Southwest Atlantic EEZs"}\NormalTok{)])   }\CommentTok{\# Southwest Atlantic EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Trindade & Martim Vaz Isl. (Brazil)" "Uruguay"                            
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{area\_name[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Mediterranean Sea EEZs"}\NormalTok{)])   }\CommentTok{\# Mediterranean Sea EEZs:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "Italy (mainland)"         "Libya"                   
+ [3] "Malta"                    "Syria"                   
+ [5] "Sicily (Italy)"           "Sardinia (Italy)"        
+ [7] "Balearic Islands (Spain)" "Tunisia"                 
+ [9] "Algeria"                  "Morocco (Mediterranean)" 
+[11] "France (Mediterranean)"   "Corsica (France)"        
+[13] "Croatia"                  "Lebanon"                 
+[15] "Albania"                  "Greece (without Crete)"  
+[17] "Crete (Greece)"           "Cyprus (South)"          
+\end{verbatim}
+
+\section{Summarize catch by regional
+EEZs}\label{summarize-catch-by-regional-eezs}
+
+Now we will summarize the catch by region by grouping the catch across
+the EEZs by region and plot the results. The U.S. landings should be
+very close to what is reported in Section 2 because the majority of U.S.
+catch is reported through the various data collection systems that are
+compiled within Sea Around Us.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summarize EEZ catch by region}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{year, d}\SpecialCharTok{$}\NormalTok{reg), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\CommentTok{\#head(tab)}
+\NormalTok{tab2 }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(tab)}
+\NormalTok{tab3 }\OtherTok{\textless{}{-}}\NormalTok{ tab2[}\FunctionTok{order}\NormalTok{(}\FunctionTok{rowSums}\NormalTok{(tab2, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{decreasing =}\NormalTok{ T), ]}
+\NormalTok{tab\_glob }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(tab3)}
+\CommentTok{\#head(tab\_glob)}
+\NormalTok{yrs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab))}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{mgp =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\FunctionTok{matplot}\NormalTok{(yrs, tab\_glob}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{9}\NormalTok{)), }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab\_glob)), }
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }
+        \AttributeTok{main =} \StringTok{"Global dolphin catches within EEZs (commercial + recreational)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab\_glob), }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab\_glob)), }
+       \AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{9}\NormalTok{)), }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-9-1.pdf}
+
+We can see that the EEZ catches globally are dominated by areas outside
+of the Atlantic (``other oceans'') so we will replot the data after
+moving this category. Here we can see that most of the catches
+historically were coming from the Mediterranean Sea, though these
+catches have been declining drastially since the 1970s. Catches in the
+United States have showed an opposite pattern, with low historical
+catches that increased in the 1980s (largely due to the introduction of
+recreational monitoring). Catches in the Western Central EEZs have
+increased gradually over time.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# remove other oceans}
+\CommentTok{\#head(tab\_glob)}
+\NormalTok{tab }\OtherTok{\textless{}{-}}\NormalTok{ tab\_glob[, }\SpecialCharTok{{-}}\FunctionTok{which}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(tab\_glob) }\SpecialCharTok{==} \StringTok{"other oceans"}\NormalTok{)]}
+\CommentTok{\#head(tab)}
+
+\FunctionTok{matplot}\NormalTok{(yrs, tab}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{],   }
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }\AttributeTok{axes =}\NormalTok{ F,}
+        \AttributeTok{main =} \StringTok{"Dolphin catches from the Atlantic EEZs (commercial + recreational)"}\NormalTok{)}
+\FunctionTok{matplot}\NormalTok{(yrs, tab}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{add =}\NormalTok{ T, }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =}\NormalTok{ yrs[}\FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{90}\NormalTok{, }\DecValTok{2}\NormalTok{)], }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
+\FunctionTok{legend}\NormalTok{(}\DecValTok{1952}\NormalTok{, }\DecValTok{25}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab), }\AttributeTok{col =} \FunctionTok{glasbey}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(tab)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-10-1.pdf}
+
+\section{Merge high seas with catch with exclusive economic
+zones}\label{merge-high-seas-with-catch-with-exclusive-economic-zones}
+
+Now we will merge in the high seas catch from the steps above into the
+EEZ catches to get a better picture of total catch in FAO zones 31 and
+21. Recall that the U.S. Gulf and Atlantic catches are not necessarily
+parsed apart correctly in the public databases which get compiled into
+Sea Around Us, so these will have the same deficiencies as noted in
+Section 2. Later we will merge in the corrected data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hs }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/SAU/high\_seas\_by\_year.csv"}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(hs)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"year"}
+
+\CommentTok{\# check that columns match}
+\CommentTok{\#head(tab)}
+\CommentTok{\#head(hs)}
+\FunctionTok{table}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab) }\SpecialCharTok{==}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{year)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+TRUE 
+  70 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[}\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(tab))] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{tab\_atl }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(tab, hs[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{])}
+
+\CommentTok{\# check the merge}
+\FunctionTok{head}\NormalTok{(tab\_atl)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Mediterranean Sea EEZs United States EEZ Brazil EEZ
+1950               26162262           1548245    1127242
+1951               25410830           1721403    1060734
+1952               30206350           1871779    1128992
+1953               31275619           2024535    1111008
+1954               31383840           2177865    1090492
+1955               30056210           2309815    1190424
+     Western Central Atlantic EEZs Northeast Atlantic EEZs
+1950                       1345027                 1173441
+1951                       1467925                 1187386
+1952                       1510406                 1193045
+1953                       2001465                 1141504
+1954                       2069754                 1269523
+1955                       2130341                 1405543
+     Eastern Central Atlantic EEZs Southwest Atlantic EEZs
+1950                      677552.5                       0
+1951                      693004.4                       0
+1952                      708466.7                       0
+1953                      723939.4                       0
+1954                      739422.5                       0
+1955                      754915.9                       0
+     Southeast Atlantic EEZs Canadian EEZ Atlantic..Northwest
+1950                       0            0                   0
+1951                       0            0                   0
+1952                       0            0                   0
+1953                       0            0                   0
+1954                       0            0                   0
+1955                       0            0                   0
+     Atlantic..Western.Central
+1950                         0
+1951                         0
+1952                         0
+1953                         0
+1954                         0
+1955                         0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# separate all WCA catches }
+\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg)  }\CommentTok{\# use Western Central, U.S. and Canada}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "other oceans"                  "Western Central Atlantic EEZs"
+ [3] "Brazil EEZ"                    "Eastern Central Atlantic EEZs"
+ [5] "Mediterranean Sea EEZs"        "Northeast Atlantic EEZs"      
+ [7] "United States EEZ"             "Southeast Atlantic EEZs"      
+ [9] "Southwest Atlantic EEZs"       "Canadian EEZ"                 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dwc }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Western Central Atlantic EEZs"} \SpecialCharTok{|}\NormalTok{ d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"United States EEZ"} \SpecialCharTok{|}\NormalTok{ d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Canadian EEZ"}\NormalTok{),]}
+
+\CommentTok{\#unique(dwc$area\_name[which(dwc$reg == "United States EEZ")])}
+\CommentTok{\#unique(dwc$area\_name[which(dwc$reg == "Canadian EEZ")])}
+\CommentTok{\#unique(dwc$area\_name[which(dwc$reg == "Western Central Atlantic EEZs")])}
+
+\CommentTok{\# relabel U.S. by area}
+\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"USA (East Coast)"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States East Coast"}
+\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"USA (Gulf of Mexico)"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States Gulf"}
+\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"Puerto Rico (USA)"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States Caribbean"}
+\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"US Virgin Isl."}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States Caribbean"}
+\CommentTok{\#table(dwc$area\_name, dwc$reg)}
+
+\NormalTok{tab\_wc }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{year, dwc}\SpecialCharTok{$}\NormalTok{reg), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\CommentTok{\#head(tab\_wc)}
+
+\CommentTok{\# reorder S to N}
+\NormalTok{tab\_wc }\OtherTok{\textless{}{-}}\NormalTok{ tab\_wc[, }\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)]}
+\FunctionTok{head}\NormalTok{(tab\_wc)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Western Central Atlantic EEZs United States Caribbean United States Gulf
+1950                       1202464                142562.8           309225.3
+1951                       1299559                168365.6           339921.3
+1952                       1341943                168463.5           370512.4
+1953                       1839330                162135.2           400578.5
+1954                       1901095                168659.3           433479.6
+1955                       1954511                175830.1           463752.0
+     United States East Coast Canadian EEZ
+1950                  1239020           NA
+1951                  1381482           NA
+1952                  1501267           NA
+1953                  1623956           NA
+1954                  1744386           NA
+1955                  1846063           NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# merge in the high seas catch {-} check years match}
+\CommentTok{\#head(hs)}
+\FunctionTok{table}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab\_wc) }\SpecialCharTok{==}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{year)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+TRUE 
+  70 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_seas }\OtherTok{\textless{}{-}}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{Atlantic..Western.Central }\SpecialCharTok{+}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{Atlantic..Northwest}
+\NormalTok{high\_seas[high\_seas }\SpecialCharTok{==} \DecValTok{0}\NormalTok{] }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{tab\_wc }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(tab\_wc, high\_seas)}
+\FunctionTok{head}\NormalTok{(tab\_wc)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Western Central Atlantic EEZs United States Caribbean United States Gulf
+1950                       1202464                142562.8           309225.3
+1951                       1299559                168365.6           339921.3
+1952                       1341943                168463.5           370512.4
+1953                       1839330                162135.2           400578.5
+1954                       1901095                168659.3           433479.6
+1955                       1954511                175830.1           463752.0
+     United States East Coast Canadian EEZ high_seas
+1950                  1239020           NA        NA
+1951                  1381482           NA        NA
+1952                  1501267           NA        NA
+1953                  1623956           NA        NA
+1954                  1744386           NA        NA
+1955                  1846063           NA        NA
+\end{verbatim}
+
+\section{Plot Western Atlantic
+catches}\label{plot-western-atlantic-catches}
+
+Now we plot the total Western Atlantic catches -- both within the EEZs
+and the high seas -- separating by U.S., Canada, and the Western Central
+Atlantic (i.e., the Wider Caribbean). Most of the catch is coming from
+the United States and the 40 combined Caribbean jurisdictions which
+comprise the Western Central Atlantic.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{mgp =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\FunctionTok{matplot}\NormalTok{(yrs, tab\_wc}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{7}\NormalTok{), }
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }
+        \AttributeTok{main =} \StringTok{"Western Atlantic dolphin catches (commercial + recreational)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab\_wc), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{7}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-12-1.pdf}
+
+Separating out the mainland United States catches, here are the
+international and domestic (mainland) catches plotted over time.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab\_int }\OtherTok{\textless{}{-}}\NormalTok{ tab\_wc[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{)]}
+\FunctionTok{head}\NormalTok{(tab\_int)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Western Central Atlantic EEZs United States Caribbean Canadian EEZ
+1950                       1202464                142562.8           NA
+1951                       1299559                168365.6           NA
+1952                       1341943                168463.5           NA
+1953                       1839330                162135.2           NA
+1954                       1901095                168659.3           NA
+1955                       1954511                175830.1           NA
+     high_seas
+1950        NA
+1951        NA
+1952        NA
+1953        NA
+1954        NA
+1955        NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{int\_catch }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{rowSums}\NormalTok{(tab\_int, }\AttributeTok{na.rm =}\NormalTok{ T), }\DecValTok{2}\NormalTok{)}
+\NormalTok{dom\_catch }\OtherTok{\textless{}{-}} \FunctionTok{rowSums}\NormalTok{(tab\_wc[, }\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{)], }\AttributeTok{na.rm =}\NormalTok{ T)}
+
+\FunctionTok{matplot}\NormalTok{(yrs, }\FunctionTok{cbind}\NormalTok{(int\_catch, dom\_catch)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{),}
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }
+        \AttributeTok{main =} \StringTok{"Western Atlantic dolphin catches in international vs domestic waters}\SpecialCharTok{\textbackslash{}n}\StringTok{(FAO areas 21 and 31, commercial + recreational)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"international"}\NormalTok{, }\StringTok{"United States mainland"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# output international catches}
+\FunctionTok{write.csv}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(int\_catch), }\AttributeTok{file =} \StringTok{"data/international\_catches.csv"}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Look at Venezuela catches in
+detail}\label{look-at-venezuela-catches-in-detail}
+
+Note in the plot above a rapid increase in international catches within
+the Western Atlantic. This is driven by a sudden increase in catches
+reported within Sea Around Us within the EEZ. We investigate these
+catches in detail as it seems odd that a relatively small fleet would be
+able to ramp up effort so rapidly. Data can be downloaded on a
+country-specific basis, the catches by taxon in the waters of Venezuela
+are accessed
+\href{https://www.seaaroundus.org/data/\#/eez/862?chart=catch-chart&dimension=taxon&measure=tonnage&limit=10}{here}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())  }\CommentTok{\# clear the workspace}
+
+\CommentTok{\# download the data for waters of Venezuela}
+\NormalTok{ven }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/SAU/SAU EEZ 862 v50{-}1.csv"}\NormalTok{)  }
+
+\CommentTok{\# subset dolphinfish from the data}
+\NormalTok{v }\OtherTok{\textless{}{-}}\NormalTok{ ven[}\FunctionTok{which}\NormalTok{(ven}\SpecialCharTok{$}\NormalTok{common\_name }\SpecialCharTok{==} \StringTok{"Common dolphinfish"}\NormalTok{), ]}
+
+\CommentTok{\#apply(v[1:13], 2, table)}
+
+\CommentTok{\#convert to pounds}
+\NormalTok{v}\SpecialCharTok{$}\NormalTok{pounds }\OtherTok{\textless{}{-}}\NormalTok{ v}\SpecialCharTok{$}\NormalTok{tonnes }\SpecialCharTok{*} \DecValTok{1000} \SpecialCharTok{*} \FloatTok{2.20462}
+
+\CommentTok{\# look at the characteristics of the data}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mex =} \FloatTok{0.5}\NormalTok{)}
+\CommentTok{\#barplot(tapply(v$pounds/10\^{}6, v$area\_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)}
+\CommentTok{\#barplot(tapply(v$pounds/10\^{}6, v$area\_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area type", horiz = T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{year, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing entity"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{fishing\_entity, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing entity"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{fishing\_sector, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing sector"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{catch\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Catch type"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{reporting\_status, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Reporting status"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{gear\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Gear type"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-14-1.pdf}
+
+Note that a large portion of the catch in the database is listed as
+coming from an ``Unknown Fishing Country.'' We extract these catches and
+further investigate the characteristics.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# extract the Unknown Fishing Country catch}
+\NormalTok{v1 }\OtherTok{\textless{}{-}}\NormalTok{ v[}\FunctionTok{which}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{fishing\_entity }\SpecialCharTok{==} \StringTok{"Unknown Fishing Country"}\NormalTok{), ]}
+\FunctionTok{apply}\NormalTok{(v1[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{15}\NormalTok{], }\DecValTok{2}\NormalTok{, table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$area_name
+
+Venezuela 
+       39 
+
+$area_type
+
+eez 
+ 39 
+
+$data_layer
+
+Assigned Tuna RFMO catch 
+                      39 
+
+$uncertainty_score
+< table of extent 0 >
+
+$year
+
+2013 2014 2015 2016 2017 2018 2019 
+   5    5    5    6    7    5    6 
+
+$scientific_name
+
+Coryphaena hippurus 
+                 39 
+
+$common_name
+
+Common dolphinfish 
+                39 
+
+$functional_group
+
+Large pelagics (>=90 cm) 
+                      39 
+
+$commercial_group
+
+Perch-likes 
+         39 
+
+$fishing_entity
+
+Unknown Fishing Country 
+                     39 
+
+$fishing_sector
+
+Industrial 
+        39 
+
+$catch_type
+
+Landings 
+      39 
+
+$reporting_status
+
+Reported 
+      39 
+
+$gear_type
+
+artisanal fishing gear           bottom trawl                gillnet 
+                     1                      5                      7 
+            hand lines               longline          pole and line 
+                     3                      4                      7 
+         pots or traps      unknown by source 
+                     5                      7 
+
+$end_use_type
+
+Direct human consumption 
+                      39 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# look at characteristics}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{), }\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mex =} \FloatTok{0.6}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v1}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v1}\SpecialCharTok{$}\NormalTok{year, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Year"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v1}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v1}\SpecialCharTok{$}\NormalTok{fishing\_entity, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing entity"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v1}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v1}\SpecialCharTok{$}\NormalTok{reporting\_status, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Reporting status"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v1}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v1}\SpecialCharTok{$}\NormalTok{gear\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Gear type"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-15-1.pdf}
+
+Here is another look at the catches within the venezuelan EEZ, separated
+by fishing entity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summarize Venezuela EEZ catches by fishing entity}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds, }\FunctionTok{list}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{year, v}\SpecialCharTok{$}\NormalTok{fishing\_entity), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\FunctionTok{head}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Martinique (France) Suriname Trinidad & Tobago Unknown Fishing Country
+1974            7320.429       NA                NA                      NA
+1976           12814.641       NA                NA                      NA
+1985                  NA       NA                NA                      NA
+1986                  NA       NA                NA                      NA
+1987                  NA       NA                NA                      NA
+1988                  NA       NA                NA                      NA
+     Venezuela
+1974        NA
+1976        NA
+1985  4699.563
+1986  2229.484
+1987  4585.610
+1988 39960.149
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab), tab}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{col =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }\AttributeTok{axes =}\NormalTok{ F, }
+        \AttributeTok{main =} \StringTok{"Total dolphinfish catches in the Venezuelan EEZ"}\NormalTok{)}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1950}\NormalTok{, }\DecValTok{2020}\NormalTok{, }\DecValTok{5}\NormalTok{)); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab), }\AttributeTok{col =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Fishing entity"}\NormalTok{)}
+
+\FunctionTok{text}\NormalTok{(}\DecValTok{2004}\NormalTok{, }\DecValTok{6}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{,}
+     \StringTok{"These Unknown Fishing Country}\SpecialCharTok{\textbackslash{}n}\StringTok{catches appear in the database as an}\SpecialCharTok{\textbackslash{}n}\StringTok{industrial fleet using pole and line gear}\SpecialCharTok{\textbackslash{}n}\StringTok{and are all listed as reported data}\SpecialCharTok{\textbackslash{}n}\StringTok{(\textquotesingle{}Assigned Tuna RFMO catch\textquotesingle{})"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_files/figure-pdf/unnamed-chunk-16-1.pdf}
+
+The very substantial increase in international Western Atlantic dolphin
+catches can be attributed solely to this Unknown Fishing Country catches
+which appear in the database beginning in 2013. The documentation of the
+catch reconstruction can be found in the Sea Around Us documentation
+files (see Mendoza et al.~2015). We spoke to Jeremy Mendoza and other
+experts who were involved in the reconstruction of domestic catches in
+Venezuela, and they noted that the ``Assigned tuna RFMO catch'' actually
+emerge from spatially reshuffled landing reports to ICCAT, according to
+the methods of
+\href{https://www.sciencedirect.com/science/article/abs/pii/S0165783619302346}{Coulter
+et al.~(2020)}. In this work, the Sea Around Us team developed a global
+spatial reallocation of landings of tunas and associated species that
+were reported to ICCAT. In short, this work uses the fraction of
+reported spatially disaggregated data to reallocate all data reported to
+ICCAT. This step is necessary because there are not many countries that
+report spatial data to ICCAT in the region, and this method may lead to
+a significant reallocation of landings from the Caribbean to the
+Venezuelan EEZ, where the local pole and line fishery is significant (J.
+Mendoza, personal communication). Thus, it is likely that landings from
+other EEZs, that were included in the reconstructed catch data layer,
+could have been reassigned to the Venezuelan EEZ.
+
+Because there may be some overlap between the reconstructed data used in
+the national EEZ estimates, and the ICCAT reporting that was reassigned,
+there could potentially be a ``double counting'' of these catch
+estimates in the Sea Around Us database. These Unknown Fishing Country
+catches that lead to a large increase in total estimated catches within
+the Venezuelan EEZ should be treated with caution at this time, until we
+can verify with Sea Around Us database managers that the spatial
+disaggregation method used has not led to an overestimate.
+
+\section{References}\label{references}
+
+Pauly D., Zeller D., Palomares M.L.D. (Editors), 2020. Sea Around Us
+Concepts, Design and Data (seaaroundus.org).
+
+\bookmarksetup{startatroot}
+
+\chapter{NOAA Fisheries landings
+data}\label{noaa-fisheries-landings-data-1}
 
 Here we will explore commercial and recreational landings data accessed
 through the FOSS (Fisheries One Stop Shop) data portal. The advantage of
 this portal is that commercial and recreational data are available
 side-by-side in the same units (pounds landed).
 
-\section{Data access and upload}\label{data-access-and-upload}
+\section{Data access and upload}\label{data-access-and-upload-2}
 
-Data are downloaded download data from NMFS FOSS site:
-{[}https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::{]}.\\
-For the Data Set, we choose both commercial and recreational. For the
-Years, we select all years from 1980 to 2021. For NMFS Region, we select
-the ``NMFS Regions'' button and then select the Gulf, South Atlantic,
-Middle Atlantic and New England from the box. For the Species, we select
-``Dolphinfish'' and ``Dolphinfish**.'' For Report Format, we choose
-TOTALS BY YEAR/REGION. Hitting the ``RUN REPORT'' button then generates
-the data needed for the subsequent analysis, which can be downloaded
-under the ``Actions'' button.
+Data are downloaded from the NOAA Fisheries
+\href{https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::}{FOSS
+site}. For the Data Set, we choose both commercial and recreational. For
+the Years, we select all years from 1980 to the present. For NMFS
+Region, we select the ``NMFS Regions'' button and then select the Gulf,
+South Atlantic, Middle Atlantic and New England from the box. For the
+Species, we select ``Dolphinfish'' and ``Dolphinfish**.'' For Report
+Format, we choose TOTALS BY YEAR/REGION. Hitting the ``RUN REPORT''
+button then generates the data needed for the subsequent analysis, which
+can be downloaded as a .csv file under the ``Actions'' button.
 
 We then read in the data file and clean it for analysis (removing the
 commas from the numbers so that R recognizes the values as numbers). We
@@ -539,19 +2596,19 @@ were converted correctly.
 \FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
 
 \CommentTok{\# read in data file}
-\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"data/foss\_landings\_comrec\_USEEZ.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"data/FOSS\_landings.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{, }\AttributeTok{skip =} \DecValTok{1}\NormalTok{)}
 \FunctionTok{head}\NormalTok{(d)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-  Year     Region.Name     Pounds Dollars   Collection Metric.Tons
-1 2000            Gulf    582,576 689,637   Commercial         264
-2 2000            Gulf  5,641,491         Recreational       2,559
-3 2000     New England      6,545  12,414   Commercial           3
-4 2000  South Atlantic    537,077 821,743   Commercial         244
-5 2000  South Atlantic 16,049,049         Recreational       7,280
-6 2000 Middle Atlantic     36,048  65,004   Commercial          16
+  Year     Region.Name    Pounds Dollars   Collection Metric.Tons
+1 1980            Gulf    94,984  55,676   Commercial          43
+2 1980 Middle Atlantic       400     256   Commercial           0
+3 1980     New England       200      54   Commercial           0
+4 1980  South Atlantic    76,042  45,852   Commercial          34
+5 1981            Gulf    73,075  46,951   Commercial          33
+6 1981            Gulf 1,559,544         Recreational         707
 \end{verbatim}
 
 \begin{Shaded}
@@ -565,13 +2622,13 @@ were converted correctly.
 \end{Shaded}
 
 \begin{verbatim}
-  Year     Region.Name   Pounds Dollars   Collection Metric.Tons
-1 2000            Gulf   582576  689637   Commercial         264
-2 2000            Gulf  5641491      NA Recreational        2559
-3 2000     New England     6545   12414   Commercial           3
-4 2000  South Atlantic   537077  821743   Commercial         244
-5 2000  South Atlantic 16049049      NA Recreational        7280
-6 2000 Middle Atlantic    36048   65004   Commercial          16
+  Year     Region.Name  Pounds Dollars   Collection Metric.Tons
+1 1980            Gulf   94984   55676   Commercial          43
+2 1980 Middle Atlantic     400     256   Commercial           0
+3 1980     New England     200      54   Commercial           0
+4 1980  South Atlantic   76042   45852   Commercial          34
+5 1981            Gulf   73075   46951   Commercial          33
+6 1981            Gulf 1559544      NA Recreational         707
 \end{verbatim}
 
 \section{Summarize the landings}\label{summarize-the-landings}
@@ -580,47 +2637,20 @@ We then summarize the landings (in pounds) by year, sector, and region.
 The result is a new data frame with each row representing a year and
 each column representing the total landings for each region and sector.
 
-\begin{verbatim}
-, , Gulf
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# compile by year for sectors and regions {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{Collection }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Collection, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Recreational"}\NormalTok{, }\StringTok{"Commercial"}\NormalTok{)) }
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Pounds, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Year, d}\SpecialCharTok{$}\NormalTok{Collection, d}\SpecialCharTok{$}\NormalTok{Region.Name), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\NormalTok{tab[}\FunctionTok{is.na}\NormalTok{(tab)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\CommentTok{\#head(tab)}
 
-     Recreational Commercial
-1980            0      94984
-1981      1559544      73075
-1982      4197503     162457
-1983      2162936     190808
-1984      1189573     282976
-1985      2542089     269477
-
-, , Middle Atlantic
-
-     Recreational Commercial
-1980            0        400
-1981            0          0
-1982         2097        200
-1983        45927       1400
-1984            0       1700
-1985       113666       5000
-
-, , New England
-
-     Recreational Commercial
-1980            0        200
-1981            0          0
-1982            0          0
-1983            0        400
-1984            0        400
-1985            0       4800
-
-, , South Atlantic
-
-     Recreational Commercial
-1980            0      76042
-1981      8421898      59037
-1982      7573035     143960
-1983      9134022     127986
-1984      7265430     158901
-1985      6684821     142684
-\end{verbatim}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(tab[, , }\StringTok{"Gulf"}\NormalTok{], tab[, , }\StringTok{"South Atlantic"}\NormalTok{], }
+\NormalTok{                        tab[, , }\StringTok{"Middle Atlantic"}\NormalTok{], tab[, , }\StringTok{"New England"}\NormalTok{]))}
+\FunctionTok{names}\NormalTok{(dat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"rec\_Gulf"}\NormalTok{, }\StringTok{"com\_Gulf"}\NormalTok{, }\StringTok{"rec\_SA"}\NormalTok{, }\StringTok{"com\_SA"}\NormalTok{, }\StringTok{"rec\_MA"}\NormalTok{, }\StringTok{"com\_MA"}\NormalTok{, }\StringTok{"rec\_NE"}\NormalTok{, }\StringTok{"com\_NE"}\NormalTok{)}
+\NormalTok{dat}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
      rec_Gulf com_Gulf   rec_SA  com_SA  rec_MA com_MA  rec_NE com_NE
@@ -651,21 +2681,23 @@ each column representing the total landings for each region and sector.
 2004  2402315   435341  9707678  555973  427145  31916       0  29042
 2005  2537132   207695 10299670  376989  437472  19703       0  19982
 2006  3290474   224668 12805952  433121  887684  27724       0  19645
-2007  3754513   370423 13164377  739862  241212  77553   19542  40141
-2008  3937153   385011 10417536  627506  264017  53013       0  13448
-2009  3860527   497246 13251102 1006948 1538112  49946       0  76449
-2010  1216198   112802  8543542  571983  813738  34578       0  12910
-2011  3023914   312567 10774812  544333 2173136  14322  187289  22816
-2012  3229090   148474  9983276  704483  755558  42421   26892  43955
-2013  5425636   191201  8483569  584102  302421  39214  226988  16657
-2014  3074373   207261 11925345 1042822 2129222  48462  183673  51810
-2015  6286577   155696 14821772  920772 4501793  34858 1198628  31995
-2016  1777348    37733 12357817  828435 2212513  61336   16499  15747
-2017  2064106    68260  9457460  533082 1820541  16179   48607  30969
-2018  1626095    57052 11713866  435290 3104018  20514   97107  12667
-2019  3567170    85077  7967978  563708 1518629  47981      66  16918
-2020  1952241    26653  5653294  260503  679556  14040       0   1880
-2021  2893817    27212  6061024  177263 1051785  25799  123038  11421
+2007  3754513   370397 13164377  740255  241212  79832   19542  44707
+2008  3937153   384954 10417536  627939  264017  57764       0  16328
+2009  3860527   496701 13251102 1007355 1538112  55271       0  92010
+2010  1216198   111790  8543542  572031  813738  35869       0  14939
+2011  3023914   309324 10774812  543811 2173136  15376  187289  26587
+2012  3229090   146256  9983276  704240  755558  44918   26892  46171
+2013  5425636   187966  8483569  583556  302421  41936  226988  18564
+2014  3074373   201943 11925345 1041856 2129222  58868  183673  61505
+2015  6286577   154133 14821772  920454 4501793  36190 1198628  37808
+2016  1777348    37411 12357817  828133 2212513  61336   16499  15747
+2017  2064106    65141  9457460  532973 1820541  16179   48607  30969
+2018  1626095    56188 11713866  435059 3104018  20514   97107  12667
+2019  3567170    83956  7967978  563132 1518629  48224      66  16918
+2020  1952241    26332  5653294  260311  679556  14040       0   1880
+2021  2893817    26570  6061024  178822 1051785  25318  123038  11421
+2022  1664771    15906  6845573  182798  708494  17360  466897   9131
+2023  1427518    13305  6630236  125302  734866  28467  122550   8310
 \end{verbatim}
 
 \section{Plot the summary}\label{plot-the-summary}
@@ -674,62 +2706,171 @@ Now we plot the data, using similar color schemes by region. Because the
 recreational data have high imprecision prior to the 1990s we plot from
 1990 to the last year of data.
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# select years {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat[}\FunctionTok{which}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(dat) }\SpecialCharTok{\textgreater{}} \DecValTok{1990}\NormalTok{), ]}
+
+\CommentTok{\# define colors and plot {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{cols }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"\#0000FF30"}\NormalTok{, }\DecValTok{4}\NormalTok{, }\StringTok{"\#FF000030"}\NormalTok{, }\DecValTok{2}\NormalTok{, }\StringTok{"\#00FF0030"}\NormalTok{, }\DecValTok{3}\NormalTok{, }\StringTok{"\#00000030"}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), }\AttributeTok{mgp =} \FunctionTok{c}\NormalTok{(}\FloatTok{2.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\NormalTok{yrs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(dat))}
+
+\NormalTok{b }\OtherTok{\textless{}{-}} \FunctionTok{barplot}\NormalTok{(}\FunctionTok{t}\NormalTok{(dat)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{names.arg =}\NormalTok{ yrs, }\AttributeTok{col =}\NormalTok{ cols, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{43}\NormalTok{), }
+             \AttributeTok{border =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total landings (millions of pounds)"}\NormalTok{, }
+             \AttributeTok{main =} \StringTok{"Dolphin landings in the U.S. EEZ"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"top"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"New England {-} commercial"}\NormalTok{, }\StringTok{"New England {-} recreational"}\NormalTok{, }
+                \StringTok{"Mid{-}Atlantic {-} commercial"}\NormalTok{, }\StringTok{"Mid{-}Atlantic {-} recreational"}\NormalTok{, }
+                 \StringTok{"South Atlantic {-} commercial"}\NormalTok{, }\StringTok{"South Atlantic {-} recreational"}\NormalTok{,}
+                 \StringTok{"Gulf of Mexico {-} commercial"}\NormalTok{, }\StringTok{"Gulf of Mexico {-} recreational"}\NormalTok{),}
+    \AttributeTok{col =}\NormalTok{ cols[}\DecValTok{8}\SpecialCharTok{:}\DecValTok{1}\NormalTok{], }\AttributeTok{pch =} \DecValTok{15}\NormalTok{, }\AttributeTok{pt.cex =} \FloatTok{1.5}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }\AttributeTok{y.intersp =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.85}\NormalTok{)}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =}\NormalTok{ b, }\AttributeTok{lab =} \FunctionTok{rep}\NormalTok{(}\StringTok{""}\NormalTok{, }\FunctionTok{length}\NormalTok{(b)), }\AttributeTok{pos =} \DecValTok{0}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{FOSS_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
-\bookmarksetup{startatroot}
-
-\chapter{Updated Gulf/Atlantic parsing of
+\section{Updated Gulf/Atlantic parsing of
 data}\label{updated-gulfatlantic-parsing-of-data}
 
 There are some issues with the way that the FOSS system splits out Gulf
 and Atlantic catches by Monroe County, which is on the border between
-the two jurisdictions. We received data from Mike Larkin of SERO which
+the two jurisdictions. We received data from Mike Larkin (SERO) which
 has the correct split out of data for Monroe County between the Gulf and
 Atlantic. We compare the total recreational catch for the Gulf and
 Atlantic between the FOSS data and the updated data. The numbers are
 very close; the average difference from the FOSS data is 2\%.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ml }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"data/RecreationalDolphinLandings\_SAandGOM\_MLarkin.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{, }\AttributeTok{skip =} \DecValTok{6}\NormalTok{)}
+\NormalTok{ml }\OtherTok{\textless{}{-}}\NormalTok{ ml[}\FunctionTok{which}\NormalTok{(ml}\SpecialCharTok{$}\NormalTok{Year }\SpecialCharTok{\textgreater{}} \DecValTok{1990}\NormalTok{), ]}
+
+\CommentTok{\# select same years for FOSS data set }
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat[}\FunctionTok{which}\NormalTok{(yrs }\SpecialCharTok{\textless{}=} \FunctionTok{max}\NormalTok{(ml}\SpecialCharTok{$}\NormalTok{Year)), ]}
+
+\CommentTok{\# check that years match}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(dat) }\SpecialCharTok{==}\NormalTok{ ml}\SpecialCharTok{$}\NormalTok{Year)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
    Mode    TRUE 
 logical      31 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yrs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(dat))}
+
+\CommentTok{\# check that totals match}
+\NormalTok{old }\OtherTok{\textless{}{-}}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{rec\_Gulf }\SpecialCharTok{+}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{rec\_SA }\SpecialCharTok{+}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{rec\_MA }\SpecialCharTok{+}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{rec\_NE}
+\NormalTok{new }\OtherTok{\textless{}{-}}\NormalTok{ ml}\SpecialCharTok{$}\NormalTok{GOM }\SpecialCharTok{+}\NormalTok{ ml}\SpecialCharTok{$}\NormalTok{ATL}
+
+\CommentTok{\# plot totals }
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mgp =} \FunctionTok{c}\NormalTok{(}\FloatTok{2.5}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\FunctionTok{matplot}\NormalTok{(yrs, }\FunctionTok{cbind}\NormalTok{(old, new), }\AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\AttributeTok{type =} \StringTok{"b"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }
+        \AttributeTok{ylab =} \StringTok{"total recreational landings}\SpecialCharTok{\textbackslash{}n}\StringTok{(Gulf + Atlantic, in pounds)"}\NormalTok{,}
+        \AttributeTok{main =} \StringTok{"Comparison of FOSS data with data corrected for Monroe County"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"FOSS data"}\NormalTok{, }\StringTok{"corrected data"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{FOSS_files/figure-pdf/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# average \% difference between FOSS and updated data}
+\FunctionTok{mean}\NormalTok{((old }\SpecialCharTok{{-}}\NormalTok{ new)}\SpecialCharTok{/}\NormalTok{old}\SpecialCharTok{*}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 [1] -2.023886
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# min and max \% difference between FOSS and updated data}
+\FunctionTok{range}\NormalTok{((old }\SpecialCharTok{{-}}\NormalTok{ new)}\SpecialCharTok{/}\NormalTok{old}\SpecialCharTok{*}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 [1] -13.008552   7.587789
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{((old }\SpecialCharTok{{-}}\NormalTok{ new)}\SpecialCharTok{/}\NormalTok{old}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\AttributeTok{main =} \StringTok{"Histogram of percent difference from FOSS data"}\NormalTok{, }\AttributeTok{breaks =} \DecValTok{10}\NormalTok{, }
+     \AttributeTok{xlab =} \StringTok{"(FOSS {-} update) / FOSS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{FOSS_files/figure-pdf/unnamed-chunk-4-2.pdf}
 
-\begin{verbatim}
-     rec_Gulf com_Gulf   rec_SA com_SA  rec_MA com_MA rec_NE com_NE
-2016  1777348    37733 12357817 828435 2212513  61336  16499  15747
-2017  2064106    68260  9457460 533082 1820541  16179  48607  30969
-2018  1626095    57052 11713866 435290 3104018  20514  97107  12667
-2019  3567170    85077  7967978 563708 1518629  47981     66  16918
-2020  1952241    26653  5653294 260503  679556  14040      0   1880
-2021  2893817    27212  6061024 177263 1051785  25799 123038  11421
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# replace FOSS data with update data}
+\NormalTok{datnew }\OtherTok{\textless{}{-}}\NormalTok{ dat}
+\NormalTok{datnew}\SpecialCharTok{$}\NormalTok{rec\_Gulf }\OtherTok{\textless{}{-}}\NormalTok{ ml}\SpecialCharTok{$}\NormalTok{GOM}
+\NormalTok{datnew}\SpecialCharTok{$}\NormalTok{rec\_SA }\OtherTok{\textless{}{-}}\NormalTok{ ml}\SpecialCharTok{$}\NormalTok{ATL }\SpecialCharTok{{-}}\NormalTok{ (datnew}\SpecialCharTok{$}\NormalTok{rec\_MA }\SpecialCharTok{+}\NormalTok{ datnew}\SpecialCharTok{$}\NormalTok{rec\_NE)}
+
+\CommentTok{\# old data set}
+\FunctionTok{tail}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
      rec_Gulf com_Gulf   rec_SA com_SA  rec_MA com_MA rec_NE com_NE
-2016   751499    37733 13766851 828435 2212513  61336  16499  15747
-2017   868489    68260 10777104 533082 1820541  16179  48607  30969
-2018   508570    57052 13603875 435290 3104018  20514  97107  12667
-2019  1304865    85077 10410599 563708 1518629  47981     66  16918
-2020   555695    26653  7916891 260503  679556  14040      0   1880
-2021  1174412    27212  7950716 177263 1051785  25799 123038  11421
+2016  1777348    37411 12357817 828133 2212513  61336  16499  15747
+2017  2064106    65141  9457460 532973 1820541  16179  48607  30969
+2018  1626095    56188 11713866 435059 3104018  20514  97107  12667
+2019  3567170    83956  7967978 563132 1518629  48224     66  16918
+2020  1952241    26332  5653294 260311  679556  14040      0   1880
+2021  2893817    26570  6061024 178822 1051785  25318 123038  11421
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# updated data set}
+\FunctionTok{tail}\NormalTok{(datnew)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     rec_Gulf com_Gulf   rec_SA com_SA  rec_MA com_MA rec_NE com_NE
+2016   751499    37411 13766851 828133 2212513  61336  16499  15747
+2017   868489    65141 10777104 532973 1820541  16179  48607  30969
+2018   508570    56188 13603875 435059 3104018  20514  97107  12667
+2019  1304865    83956 10410599 563132 1518629  48224     66  16918
+2020   555695    26332  7916891 260311  679556  14040      0   1880
+2021  1174412    26570  7950716 178822 1051785  25318 123038  11421
+\end{verbatim}
+
+\section{Plots with updated data}\label{plots-with-updated-data}
 
 We replace the FOSS values for Gulf and South Atlantic recreational
-catches with these new values and replot the full data set.
+catches with these new values and re-plot the full data set. We can also
+plot the landings as a line graph so that the relative magnitudes of
+catch across region and sector are more easily compared.
 
 \includegraphics{FOSS_files/figure-pdf/unnamed-chunk-5-1.pdf}
+
+\includegraphics{FOSS_files/figure-pdf/unnamed-chunk-5-2.pdf}
+
+\bookmarksetup{startatroot}
+
+\chapter{SST}\label{sst}
+
+\bookmarksetup{startatroot}
+
+\chapter{Analysis of ocean temperature
+trends}\label{analysis-of-ocean-temperature-trends}
+
+Coming soon
 
 
 \backmatter
