@@ -529,7 +529,7 @@ MRIP and the units are in pounds whole weight.
 \FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
 
 \CommentTok{\# read in data file}
-\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/mandy.karnauskas/Desktop/mrip\_fes\_rec81\_25wv2\_23June25.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{skip =} \DecValTok{0}\NormalTok{)  }\CommentTok{\# most recent file on SFD server}
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/mrip\_fes\_rec81\_25wv2\_23June25.RData"}\NormalTok{)  }\CommentTok{\# most recent file on SFD server}
 \FunctionTok{head}\NormalTok{(dat)}
 \end{Highlighting}
 \end{Shaded}
@@ -831,7 +831,8 @@ see that the values are almost identical.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{old }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/RecreationalDolphinLandings\_SAandGOM\_MLarkin.csv"}\NormalTok{, }\AttributeTok{skip =} \DecValTok{6}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(old}\SpecialCharTok{$}\NormalTok{Year, old}\SpecialCharTok{$}\NormalTok{ATL, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (pounds)"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{, }\DecValTok{2025}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(old}\SpecialCharTok{$}\NormalTok{Year, old}\SpecialCharTok{$}\NormalTok{ATL, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (pounds)"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{, }
+     \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{, }\DecValTok{2025}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\SpecialCharTok{*}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\FloatTok{3.5}\SpecialCharTok{*}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{7}\NormalTok{))}
 \FunctionTok{lines}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{names}\NormalTok{(tot1)), tot1, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1284,7 +1285,7 @@ Here are the final data for years 1981 to 2024.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#write.csv(fin, file = "data/rec\_dolphin\_4areas.csv", row.names = T)}
+\FunctionTok{write.csv}\NormalTok{(fin, }\AttributeTok{file =} \StringTok{"data/rec\_dolphin\_4areas.csv"}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ T)}
 \end{Highlighting}
 \end{Shaded}
 

@@ -14,7 +14,7 @@ Data are downloaded directly from the Miami server using the files provided to S
 rm(list = ls())
 
 # read in data file
-dat <- read.csv("C:/Users/mandy.karnauskas/Desktop/mrip_fes_rec81_25wv2_23June25.csv", header = T, skip = 0)  # most recent file on SFD server
+load("data/mrip_fes_rec81_25wv2_23June25.RData")  # most recent file on SFD server
 head(dat)
 
 #apply(dat[2:18], 2, table, useNA = "always")
@@ -69,7 +69,8 @@ tot1 <- tapply(d1$LBSEST_SECWWT, d1$YEAR, sum, na.rm = T)
 head(tot1)
 
 old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
-plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total catch (pounds)", lwd = 4, xlim = c(1980, 2025))
+plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total catch (pounds)", lwd = 4, 
+     xlim = c(1980, 2025), ylim = c(5*10^6, 3.5*10^7))
 lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2)
 
 ```
@@ -151,5 +152,5 @@ Here are the final data for years 1981 to 2024.
 
 fin
 
-#write.csv(fin, file = "data/rec_dolphin_4areas.csv", row.names = T)
+write.csv(fin, file = "data/rec_dolphin_4areas.csv", row.names = T)
 ```
