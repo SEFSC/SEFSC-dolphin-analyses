@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/index.html</loc>
-    <lastmod>2025-07-03T19:08:07.983Z</lastmod>
+    <lastmod>2025-08-25T18:33:37.811Z</lastmod>
   </url>
   <url>
-    <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/FOSS.html</loc>
-    <lastmod>2025-07-03T19:08:07.744Z</lastmod>
+    <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/MRIP.html</loc>
+    <lastmod>2025-08-25T18:33:37.574Z</lastmod>
   </url>
   <url>
     <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/SAU.html</loc>
-    <lastmod>2025-07-03T19:08:07.744Z</lastmod>
+    <lastmod>2025-08-25T18:33:37.574Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/FOSS.html</loc>
+    <lastmod>2025-08-25T18:33:37.572Z</lastmod>
   </url>
   <url>
     <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/SST.html</loc>
-    <lastmod>2025-07-03T19:08:07.744Z</lastmod>
+    <lastmod>2025-08-25T18:33:37.575Z</lastmod>
   </url>
   <url>
     <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/NOAA-quarto-book.pdf</loc>
-    <lastmod>2025-07-03T19:13:41.252Z</lastmod>
+    <lastmod>2025-08-25T18:39:52.154Z</lastmod>
   </url>
   <url>
     <loc>https://nmfs-opensci.github.io/NOAA-quarto-book/NOAA-quarto-book.docx</loc>
-    <lastmod>2025-07-03T19:13:42.780Z</lastmod>
+    <lastmod>2025-08-25T18:39:53.743Z</lastmod>
   </url>
 </urlset>

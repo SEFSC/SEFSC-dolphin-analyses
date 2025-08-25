@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; NOAA Fisheries recreational landings data – NOAA quarto book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./SAU.html" rel="next">
+<link href="./index.html" rel="prev">
+<link href="./assets/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f910d51fe1799c9b48b90bbe5a6aa8cf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./MRIP.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="https://raw.githubusercontent.com/nmfs-opensci/assets/main/logo/nmfs-opensci-logo3.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">NOAA quarto book</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://nmfs-opensci.github.io" title="NMFS Open Science" class="quarto-navigation-tool px-1" aria-label="NMFS Open Science"><i class="bi bi-globe"></i></a>
+    <a href="https://github.com/nmfs-opensci/NOAA-quarto-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./NOAA-quarto-book.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./NOAA-quarto-book.docx">
+              <i class="bi bi-file-word pe-1"></i>
+            Download Docx
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./MRIP.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SAU.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us database</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./FOSS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./SST.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">SST</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">2.1</span> Data access and upload</a></li>
+  <li><a href="#separate-gulf-and-atlantic-recreational-landings" id="toc-separate-gulf-and-atlantic-recreational-landings" class="nav-link" data-scroll-target="#separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">2.2</span> Separate Gulf and Atlantic recreational landings</a></li>
+  <li><a href="#partition-catches-by-area-and-sector" id="toc-partition-catches-by-area-and-sector" class="nav-link" data-scroll-target="#partition-catches-by-area-and-sector"><span class="header-section-number">2.3</span> Partition catches by area and sector</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/edit/main/MRIP.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/blob/main/MRIP.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total landings.</p>
+<section id="data-access-and-upload" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">2.1</span> Data access and upload</h2>
+<p>Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Aug19_MRIP_FES/. The landings are in FES MRIP and the units are in pounds whole weight.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read in data file</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/mrip_fes_rec81_25wv2_23June25.RData"</span>)  <span class="co"># most recent file on SFD server</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  REC_ACL_MRIP_FES_ID YEAR MONTH WAVE SUB_REG NEW_ST NEW_STA NEW_MODE NEW_MODEN
+1            73407425 1989    NA    4       6      9      NC        4      Priv
+2            73407426 1989    NA    4       6      9      NC        4      Priv
+3            73407427 1989    NA    4       6      9      NC        4      Priv
+4            73407428 1989    NA    4       6      9      NC        4      Priv
+5            73407429 1989    NA    4       6      9      NC        4      Priv
+6            73407430 1989    NA    4       6      9      NC        4      Priv
+  AREA_X NEW_AREA  NEW_AREAN FL_REG NC_REG   DS               NEW_SCI
+1      5        5    Inshore     NA      S MRIP Centropristis striata
+2      5        5    Inshore     NA      N MRIP Centropristis striata
+3      2        2  Ocean&gt;3mi     NA      N MRIP Centropristis striata
+4      2        2  Ocean&gt;3mi     NA      S MRIP Centropristis striata
+5      1        1 Ocean&lt;=3mi     NA      N MRIP Centropristis striata
+6      1        1 Ocean&lt;=3mi     NA      S MRIP Centropristis striata
+         NEW_COM    SP_CODE SPECIES_ITIS SPECIES        AB1          B2
+1 black sea bass 8835020301       167687         34181.4033 121019.1368
+2 black sea bass 8835020301       167687           795.8612   4445.0527
+3 black sea bass 8835020301       167687           549.5390   2919.4840
+4 black sea bass 8835020301       167687         71823.2390  24548.2535
+5 black sea bass 8835020301       167687           415.7642     87.5928
+6 black sea bass 8835020301       167687         48728.5632  11859.6428
+           A         B1 LBSEST_SECWWT LBSEST_SECSOURCE SAMPLE_SIZE_USED
+1 31761.4755  2419.9278    11457.8425          srysmwa               41
+2   584.4155   211.4457      266.7782          srysmwa               41
+3   549.5390     0.0000      484.4319          srysmwa              119
+4 33343.1844 38480.0546    63313.9276          srysmwa              119
+5   415.7642     0.0000      294.0623          srysmwa               71
+6 40585.0152  8143.5480    34464.8156          srysmwa               71
+   AVG_LEN   AVG_WGT SRYSMWA_AVG_LEN SRYSMWA_AVG_WGT SRYSMWA_SAMPLE_SIZE
+1 203.4572 0.3352069        203.4572       0.3352069                  41
+2 203.4572 0.3352069        203.4572       0.3352069                  41
+3 296.2590 0.8815243        296.2590       0.8815243                 119
+4 296.2590 0.8815243        296.2590       0.8815243                 119
+5 261.9949 0.7072816        261.9949       0.7072816                  71
+6 261.9949 0.7072816        261.9949       0.7072816                  71
+  SRYSMWA_FLAGGED SRYSMW_AVG_LEN SRYSMW_AVG_WGT SRYSMW_SAMPLE_SIZE
+1              NA       269.2563      0.7310037                231
+2              NA       269.2563      0.7310037                231
+3              NA       269.2563      0.7310037                231
+4              NA       269.2563      0.7310037                231
+5              NA       269.2563      0.7310037                231
+6              NA       269.2563      0.7310037                231
+  SRYSMW_FLAGGED SRYSM_AVG_LEN SRYSM_AVG_WGT SRYSM_SAMPLE_SIZE SRYSM_FLAGGED
+1             NA      259.7694     0.6948228               556            NA
+2             NA      259.7694     0.6948228               556            NA
+3             NA      259.7694     0.6948228               556            NA
+4             NA      259.7694     0.6948228               556            NA
+5             NA      259.7694     0.6948228               556            NA
+6             NA      259.7694     0.6948228               556            NA
+  SRYS_AVG_LEN SRYS_AVG_WGT SRYS_SAMPLE_SIZE SRYS_FLAGGED SRY_AVG_LEN
+1      270.955    0.8099641              982           NA    269.1276
+2      270.955    0.8099641              982           NA    269.1276
+3      270.955    0.8099641              982           NA    269.1276
+4      270.955    0.8099641              982           NA    269.1276
+5      270.955    0.8099641              982           NA    269.1276
+6      270.955    0.8099641              982           NA    269.1276
+  SRY_AVG_WGT SRY_SAMPLE_SIZE SRY_FLAGGED SR_AVG_LEN SR_AVG_WGT SR_SAMPLE_SIZE
+1   0.8085211            1703          NA   303.6871   1.050403          46055
+2   0.8085211            1703          NA   303.6871   1.050403          46055
+3   0.8085211            1703          NA   303.6871   1.050403          46055
+4   0.8085211            1703          NA   303.6871   1.050403          46055
+5   0.8085211            1703          NA   303.6871   1.050403          46055
+6   0.8085211            1703          NA   303.6871   1.050403          46055
+  SR_FLAGGED S_AVG_LEN S_AVG_WGT S_SAMPLE_SIZE S_FLAGGED     VAR_B2   VAR_AB1
+1         NA  344.4373  1.364082        305089        NA 4072492794 310099094
+2         NA  344.4373  1.364082        305089        NA    2866289    258947
+3         NA  344.4373  1.364082        305089        NA          0         0
+4         NA  344.4373  1.364082        305089        NA  105731413 534702898
+5         NA  344.4373  1.364082        305089        NA          0         0
+6         NA  344.4373  1.364082        305089        NA   22265768 286196169
+         SA_LABEL GOM_LABEL REC_ACL MIGRA_GRP AGG_MODEN JURISDICTION PS_REG
+1 Snapper Grouper                 1             Private        State      6
+2 Snapper Grouper                 1             Private        State      5
+3 Snapper Grouper                 1             Private      Federal      5
+4 Snapper Grouper                 1             Private      Federal      6
+5 Snapper Grouper                 1             Private        State      5
+6 Snapper Grouper                 1             Private        State      6
+  COUNCILREG GFMC_FMP SAFMC_FMU LBSEST_SECGWT AGGR_AREA AREA FIRST_MONTH
+1          6                  Y     9710.0360             NA          NA
+2          5                  Y      226.0832             NA          NA
+3          5                  Y      410.5355             NA          NA
+4          6                  Y    53655.8708             NA          NA
+5          5                  Y      249.2054             NA          NA
+6          6                  Y    29207.4709             NA          NA
+  LAST_MONTH ALT_FLAG CHTS_CL CHTS_H CHTS_RL CHTS_WAB1C CHTS_WAB1H MODE_FX
+1         NA        0       0      0       0          0          0       7
+2         NA        0       0      0       0          0          0       7
+3         NA        0       0      0       0          0          0       7
+4         NA        0       0      0       0          0          0       7
+5         NA        0       0      0       0          0          0       7
+6         NA        0       0      0       0          0          0       7
+  NEW_SEASN SEASON
+1               NA
+2               NA
+3               NA
+4               NA
+5               NA
+6               NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#apply(dat[2:18], 2, table, useNA = "always")</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># confirm nomenclature for dolphin and subset by species --------------------------</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>NEW_COM[<span class="fu">grep</span>(<span class="st">"dolphin"</span>, dat<span class="sc">$</span>NEW_COM)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+dolphin 
+   9377 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>NEW_SCI[<span class="fu">grep</span>(<span class="st">"dolphin"</span>, dat<span class="sc">$</span>NEW_COM)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Coryphaena hippurus 
+               9377 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat[<span class="fu">which</span>(dat<span class="sc">$</span>NEW_COM <span class="sc">==</span> <span class="st">"dolphin"</span>), ]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#apply(d[2:18], 2, table, useNA = "always")</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d[<span class="fu">which</span>(d<span class="sc">$</span>YEAR <span class="sc">&lt;</span> <span class="dv">2025</span>), ]    <span class="co"># take out 2025 because incomplete year      </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="separate-gulf-and-atlantic-recreational-landings" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">2.2</span> Separate Gulf and Atlantic recreational landings</h2>
+<p>Now we filter the data set to separate out the Gulf versus Atlantic landings.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># codes: FL regions 1 (NW FL Panhandle- Escambia to Dixie co.) and 2 (SW FL Peninsula- Levy to Collier co), but retained FL region 3 (FL Keys- Monroe co.)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d<span class="sc">$</span>FL_REG, <span class="at">useNA =</span> <span class="st">"always"</span>)   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2    3    4    5 &lt;NA&gt; 
+ 387  110  568 1022  312 6943 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subregional codes: 6 is Atlantic and 7 is Gulf</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d<span class="sc">$</span>FL_REG, d<span class="sc">$</span>SUB_REG, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      
+          4    5    6    7 &lt;NA&gt;
+  1       0    0    0  387    0
+  2       0    0    0  110    0
+  3       0    0    0  568    0
+  4       0    0 1022    0    0
+  5       0    0  312    0    0
+  &lt;NA&gt;   96  585 3836 2426    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(d<span class="sc">$</span>NEW_STA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "NC"     "FLE"    "FLW"    "SC"     "GA"     "MS"     "AL"     "LA"    
+ [9] "TX"     "FLE/GA" "RI"     "VA"     "DE"     "MD"     "NJ"     "CT"    
+[17] "MA"     "NY"     "LA/MS"  "AL/FLW"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"TX"</span>, <span class="st">"LA"</span>, <span class="st">"LA/MS"</span>, <span class="st">"MS"</span>, <span class="st">"AL"</span>, <span class="st">"AL/FLW"</span>)  <span class="co"># filter out the Gulf states</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> d[<span class="sc">-</span><span class="fu">which</span>(d<span class="sc">$</span>NEW_STA <span class="sc">%in%</span> lis), ]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(d1<span class="sc">$</span>NEW_STA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "NC"     "FLE"    "FLW"    "SC"     "GA"     "FLE/GA" "RI"     "VA"    
+ [9] "DE"     "MD"     "NJ"     "CT"     "MA"     "NY"    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>FL_REG, d1<span class="sc">$</span>NEW_STA, <span class="at">useNA =</span> <span class="st">"always"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  1       0    0    0      0  387    0    0    0    0    0    0    0    0    0
+  2       0    0    0      0  110    0    0    0    0    0    0    0    0    0
+  3       0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4       0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5       0    0  312      0    0    0    0    0    0    0    0    0    0    0
+  &lt;NA&gt;   14  114    0   1794  174   54   20  125 1344  108   73   62  644  165
+      
+       &lt;NA&gt;
+  1       0
+  2       0
+  3       0
+  4       0
+  5       0
+  &lt;NA&gt;    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7090   83</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> d1[<span class="sc">-</span><span class="fu">which</span>(d1<span class="sc">$</span>FL_REG <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> d1<span class="sc">$</span>FL_REG <span class="sc">==</span> <span class="dv">2</span>), ]   <span class="co"># filter out FL regions 1 and 2 but retain 3 (FL Keys)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6593   83</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> d1[<span class="sc">-</span><span class="fu">which</span>(<span class="fu">is.na</span>(d1<span class="sc">$</span>FL_REG) <span class="sc">&amp;</span> d1<span class="sc">$</span>NEW_STA <span class="sc">==</span> <span class="st">"FLW"</span>), ]  <span class="co"># filter out FLW with unknown FL region</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(d1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6419   83</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>FL_REG, d1<span class="sc">$</span>NEW_STA, <span class="at">useNA =</span> <span class="st">"always"</span>)  <span class="co"># retained are all Atlantic states plus region 3 of Florida</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3       0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4       0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5       0    0  312      0    0    0    0    0    0    0    0    0    0    0
+  &lt;NA&gt;   14  114    0   1794    0   54   20  125 1344  108   73   62  644  165
+      
+       &lt;NA&gt;
+  3       0
+  4       0
+  5       0
+  &lt;NA&gt;    0</code></pre>
+</div>
+</div>
+<p>Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize by year and compare --------------------------</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>tot1 <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, d1<span class="sc">$</span>YEAR, sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tot1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    1981     1982     1983     1984     1985     1986 
+ 9952644 10701659 11325575  8303073 10236339  9047438 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv"</span>, <span class="at">skip =</span> <span class="dv">6</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(old<span class="sc">$</span>Year, old<span class="sc">$</span>ATL, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (pounds)"</span>, <span class="at">lwd =</span> <span class="dv">4</span>, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">2025</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fl">3.5</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">as.numeric</span>(<span class="fu">names</span>(tot1)), tot1, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MRIP_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="partition-catches-by-area-and-sector" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="partition-catches-by-area-and-sector"><span class="header-section-number">2.3</span> Partition catches by area and sector</h2>
+<p>Now we will partition out the total catches according to the dolphin MSE areas. The areas are as follows:</p>
+<ul>
+<li>FLK: Florida Keys to Indian River County County (FL)</li>
+<li>NCFL: Brevard (FL) to Southern NC (South of Hatteras)</li>
+<li>NNC: Northern NC (North of Hatteras to NC/VA border)</li>
+<li>VBM: Virginia to Maine</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># separate out 4 regions --------------------------</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>region <span class="ot">&lt;-</span> <span class="st">"VBM"</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># select for FLK</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># FL_REG codes: 4: SE FL- Miami-Dade to Indian River County.; 5: NE FL- Brevard to Nassau County</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>FL_REG, d1<span class="sc">$</span>NEW_STA, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3       0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4       0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5       0    0  312      0    0    0    0    0    0    0    0    0    0    0
+  &lt;NA&gt;   14  114    0   1794    0   54   20  125 1344  108   73   62  644  165
+      
+       &lt;NA&gt;
+  3       0
+  4       0
+  5       0
+  &lt;NA&gt;    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>region[<span class="fu">which</span>(d1<span class="sc">$</span>FL_REG <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> d1<span class="sc">$</span>FL_REG <span class="sc">==</span> <span class="dv">4</span>)] <span class="ot">&lt;-</span> <span class="st">"FLK"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># select for NCFL</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>region[<span class="fu">which</span>(d1<span class="sc">$</span>FL_REG <span class="sc">==</span> <span class="dv">5</span>)] <span class="ot">&lt;-</span> <span class="st">"NCFL"</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"SC"</span>, <span class="st">"GA"</span>, <span class="st">"FLE/GA"</span>)           <span class="co"># NCFL states</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>region[<span class="fu">which</span>(d1<span class="sc">$</span>NEW_STA <span class="sc">%in%</span> lis)] <span class="ot">&lt;-</span> <span class="st">"NCFL"</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># NC_REG codes: N: North of Cape Hatteras; S: South of Cape Hatteras</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>NC_REG, d1<span class="sc">$</span>NEW_STA, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      
+         CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+         14  114 1334   1794  568   54   20  125  586  108   73   62  644  165
+  N       0    0    0      0    0    0    0    0  420    0    0    0    0    0
+  S       0    0    0      0    0    0    0    0  338    0    0    0    0    0
+  &lt;NA&gt;    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+      
+       &lt;NA&gt;
+          0
+  N       0
+  S       0
+  &lt;NA&gt;    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>region[<span class="fu">which</span>(d1<span class="sc">$</span>NC <span class="sc">==</span> <span class="st">"S"</span>)] <span class="ot">&lt;-</span> <span class="st">"NCFL"</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># select for NNC</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>region[<span class="fu">which</span>(d1<span class="sc">$</span>NC <span class="sc">==</span> <span class="st">"N"</span>)] <span class="ot">&lt;-</span> <span class="st">"NNC"</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>FL_REG, d1<span class="sc">$</span>NEW_STA, d1<span class="sc">$</span>region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, ,  = FLK
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0  568    0    0    0    0    0    0    0    0    0
+  4    0    0 1022      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = NCFL
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  4    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0  312      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = NNC
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  4    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = VBM
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+  3    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  4    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  5    0    0    0      0    0    0    0    0    0    0    0    0    0    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>NC_REG, d1<span class="sc">$</span>NEW_STA, d1<span class="sc">$</span>region)  <span class="co"># check classification</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, ,  = FLK
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+       0    0 1022      0  568    0    0    0    0    0    0    0    0    0
+  N    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = NCFL
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+       0    0  312   1794    0   54    0    0    0    0    0    0  644    0
+  N    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0  338    0    0    0    0    0
+
+, ,  = NNC
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+       0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  N    0    0    0      0    0    0    0    0  420    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+
+, ,  = VBM
+
+   
+      CT   DE  FLE FLE/GA  FLW   GA   MA   MD   NC   NJ   NY   RI   SC   VA
+      14  114    0      0    0    0   20  125  586  108   73   62    0  165
+  N    0    0    0      0    0    0    0    0    0    0    0    0    0    0
+  S    0    0    0      0    0    0    0    0    0    0    0    0    0    0</code></pre>
+</div>
+</div>
+<p>Now we will separate out the catches by recreational sector and plot the totals by region and sector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># separate out by for hire vs. private rec --------------------------</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector <span class="ot">&lt;-</span> <span class="st">"ForHire"</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector[<span class="fu">which</span>(d1<span class="sc">$</span>NEW_MODEN <span class="sc">==</span> <span class="st">"Shore"</span>)] <span class="ot">&lt;-</span> <span class="st">"Rec"</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector[<span class="fu">which</span>(d1<span class="sc">$</span>NEW_MODEN <span class="sc">==</span> <span class="st">"Priv"</span>)]  <span class="ot">&lt;-</span> <span class="st">"Rec"</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>sector, d1<span class="sc">$</span>NEW_MODEN, <span class="at">useNA =</span> <span class="st">"always"</span>)    <span class="co"># check classification</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         
+           Cbt Cbt/Hbt  Hbt Priv Shore &lt;NA&gt;
+  ForHire 1616     119 2912    0     0    0
+  Rec        0       0    0 1750    22    0
+  &lt;NA&gt;       0       0    0    0     0    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>YEAR, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, , ForHire
+
+           FLK      NCFL       NNC       VBM
+1981  354639.5  74702.50 256755.24  1400.247
+1982  347458.2  92271.42  27578.44  2749.224
+1983 1020005.8  41784.04  88690.53  5379.177
+1984 1021086.8  74658.81        NA  4203.048
+1985  717523.0 172989.65  58514.13  8880.857
+1986 1562354.0  63555.89 817192.26 61658.193
+
+, , Rec
+
+          FLK      NCFL       NNC        VBM
+1981  8942641  322505.7        NA         NA
+1982  8422673 1711834.7 78367.161  18727.290
+1983 10000662  119370.4 44226.032   5456.237
+1984  6717044  486079.7        NA      0.000
+1985  7925301 1162708.4 77477.096 112944.274
+1986  5699311  736872.0  2549.586 103945.134</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fin <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(tot[, , <span class="dv">1</span>], tot[, , <span class="dv">2</span>]))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fin) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>fin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Hire_FLK  Hire_NCFL   Hire_NNC   Hire_VBM  Rec_FLK  Rec_NCFL     Rec_NNC
+1981  354639.5   74702.50  256755.24   1400.247  8942641  322505.7          NA
+1982  347458.2   92271.42   27578.44   2749.224  8422673 1711834.7   78367.161
+1983 1020005.8   41784.04   88690.53   5379.177 10000662  119370.4   44226.032
+1984 1021086.8   74658.81         NA   4203.048  6717044  486079.7          NA
+1985  717523.0  172989.65   58514.13   8880.857  7925301 1162708.4   77477.096
+1986 1562354.0   63555.89  817192.26  61658.193  5699311  736872.0    2549.586
+1987 1774558.7   61243.58  848994.25  24967.877  6913585  161627.1   79540.365
+1988  826480.6   62392.87 1114627.05  94676.212  6655923  321023.1  202768.950
+1989 3398703.5  405140.01 1970776.23 451477.768 17965047 1079951.5  339371.567
+1990  868572.6  277783.17 1749965.55  31079.442 19900865  312333.3  118539.960
+1991 4268773.7  225552.64 1706751.50 159172.855 23093044  457667.1  277389.646
+1992 2548407.4  189514.34 1619685.06 161149.703 15788853  245395.8   89160.860
+1993 1343093.6  391254.33 1555850.09 741955.369  9967356  742741.8  296399.199
+1994 1131831.7  437642.72 1713981.98 573551.716  9532763 1708942.1  264907.193
+1995 2848691.7  667475.30 1673435.48 145798.587 15558489 1550136.0  271442.073
+1996 2892436.3  309604.42  923128.81 141976.431 10574454 1121937.8  196579.537
+1997 3271271.6  466891.67 2129471.46 110115.485 22423256 1316502.7  660257.843
+1998 1532460.0  252620.73 1921834.08 779364.855 12578694  619824.1  412304.292
+1999 1238462.0  457880.10 2014752.29 288625.130 13745135 1548217.4 1314805.374
+2000 1471481.3  369553.33 3139555.98   3016.589 13379647 2784424.2  826980.337
+2001 2361751.6 1090421.00 1638707.54  34335.241 11690170 3614370.3 1760721.144
+2002 1828918.7 1993778.99 3005172.92 168406.810  8105262 2483946.6  871930.660
+2003 1342339.1  958997.12  928894.01  55690.419 10294918 1860435.4  868200.254
+2004 1509660.5  771820.65 1116373.11 155510.796  6281794 1354303.7  593257.716
+2005  858090.6  734896.20 3153480.89  38020.553  4681210 1898945.9  904360.210
+2006  700089.5  483337.12 2656240.22 136715.477  8540432 1751853.5  749541.413
+2007  718651.9  506776.30 2518430.49  84908.300  8200488 2383417.1 1483630.590
+2008  736213.2 1235299.71 1620865.87 113592.877  8100550 1648662.2  223565.185
+2009 1016583.6  458562.82  928419.86 106262.915  6809447 3805127.7 2359177.817
+2010  552080.9  534671.06 1384434.93 120050.410  3579591 3139199.6 1110479.730
+2011  768597.7  275546.65 1577019.96  17844.729  6097050 1651096.4 2063315.642
+2012  856261.4  615430.34 1236410.76  21887.318  5916144 2867599.1 1082607.063
+2013  614150.1  394570.11  640465.60  16064.763 10124799 2064256.6  540676.961
+2014  897508.4  210198.76  916695.96  56760.758  9940020 1272477.3 1289704.416
+2015 1729825.9  196326.97 1374908.91 277867.986 12093928 1548428.5 3505194.743
+2016  841662.5  454053.51 1236565.76 195837.854  5002273 4372622.6 1704661.669
+2017 1227827.8  161188.31  835080.86  31185.061  5464893 2297930.0  801324.151
+2018  401703.0  105328.49 1465087.58  72211.785  7935729 2606091.5 1347724.203
+2019 1261827.1  250624.40  998102.45  93718.699  4064867 2132483.1 1687239.863
+2020  910431.4  225493.79  667501.79  51621.152  2906913 2052222.0 1089245.171
+2021 1244842.2  146893.15  871760.94 100997.979  3652596 1428508.3  596672.480
+2022  627020.6   90504.71  427953.34  18514.133  3828113 2701619.8  211394.537
+2023  274532.5  118528.80 1281254.55  72728.020  3045801 2639445.1  175189.224
+2024  629327.2   85572.19  506558.07  18752.239  3404227 1358519.1  106307.278
+         Rec_VBM
+1981          NA
+1982   18727.290
+1983    5456.237
+1984       0.000
+1985  112944.274
+1986  103945.134
+1987   52139.772
+1988   33566.163
+1989  996945.390
+1990  509424.981
+1991  464786.733
+1992  509297.261
+1993  871948.601
+1994  594467.414
+1995  609302.619
+1996  486106.187
+1997  197871.963
+1998  606769.298
+1999  523623.688
+2000 1608478.920
+2001  372623.273
+2002 1732356.036
+2003  904780.558
+2004  186538.567
+2005  489236.451
+2006 1214497.040
+2007  236769.123
+2008   96818.461
+2009 1607919.004
+2010  717410.858
+2011 2626410.052
+2012 1041694.282
+2013  364492.286
+2014 2040329.550
+2015 4645796.249
+2016 2186126.672
+2017 1826822.849
+2018 2871124.410
+2019 1440420.940
+2020  689099.471
+2021 1083268.811
+2022 1206278.324
+2023  872490.886
+2024 1346606.842</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">rownames</span>(fin), fin, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (pounds)"</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(fin), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MRIP_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check that totals match</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">rowSums</span>(fin, <span class="at">na.rm =</span> T), tot1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">rowSums</span>(fin, <span class="at">na.rm =</span> T) <span class="sc">-</span> tot1)   <span class="co"># very tiny differences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.233284e-11</code></pre>
+</div>
+</div>
+<p>Here are the final data for years 1981 to 2024.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Hire_FLK  Hire_NCFL   Hire_NNC   Hire_VBM  Rec_FLK  Rec_NCFL     Rec_NNC
+1981  354639.5   74702.50  256755.24   1400.247  8942641  322505.7          NA
+1982  347458.2   92271.42   27578.44   2749.224  8422673 1711834.7   78367.161
+1983 1020005.8   41784.04   88690.53   5379.177 10000662  119370.4   44226.032
+1984 1021086.8   74658.81         NA   4203.048  6717044  486079.7          NA
+1985  717523.0  172989.65   58514.13   8880.857  7925301 1162708.4   77477.096
+1986 1562354.0   63555.89  817192.26  61658.193  5699311  736872.0    2549.586
+1987 1774558.7   61243.58  848994.25  24967.877  6913585  161627.1   79540.365
+1988  826480.6   62392.87 1114627.05  94676.212  6655923  321023.1  202768.950
+1989 3398703.5  405140.01 1970776.23 451477.768 17965047 1079951.5  339371.567
+1990  868572.6  277783.17 1749965.55  31079.442 19900865  312333.3  118539.960
+1991 4268773.7  225552.64 1706751.50 159172.855 23093044  457667.1  277389.646
+1992 2548407.4  189514.34 1619685.06 161149.703 15788853  245395.8   89160.860
+1993 1343093.6  391254.33 1555850.09 741955.369  9967356  742741.8  296399.199
+1994 1131831.7  437642.72 1713981.98 573551.716  9532763 1708942.1  264907.193
+1995 2848691.7  667475.30 1673435.48 145798.587 15558489 1550136.0  271442.073
+1996 2892436.3  309604.42  923128.81 141976.431 10574454 1121937.8  196579.537
+1997 3271271.6  466891.67 2129471.46 110115.485 22423256 1316502.7  660257.843
+1998 1532460.0  252620.73 1921834.08 779364.855 12578694  619824.1  412304.292
+1999 1238462.0  457880.10 2014752.29 288625.130 13745135 1548217.4 1314805.374
+2000 1471481.3  369553.33 3139555.98   3016.589 13379647 2784424.2  826980.337
+2001 2361751.6 1090421.00 1638707.54  34335.241 11690170 3614370.3 1760721.144
+2002 1828918.7 1993778.99 3005172.92 168406.810  8105262 2483946.6  871930.660
+2003 1342339.1  958997.12  928894.01  55690.419 10294918 1860435.4  868200.254
+2004 1509660.5  771820.65 1116373.11 155510.796  6281794 1354303.7  593257.716
+2005  858090.6  734896.20 3153480.89  38020.553  4681210 1898945.9  904360.210
+2006  700089.5  483337.12 2656240.22 136715.477  8540432 1751853.5  749541.413
+2007  718651.9  506776.30 2518430.49  84908.300  8200488 2383417.1 1483630.590
+2008  736213.2 1235299.71 1620865.87 113592.877  8100550 1648662.2  223565.185
+2009 1016583.6  458562.82  928419.86 106262.915  6809447 3805127.7 2359177.817
+2010  552080.9  534671.06 1384434.93 120050.410  3579591 3139199.6 1110479.730
+2011  768597.7  275546.65 1577019.96  17844.729  6097050 1651096.4 2063315.642
+2012  856261.4  615430.34 1236410.76  21887.318  5916144 2867599.1 1082607.063
+2013  614150.1  394570.11  640465.60  16064.763 10124799 2064256.6  540676.961
+2014  897508.4  210198.76  916695.96  56760.758  9940020 1272477.3 1289704.416
+2015 1729825.9  196326.97 1374908.91 277867.986 12093928 1548428.5 3505194.743
+2016  841662.5  454053.51 1236565.76 195837.854  5002273 4372622.6 1704661.669
+2017 1227827.8  161188.31  835080.86  31185.061  5464893 2297930.0  801324.151
+2018  401703.0  105328.49 1465087.58  72211.785  7935729 2606091.5 1347724.203
+2019 1261827.1  250624.40  998102.45  93718.699  4064867 2132483.1 1687239.863
+2020  910431.4  225493.79  667501.79  51621.152  2906913 2052222.0 1089245.171
+2021 1244842.2  146893.15  871760.94 100997.979  3652596 1428508.3  596672.480
+2022  627020.6   90504.71  427953.34  18514.133  3828113 2701619.8  211394.537
+2023  274532.5  118528.80 1281254.55  72728.020  3045801 2639445.1  175189.224
+2024  629327.2   85572.19  506558.07  18752.239  3404227 1358519.1  106307.278
+         Rec_VBM
+1981          NA
+1982   18727.290
+1983    5456.237
+1984       0.000
+1985  112944.274
+1986  103945.134
+1987   52139.772
+1988   33566.163
+1989  996945.390
+1990  509424.981
+1991  464786.733
+1992  509297.261
+1993  871948.601
+1994  594467.414
+1995  609302.619
+1996  486106.187
+1997  197871.963
+1998  606769.298
+1999  523623.688
+2000 1608478.920
+2001  372623.273
+2002 1732356.036
+2003  904780.558
+2004  186538.567
+2005  489236.451
+2006 1214497.040
+2007  236769.123
+2008   96818.461
+2009 1607919.004
+2010  717410.858
+2011 2626410.052
+2012 1041694.282
+2013  364492.286
+2014 2040329.550
+2015 4645796.249
+2016 2186126.672
+2017 1826822.849
+2018 2871124.410
+2019 1440420.940
+2020  689099.471
+2021 1083268.811
+2022 1206278.324
+2023  872490.886
+2024 1346606.842</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(fin, <span class="at">file =</span> <span class="st">"data/rec_dolphin_4areas.csv"</span>, <span class="at">row.names =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/nmfs-opensci\.github\.io\/NOAA-quarto-book");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./SAU.html" class="pagination-link" aria-label="Analysis of international landings estimates from Sea Around Us database">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us database</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-1.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/edit/main/MRIP.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/blob/main/MRIP.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
