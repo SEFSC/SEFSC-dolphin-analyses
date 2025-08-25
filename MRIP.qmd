@@ -36,7 +36,7 @@ Now we filter the data set to separate out the Gulf versus Atlantic landings.
 ```{r}
 #| echo: true
 
-# codes: FL regions 1 (NW FL Panhandle- Escambia to Dixie co.) and 2 (SW FL Peninsula- Levy to Collier co), but retained FL region 3 (FL Keys- Monroe co.)
+# codes for WFL regions: 1 (NW FL Panhandle- Escambia to Dixie co.), 2 (SW FL Peninsula- Levy to Collier co), 3 (FL Keys- Monroe co.)
 table(d$FL_REG, useNA = "always")   
 
 # subregional codes: 6 is Atlantic and 7 is Gulf
@@ -70,8 +70,9 @@ head(tot1)
 
 old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
 plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total catch (pounds)", lwd = 4, 
-     xlim = c(1980, 2025), ylim = c(5*10^6, 3.5*10^7))
-lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2)
+     xlim = c(1980, 2025), ylim = c(7*10^6, 3.3*10^7))
+lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2, lty = 2)
+legend("topright", c("previous data", "new data"), col = c(1, 2), lwd = c(4, 2), lty = c(1, 2))
 
 ```
 
@@ -136,7 +137,7 @@ fin
 
 matplot(rownames(fin), fin, lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), type = "l", lwd = 2, 
         xlab = "year", ylab = "total catch (pounds)")
-legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2)
+legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
 # check that totals match
 cor(rowSums(fin, na.rm = T), tot1)
