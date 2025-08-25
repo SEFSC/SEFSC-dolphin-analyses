@@ -1336,7 +1336,7 @@ and Northwest Atlantic zones. These are equivalent to FAO areas 21 and
 \CommentTok{\# clear workspace}
 \FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
 
-\CommentTok{\#install.packages("pals")}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"pals"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"pals"}\NormalTok{)}
 \FunctionTok{library}\NormalTok{(pals)}
 
 \CommentTok{\# find data files}

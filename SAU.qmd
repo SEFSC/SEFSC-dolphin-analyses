@@ -20,7 +20,7 @@ First we read in the high seas landings for the Western Central Atlantic and Nor
 # clear workspace
 rm(list = ls())
 
-#install.packages("pals")
+if(!require("pals")) install.packages("pals")
 library(pals)
 
 # find data files
