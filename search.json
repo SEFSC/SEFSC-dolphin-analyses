@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "NOAA quarto book",
+    "title": "Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic",
     "section": "",
     "text": "1 Introduction\nHere we will be displaying various data summaries and analyses related to dolphin management in the U.S. South Atlantic.",
     "crumbs": [
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#details",
     "href": "index.html#details",
-    "title": "NOAA quarto book",
+    "title": "Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic",
     "section": "1.1 Details",
     "text": "1.1 Details\nThe documentation of this data exploration was developed in R, using R Studio and Quarto.",
     "crumbs": [
