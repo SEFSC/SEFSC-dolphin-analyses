@@ -170,7 +170,7 @@ dis <- tapply(d1$perdis, list(d1$YEAR, d1$region, d1$sector), mean, na.rm = T)
 disr <- tapply(d1$perdis, list(d1$region, d1$sector), mean, na.rm = T)
 
 matplot(rownames(dis), cbind(dis[, , 1], dis[, , 2]), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), 
-        type = "l", lwd = 2, xlab = "year", ylab = "% dolphin discarded", ylim = c(0, 0.5))
+        type = "l", lwd = 2, xlab = "year", ylab = "proportion dolphin discarded", ylim = c(0, 0.5))
 legend("top", c(paste("For hire - ", colnames(dis)), paste("Private - ", colnames(dis))), 
        lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
