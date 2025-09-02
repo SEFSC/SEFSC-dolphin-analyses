@@ -133,7 +133,7 @@ head(tot)
 
 fin <- data.frame(cbind(tot[, , 1], tot[, , 2]))
 names(fin) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
-fin
+head(fin)
 
 matplot(rownames(fin), fin, lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), type = "l", lwd = 2, 
         xlab = "year", ylab = "total catch (pounds)")
@@ -145,13 +145,168 @@ mean(rowSums(fin, na.rm = T) - tot1)   # very tiny differences
 
 ```
 
-Here are the final data for years 1981 to 2024.
+Here are the catches (in pounds) for years 1981 to 2024.
 
 ```{r}
 #| warning: false
 #| echo: true
 
 fin
-
-write.csv(fin, file = "data/rec_dolphin_4areas.csv", row.names = T)
 ```
+
+## Looking at extent of discarding
+
+Discard estimates (known as B2 estimates) are provided in numbers by the MRIP survey but are not available in the Southeast Region Headboat Survey. We can look at the overall numbers of dolphinfish caught versus reported released from the MRIP survey to get an understanding of the extent of discarding.
+
+```{r}
+#| warning: false
+#| echo: true
+
+d1$perdis <- d1$B2 / (d1$AB1 + d1$B2)  # percent discarded is B2 (fish released alive) / total
+
+# calculate mean discard rate by year, region, sector ----------------
+dis <- tapply(d1$perdis, list(d1$YEAR, d1$region, d1$sector), mean, na.rm = T)
+disr <- tapply(d1$perdis, list(d1$region, d1$sector), mean, na.rm = T)
+
+matplot(rownames(dis), cbind(dis[, , 1], dis[, , 2]), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), 
+        type = "l", lwd = 2, xlab = "year", ylab = "% dolphin discarded", ylim = c(0, 0.5))
+legend("top", c(paste("For hire - ", colnames(dis)), paste("Private - ", colnames(dis))), 
+       lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
+
+round(disr * 100, 2)  # discarding rates by region and sector
+
+```
+
+According to the MRIP survey and the reported numbers, discarding generally increases over time, excluding some highly anomalous estimates from the early years which are driven by low sample sizes.  Discarding is generally higher in the private sector compared to the for-hire sector, and is highest in the Florida Keys region.  
+
+## Split the catches by season
+
+The dolphin MSE operates on a seasonal time step and thus the catches and discards must by parsed apart by individual season and year.  This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the catch in that wave occurs in one season and the other half occurs in the next season.
+
+```{r}
+#| warning: false
+#| echo: true
+
+# define seasons -----------------------------
+
+table(d1$WAVE, useNA = "always")
+
+d1$YRWAVE <- paste0(d1$YEAR, "_", d1$WAVE)
+
+totw <- tapply(d1$LBSEST_SECWWT, list(d1$YRWAVE, d1$region, d1$sector), sum, na.rm = T)
+
+f <- data.frame(cbind(totw[, , 1], totw[, , 2]))
+names(f) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
+head(f)
+
+f$YEAR <- as.numeric(substr(rownames(f), 1, 4))
+f$WAVE <- as.numeric(substr(rownames(f), 6, 8))
+f   # table with catches separated by wave and year
+f[is.na(f)] <- 0
+
+f <- f[which(f$YEAR >= 1985), ]
+f <- f[which(f$YEAR <= 2024), ]
+
+table(f$YEAR)
+table(f$WAVE)  
+
+# deal with NAs in many locations ---------------
+# calculate percentages of catch by wave, for each region and fleet
+
+avw <- tapply(d1$LBSEST_SECWWT, list(d1$WAVE, d1$region, d1$sector), sum, na.rm = T)
+avw <- avw[-1, , ]
+avw <- data.frame(cbind(avw[, , 1], avw[, , 2]))
+names(avw) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
+avwp <- apply(avw, 2, function (x) x / sum(x, na.rm = T)) 
+#colSums(avwp)
+
+# go through each column, find NAs and fill in waves by percentages
+
+pre_colsum <- colSums(f, na.rm = T)  # column sums to check later
+
+lis <- which(f$WAVE == 0)  # list of rows with NA wave data
+
+for (i in 1:8) {      # loop through each column
+  for(j in lis) {     # loop through list of NA waves
+    if (f[j, i] > 0) {  # if there are NA wave catches, split by known proportion from other years
+      miscatch <- avwp[, i] * f[j, i]   # missing catch is known proportion * NA wave catch
+      f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] <- f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] + miscatch  # add in missing catch
+      f[j, i] <- 0   # set to zero after catch is attributed to waves
+    }
+  }
+}
+
+f[lis, 1:8] # should be all zeros now
+pos_colsum <- colSums(f, na.rm = T) 
+pre_colsum == pos_colsum  # check that catch was parsed correctly - column sums should be identical 
+
+f <- f[which(f$WAVE != 0), ]  # remove NA waves which now contain no catch
+
+# split waves 3 and 6 50/50% to parse into seasons ------------------
+
+lis <- which(f$WAVE == 3 | f$WAVE == 6)  # list of 3 and 6 waves for all years
+
+for (i in lis) {          # go through list of waves
+  temp <- f[i, ] / 2      # split catch in half
+  temp[9] <- f$YEAR[i]    # reformat year and wave data columns
+  temp[10] <- f$WAVE[i]
+  temp <- rbind(temp, temp)   # create two half-waves and relabel with new wave reference number
+  temp[1, 10] <- temp[1, 10] - 0.5
+  temp[2, 10] <- temp[2, 10] + 0.5
+  f <- rbind(f, temp)         # concatenate with main data table
+  }
+
+f <- f[-lis, ]  # remove waves that have been split in half
+
+pos_colsum <- colSums(f, na.rm = T) 
+pre_colsum == pos_colsum  # check that catch was parsed correctly - column sums should be identical 
+
+f <- f[order(f$YEAR, f$WAVE), ]  # reorder table in chronological order
+
+f$YEAR[which(f$WAVE == 6.5)] <- f$YEAR[which(f$WAVE == 6.5)] + 1  # add year to December wave so it gets summed with following year
+f$WAVE[which(f$WAVE == 6.5)] <- 0.5  # change December wave to small number so it gets summed with Jan/Feb
+
+table(f$WAVE)
+f$seas <- cut(f$WAVE, breaks = c(0, 1.5, 3, 4.5, 6))
+table(f$seas)
+f$seas1 <- NA
+f$seas1[which(f$seas == "(0,1.5]")] <- "DJF"  # DJF is 0.5 and 1
+f$seas1[which(f$seas == "(1.5,3]")] <- "MAM"  # MAM is 2 and 2.5
+f$seas1[which(f$seas == "(3,4.5]")] <- "JJA"  # JJA is 3.5 and 4
+f$seas1[which(f$seas == "(4.5,6]")] <- "SON"  # SON is 5 and 5.5
+
+temp <- tapply(f[, 1], list(f$seas1, f$YEAR), sum, na.rm = T)
+temp1 <- matrix(temp)
+
+for (i in 2:8) {
+  temp2 <- matrix(tapply(f[, i], list(f$seas1, f$YEAR), sum, na.rm = T))
+  temp1 <- cbind(temp1, temp2)
+  }
+
+findat <- data.frame(sort(rep(as.numeric(colnames(temp)), 4)), 
+                     rep(rownames(temp), ncol(temp)), temp1)
+names(findat) <- c("year", "season", names(f)[1:8])
+
+colSums(f[, 1:8], na.rm = T) == colSums(findat[, 3:10], na.rm = T)  # check that total catch is equal before and after parsing
+
+findat$yrseas <- findat$year + as.numeric(as.factor(findat$season))/4-0.125
+```
+
+We plot the results by region and sector, over the time series of year and season.  We can clearly see the seasonality in the catch by region.  
+
+```{r}
+#| echo: true
+
+matplot(findat$yrseas, findat[, 3:10]/10^6, lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), type = "l", lwd = 2, 
+        xlab = "year", ylab = "total catch (millions of pounds)")
+legend("topright", colnames(findat[, 3:10]), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
+
+# check that totals match
+colSums(findat[, 3:10], na.rm = T)
+colSums(fin[-c(1:5), ], na.rm = T)
+# the values should be close but slightly >1 because the last data set includes December 1985 data as part of 1986
+colSums(findat[, 3:10], na.rm = T) / colSums(fin[-c(1:5), ], na.rm = T)
+  # very tiny differences
+
+```
+
