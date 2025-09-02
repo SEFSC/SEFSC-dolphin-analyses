@@ -3,9 +3,9 @@ project:
 
 book: 
   page-navigation: true
-  title: "NOAA quarto book" 
-  site-url: "https://nmfs-opensci.github.io/NOAA-quarto-book" 
-  repo-url: "https://github.com/nmfs-opensci/NOAA-quarto-book"
+  title: "Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic" 
+  site-url: "https://www.fisheries.noaa.gov/southeast/science-data/dolphinfish-management-strategy-evaluation-us-atlantic" 
+  repo-url: "https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main"
   repo-actions: [edit, source, issue]
   favicon: assets/favicon.ico
   downloads: [pdf, docx]
