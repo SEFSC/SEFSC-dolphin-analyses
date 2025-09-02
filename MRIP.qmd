@@ -300,4 +300,6 @@ legend("topright", colnames(findat[, 3:10]), lty = c(rep(2, 4), rep(1, 4)), col 
 cbind(colSums(findat[, 3:10], na.rm = T), colSums(fin[-c(1:5), ], na.rm = T))
 # the values should be close but slightly >1 because the last data set includes December 1985 data as part of 1986
 colSums(findat[, 3:10], na.rm = T) / colSums(fin[-c(1:5), ], na.rm = T)
+
+write.csv(findat, file = "data/MRIP_catch_by_season_4_areas.csv", append = F, row.names = FALSE, col.names = TRUE)
 ```
