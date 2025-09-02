@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f910d51fe1799c9b48b90bbe5a6aa8cf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-872c1a08ee464f6f4a0f517161213825.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -209,6 +209,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">2.1</span> Data access and upload</a></li>
   <li><a href="#separate-gulf-and-atlantic-recreational-landings" id="toc-separate-gulf-and-atlantic-recreational-landings" class="nav-link" data-scroll-target="#separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">2.2</span> Separate Gulf and Atlantic recreational landings</a></li>
   <li><a href="#partition-catches-by-area-and-sector" id="toc-partition-catches-by-area-and-sector" class="nav-link" data-scroll-target="#partition-catches-by-area-and-sector"><span class="header-section-number">2.3</span> Partition catches by area and sector</a></li>
+  <li><a href="#looking-at-extent-of-discarding" id="toc-looking-at-extent-of-discarding" class="nav-link" data-scroll-target="#looking-at-extent-of-discarding"><span class="header-section-number">2.4</span> Looking at extent of discarding</a></li>
+  <li><a href="#split-the-catches-by-season" id="toc-split-the-catches-by-season" class="nav-link" data-scroll-target="#split-the-catches-by-season"><span class="header-section-number">2.5</span> Split the catches by season</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/edit/main/MRIP.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/blob/main/MRIP.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/nmfs-opensci/NOAA-quarto-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -643,98 +645,22 @@ Coryphaena hippurus
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fin <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(tot[, , <span class="dv">1</span>], tot[, , <span class="dv">2</span>]))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fin) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>fin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Hire_FLK  Hire_NCFL   Hire_NNC   Hire_VBM  Rec_FLK  Rec_NCFL     Rec_NNC
-1981  354639.5   74702.50  256755.24   1400.247  8942641  322505.7          NA
-1982  347458.2   92271.42   27578.44   2749.224  8422673 1711834.7   78367.161
-1983 1020005.8   41784.04   88690.53   5379.177 10000662  119370.4   44226.032
-1984 1021086.8   74658.81         NA   4203.048  6717044  486079.7          NA
-1985  717523.0  172989.65   58514.13   8880.857  7925301 1162708.4   77477.096
-1986 1562354.0   63555.89  817192.26  61658.193  5699311  736872.0    2549.586
-1987 1774558.7   61243.58  848994.25  24967.877  6913585  161627.1   79540.365
-1988  826480.6   62392.87 1114627.05  94676.212  6655923  321023.1  202768.950
-1989 3398703.5  405140.01 1970776.23 451477.768 17965047 1079951.5  339371.567
-1990  868572.6  277783.17 1749965.55  31079.442 19900865  312333.3  118539.960
-1991 4268773.7  225552.64 1706751.50 159172.855 23093044  457667.1  277389.646
-1992 2548407.4  189514.34 1619685.06 161149.703 15788853  245395.8   89160.860
-1993 1343093.6  391254.33 1555850.09 741955.369  9967356  742741.8  296399.199
-1994 1131831.7  437642.72 1713981.98 573551.716  9532763 1708942.1  264907.193
-1995 2848691.7  667475.30 1673435.48 145798.587 15558489 1550136.0  271442.073
-1996 2892436.3  309604.42  923128.81 141976.431 10574454 1121937.8  196579.537
-1997 3271271.6  466891.67 2129471.46 110115.485 22423256 1316502.7  660257.843
-1998 1532460.0  252620.73 1921834.08 779364.855 12578694  619824.1  412304.292
-1999 1238462.0  457880.10 2014752.29 288625.130 13745135 1548217.4 1314805.374
-2000 1471481.3  369553.33 3139555.98   3016.589 13379647 2784424.2  826980.337
-2001 2361751.6 1090421.00 1638707.54  34335.241 11690170 3614370.3 1760721.144
-2002 1828918.7 1993778.99 3005172.92 168406.810  8105262 2483946.6  871930.660
-2003 1342339.1  958997.12  928894.01  55690.419 10294918 1860435.4  868200.254
-2004 1509660.5  771820.65 1116373.11 155510.796  6281794 1354303.7  593257.716
-2005  858090.6  734896.20 3153480.89  38020.553  4681210 1898945.9  904360.210
-2006  700089.5  483337.12 2656240.22 136715.477  8540432 1751853.5  749541.413
-2007  718651.9  506776.30 2518430.49  84908.300  8200488 2383417.1 1483630.590
-2008  736213.2 1235299.71 1620865.87 113592.877  8100550 1648662.2  223565.185
-2009 1016583.6  458562.82  928419.86 106262.915  6809447 3805127.7 2359177.817
-2010  552080.9  534671.06 1384434.93 120050.410  3579591 3139199.6 1110479.730
-2011  768597.7  275546.65 1577019.96  17844.729  6097050 1651096.4 2063315.642
-2012  856261.4  615430.34 1236410.76  21887.318  5916144 2867599.1 1082607.063
-2013  614150.1  394570.11  640465.60  16064.763 10124799 2064256.6  540676.961
-2014  897508.4  210198.76  916695.96  56760.758  9940020 1272477.3 1289704.416
-2015 1729825.9  196326.97 1374908.91 277867.986 12093928 1548428.5 3505194.743
-2016  841662.5  454053.51 1236565.76 195837.854  5002273 4372622.6 1704661.669
-2017 1227827.8  161188.31  835080.86  31185.061  5464893 2297930.0  801324.151
-2018  401703.0  105328.49 1465087.58  72211.785  7935729 2606091.5 1347724.203
-2019 1261827.1  250624.40  998102.45  93718.699  4064867 2132483.1 1687239.863
-2020  910431.4  225493.79  667501.79  51621.152  2906913 2052222.0 1089245.171
-2021 1244842.2  146893.15  871760.94 100997.979  3652596 1428508.3  596672.480
-2022  627020.6   90504.71  427953.34  18514.133  3828113 2701619.8  211394.537
-2023  274532.5  118528.80 1281254.55  72728.020  3045801 2639445.1  175189.224
-2024  629327.2   85572.19  506558.07  18752.239  3404227 1358519.1  106307.278
-         Rec_VBM
-1981          NA
-1982   18727.290
-1983    5456.237
-1984       0.000
-1985  112944.274
-1986  103945.134
-1987   52139.772
-1988   33566.163
-1989  996945.390
-1990  509424.981
-1991  464786.733
-1992  509297.261
-1993  871948.601
-1994  594467.414
-1995  609302.619
-1996  486106.187
-1997  197871.963
-1998  606769.298
-1999  523623.688
-2000 1608478.920
-2001  372623.273
-2002 1732356.036
-2003  904780.558
-2004  186538.567
-2005  489236.451
-2006 1214497.040
-2007  236769.123
-2008   96818.461
-2009 1607919.004
-2010  717410.858
-2011 2626410.052
-2012 1041694.282
-2013  364492.286
-2014 2040329.550
-2015 4645796.249
-2016 2186126.672
-2017 1826822.849
-2018 2871124.410
-2019 1440420.940
-2020  689099.471
-2021 1083268.811
-2022 1206278.324
-2023  872490.886
-2024 1346606.842</code></pre>
+<pre><code>      Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM  Rec_FLK  Rec_NCFL   Rec_NNC
+1981  354639.5  74702.50 256755.24  1400.247  8942641  322505.7        NA
+1982  347458.2  92271.42  27578.44  2749.224  8422673 1711834.7 78367.161
+1983 1020005.8  41784.04  88690.53  5379.177 10000662  119370.4 44226.032
+1984 1021086.8  74658.81        NA  4203.048  6717044  486079.7        NA
+1985  717523.0 172989.65  58514.13  8880.857  7925301 1162708.4 77477.096
+1986 1562354.0  63555.89 817192.26 61658.193  5699311  736872.0  2549.586
+        Rec_VBM
+1981         NA
+1982  18727.290
+1983   5456.237
+1984      0.000
+1985 112944.274
+1986 103945.134</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">rownames</span>(fin), fin, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (pounds)"</span>)</span>
@@ -756,7 +682,7 @@ Coryphaena hippurus
 <pre><code>[1] 4.233284e-11</code></pre>
 </div>
 </div>
-<p>Here are the final data for years 1981 to 2024.</p>
+<p>Here are the catches (in pounds) for years 1981 to 2024.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -851,7 +777,819 @@ Coryphaena hippurus
 2023  872490.886
 2024 1346606.842</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(fin, <span class="at">file =</span> <span class="st">"data/rec_dolphin_4areas.csv"</span>, <span class="at">row.names =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="looking-at-extent-of-discarding" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="looking-at-extent-of-discarding"><span class="header-section-number">2.4</span> Looking at extent of discarding</h2>
+<p>Discard estimates (known as B2 estimates) are provided in numbers by the MRIP survey but are not available in the Southeast Region Headboat Survey. We can look at the overall numbers of dolphinfish caught versus reported released from the MRIP survey to get an understanding of the extent of discarding.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>perdis <span class="ot">&lt;-</span> d1<span class="sc">$</span>B2 <span class="sc">/</span> (d1<span class="sc">$</span>AB1 <span class="sc">+</span> d1<span class="sc">$</span>B2)  <span class="co"># percent discarded is B2 (fish released alive) / total</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate mean discard rate by year, region, sector ----------------</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>dis <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>perdis, <span class="fu">list</span>(d1<span class="sc">$</span>YEAR, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), mean, <span class="at">na.rm =</span> T)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>disr <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>perdis, <span class="fu">list</span>(d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), mean, <span class="at">na.rm =</span> T)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">rownames</span>(dis), <span class="fu">cbind</span>(dis[, , <span class="dv">1</span>], dis[, , <span class="dv">2</span>]), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), </span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"% dolphin discarded"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"top"</span>, <span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">"For hire - "</span>, <span class="fu">colnames</span>(dis)), <span class="fu">paste</span>(<span class="st">"Private - "</span>, <span class="fu">colnames</span>(dis))), </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MRIP_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(disr <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)  <span class="co"># discarding rates by region and sector</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     ForHire   Rec
+FLK    10.79 18.76
+NCFL    9.44 11.23
+NNC     0.94  9.62
+VBM     2.94 12.69</code></pre>
+</div>
+</div>
+<p>According to the MRIP survey and the reported numbers, discarding generally increases over time, excluding some highly anomalous estimates from the early years which are driven by low sample sizes. Discarding is generally higher in the private sector compared to the for-hire sector, and is highest in the Florida Keys region.</p>
+</section>
+<section id="split-the-catches-by-season" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="split-the-catches-by-season"><span class="header-section-number">2.5</span> Split the catches by season</h2>
+<p>The dolphin MSE operates on a seasonal time step and thus the catches and discards must by parsed apart by individual season and year. This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the catch in that wave occurs in one season and the other half occurs in the next season.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define seasons -----------------------------</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>WAVE, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1    2    3    4    5    6 &lt;NA&gt; 
+   5  407  718 1230 1439 1095  581  944 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>YRWAVE <span class="ot">&lt;-</span> <span class="fu">paste0</span>(d1<span class="sc">$</span>YEAR, <span class="st">"_"</span>, d1<span class="sc">$</span>WAVE)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>totw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>YRWAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(totw[, , <span class="dv">1</span>], totw[, , <span class="dv">2</span>]))</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(f) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Hire_FLK Hire_NCFL   Hire_NNC Hire_VBM   Rec_FLK  Rec_NCFL Rec_NNC
+1981_2          NA        NA         NA       NA 2793285.5 270968.46      NA
+1981_3  300873.764        NA 254049.420       NA 3915698.3        NA      NA
+1981_4   50017.460        NA   2705.821       NA  905621.2  51537.26      NA
+1981_5    3748.301        NA         NA       NA  479834.0        NA      NA
+1981_6          NA        NA         NA       NA  848201.5        NA      NA
+1981_NA         NA   74702.5         NA 1400.247        NA        NA      NA
+        Rec_VBM
+1981_2       NA
+1981_3       NA
+1981_4       NA
+1981_5       NA
+1981_6       NA
+1981_NA      NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">6</span>, <span class="dv">8</span>))</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>f   <span class="co"># table with catches separated by wave and year</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Hire_FLK    Hire_NCFL     Hire_NNC     Hire_VBM     Rec_FLK
+1981_2            NA           NA           NA           NA  2793285.48
+1981_3   300873.7645           NA  254049.4202           NA  3915698.35
+1981_4    50017.4599           NA    2705.8210           NA   905621.21
+1981_5     3748.3009           NA           NA           NA   479833.98
+1981_6            NA           NA           NA           NA   848201.53
+1981_NA           NA   74702.5028           NA 1.400247e+03          NA
+1982_1            NA           NA           NA           NA   478682.43
+1982_2    84270.4684           NA           NA           NA    27122.56
+1982_3   129622.4861           NA           NA           NA  3005422.81
+1982_4   115226.2608           NA   27578.4417           NA  1993004.74
+1982_5    13668.9931           NA           NA           NA  1699054.60
+1982_6     4670.0135           NA           NA           NA  1219385.54
+1982_NA           NA   92271.4232           NA 2.749224e+03          NA
+1983_1            NA           NA           NA           NA   996045.13
+1983_2    78251.8667           NA           NA           NA   817568.31
+1983_3   296178.5757     215.4985   45363.4111           NA  5507616.65
+1983_4   365077.5616     729.3286           NA 3.761981e+03  1066081.17
+1983_5   258368.1069           NA   43327.1187           NA  1192916.67
+1983_6    22129.7128           NA           NA           NA   420434.40
+1983_NA           NA   40839.2141           NA 1.617195e+03          NA
+1984_1    60534.3153           NA           NA           NA   496799.13
+1984_2   109334.0510           NA           NA           NA   813248.44
+1984_3   216520.5971           NA           NA           NA   688001.30
+1984_4   532525.3239   21162.9274           NA           NA   568272.84
+1984_5    61308.6459    4940.8922           NA           NA   231831.17
+1984_6    40863.8371           NA           NA           NA  3918891.39
+1984_NA           NA   48554.9922           NA 4.203048e+03          NA
+1985_1     4462.0896           NA           NA           NA   468466.30
+1985_2   127323.9916           NA           NA           NA   309953.53
+1985_3   506974.7595  134535.9624   58514.1316           NA  2455502.04
+1985_4            NA    7153.5135           NA 6.494967e+03  3224326.49
+1985_5     4177.8282           NA           NA           NA  1419943.79
+1985_6    74584.3285           NA           NA           NA    47109.12
+1985_NA           NA   31300.1745           NA 2.385891e+03          NA
+1986_1     3253.2455           NA           NA           NA   378536.05
+1986_2   310022.8131           NA    7272.7549           NA  1383797.02
+1986_3   984894.9967    5828.4550  637453.4573 3.033357e+02  1383618.58
+1986_4     8737.1069           NA  114398.0335 5.948303e+04   845201.01
+1986_5    46873.3986    9017.6689   54732.6542           NA   742559.70
+1986_6   208572.4198           NA    3335.3577           NA   965598.77
+1986_NA           NA   48709.7684           NA 1.871831e+03          NA
+1987_1   137196.6816           NA           NA           NA  1074020.26
+1987_2    18269.4109           NA    2210.4630           NA  2003339.20
+1987_3  1180965.5743    8520.3829  164386.8683           NA  1915801.32
+1987_4   388289.1983    1455.3872  581271.6432 5.137417e+03  1235019.50
+1987_5            NA    2691.7381  101125.2712 1.728889e+04   134395.34
+1987_6    49837.7886           NA           NA           NA   551009.18
+1987_NA           NA   48576.0704           NA 2.541569e+03          NA
+1988_1    26204.5928           NA           NA           NA   444795.17
+1988_2    25034.6472     243.2488           NA           NA  1711171.70
+1988_3     5870.0473    4631.1218  458976.9721           NA  1084220.85
+1988_4   520698.5887   15358.7622  551295.8240 7.270123e+03  2476362.02
+1988_5   143442.0053    8390.0712  104354.2524 8.492243e+04   617909.12
+1988_6   105230.7224     259.1926           NA           NA   321463.76
+1988_NA           NA   33510.4734           NA 2.483663e+03          NA
+1989_1   199876.7079           NA           NA           NA   233799.65
+1989_2   159188.4005  164384.2892   10972.6770           NA  4225325.37
+1989_3   865296.2618   52054.9547  891309.5947 8.136501e+03  6530706.00
+1989_4  1465737.2238  127173.4675  885492.2904 3.183983e+05  4519754.07
+1989_5    83806.1572   12984.0005  180833.1940 1.183327e+05  1489025.07
+1989_6   624798.7957     371.4887    2168.4765           NA   966437.14
+1989_NA           NA   48171.8129           NA 6.610226e+03          NA
+1990_1    54992.6978           NA           NA           NA   248606.45
+1990_2   152128.6574   12579.4503           NA           NA  2405031.03
+1990_3    30313.4970  125421.4842  552474.0996           NA  5538685.08
+1990_4   558360.0137   36443.7626 1022506.7374 1.449129e+04  9345177.45
+1990_5    36854.3280    9170.4562  174464.2228 7.455794e+03  1799169.61
+1990_6    35923.3882           NA     520.4910           NA   564194.87
+1990_NA           NA   94168.0119           NA 9.132357e+03          NA
+1991_1   102043.3920           NA           NA           NA   540836.60
+1991_2   379111.5134     937.2739   36535.6211           NA  1896921.08
+1991_3  2302635.5002  141550.1050  604174.3059           NA  8237620.76
+1991_4  1312391.3569   10843.8064  809450.3648 8.435581e+04  6319030.29
+1991_5    93324.5228    1805.8554  256408.7253 5.776816e+04  5290624.40
+1991_6    79267.4628   11638.9357     182.4796           NA   808010.50
+1991_NA           NA   58776.6642           NA 1.704888e+04          NA
+1992_1   471679.2124           NA           NA           NA  1774841.58
+1992_2   436744.2277    7422.7732   18854.0712           NA  6185618.11
+1992_3  1064259.1470   94786.8635  773610.1416           NA  6162233.87
+1992_4   276194.5517   48764.1980  687836.6566 1.255492e+05   757141.83
+1992_5    13809.2160    5532.8712  139384.1864 2.816470e+04   680152.92
+1992_6   285721.0267    1140.4979           NA           NA   228864.68
+1992_NA           NA   31867.1403           NA 7.435851e+03          NA
+1993_1    90463.6572           NA           NA           NA   822313.03
+1993_2   247911.9958     955.4524   30472.2897           NA  1215204.91
+1993_3   842587.1612  206808.4794  731291.8750           NA  4492353.61
+1993_4    98500.2702  146473.3962  661259.1516 7.136348e+05  1158634.88
+1993_5    11059.1959           NA  132603.9764 1.427731e+04  1867851.33
+1993_6    52571.2953           NA     222.8014           NA   410998.32
+1993_NA           NA   37016.9977           NA 1.404324e+04          NA
+1994_1    63525.8062           NA           NA           NA   614908.65
+1994_2    57454.5525   40147.1522   20580.2350           NA  1848686.32
+1994_3   166335.0996  325690.7931 1127590.0202 9.068972e+03  3860975.36
+1994_4   510286.7047   34789.7114  425847.4537 5.523303e+05  1895392.91
+1994_5   262700.1820   17298.8625  130286.8608 6.856423e+03  1133245.77
+1994_6    71529.4042     154.8942    9677.4093           NA   179553.70
+1994_NA           NA   19561.3056           NA 5.296000e+03          NA
+1995_1   103240.8013           NA           NA           NA   740676.10
+1995_2   853804.9029   54664.9994   10897.4618           NA  2637929.82
+1995_3  1214448.2687  399179.4972  697448.0654 2.724721e+03  6843098.31
+1995_4   431871.1571  167913.2635  814410.1056 1.064317e+05  3899582.86
+1995_5   160263.5745    2703.5212  149576.2235 2.667280e+04   557184.96
+1995_6    85062.9729           NA    1103.6279 8.113131e+01   880016.77
+1995_NA           NA   43014.0167           NA 9.888226e+03          NA
+1996_1    35208.0753    7846.4176       0.0000           NA   454438.34
+1996_2   218752.8677    1768.0568     817.5057           NA  1034378.56
+1996_3  2442321.7774  162044.9680  451630.5635 1.571826e+03  6221134.19
+1996_4   131121.2140   74170.6704  401415.4483 4.659342e+04  1606830.44
+1996_5    21696.9137   18720.2067   69033.4530 9.061178e+04   371044.76
+1996_6    43335.4083     998.9381     231.8432           NA   886627.52
+1996_NA           NA   44055.1611           NA 3.199404e+03          NA
+1997_1    17079.3689    3183.6188           NA           NA   379586.51
+1997_2   287832.9940   10057.2526   21667.7997 4.448883e+01  1328050.13
+1997_3  2453169.8492  278685.3076 1033513.8821 2.761857e+03 12264482.97
+1997_4   402896.5338  132744.9758  788661.1579 8.985193e+03  7529893.30
+1997_5    58279.5995   37533.2441  282048.6226 9.832395e+04   439396.55
+1997_6    52013.2925    4687.2662    3580.0003           NA   481846.64
+1998_1    73087.7355     832.8979       0.0000           NA   271681.59
+1998_2   297519.5348    7194.2556    4405.5371 1.160722e+02  3541176.70
+1998_3   717661.5205  197051.4253  735203.5498 2.308373e+03  6312859.31
+1998_4   312505.5033   38218.5532  918660.6667 7.541804e+05  1651975.25
+1998_5    48482.1991    3465.9432  261878.8283 2.276001e+04   160611.24
+1998_6    83203.5501    5857.6521    1685.4960           NA   640389.53
+1999_1    97146.1032   13249.0415           NA           NA  1904555.74
+1999_2   252008.9544   54096.3057   68229.8768           NA  1498377.50
+1999_3   508649.1593  262921.9589  727564.3682 1.131979e+05  6764582.34
+1999_4   195404.6702  100084.9281 1044438.7154 1.746593e+05  2993422.65
+1999_5    68418.5697   21019.8335  173909.3357 6.067059e+02   308883.66
+1999_6   116834.5768    6508.0368     609.9919 1.612885e+02   275312.67
+2000_1    24738.6119    6532.3841           NA           NA   250739.40
+2000_2   168806.2415   18491.9504    7444.5846 3.240762e+01  1456233.31
+2000_3   524107.1827  163837.9514 1047963.8831 7.989470e+02  6175447.49
+2000_4   464465.6055  139036.9399 1786682.4910 1.191410e+03  3270298.18
+2000_5   211173.3520   32179.7861  297214.0115 9.740708e+02  1663716.32
+2000_6    78190.3454    9474.3214     251.0068 1.975322e+01   563212.19
+2001_1   206979.3316    9705.7248           NA           NA   453186.69
+2001_2   292125.9142   46260.5820   11017.2008 7.142904e+00  1282139.55
+2001_3   849789.7954  572194.0558  360412.6235 6.818656e+03  6293405.49
+2001_4   808330.7146  423896.7585 1066496.7060 1.508136e+04  2442825.06
+2001_5    66173.1946   35030.4250  199428.7925 1.240610e+04   793467.07
+2001_6   138352.6869    3333.4528    1352.2216 2.197986e+01   425146.45
+2002_1    55826.7807    1785.8554       0.0000           NA   345051.79
+2002_2   299767.2785   71502.9893   27783.2046 5.138923e+01  1622268.74
+2002_3  1043463.2842 1632381.5012 1954161.2216 1.321821e+05  2606943.71
+2002_4   182534.9234  251742.3301  567978.2931 2.071477e+04   910613.27
+2002_5   181662.3129   34198.7968  452882.2072 1.533410e+04   795613.17
+2002_6    65664.1251    2167.5199    2367.9984 1.244497e+02  1824771.52
+2003_1    84489.7923    2756.9405           NA           NA   543877.23
+2003_2   130563.1573   40051.4990   37398.6274 1.699747e+01  1289231.54
+2003_3   657331.8888  729571.0439  351393.3468 4.598796e+02  4719596.10
+2003_4   275123.3687  167075.9356  498702.3583 1.420922e+04  2636140.58
+2003_5    66406.2512   11228.9320   29076.1883 4.100432e+04   459396.21
+2003_6   128424.6084    8312.7684   12323.4898           NA   646676.07
+2004_1   102343.1102     321.9598           NA           NA   643883.91
+2004_2   332642.4722  305327.0706   10906.8174 2.242078e+01   688723.05
+2004_3   642567.4757  432048.6934  276168.2985 3.127000e+03  3120064.02
+2004_4   332441.1474   13759.8362  755413.1322 1.137318e+05  1289299.85
+2004_5    40166.3392   12518.5558   73884.8590 3.847026e+04   179995.30
+2004_6    59499.9068    7844.5339           NA 1.593044e+02   359827.40
+2005_1    56421.5819    2896.4255           NA           NA   343792.82
+2005_2    94221.5573  118421.2282    1507.8607           NA   622983.27
+2005_3   538518.5270  347902.2768  670947.2533 6.511947e+02  1716556.85
+2005_4   113097.6370  255567.7726 2250098.8013 2.832497e+04  1216501.50
+2005_5    29806.4290    5741.0552  229627.9171 9.044386e+03    75617.65
+2005_6    26024.8665    4367.4433    1299.0535           NA   705757.77
+2006_1    49456.9214     481.5067           NA           NA   418568.62
+2006_2   131878.8301   15070.9844    5796.6298 3.492086e+01  2953455.31
+2006_3   325792.3585  185401.2905  796673.6137 5.472015e+03  3508946.88
+2006_4   131639.4927  106946.0818 1400395.7459 6.634345e+04   606432.81
+2006_5    33510.7547  173514.3863  400946.6754 6.486219e+04   388387.08
+2006_6    27811.1815    1922.8742   52427.5588 2.910072e+00   664641.11
+2007_1    20430.0142    1253.2322     165.8849           NA  1355609.31
+2007_2   148346.9410   59883.6053   14844.3015 1.388178e+02  1448285.20
+2007_3   312828.9809  345248.6676  966460.8250 5.688771e+03  2193986.30
+2007_4   172731.6760   94203.1609 1510649.0057 2.152043e+04  1951191.75
+2007_5    32771.5859    1780.8230   25497.2931 5.753071e+04   926362.23
+2007_6    31542.6603    4406.8079     813.1762 2.956369e+01   325052.74
+2008_1    66366.3709    1231.6988           NA           NA   297413.25
+2008_2    92615.8197   91079.4551   88553.4948 5.410718e+01  1327364.29
+2008_3   375689.4952 1077085.1022  638562.0607 1.674707e+03  2183534.26
+2008_4   126676.7826   24510.6284  783839.6556 9.586484e+04  2650100.59
+2008_5    19438.7253   14550.6973   61498.5102 1.599922e+04   618778.59
+2008_6    55426.0275   26842.1313   48412.1438           NA  1023358.65
+2009_1   145422.1709    2114.4721           NA           NA   548871.47
+2009_2   105560.5663   17395.3770    7506.7757 4.693716e+01   682265.88
+2009_3   574115.8630  375002.6079  375407.6678 2.817377e+04  3417840.85
+2009_4   116161.8296   56235.6591  446703.4979 6.744248e+04   598706.24
+2009_5    31216.8500    2867.2594   93427.1551 1.059973e+04   386195.10
+2009_6    44106.3576    4947.4404    5374.7627 0.000000e+00  1175567.25
+2010_1    14106.4065    1183.6938           NA           NA   326412.60
+2010_2    49161.1907    7758.5818    1451.3641           NA   209049.67
+2010_3   340410.9199  433440.8039  976712.2918 2.277423e+03  1821535.72
+2010_4    98575.4892   68943.3931  298696.1059 9.705147e+04   576787.52
+2010_5    16596.9960   20491.3047  106585.8650 2.072151e+04   521366.15
+2010_6    33229.8928    2853.2803     989.3009           NA   124439.00
+2011_1     5836.9260     561.4132           NA           NA    96325.63
+2011_2    96400.0980    7358.4198    3413.7822 2.551993e+02   607011.62
+2011_3   375828.3691  149780.2324  817407.9573 1.989908e+03  2535780.70
+2011_4   163696.1310  104922.2288  672637.2904 1.413401e+04  1573004.84
+2011_5    39496.9624    9855.7916   81858.3829 1.465611e+03   769865.94
+2011_6    87339.1714    3068.5688    1702.5462           NA   515061.11
+2012_1    36821.2124    1426.8208    1091.5132           NA   325705.77
+2012_2   137077.2847   37737.1615   44624.0825           NA   907680.62
+2012_3   425790.2611  464859.0573  885255.2733 4.593218e+03  2479763.24
+2012_4   129063.2472   44246.5803  210371.7456 1.306290e+04   673531.72
+2012_5    66550.3469   64973.4374   93288.2799 4.231196e+03   929380.82
+2012_6    60959.0401    2187.2815    1779.8681           NA   600081.94
+2013_0            NA           NA           NA 6.437618e+03          NA
+2013_1    40273.0429     685.7433     290.4661           NA    90480.96
+2013_2    76014.4524    4791.2636     480.7299 3.771933e+01   537416.09
+2013_3   150450.4869  305464.6059  168428.1882 1.153529e+03  5918763.88
+2013_4   259379.9189   66703.4758  298703.6676 4.971875e+03  2683540.86
+2013_5    31779.6669   14407.3832  171282.9326 3.464021e+03   350014.80
+2013_6    56252.5362    2517.6379    1279.6204           NA   544582.41
+2014_0            NA           NA           NA 3.608588e+04          NA
+2014_1    10520.4506    3259.3964           NA           NA   353793.11
+2014_2    57372.1480    5479.9568    2511.0227 2.031263e+01  2099748.55
+2014_3   497966.7425  150213.3808  679220.5508 4.351780e+03  3975778.57
+2014_4   229361.7142   34156.6244  146971.3189 1.597103e+04  1621326.41
+2014_5    56743.2740   12970.2063   87233.8133 2.916618e+02  1460360.93
+2014_6    45544.1094    4119.1926     759.2526 4.009366e+01   429012.86
+2015_0            NA           NA           NA 1.748352e+05          NA
+2015_1    89924.1637    2117.3775           NA           NA    36834.42
+2015_2   272254.4974    9652.8461   60562.5789 1.424431e+01  1921333.40
+2015_3   922470.7012  133668.6599  526282.5665 1.004099e+03  2330142.11
+2015_4   210983.8295   12413.2463  624221.1835 2.305781e+04  5560719.14
+2015_5   104619.5265   33776.8946  143688.6154 7.895665e+04  1677214.57
+2015_6   129573.1497    4697.9438   20153.9625           NA   567684.23
+2016_1    69649.9280    1349.5251           NA           NA   208103.89
+2016_2   345342.4374  140442.7876   13431.0727 2.639211e+02   780971.95
+2016_3   315996.5457  293561.0818  590465.4312 2.958322e+04  1875555.55
+2016_4    83789.0091    8246.7891  359610.9766 1.511846e+05  1432462.61
+2016_5     7982.4798    7539.9739  270901.1523 1.480608e+04   537933.12
+2016_6    18902.1107    2913.3502    2157.1234           NA   167245.46
+2017_1     2251.2393     583.4260           NA           NA    68363.67
+2017_2    51034.2514   29595.1610   14556.5999 1.204006e+02   364071.77
+2017_3  1030086.3486   94650.8142  569618.1211 3.769691e+03  1235624.61
+2017_4    96754.8362   26694.7960  164125.2672 1.949092e+03  3073785.02
+2017_5    24065.5921    8751.1280   80816.6336 2.533286e+04   491089.52
+2017_6    23635.5797     912.9816    5964.2338 1.301596e+01   231958.35
+2018_1    11472.9130     267.4297           NA           NA   137407.17
+2018_2    44039.0548    1593.8892    6256.4127 1.149870e+02  1476572.22
+2018_3   184156.6622   79757.1302  775249.4297 4.651212e+03  1995558.91
+2018_4    73228.8542   14806.0747  362014.1087 3.109227e+04  2236679.62
+2018_5    72317.4425    4987.5597  321095.4052 3.634558e+04  1573007.06
+2018_6    16488.0967    3916.4019     472.2285 7.733737e+00   516503.80
+2019_1    20082.6686     760.9299           NA           NA   238013.51
+2019_2   157486.7280   12452.2622   25721.8869           NA   521964.88
+2019_3   434125.1264  215818.6624  605973.8443 3.771762e+04  1182752.26
+2019_4   209907.5499   16120.5455  214441.8613 4.427845e+04  2002350.22
+2019_5   391814.5530    5005.6273  146797.0848 1.156134e+04    61952.84
+2019_6    48410.4466     466.3692    5167.7689 1.612885e+02    57833.54
+2020_1            NA     185.6236           NA           NA    29208.74
+2020_2     9043.9102    4024.1289    6272.1824           NA   543554.92
+2020_3   139285.5457  161242.6835  368302.7238 1.203957e+04  1123314.13
+2020_4   439976.0290   25211.1659  201828.8119 9.142763e+03   774487.32
+2020_5   297234.3672   33947.1059   90603.2405 3.042061e+04   245095.47
+2020_6    24891.5786     883.0818     494.8315 1.821000e+01   191252.44
+2021_1    15505.4306     321.9289           NA           NA   220137.23
+2021_2    35095.4313   37409.0105    2043.7104 1.427543e+01   291276.82
+2021_3   333171.4886   68394.4498  376553.7802 1.049071e+03   936836.16
+2021_4   334601.5380   19773.6114  249480.9177 4.906534e+04  1353385.07
+2021_5   499958.7353   15795.1271  242967.0387 5.086119e+04   718836.26
+2021_6    26509.5669    5199.0236     715.4980 8.100330e+00   132124.10
+2022_1    13136.0772     639.7193           NA           NA    97255.58
+2022_2    30494.4008    6892.5164    8486.8910           NA   356620.00
+2022_3   431004.1066   69373.8791  282923.0128 2.128348e+03  2228470.67
+2022_4    85488.2771    8043.0385   46324.6662 1.066188e+04   460487.77
+2022_5    50702.4924    5164.4181   87447.9009 5.723903e+03   646262.93
+2022_6    16195.2651     391.1390    2770.8730           NA    39016.01
+2023_1     6899.4172     113.6594           NA           NA    94317.83
+2023_2    31601.1462   45397.1183   26776.7360 6.007665e+01   227368.50
+2023_3   120806.3748   52677.7234  917576.6534 3.743502e+03   931385.61
+2023_4    59490.9826    9801.4455  232969.4303 2.978505e+04   678063.87
+2023_5    49697.8694   10045.8961  103931.7334 3.913939e+04   931220.84
+2023_6     6036.6763     492.9613           NA           NA   183443.99
+2024_1      791.1074     183.2757           NA           NA    82445.49
+2024_2    82532.9838   25100.3010    5728.2128 8.438841e+01   215054.79
+2024_3   281896.7265   36494.7437  265654.8738 4.029312e+03  1426097.26
+2024_4   200628.0539    4812.0484   75322.4960 6.695225e+03   954109.75
+2024_5    32206.1519   17813.6112  159633.5682 7.943312e+03   663746.22
+2024_6    31272.2161    1168.2082     218.9170           NA    62773.96
+           Rec_NCFL     Rec_NNC     Rec_VBM YEAR WAVE
+1981_2   270968.461          NA          NA 1981    2
+1981_3           NA          NA          NA 1981    3
+1981_4    51537.259          NA          NA 1981    4
+1981_5           NA          NA          NA 1981    5
+1981_6           NA          NA          NA 1981    6
+1981_NA          NA          NA          NA 1981   NA
+1982_1           NA          NA          NA 1982    1
+1982_2           NA          NA          NA 1982    2
+1982_3   711098.009   42843.307          NA 1982    3
+1982_4   386991.814   12094.937   18727.290 1982    4
+1982_5   613744.843   23428.917          NA 1982    5
+1982_6           NA          NA          NA 1982    6
+1982_NA          NA          NA          NA 1982   NA
+1983_1           NA          NA          NA 1983    1
+1983_2           NA          NA          NA 1983    2
+1983_3    20143.820   44226.032          NA 1983    3
+1983_4    69834.733          NA    2565.809 1983    4
+1983_5    29391.817          NA    2890.429 1983    5
+1983_6           NA          NA          NA 1983    6
+1983_NA          NA          NA          NA 1983   NA
+1984_1           NA          NA          NA 1984    1
+1984_2           NA          NA          NA 1984    2
+1984_3    59564.622          NA          NA 1984    3
+1984_4   426515.061          NA          NA 1984    4
+1984_5           NA          NA       0.000 1984    5
+1984_6           NA          NA          NA 1984    6
+1984_NA          NA          NA          NA 1984   NA
+1985_1           NA          NA          NA 1985    1
+1985_2           NA          NA          NA 1985    2
+1985_3  1118180.391   77477.096          NA 1985    3
+1985_4    44527.998          NA  112944.274 1985    4
+1985_5           NA          NA          NA 1985    5
+1985_6           NA          NA          NA 1985    6
+1985_NA          NA          NA          NA 1985   NA
+1986_1           NA          NA          NA 1986    1
+1986_2           NA          NA          NA 1986    2
+1986_3   603584.417       0.000          NA 1986    3
+1986_4    32067.516    2549.586   73390.216 1986    4
+1986_5    74141.051          NA   30554.918 1986    5
+1986_6    27079.033          NA          NA 1986    6
+1986_NA          NA          NA          NA 1986   NA
+1987_1           NA          NA          NA 1987    1
+1987_2           NA          NA          NA 1987    2
+1987_3    30116.500          NA          NA 1987    3
+1987_4    92651.366   74122.360   42063.922 1987    4
+1987_5    38859.186    5418.005   10075.850 1987    5
+1987_6           NA          NA          NA 1987    6
+1987_NA          NA          NA          NA 1987   NA
+1988_1           NA          NA          NA 1988    1
+1988_2           NA          NA          NA 1988    2
+1988_3    54755.955   23711.146          NA 1988    3
+1988_4   222834.481  179057.804   29325.047 1988    4
+1988_5    43432.685          NA    4241.116 1988    5
+1988_6           NA          NA          NA 1988    6
+1988_NA          NA          NA          NA 1988   NA
+1989_1   139949.965          NA          NA 1989    1
+1989_2   111701.985   10512.208          NA 1989    2
+1989_3   227363.510  272095.085   12546.840 1989    3
+1989_4   130611.175   54238.048  675840.429 1989    4
+1989_5    53101.278     651.014  308558.121 1989    5
+1989_6   417223.578    1875.212          NA 1989    6
+1989_NA          NA          NA          NA 1989   NA
+1990_1           NA          NA          NA 1990    1
+1990_2           NA    1916.750          NA 1990    2
+1990_3    98533.276   23762.838          NA 1990    3
+1990_4   100213.515   89871.470  146908.507 1990    4
+1990_5   113586.480    2988.903  362516.474 1990    5
+1990_6           NA          NA          NA 1990    6
+1990_NA          NA          NA          NA 1990   NA
+1991_1           NA          NA          NA 1991    1
+1991_2           NA  132457.227          NA 1991    2
+1991_3   372647.616  111487.795          NA 1991    3
+1991_4    73235.386   18973.369  313639.776 1991    4
+1991_5    11784.127   14471.255  151146.958 1991    5
+1991_6           NA          NA          NA 1991    6
+1991_NA          NA          NA          NA 1991   NA
+1992_1           NA          NA          NA 1992    1
+1992_2           NA          NA          NA 1992    2
+1992_3    92148.045   41376.379   20526.808 1992    3
+1992_4   126696.827   24302.047   76676.416 1992    4
+1992_5    26550.880   23482.434  412094.037 1992    5
+1992_6           NA          NA          NA 1992    6
+1992_NA          NA          NA          NA 1992   NA
+1993_1           NA          NA          NA 1993    1
+1993_2    89986.989          NA          NA 1993    2
+1993_3   370532.453   33545.453    6991.506 1993    3
+1993_4   250305.146  259128.423  695338.082 1993    4
+1993_5    13889.315    3725.324  169619.013 1993    5
+1993_6    18027.925          NA          NA 1993    6
+1993_NA          NA          NA          NA 1993   NA
+1994_1    28223.840          NA          NA 1994    1
+1994_2    46344.061          NA          NA 1994    2
+1994_3   963122.439  220282.038    4547.236 1994    3
+1994_4   151284.747   20987.542  509707.555 1994    4
+1994_5   136265.383   21835.365   80212.622 1994    5
+1994_6   383701.640    1802.248          NA 1994    6
+1994_NA          NA          NA          NA 1994   NA
+1995_1           NA          NA          NA 1995    1
+1995_2   480461.867          NA          NA 1995    2
+1995_3   804233.833  225758.606  160479.740 1995    3
+1995_4   170952.186   26748.450  448822.879 1995    4
+1995_5    37780.398   18935.018          NA 1995    5
+1995_6    56707.695          NA          NA 1995    6
+1995_NA          NA          NA          NA 1995   NA
+1996_1           NA          NA          NA 1996    1
+1996_2   314628.146   20209.360          NA 1996    2
+1996_3   625690.901   87985.514          NA 1996    3
+1996_4   111818.582   63663.755  408494.551 1996    4
+1996_5    69800.214   24720.906   77611.636 1996    5
+1996_6           NA          NA          NA 1996    6
+1996_NA          NA          NA          NA 1996   NA
+1997_1           NA          NA          NA 1997    1
+1997_2   347295.859   63503.937          NA 1997    2
+1997_3   687821.842  219639.986          NA 1997    3
+1997_4   117886.588  326036.328  149860.531 1997    4
+1997_5   163498.444   51077.591   48011.431 1997    5
+1997_6           NA          NA          NA 1997    6
+1998_1           NA          NA          NA 1998    1
+1998_2    57196.548          NA          NA 1998    2
+1998_3   260289.770  164723.993          NA 1998    3
+1998_4    38810.562  199018.669  470816.565 1998    4
+1998_5    28150.625   48561.629  135952.733 1998    5
+1998_6   235376.551          NA          NA 1998    6
+1999_1    28295.456          NA          NA 1999    1
+1999_2   161859.944    7907.629          NA 1999    2
+1999_3   998925.562  205305.614   51453.808 1999    3
+1999_4   220964.231  663226.036  215387.059 1999    4
+1999_5    91326.076  438366.095  256782.821 1999    5
+1999_6    46846.176          NA          NA 1999    6
+2000_1           NA          NA          NA 2000    1
+2000_2   292817.152          NA          NA 2000    2
+2000_3  1860759.936  617314.126          NA 2000    3
+2000_4   362528.918  173566.777 1440372.603 2000    4
+2000_5   220496.767   36099.433  168106.317 2000    5
+2000_6    47821.441          NA          NA 2000    6
+2001_1   280396.645          NA          NA 2001    1
+2001_2   286154.324          NA          NA 2001    2
+2001_3  2681450.090  881436.853  119550.061 2001    3
+2001_4   186070.834  865658.069  228166.886 2001    4
+2001_5    99831.517   13626.222   24906.326 2001    5
+2001_6    80466.902          NA          NA 2001    6
+2002_1        0.000       0.000          NA 2002    1
+2002_2    72986.906   33095.271          NA 2002    2
+2002_3  1394867.652  363688.365  319894.863 2002    3
+2002_4   261541.132  389650.618  446128.499 2002    4
+2002_5   434852.883   85496.406  966332.674 2002    5
+2002_6   319697.989          NA          NA 2002    6
+2003_1    39787.277          NA          NA 2003    1
+2003_2   110441.284   62461.897          NA 2003    2
+2003_3   818832.674  353696.442          NA 2003    3
+2003_4   786858.585  432922.024  122391.084 2003    4
+2003_5     8290.240   19119.891  782389.474 2003    5
+2003_6    96225.360          NA          NA 2003    6
+2004_1     7766.988          NA          NA 2004    1
+2004_2   200018.750  435713.032          NA 2004    2
+2004_3   780680.858   80535.729          NA 2004    3
+2004_4   309322.339   72736.412  128301.965 2004    4
+2004_5     5193.736          NA   58236.601 2004    5
+2004_6    51321.055    4272.544          NA 2004    6
+2005_1           NA          NA          NA 2005    1
+2005_2   555997.501   99873.420          NA 2005    2
+2005_3  1162230.575  319288.797          NA 2005    3
+2005_4   149887.815  431042.453  275682.187 2005    4
+2005_5    20126.383   54155.540  213554.264 2005    5
+2005_6    10703.630          NA          NA 2005    6
+2006_1           NA          NA          NA 2006    1
+2006_2   185852.110          NA          NA 2006    2
+2006_3  1198919.353  213816.974  222334.322 2006    3
+2006_4   249267.647  501064.507  571986.623 2006    4
+2006_5    27558.269   22774.847  420176.095 2006    5
+2006_6    90256.116   11885.085          NA 2006    6
+2007_1   113126.281          NA          NA 2007    1
+2007_2    79674.506          NA          NA 2007    2
+2007_3  1784221.243  982353.036          NA 2007    3
+2007_4   376988.429  253437.399  208924.036 2007    4
+2007_5    29406.607   79811.644   27845.086 2007    5
+2007_6           NA  168028.510          NA 2007    6
+2008_1    26690.282          NA          NA 2008    1
+2008_2   666548.746          NA          NA 2008    2
+2008_3   808463.272  143008.342   44964.096 2008    3
+2008_4   102477.513   80556.843   44115.250 2008    4
+2008_5    14935.294          NA    7739.115 2008    5
+2008_6    29547.066          NA          NA 2008    6
+2009_1     9241.668          NA          NA 2009    1
+2009_2  1030753.438  465640.888          NA 2009    2
+2009_3  2030652.102 1244129.669    7087.781 2009    3
+2009_4   673984.863  642562.676 1570414.278 2009    4
+2009_5    11403.457    6844.584   30416.945 2009    5
+2009_6    49092.147          NA          NA 2009    6
+2010_1           NA   22325.895          NA 2010    1
+2010_2  1518161.094          NA          NA 2010    2
+2010_3  1457986.856  808715.818   11260.876 2010    3
+2010_4   150645.041  249105.267  505803.531 2010    4
+2010_5    12406.577   30332.751  200346.451 2010    5
+2010_6           NA          NA          NA 2010    6
+2011_1    34555.638          NA          NA 2011    1
+2011_2   107923.039          NA          NA 2011    2
+2011_3   866645.103  939778.302          NA 2011    3
+2011_4   484504.029  600021.700 2626410.052 2011    4
+2011_5   157468.639  523515.640          NA 2011    5
+2011_6           NA          NA          NA 2011    6
+2012_1           NA    2302.064          NA 2012    1
+2012_2  1396780.799   20740.405          NA 2012    2
+2012_3   995274.115  738963.571          NA 2012    3
+2012_4   376987.007  121312.497 1041694.282 2012    4
+2012_5    98557.164  153042.474          NA 2012    5
+2012_6           NA   46246.051          NA 2012    6
+2013_0           NA          NA          NA 2013    0
+2013_1    21440.509          NA          NA 2013    1
+2013_2    35854.832          NA          NA 2013    2
+2013_3  1676248.628  246781.020          NA 2013    3
+2013_4   295827.837  286021.569  137491.131 2013    4
+2013_5    34884.794    7874.372  227001.156 2013    5
+2013_6           NA          NA          NA 2013    6
+2014_0           NA          NA          NA 2014    0
+2014_1           NA          NA          NA 2014    1
+2014_2    33933.384   12677.929          NA 2014    2
+2014_3   987984.218  292367.815  290639.196 2014    3
+2014_4   141508.489  964223.136 1600731.334 2014    4
+2014_5   103701.776   20435.535  148959.019 2014    5
+2014_6     5349.406          NA          NA 2014    6
+2015_0           NA          NA          NA 2015    0
+2015_1           NA          NA          NA 2015    1
+2015_2   119360.670   48147.133          NA 2015    2
+2015_3   844699.884 2026488.066  536501.660 2015    3
+2015_4   383767.988 1050322.063 2011174.244 2015    4
+2015_5   200599.935  380237.481 2098120.345 2015    5
+2015_6           NA          NA          NA 2015    6
+2016_1    35519.395          NA          NA 2016    1
+2016_2   665307.128   23051.131          NA 2016    2
+2016_3  3492533.874 1154898.312  546137.274 2016    3
+2016_4   134696.856  470319.918 1394689.356 2016    4
+2016_5    28918.336   56392.308  245300.042 2016    5
+2016_6    15647.057          NA          NA 2016    6
+2017_1    13461.888          NA          NA 2017    1
+2017_2   162822.865    6205.602          NA 2017    2
+2017_3  1965899.683  637939.840   50758.107 2017    3
+2017_4   138289.429  148993.679 1262079.713 2017    4
+2017_5    12138.232    8185.031  513985.029 2017    5
+2017_6     5317.948          NA          NA 2017    6
+2018_1    45330.868          NA          NA 2018    1
+2018_2   181104.623          NA          NA 2018    2
+2018_3  2066383.613  712987.295   11894.035 2018    3
+2018_4   259620.647  322678.281  888642.213 2018    4
+2018_5    52628.105  312058.626 1970588.163 2018    5
+2018_6     1023.673          NA          NA 2018    6
+2019_1    17540.107          NA          NA 2019    1
+2019_2   478600.959          NA          NA 2019    2
+2019_3  1447710.287  784303.051  211810.531 2019    3
+2019_4   135802.575  694820.774  757784.150 2019    4
+2019_5    42946.029  208116.039  470826.260 2019    5
+2019_6     9883.151          NA          NA 2019    6
+2020_1           NA          NA          NA 2020    1
+2020_2   306892.361          NA          NA 2020    2
+2020_3  1572309.784  871138.027   14858.043 2020    3
+2020_4    84716.506  208713.607  462496.274 2020    4
+2020_5    61174.394    9393.537  211745.154 2020    5
+2020_6    27128.921          NA          NA 2020    6
+2021_1           NA          NA          NA 2021    1
+2021_2   197020.341          NA          NA 2021    2
+2021_3   820299.736  522426.815   25610.586 2021    3
+2021_4    71258.533   74245.665  637419.419 2021    4
+2021_5   252799.591          NA  418259.071 2021    5
+2021_6    87130.105          NA    1979.736 2021    6
+2022_1           NA          NA          NA 2022    1
+2022_2   129995.246          NA          NA 2022    2
+2022_3  2274049.909   70124.055   50620.640 2022    3
+2022_4   261629.144   74508.172  596803.936 2022    4
+2022_5    35945.538   66762.310  558853.748 2022    5
+2022_6           NA          NA          NA 2022    6
+2023_1    27164.606          NA          NA 2023    1
+2023_2   187646.403          NA          NA 2023    2
+2023_3  2223128.761   50810.398    6212.940 2023    3
+2023_4    96249.184  124378.825  431039.117 2023    4
+2023_5   105256.134          NA  435238.829 2023    5
+2023_6           NA          NA          NA 2023    6
+2024_1           NA          NA          NA 2024    1
+2024_2    25728.471          NA          NA 2024    2
+2024_3  1145791.778   45630.340    1476.410 2024    3
+2024_4   120926.013   60676.938  945017.750 2024    4
+2024_5           NA          NA  400112.682 2024    5
+2024_6    66072.800          NA          NA 2024    6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>f[<span class="fu">is.na</span>(f)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">&gt;=</span> <span class="dv">1985</span>), ]</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">&lt;=</span> <span class="dv">2024</span>), ]</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>YEAR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 
+   7    7    7    7    7    7    7    7    7    7    7    7    6    6    6    6 
+2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 
+   6    6    6    6    6    6    6    6    6    6    6    6    7    7    7    6 
+2017 2018 2019 2020 2021 2022 2023 2024 
+   6    6    6    6    6    6    6    6 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>WAVE)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 0  1  2  3  4  5  6 
+15 40 40 40 40 40 40 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with NAs in many locations ---------------</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate percentages of catch by wave, for each region and fleet</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>WAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> avw[<span class="sc">-</span><span class="dv">1</span>, , ]</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(avw[, , <span class="dv">1</span>], avw[, , <span class="dv">2</span>]))</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(avw) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>avwp <span class="ot">&lt;-</span> <span class="fu">apply</span>(avw, <span class="dv">2</span>, <span class="cf">function</span> (x) x <span class="sc">/</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> T)) </span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="co">#colSums(avwp)</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a><span class="co"># go through each column, find NAs and fill in waves by percentages</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>pre_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T)  <span class="co"># column sums to check later</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">0</span>)  <span class="co"># list of rows with NA wave data</span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {      <span class="co"># loop through each column</span></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> lis) {     <span class="co"># loop through list of NA waves</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (f[j, i] <span class="sc">&gt;</span> <span class="dv">0</span>) {  <span class="co"># if there are NA wave catches, split by known proportion from other years</span></span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>      miscatch <span class="ot">&lt;-</span> avwp[, i] <span class="sc">*</span> f[j, i]   <span class="co"># missing catch is known proportion * NA wave catch</span></span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>      f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="sc">+</span> miscatch  <span class="co"># add in missing catch</span></span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>      f[j, i] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># set to zero after catch is attributed to waves</span></span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>f[lis, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="co"># should be all zeros now</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Hire_FLK Hire_NCFL Hire_NNC Hire_VBM Rec_FLK Rec_NCFL Rec_NNC Rec_VBM
+1985_NA        0         0        0        0       0        0       0       0
+1986_NA        0         0        0        0       0        0       0       0
+1987_NA        0         0        0        0       0        0       0       0
+1988_NA        0         0        0        0       0        0       0       0
+1989_NA        0         0        0        0       0        0       0       0
+1990_NA        0         0        0        0       0        0       0       0
+1991_NA        0         0        0        0       0        0       0       0
+1992_NA        0         0        0        0       0        0       0       0
+1993_NA        0         0        0        0       0        0       0       0
+1994_NA        0         0        0        0       0        0       0       0
+1995_NA        0         0        0        0       0        0       0       0
+1996_NA        0         0        0        0       0        0       0       0
+2013_0         0         0        0        0       0        0       0       0
+2014_0         0         0        0        0       0        0       0       0
+2015_0         0         0        0        0       0        0       0       0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>pre_colsum <span class="sc">==</span> pos_colsum  <span class="co"># check that catch was parsed correctly - column sums should be identical </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
+     YEAR      WAVE 
+     TRUE      TRUE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), ]  <span class="co"># remove NA waves which now contain no catch</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split waves 3 and 6 50/50% to parse into seasons ------------------</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">6</span>)  <span class="co"># list of 3 and 6 waves for all years</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> lis) {          <span class="co"># go through list of waves</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> f[i, ] <span class="sc">/</span> <span class="dv">2</span>      <span class="co"># split catch in half</span></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">9</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[i]    <span class="co"># reformat year and wave data columns</span></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">10</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>WAVE[i]</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(temp, temp)   <span class="co"># create two half-waves and relabel with new wave reference number</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">1</span>, <span class="dv">10</span>] <span class="ot">&lt;-</span> temp[<span class="dv">1</span>, <span class="dv">10</span>] <span class="sc">-</span> <span class="fl">0.5</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">2</span>, <span class="dv">10</span>] <span class="ot">&lt;-</span> temp[<span class="dv">2</span>, <span class="dv">10</span>] <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">rbind</span>(f, temp)         <span class="co"># concatenate with main data table</span></span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="sc">-</span>lis, ]  <span class="co"># remove waves that have been split in half</span></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>pre_colsum <span class="sc">==</span> pos_colsum  <span class="co"># check that catch was parsed correctly - column sums should be identical </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
+     YEAR      WAVE 
+    FALSE     FALSE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">order</span>(f<span class="sc">$</span>YEAR, f<span class="sc">$</span>WAVE), ]  <span class="co"># reorder table in chronological order</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="sc">+</span> <span class="dv">1</span>  <span class="co"># add year to December wave so it gets summed with following year</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="ot">&lt;-</span> <span class="fl">0.5</span>  <span class="co"># change December wave to small number so it gets summed with Jan/Feb</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>WAVE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+0.5   1   2 2.5 3.5   4   5 5.5 
+ 40  40  40  40  40  40  40  40 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas <span class="ot">&lt;-</span> <span class="fu">cut</span>(f<span class="sc">$</span>WAVE, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.5</span>, <span class="dv">3</span>, <span class="fl">4.5</span>, <span class="dv">6</span>))</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>seas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+(0,1.5] (1.5,3] (3,4.5] (4.5,6] 
+     80      80      80      80 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1 <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(0,1.5]"</span>)] <span class="ot">&lt;-</span> <span class="st">"DJF"</span>  <span class="co"># DJF is 0.5 and 1</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(1.5,3]"</span>)] <span class="ot">&lt;-</span> <span class="st">"MAM"</span>  <span class="co"># MAM is 2 and 2.5</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(3,4.5]"</span>)] <span class="ot">&lt;-</span> <span class="st">"JJA"</span>  <span class="co"># JJA is 3.5 and 4</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(4.5,6]"</span>)] <span class="ot">&lt;-</span> <span class="st">"SON"</span>  <span class="co"># SON is 5 and 5.5</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tapply</span>(f[, <span class="dv">1</span>], <span class="fu">list</span>(f<span class="sc">$</span>seas1, f<span class="sc">$</span>YEAR), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>temp1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(temp)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>  temp2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">tapply</span>(f[, i], <span class="fu">list</span>(f<span class="sc">$</span>seas1, f<span class="sc">$</span>YEAR), sum, <span class="at">na.rm =</span> T))</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>  temp1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(temp1, temp2)</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sort</span>(<span class="fu">rep</span>(<span class="fu">as.numeric</span>(<span class="fu">colnames</span>(temp)), <span class="dv">4</span>)), </span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="fu">rownames</span>(temp), <span class="fu">ncol</span>(temp)), temp1)</span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"season"</span>, <span class="fu">names</span>(f)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(f[, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">na.rm =</span> T) <span class="sc">==</span> <span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)  <span class="co"># check that total catch is equal before and after parsing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>findat<span class="sc">$</span>yrseas <span class="ot">&lt;-</span> findat<span class="sc">$</span>year <span class="sc">+</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(findat<span class="sc">$</span>season))<span class="sc">/</span><span class="dv">4</span><span class="fl">-0.125</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the catch by region.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(findat<span class="sc">$</span>yrseas, findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MRIP_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check that totals match</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+ 55604999  16909916  57944903   5836953 371462933  70803866  32556596  40081529 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(fin[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), ], <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+ 54887476  16736926  57886388   5828072 363537632  69641157  32479119  39968585 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the values should be close but slightly &gt;1 because the last data set includes December 1985 data as part of 1986</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">colSums</span>(fin[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), ], <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+ 1.013073  1.010336  1.001011  1.001524  1.021800  1.016696  1.002385  1.002826 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># very tiny differences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
