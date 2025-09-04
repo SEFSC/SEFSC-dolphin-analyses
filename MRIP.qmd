@@ -303,3 +303,43 @@ colSums(findat[, 3:10], na.rm = T) / colSums(fin[-c(1:5), ], na.rm = T)
 
 write.csv(findat, file = "data/MRIP_catch_by_season_4_areas.csv", row.names = FALSE)
 ```
+Here we will format the data for input to the operating model 
+
+```{r}
+#| echo: true
+
+tab3 <- findat
+
+flt <- c(rep("ForHire", nrow(tab3)*4), rep("Rec", nrow(tab3)*4))
+  
+yrmon <- as.numeric(tab3$yrseas)
+yrs <- floor(yrmon)
+qrt <- (yrmon - floor(yrmon)) * 4 + 0.5
+area <- c(rep("FLK", nrow(tab3)), rep("NCFL", nrow(tab3)), 
+          rep("NNC", nrow(tab3)), rep("VBM", nrow(tab3)))
+area <- rep(area, 2)
+
+
+findat1 <- data.frame(yrs, qrt, flt, area, matrix(as.matrix(tab3[,3:10])))
+findat1
+names(findat1) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
+
+head(findat1)
+
+plot(findat1$Catch_lbs, type = "l")
+plot(findat1$Catch_lbs ~ factor(findat1$Area))
+plot(findat1$Catch_lbs ~ factor(findat1$Quarter))
+plot(findat1$Catch_lbs ~ factor(findat1$Year))
+
+findat1 <- findat1[which(findat1$Year <= 2022), ]
+findat1 <- findat1[which(findat1$Year >= 1986), ]
+
+apply(findat1, 2, table)
+
+findat <- findat[which(findat$year >=1986 & findat$year <= 2022), ]
+tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)
+colSums(findat[3:10], na.rm = T)
+
+write.csv(findat, file = "data/rec_formattedTom.csv", row.names = FALSE)
+
+```

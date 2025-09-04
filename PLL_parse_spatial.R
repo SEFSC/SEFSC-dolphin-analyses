@@ -21,6 +21,7 @@ table(d$PLL, useNA = "always")   # PLL gear used Y/N  - ~91% PLL trips
 d$lat <- d$LATDEG + d$LATMIN/60
 d$lon <- -(d$LONDEG + d$LONMIN/60)
 
+dev.off()
 map("world")
 points(d$lon, d$lat, col = 2, pch = 19, cex = 0.4)
 
@@ -78,6 +79,8 @@ dd <- d[which(d$TDOL == "Y"), ]
 map("world", xlim = c(-100, -30), ylim = c(5, 55))
 axis(1); axis(2); box()
 points(dd$lon, dd$lat, pch = 19, cex = log(dd$DOLPHIN_POUNDS)/2, col = as.numeric(as.factor(dd$area))+1)
+
+barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, sum, na.rm = T))
 
 # make new date variables 
 d$year <- as.numeric(substr(d$SDATE, 1, 4))
@@ -145,6 +148,7 @@ tabp/tabp1  # numbers are generally very similar - go with weight
 
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$area, d$year), sum, na.rm = T)
 
+dev.off()
 yrs <- 1998:2022
 par(mfrow = c(5, 5), mex = 0.6)
 for (i in 1:length(yrs)) {
@@ -175,6 +179,7 @@ percatch
 # Look at how PLL catch is distributed by area.  We will use these numbers to fill in missing 
 # areas of reporting (primarily NCA) from the trip ticket data.  
 
+dev.off()
 barplot(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T), col = 2:8, 
         main = "total dolphin catch by area", xlab = "total pounds landed")
 
@@ -202,8 +207,10 @@ round(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T) / sum(tapply(d$DOLPHIN_PO
 # Reporting areas are here: https://grunt.sefsc.noaa.gov/ttrs/lu_areas_nmfs.jsp
 # On average, 79% of catch comes from NCFL.  Only 1.8% comes from NCA; not reported but probably negligible. 
 
+# NCA   CAR   FLK  NCFL   NNC   VBM   NED 
+# 1.80  1.38  0.92 78.96  7.01  9.34  0.60
 
-################### TRIP TICKET DATA  #################
+###################  TRIP TICKET DATA  #################
 
 rm(list = ls())
 
@@ -216,7 +223,7 @@ apply(d, 2, table)
 
 # from Kyle: SQL code:  SELECT * FROM sedat.xref_area_nmfs_fin@secapxdv_dblk.sfsc.noaa.gov
 
-f <- read.csv("C://Users/mandy.karnauskas/Desktop/fin_nmfs_codes.csv")
+f <- read.csv("data/fin_nmfs_codes.csv")
 f$latc <- f$lat + 0.5
 f$lonc <- -(f$lon + 0.5)
 f$area2 <- f$area
@@ -327,5 +334,51 @@ tab3 <- tab3[, 2:8]
 
 barplot(colSums(tab3))
 
-matplot(rownames(tab3), tab3, type = "l", col = 2:8, lty = 1)
-legend("topright", colnames(tab3), col = 2:8, lty = 1)
+matplot(rownames(tab3), tab3/10^6, type = "l", col = 2:8, lty = 1, lwd = 2, 
+        main = "U.S. commercial landings by region", 
+        xlab = "year", ylab = "total landings (millions of pounds)")
+legend("topright", colnames(tab3), col = 2:8, lty = 1, bty = "n", lwd = 2)
+
+round(colSums(tab3, na.rm = T) / sum(tab3, na.rm = T) * 100, 2)
+
+# NCA   CAR   FLK  NCFL   NNC   VBM   NED 
+# 0.10  0.15 36.18 34.63 25.45  3.37  0.12 
+
+# reformat for Tom 
+
+labs <- c()
+for (i in colnames(tab3)) { labs <- c(labs, rep(i, nrow(tab3)))}
+
+yrmon <- as.numeric(rownames(tab3))
+yrs <- floor(yrmon)
+qrt <- (yrmon - floor(yrmon)) * 4 + 1
+flt <- rep("com", length(qrt))
+findat <- data.frame(yrs, qrt, flt, labs, matrix(tab3))
+findat
+names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
+
+head(findat)
+
+plot(findat$Catch_lbs, type = "l")
+plot(findat$Catch_lbs ~ factor(findat$Area))
+plot(findat$Catch_lbs ~ factor(findat$Quarter))
+plot(findat$Catch_lbs ~ factor(findat$Year))
+
+findat <- findat[which(findat$Year <= 2022), ]
+
+apply(findat, 2, table)
+
+write.csv(findat, file = "C:/Users/mandy.karnauskas/Desktop/commercialTomFormat.csv")
+
+
+findat$Area <- factor(findat$Area, levels = c("", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
+
+tab <- tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T)
+barplot(tab, beside = T, col = rainbow(4))
+
+tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
+barplot(tabp, beside = T, col = rainbow(4), main = "seasonality of dolphin catch by region -- trip ticket", 
+        xlab = "region", ylab = "proportion of total catch (in pounds)",
+        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4), bty = "n"))
+
+
