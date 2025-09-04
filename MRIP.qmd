@@ -337,9 +337,10 @@ findat1 <- findat1[which(findat1$Year >= 1986), ]
 apply(findat1, 2, table)
 
 findat <- findat[which(findat$year >=1986 & findat$year <= 2022), ]
+#check that the numbers are exactly the same
 tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)
 colSums(findat[3:10], na.rm = T)
 
-write.csv(findat, file = "data/rec_formattedTom.csv", row.names = FALSE)
+write.csv(findat1, file = "data/rec_formattedTom.csv", row.names = FALSE)
 
 ```
