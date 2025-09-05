@@ -1,107 +1,8 @@
-# Analysis of international landings estimates from Sea Around Us database
-
-Here we will explore commercial and recreational landings data as estimated by the [Sea Around Us Project](https://www.seaaroundus.org/data/#/eez). This data set includes reported data for fisheries worldwide as well as reconstructed estimates for unreported landings. For each country, project scientists assemble available data on landings and use additional sociological and fishing data plus expert information and opinion, to produce their best estimates of total landings from all fishing sectors and for all species globally.
+# Analysis of international landings estimates from Sea Around Us -- territorial waters
 
 ## Data access and upload
 
-For catches within each country's exclusive economic zones, data are downloaded download data from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity)(Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. The high seas data are accessed in the Basic Search [High seas section of the site](https://www.seaaroundus.org/data/#/highseas). The individual regions can be clicked on (e.g., Atlantic, Western Central) and then the data are dowloaded using the Download Data button.
-
-The current version of data in use is version 50.1, accessed June 2024 (the data files can be found on github in the SEFSC-dolphin-analyses/data
-/SAU/ folder). This was still the most recent version of data available as of June 2025. 
-
-## Read in the high seas landings
-
-First we read in the high seas landings for the Western Central Atlantic and Northwest Atlantic zones. These are equivalent to FAO areas 21 and 31.
-
-```{r}
-#| warning: false
-#| echo: true
-
-# clear workspace
-rm(list = ls())
-
-if(!require("pals")) install.packages("pals")
-library(pals)
-
-# find data files
-hslis <- dir("data/SAU/")[grep("HighSeas", dir("data/SAU/"))]
-
-# identify areas 21 and 31
-hslis[1]; hslis[3]   
-
-#download data
-h1 <- read.csv(paste0("data/SAU/", hslis[1]))   
-h3 <- read.csv(paste0("data/SAU/", hslis[3]))
-
-# confirm correct areas
-#unique(h1$area_name)
-#unique(h3$area_name)
-
-hs <- rbind(h1, h3) 
-```
-
-We extract the data for dolphinfish and look at the characteristics of the landings. Most of the landings are in the Western Central Atlantic, and the primary fishing entities are Venezuela and Saint Lucia. The fishing sector is all industrial, and the vast majority of the catch is reported landings, with only a tiny fraction of discards or unreported landings listed in the database. The gear type is primarily long line.
-
-```{r}
-#| warning: false
-#| echo: true
-
-# check species name and filter out dolphinfish
-unique(hs$common_name)[grep("dolphin", unique(hs$common_name))]
-hs <- hs[which(hs$common_name == "Common dolphinfish"), ]
-
-# look at the categories within each column of data
-apply(hs[1:13], 2, table)
-
-# convert from metric tonnes to pounds
-hs$pounds <- hs$tonnes * 1000 * 2.20462
-
-# produce barplot of key data fields
-par(mar = c(3, 20, 3, 1), mfrow = c(3, 2), mex = 0.5)
-barplot(tapply(hs$pounds/10^6, hs$area_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)
-#barplot(tapply(hs$pounds/10^6, hs$area_type, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Area type")
-#barplot(tapply(hs$pounds/10^6, hs$year, sum, na.rm = T), las = 2, ylab = "millions of pounds", main = "Year")
-barplot(tapply(hs$pounds/10^6, hs$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
-barplot(tapply(hs$pounds/10^6, hs$fishing_sector, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing sector", horiz = T)
-barplot(tapply(hs$pounds/10^6, hs$catch_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Catch type", horiz = T)
-barplot(tapply(hs$pounds/10^6, hs$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
-barplot(tapply(hs$pounds/10^6, hs$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
-```
-
-## Summarize the high seas landings
-
-We plot the annual catches by fishing entity to look at trends over time.
-
-```{r}
-#| warning: false
-#| echo: true
-
-hs$fishing_entity <- as.factor(hs$fishing_entity)
-hs$fishing_entity <- droplevels(hs$fishing_entity)
-
-par(mar = c(5, 5, 3, 1), mfrow = c(1, 1))
-tab <- tapply(hs$pounds, list(hs$year, hs$fishing_entity), sum, na.rm = T)
-matplot(as.numeric(rownames(tab)), tab/10^6, type = "l", col = glasbey(ncol(tab)), lty = 1, lwd = 2, xlab = "year", ylab = "total catch (millions of pounds)", 
-        main = "High seas Western Central Atlantic dolphin catch")
-legend("topleft", colnames(tab), col = glasbey(ncol(tab)), lty = 1, lwd = 2, cex = 0.8, bty = "n")
-```
-
-Finally we output the subset of high seas dolphin catch for the two areas. Because we have already accounted for the USA landings in our national reporting and are aiming to only summarize international landings here, we filter out the USA landings from the Sea Around Us database.
-
-```{r}
-#| warning: false
-#| echo: true
-
-hs <- hs[which(hs$fishing_entity != "USA"), ]
-
-hs$year <- factor(hs$year, levels = 1950:2019)
-tab <- tapply(hs$pounds, list(hs$year, hs$area_name), sum, na.rm = T)
-tab[is.na(tab)] <- 0
-tail(tab, 40)
-
-# write summary to merge with EEZ data 
-write.csv(tab, file = "data/SAU/high_seas_by_year.csv")
-```
+For catches within each country's exclusive economic zones, data are downloaded download data from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity)(Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. 
 
 ## Read in the landings within excluzive economic zones (EEZs)
 
@@ -132,6 +33,9 @@ barplot(tapply(d$lbs, d$fishing_sector, sum, na.rm = T)/10^6, las = 2, ylab = "m
 barplot(tapply(d$lbs, d$catch_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Catch type")
 barplot(tapply(d$lbs, d$reporting_status, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Reporting status")
 barplot(tapply(d$lbs, d$gear_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Gear type")
+
+round(tapply(d$lbs, d$catch_type, sum, na.rm = T) / sum(d$lbs) * 100, 2)   # 15% are discards
+round(tapply(d$lbs, d$reporting_status, sum, na.rm = T) / sum(d$lbs) * 100, 2)  # 55% are unreported
 ```
 
 ## Separating the EEZs by area
@@ -257,8 +161,9 @@ matplot(yrs, tab_glob/10^6, las = 2, type = "l", lty = c(3, rep(1, 9)), lwd = 3,
 legend("topleft", colnames(tab_glob), col = glasbey(ncol(tab_glob)), 
        lty = c(3, rep(1, 9)), lwd = 3, bty = "n")
 ```
-
 We can see that the EEZ catches globally are dominated by areas outside of the Atlantic ("other oceans") so we will replot the data after moving this category. Here we can see that most of the catches historically were coming from the Mediterranean Sea, though these catches have been declining drastially since the 1970s. Catches in the United States have showed an opposite pattern, with low historical catches that increased in the 1980s (largely due to the introduction of recreational monitoring). Catches in the Western Central EEZs have increased gradually over time.
+
+We save these data for later use, and move on to analyzing only the Western Central and Northwest Atlantic jurisdictions.  
 
 ```{r}
 #| echo: true
@@ -274,97 +179,29 @@ matplot(yrs, tab/10^6, las = 2, type = "b", pch = 19, cex = 0.5, lty = 1, col = 
 matplot(yrs, tab/10^6, las = 2, type = "l", pch = 19, lty = 1, lwd = 2, add = T, col = glasbey(ncol(tab)+1)[-1])
 axis(1, at = yrs[seq(1, 90, 2)], las = 2); axis(2); box()
 legend(1952, 25, colnames(tab), col = glasbey(ncol(tab)+1)[-1], pch = 19, lty = 1, lwd = 2, bty = "n", cex = 0.6)
-```
 
-## Merge high seas with catch with exclusive economic zones
+write.csv(data.frame(tab), file = "data/outputs/intl_catches_allAtlantic.csv", row.names = T)
 
-Now we will merge in the high seas catch from the steps above into the EEZ catches to get a better picture of total catch in FAO zones 31 and 21. Recall that the U.S. Gulf and Atlantic catches are not necessarily parsed apart correctly in the public databases which get compiled into Sea Around Us, so these will have the same deficiencies as noted in Section 2. Later we will merge in the corrected data.  
+dwest <- d[which(d$reg == "Canadian EEZ" | d$reg == "Western Central Atlantic EEZs"), ]
+save(dwest, file = "data/outputs/SAU_EEZs_WCA.RData")
 
-```{r}
-#| echo: true
+tab <- tapply(dwest$lbs, list(dwest$year, dwest$area_name), sum, na.rm = T)
+sort(colSums(tab, na.rm = T), decreasing = T)[1:15]  # eight countries are responsible for vast majority of catch with total landings across all years exceeding 2M pounds
+lis <- names(sort(colSums(tab, na.rm = T), decreasing = T)[1:8])
+tab1 <- tab[, colnames(tab) %in% lis]
 
-hs <- read.csv("data/SAU/high_seas_by_year.csv")
-names(hs)[1] <- "year"
-
-# check that columns match
-#head(tab)
-#head(hs)
-table(rownames(tab) == hs$year)  
-
-tab[which(is.na(tab))] <- 0
-tab_atl <- cbind(tab, hs[2:3])
-
-# check the merge
-head(tab_atl)
-
-# separate all WCA catches 
-unique(d$reg)  # use Western Central, U.S. and Canada
-dwc <- d[which(d$reg == "Western Central Atlantic EEZs" | d$reg == "United States EEZ" | d$reg == "Canadian EEZ"),]
-
-#unique(dwc$area_name[which(dwc$reg == "United States EEZ")])
-#unique(dwc$area_name[which(dwc$reg == "Canadian EEZ")])
-#unique(dwc$area_name[which(dwc$reg == "Western Central Atlantic EEZs")])
-
-# relabel U.S. by area
-dwc$reg[which(dwc$area_name == "USA (East Coast)")] <- "United States East Coast"
-dwc$reg[which(dwc$area_name == "USA (Gulf of Mexico)")] <- "United States Gulf"
-dwc$reg[which(dwc$area_name == "Puerto Rico (USA)")] <- "United States Caribbean"
-dwc$reg[which(dwc$area_name == "US Virgin Isl.")] <- "United States Caribbean"
-#table(dwc$area_name, dwc$reg)
-
-tab_wc <- tapply(dwc$lbs, list(dwc$year, dwc$reg), sum, na.rm = T)
-#head(tab_wc)
-
-# reorder S to N
-tab_wc <- tab_wc[, c(5, 2, 4, 3, 1)]
-head(tab_wc)
-
-# merge in the high seas catch - check years match
-#head(hs)
-table(rownames(tab_wc) == hs$year)
-
-high_seas <- hs$Atlantic..Western.Central + hs$Atlantic..Northwest
-high_seas[high_seas == 0] <- NA
-tab_wc <- cbind(tab_wc, high_seas)
-head(tab_wc)
-```
-
-## Plot Western Atlantic catches
-
-Now we plot the total Western Atlantic catches -- both within the EEZs and the high seas -- separating by U.S., Canada, and the Western Central Atlantic (i.e., the Wider Caribbean). Most of the catch is coming from the United States and the 40 combined Caribbean jurisdictions which comprise the Western Central Atlantic.  
-
-```{r}
-#| echo: true
-
-par(mar = c(5, 4, 4, 3), mgp = c(3, 1, 0))
-matplot(yrs, tab_wc/10^6, las = 2, type = "l", lty = 1, lwd = 3, col = c(1, 3:7), 
-        xlab = "", ylab = "total catch (millions of pounds)", 
-        main = "Western Atlantic dolphin catches (commercial + recreational)")
-legend("topleft", colnames(tab_wc), col = c(1, 3:7), lty = 1, lwd = 3, bty = "n")
+matplot(rownames(tab1), tab1/10^6, las = 2, type = "l", lty = 1, lwd = 2, pch = 19, col = 1:8,
+        xlab = "", ylab = "total catch (millions of pounds)", axes = F, 
+        main = "Total dolphinfish catches in Caribbean EEZs (top 8 jurisdictions)")
+axis(1, at = seq(1950, 2020, 5)); axis(2, las = 2); box()
+legend("topleft", colnames(tab1), col = 1:8, lty = 1, lwd = 3, bty = "n", title = "Fishing area name")
 
 ```
-Separating out the mainland United States catches, here are the international and domestic (mainland) catches plotted over time.   
-
-```{r}
-#| echo: true
-
-tab_int <- tab_wc[, c(1, 2, 5, 6)]
-head(tab_int)
-int_catch <- round(rowSums(tab_int, na.rm = T), 2)
-dom_catch <- rowSums(tab_wc[, c(3, 4)], na.rm = T)
-
-matplot(yrs, cbind(int_catch, dom_catch)/10^6, las = 2, type = "l", lty = 1, lwd = 3, col = c(2, 4),
-        xlab = "", ylab = "total catch (millions of pounds)", 
-        main = "Western Atlantic dolphin catches in international vs domestic waters\n(FAO areas 21 and 31, commercial + recreational)")
-legend("topleft", c("international", "United States mainland"), col = c(2, 4), lty = 1, lwd = 3, bty = "n")
-
-# output international catches
-write.csv(data.frame(int_catch), file = "data/international_catches.csv", row.names = T)
-```
+Note the rapid eight-fold increase in catches listed within the Venezuelan EEZ which occurs from 2013 - 2019.  This increase is responsible for a rapid increase in estimated international catches within the Western Atlantic seen in the prior plot.    
 
 ## Look at Venezuela catches in detail
 
-Note in the plot above a rapid increase in international catches within the Western Atlantic. This is driven by a sudden increase in catches reported within Sea Around Us within the EEZ. We investigate these catches in detail as it seems odd that a relatively small fleet would be able to ramp up effort so rapidly. Data can be downloaded on a country-specific basis, the catches by taxon in the waters of Venezuela are accessed [here](https://www.seaaroundus.org/data/#/eez/862?chart=catch-chart&dimension=taxon&measure=tonnage&limit=10).    
+The figures above indicate that the database shows a rapid increase in international catches within the Western Atlantic, driven by a sudden increase in catches reported within Sea Around Us database within the Venezuelan EEZ. We investigate these catches in detai, as it seems odd that a relatively small fleet from a single country would be able to ramp up effort so rapidly. Data can be downloaded on a country-specific basis, the catches by taxon in the waters of Venezuela are accessed [here](https://www.seaaroundus.org/data/#/eez/862?chart=catch-chart&dimension=taxon&measure=tonnage&limit=10).    
 
 ```{r}
 #| echo: true
@@ -386,7 +223,7 @@ v$pounds <- v$tonnes * 1000 * 2.20462
 par(mar = c(5, 10, 1, 1), mfrow = c(3, 2), mex = 0.5)
 #barplot(tapply(v$pounds/10^6, v$area_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)
 #barplot(tapply(v$pounds/10^6, v$area_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area type", horiz = T)
-barplot(tapply(v$pounds/10^6, v$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
+barplot(tapply(v$pounds/10^6, v$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Year", horiz = T)
 barplot(tapply(v$pounds/10^6, v$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
 barplot(tapply(v$pounds/10^6, v$fishing_sector, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing sector", horiz = T)
 barplot(tapply(v$pounds/10^6, v$catch_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Catch type", horiz = T)
@@ -394,7 +231,7 @@ barplot(tapply(v$pounds/10^6, v$reporting_status, sum, na.rm = T), las = 2, xlab
 barplot(tapply(v$pounds/10^6, v$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
 ```
 
-Note that a large portion of the catch in the database is listed as coming from an "Unknown Fishing Country." We extract these catches and further investigate the characteristics.  
+Note that a large portion of the catch in the database is listed as coming from an "Unknown Fishing Country." We extract these catches and further investigate the characteristics.
 
 ```{r}
 #| echo: true
@@ -410,6 +247,7 @@ barplot(tapply(v1$pounds/10^6, v1$fishing_entity, sum, na.rm = T), las = 2, xlab
 barplot(tapply(v1$pounds/10^6, v1$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
 barplot(tapply(v1$pounds/10^6, v1$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
 ```
+
 Here is another look at the catches within the venezuelan EEZ, separated by fishing entity.  
 
 ```{r}
@@ -427,10 +265,178 @@ legend("topleft", colnames(tab), col = 1:5, pch = 19, lty = 1, lwd = 3, bty = "n
 
 text(2004, 6, cex = 0.8,
      "These Unknown Fishing Country\ncatches appear in the database as an\nindustrial fleet using pole and line gear\nand are all listed as reported data\n('Assigned Tuna RFMO catch')")
+
 ```
 The very substantial increase in international Western Atlantic dolphin catches can be attributed solely to this Unknown Fishing Country catches which appear in the database beginning in 2013. The documentation of the catch reconstruction can be found in the Sea Around Us documentation files (see Mendoza et al. 2015). We spoke to Jeremy Mendoza and other experts who were involved in the reconstruction of domestic catches in Venezuela, and they noted that the "Assigned tuna RFMO catch" actually emerge from spatially reshuffled landing reports to ICCAT, according to the methods of [Coulter et al. (2020)](https://www.sciencedirect.com/science/article/abs/pii/S0165783619302346). In this work, the Sea Around Us team developed a global spatial reallocation of landings of tunas and associated species that were reported to ICCAT. In short, this work uses the fraction of reported spatially disaggregated data to reallocate all data reported to ICCAT. This step is necessary because there are not many countries that report spatial data to ICCAT in the region, and this method may lead to a significant reallocation of landings from the Caribbean to the Venezuelan EEZ, where the local pole and line fishery is significant (J. Mendoza, personal communication). Thus, it is likely that landings from other EEZs, that were included in the reconstructed catch data layer, could have been reassigned to the Venezuelan EEZ.  
 
-Because there may be some overlap between the reconstructed data used in the national EEZ estimates, and the ICCAT reporting that was reassigned, there could potentially be a "double counting" of these catch estimates in the Sea Around Us database. These Unknown Fishing Country catches that lead to a large increase in total estimated catches within the Venezuelan EEZ should be treated with caution at this time, until we can verify with Sea Around Us database managers that the spatial disaggregation method used has not led to an overestimate.  
+Because there may be some overlap between the reconstructed data used in the national EEZ estimates, and the ICCAT reporting that was reassigned, there could potentially be a "double counting" of these catch estimates in the Sea Around Us database. We verified with Sea Around Us database managers that their method led to an error resulting in an overestimate of the catch, and they advised us to remove these Unknown Fishing Country catches as they are difficult to trace back to the data source.  
+
+```{r}
+removecatch <- tab[, 4]
+save(removecatch, file = "data/outputs/erroneous_catch_to_be_removed.RData")
+```
+
+## Compile catch in CAR and NED jurisdictional waters by discards and reporting type
+
+Now that we have separated the EEZ catch by region, we will summarize it according to the areas used in the dolphin management strategy evaluation operating model. We will separate the catch by discards versus landings and reported versus unreported data so that we can use these data in various sensitivity analyses.  
+
+```{r}
+#| echo: true
+
+rm(list = ls())  # clear the workspace
+
+# load data
+load("data/outputs/SAU_EEZs_WCA.RData")  # SAU EEZ data for NED and NCA saved from earlier
+load("data/outputs/erroneous_catch_to_be_removed.RData")   # double-counted catch values to be removed
+
+d <- dwest
+
+# summarize the catch by area, discards/landings and reported/unreported
+tapply(d$lbs, list(d$catch_type, d$reporting_status, d$reg), sum, na.rm = T)
+
+```
+
+The catch from the Canadian EEZs is 100% landings, with no unreported data and no discards. In the WCA there are no reported discards, only unreported discards.  Thus, we only need to separate out unreported discards and landings for the WCA.  
+
+```{r}
+#| echo: true
+
+# summarize the catch by year, area, discards/landings and reported/unreported
+
+d$year <- factor(d$year, levels = 1950:2019)
+dc <- d[which(d$reg == "Canadian EEZ"), ]
+dw <- d[which(d$reg == "Western Central Atlantic EEZs"), ]
+
+# verify proper identification of the erroneous Venezuelan Unknown Fishing Country catches 
+bad <- dw[which(dw$area_name == "Venezuela" & dw$fishing_entity == "Unknown Fishing Country"), ]
+#dim(bad)
+bad_totals <- tapply(bad$lbs, bad$year, sum, na.rm = T)
+
+cbind(tail(bad_totals, 10), tail(removecatch, 10)) # the numbers match exactly
+
+# now remove those bad catches from the database prior to summarizing
+#dim(dw)
+dw <- dw[-which(dw$area_name == "Venezuela" & dw$fishing_entity == "Unknown Fishing Country"), ]
+#dim(dw)
+
+CAN <- tapply(dc$lbs, list(dc$year, dc$catch_type, dc$reporting_status), sum, na.rm = T)
+tail(CAN)
+
+tab_dw <- tapply(dw$lbs, list(dw$year, dw$catch_type, dw$reporting_status), sum, na.rm = T)
+tail(tab_dw)
+
+# combine CAR reported landings, unreported discards, unreported landings
+CAR <- data.frame(cbind(tab_dw[, 2, 1], tab_dw[, , 2]))  
+names(CAR) <- c("landings", "discards", "unreported")
+
+matplot(rownames(CAR), cbind(CAN, CAR)/10^6, type = "l", lwd = 2, lty = 1, col = 2:5,
+        xlab = "", ylab = "total catch (millions of pounds)",
+        main = "Total dolphinfish catches in NED and NCA jurisdictional waters")
+legend("topleft", col = 2:5, c("Canadian reported landings", "Caribbean landings", 
+                    "Caribbean discards", "Caribbean unreported landings"), lty = 1, lwd = 3, bty = "n")
+
+round(sum(CAR$discards, na.rm = T) / (sum(CAR$discards, na.rm = T) + sum(CAR$landings, na.rm = T)) * 100, 2)  # discards are 0.6% of landings
+
+```
+
+Note that the Caribbean unreported discards in the database are negligible (< 1%) and we exclude them from further analysis.  
+
+## Distribute the territorial international catches across quarters of the year
+
+The international landings are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. Lacking other information on the seasonality of these fleets, we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the jurisdictional fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
+
+The pelagic longline logbook data is only available going back to 1997, but there are Caribbean catches extending back to the 1950s. To interpolate the seasonality for 1986 - 1996, we take the average seasonality of the oldest 10 years of logbook data (1997 - 2006) and use those averages for the unknown years.  
+
+At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.  
+
+```{r}
+#| echo: true
+
+#par(mar = c(5, 10, 3, 1))
+#barplot(tapply(dw$lbs, dw$gear_type, sum, na.rm = T), horiz = T, las = 2)
+#barplot(tapply(dc$lbs, dc$gear_type, sum, na.rm = T), horiz = T, las = 2)
+
+# read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL
+load("data/per_PLLcatch_by_area_yearquarter.RData")  
+
+percatch[1, 1, ] # matrix 2 == Caribbean, matrix 7 == NED (Atlantic Northwest)
+
+CAN <- CAN[which(rownames(CAN) >= 1997)]  # PLL data are only available from 1997 on 
+CAN <- c(CAN, CAN[length(CAN)], CAN[length(CAN)], CAN[length(CAN)])  # interpolate 2019 catches for 2020-2022
+
+CANqrt <- percatch[, , 7]   # create matrix for final catch data
+for (i in 1:ncol(percatch))  { 
+  CANqrt[, i] <- percatch[, i, 7] * CAN[i]  }
+
+percatch_car <- percatch[, , 2]
+int <- rowMeans(percatch_car[, 1:10])
+percatch_car <- cbind(matrix(rep(int, length(1986:1996)), nrow = 4), percatch_car)
+colnames(percatch_car) <- 1986:2022   # full data frame for Caribbean seasonality 1986 - 2022
+
+CAR <- CAR[which(rownames(CAR) >= 1986), ]  # only need Caribbean data from 1986 on 
+CAR <- rbind(CAR, CAR[nrow(CAR), ], CAR[nrow(CAR), ], CAR[nrow(CAR), ])  # interpolate 2019 catches for 2020-2022
+
+#dim(CAR)
+#dim(percatch_car)
+
+CARrep <- percatch_car   # create matrices for final catch data
+CARunr <- percatch_car
+
+for (i in 1:ncol(percatch_car))  { 
+  CARrep[, i] <- percatch_car[, i] * CAR[i, 1]
+  CARunr[, i] <- percatch_car[, i] * CAR[i, 3]
+}
+
+# ensure sums are equal after parsing
+sum(CARrep); sum(CAR$landings)
+sum(CARunr); sum(CAR$unreported)
+sum(CAN, na.rm = T); sum(CANqrt, na.rm = T)
+
+CANqrt <- CANqrt[, !is.na(colSums(CANqrt))] # remove NA columns from CAN data
+
+# plot the parsed out data by year-quarter
+yrs <- sort(rep(as.numeric(colnames(CARrep)), 4))
+qrt <- rep(1:4, length(yrs)/4)
+yrs1 <- sort(rep(as.numeric(colnames(CANqrt)), 4))
+qrt1 <- rep(1:4, length(yrs1)/4)
+
+matplot(yrs + qrt/4, cbind(matrix(CARrep), matrix(CARunr))/10^6, lty = 1, lwd = 2, 
+        col = 2:3, type = "l", main = "International jurisdictional catches by quarter", 
+        xlab = "", ylab = "total catch (millions of pounds)")
+lines(yrs1 + qrt1/4, as.numeric(matrix(CANqrt))/10^6, lwd = 2, col = 4)
+legend("topleft", c("Caribbean reported landings", "Caribbean unreported landings", "Canadian reported landings"),        lwd = 2, col = 2:4, bty = "n")
+
+```
+Finally, we format the data in the format for input into the operating model. 
+
+```{r}
+#| echo: true
+
+# format for operating model - Caribbean 
+flt <- rep("Intl", length(yrs))
+are <- rep("CAR", length(yrs))
+fin1 <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARrep)))
+flt <- rep("Unrep", length(yrs))
+fin2 <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARunr)))
+
+findat <- data.frame(rbind(fin1, fin2), stringsAsFactors = FALSE)
+names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
+findat$Catch_lbs <- as.numeric(findat$Catch_lbs)
+head(findat)
+
+plot(findat$Catch_lbs, type = "l")
+plot(findat$Catch_lbs ~ factor(findat$Fleet))
+plot(findat$Catch_lbs ~ factor(findat$Quarter))
+plot(findat$Catch_lbs ~ factor(findat$Year))
+apply(findat, 2, table)
+
+write.csv(findat, file = "data/outputs/CAR_rep_unrep_TomFormat.csv")
+
+#barplot(tapply(findat$Catch_lbs, list(findat$Quarter), sum, na.rm = T), col = rainbow(4))
+
+```
+
+
 
 ## References
 

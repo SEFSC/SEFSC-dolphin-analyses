@@ -4,7 +4,7 @@ Here we will explore commercial and recreational landings data as estimated by t
 
 ## Data access and upload
 
-For catches within each country's exclusive economic zones, data are downloaded download data from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity)(Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. The high seas data are accessed in the Basic Search [High seas section of the site](https://www.seaaroundus.org/data/#/highseas). The individual regions can be clicked on (e.g., Atlantic, Western Central) and then the data are dowloaded using the Download Data button.
+The high seas data are accessed in the Basic Search [High seas section of the site](https://www.seaaroundus.org/data/#/highseas). The individual regions can be clicked on (e.g., Atlantic, Western Central) and then the data are downloaded using the Download Data button.  
 
 The current version of data in use is version 50.1, accessed June 2024 (the data files can be found on github in the SEFSC-dolphin-analyses/data /SAU/ folder). This was still the most recent version of data available as of June 2025.
 
@@ -71,8 +71,6 @@ round(tapply(hs$pounds, hs$reporting_status, sum, na.rm = T) / sum(hs$pounds) * 
 
 ```
 
-Note there are few (a fraction of a percent) discards and unreported landings -- nearly all of the high seas landings appear as reported and landed fish.
-
 ## Summarize the high seas landings
 
 We plot the annual catches by fishing entity to look at trends over time.
@@ -107,11 +105,12 @@ tail(tab, 40)
 # write summary to merge with EEZ data 
 write.csv(tab, file = "data/SAU/high_seas_by_year.csv")
 ```
+
 ## Distribute the high seas landings across quarters of the year
 
 The international landings are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. The majority of the international landings are caught by longline, so we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the international high seas fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
 
-At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.  
+At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.
 
 ```{r}
 #| echo: true
@@ -119,23 +118,35 @@ At the time of analysis, the SAU database only contained catches to 2019, so we 
 # read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL
 load("data/per_PLLcatch_by_area_yearquarter.RData")  
 
-percatch[, , 7] # these are the percentages for the NED (Atlantic Northwest)
-
 tab <- tab[which(rownames(tab) >= 1997), ]  # PLL data are only available from 1997 on 
 #tab[nrow(tab), ]
 tab <- rbind(tab, tab[nrow(tab), ], tab[nrow(tab), ], tab[nrow(tab), ])  # interpolate 2019 catches for 2020-2022
+tail(tab)
 
 NED <- percatch[, , 1]   # create matrices for final catch data
 NCA <- percatch[, , 1]
 
 for (i in 1:ncol(percatch))  { 
-  NED[, i] <- percatch[, i, 7] * tab[i, 1]
-  NCA[, i] <- percatch[, i, 1] * tab[i, 2]
+  NED[, i] <- percatch[, i, 7] * tab[i, 1]   # these are the percentages for the NED (Atlantic Northwest)
+  NCA[, i] <- percatch[, i, 1] * tab[i, 2]   # these are the percentages for the NCA (Western Central Atlantic)
   }
 
-# format for operating model
+# plot the parsed out data by year-quarter
 yrs <- sort(rep(as.numeric(colnames(NCA)), 4))
 qrt <- rep(1:4, length(yrs)/4)
+
+matplot(yrs + qrt/4, cbind(matrix(NED), matrix(NCA))/10^6, lty = 1, lwd = 2, 
+        col = 2:3, type = "l", main = "International high seas catches by quarter", 
+        xlab = "", ylab = "total catch (millions of pounds)")
+legend("topleft", c("NED", "NCA"), lwd = 2, col = 2:3, bty = "n")
+```
+
+Finally, we format the data in the format for input into the operating model.  
+
+```{r}
+#| echo: true
+
+# format for operating model
 flt <- rep("Intl", length(yrs))
 are <- rep("NED", length(yrs))
 fin1 <- data.frame(cbind(yrs, qrt, flt, are, matrix(NED)))
@@ -152,410 +163,7 @@ head(findat)
 #plot(findat$Catch_lbs ~ factor(findat$Quarter))
 #plot(findat$Catch_lbs ~ factor(findat$Year))
 #apply(findat, 2, table)
+#barplot(tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T), beside = T, col = rainbow(4))
 
 write.csv(findat, file = "data/outputs/Intl_highseas_TomFormat.csv")
-
-tab <- tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T)
-#barplot(tab, beside = T, col = rainbow(4))
-
-matplot(yrs + qrt/4, cbind(as.numeric(fin1$V5), as.numeric(fin2$V5))/10^6, lty = 1, lwd = 2, 
-        col = 2:3, type = "l", main = "International high seas catches by quarter", 
-        xlab = "", ylab = "total catch (millions of pounds)")
-legend("topleft", c("NED", "NCA"), lwd = 2, col = 2:3, bty = "n")
-
 ```
-
-## Read in the landings within excluzive economic zones (EEZs)
-
-Now we read in the landings reported by each country or jurisdiction's respective EEZ. Because we have extracted dolphin landings for EEZs worldwide, we need to separate out the landings for the Atlantic Ocean basin.
-
-```{r}
-#| echo: true
-
-rm(list = ls())
-d <- read.csv("data/SAU/SAU Taxa 600006 v50-1.csv", header = T, sep = ",")  # v. 50.1 - June 2024
-head(d)
-#dim(d)
-#apply(d[1:13], 2, table)
-
-# convert tonnes to pounds 
-d$lbs <- d$tonnes * 1000 * 2.20462
-```
-
-We look at the characteristics of the landings within EEZs. These are largely industrial and artisanal in nature. Landings are the majority of the catch but discards are also present. There are more unreported landings than reported landings and a variety of gear types are used.
-
-```{r}
-#| warning: false
-#| echo: true
-
-# look at characteristics of data 
-par(mfrow = c(2, 2), mar = c(12, 7, 3, 1), mex = 0.5, mgp = c(5, 1, 0))
-barplot(tapply(d$lbs, d$fishing_sector, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Fishing sector")
-barplot(tapply(d$lbs, d$catch_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Catch type")
-barplot(tapply(d$lbs, d$reporting_status, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Reporting status")
-barplot(tapply(d$lbs, d$gear_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Gear type")
-```
-
-## Separating the EEZs by area
-
-Now we have to manually assign the different EEZs to respective areas. We separate the geographical areas within the Atlantic Ocean (North and South) and lump all other EEZs into "other oceans." This latter category is largely the Pacific Ocean and to a lesser extent the Indian Ocean. We remove the high seas catch from this database as it is not ocean-specific and we have extracted the ocean-specific high seas catch previously.
-
-```{r}
-#| echo: true
-
-# remove the high seas catch from this database
-d <- d[which(d$area_type != "high_seas"), ]   
-d$fishing_entity <- as.factor(d$fishing_entity)
-d$fishing_entity <- droplevels(d$fishing_entity)
-table(d$area_type)  # this should be all "eez"
-
-# Western Central Atlantic EEZs
-WCA <- c("Bahamas", "Barbados", "Cayman Isl. (UK)", "Dominica", "Dominican Republic", "Grenada", 
-         "Aruba (Netherlands)", "Haiti", "Guadeloupe  (France)", "Jamaica", "Martinique (France)",
-         "Montserrat (UK)", "Nicaragua (Caribbean)", "Puerto Rico (USA)", "Saint Kitts & Nevis", 
-         "Saint Lucia", "Saint Vincent & the Grenadines", "Trinidad & Tobago", "US Virgin Isl.", 
-         "St Barthelemy (France)", "St Martin (France)", "Curaçao (Netherlands)", "Bonaire (Netherlands)",
-         "Saba and Sint Eustatius (Netherlands)", "Sint Maarten (Netherlands)", "Honduras (Caribbean)",
-         "Colombia (Caribbean)", "Mexico (Atlantic)", "Turks & Caicos Isl. (UK)", "Guyana", "Venezuela",
-         "Antigua & Barbuda", "Belize", "British Virgin Isl. (UK)", "French Guiana", "Cuba", 
-         "Anguilla (UK)", "Suriname", "Costa Rica (Caribbean)", "Guatemala (Caribbean)", 
-         "Panama (Caribbean)", "Bermuda (UK)", "CuraÃ§ao (Netherlands)") 
-           
-# Brazil
-Bra <- c("Brazil (mainland)", "Fernando de Noronha (Brazil)", 
-         "St Paul and St. Peter Archipelago (Brazil)")
-
-# Canada
-Can <-  c("Canada (East Coast)", "Saint Pierre & Miquelon (France)")
-
-# United States
-USA <-  c("USA (East Coast)", "USA (Gulf of Mexico)")
-           
-# Northeast Atlantic EEZs
-NEA <- c("Canary Isl. (Spain)", "Spain (mainland; Med and Gulf of Cadiz)", "Spain (Northwest)", 
-         "Spain (mainland, Med and Gulf of Cadiz)", 
-         "France (Atlantic Coast)", "Portugal (mainland)", "Azores Isl. (Portugal)")
-        
-# Eastern Central Atlantic EEZs
-ECA <- c("Madeira Isl. (Portugal)", "Cape Verde", "Equatorial Guinea", "Benin", 
-          "Sao Tome & Principe ", "Sao Tome & Principe", "Morocco (Central)", "Ghana", 
-          "Côte d'Ivoire", "CÃ´te d'Ivoire", "Guinea", "Liberia", "Sierra Leone", "Nigeria", "Togo", 
-          "Guinea-Bissau", "Senegal", "Cameroon", "Gambia", "Mauritania", "Morocco (South)", 
-          "Gabon", "Congo; R. of", "Congo, R. of", "Congo (ex-Zaire)")
-
-# Southeastern Atlantic EEZs
-SEA <- c("Angola", "Namibia", "South Africa (Atlantic and Cape)",  
-           "Ascension Isl. (UK)", "Saint Helena (UK)", "Tristan da Cunha Isl. (UK)")
-
-# Southwest Atlantic EEZs
-SWA <- c("Trindade & Martim Vaz Isl. (Brazil)", "Uruguay")
-
-# Mediterranean EEZs
-Med <- c("Italy (mainland)", "Libya", "Malta", "Syria", "Sicily (Italy)","Sardinia (Italy)", 
-         "Balearic Islands (Spain)", "Cyprus (North)", "Cyprus (South)", 
-         "Gaza Strip", "Greece (without Crete)", "Crete (Greece)", "Lebanon", 
-         "Turkey (Mediterranean Sea)", "Egypt (Mediterranean)", "Israel (Mediterranean)", "Tunisia", 
-         "Algeria", "Albania", "Croatia", "Montenegro", "Morocco (Mediterranean)", 
-         "France (Mediterranean)", "Corsica (France)")
-
-# add variable to specify region
-d$reg <- "other oceans"
-d$reg[which(d$area_name %in% WCA)] <- "Western Central Atlantic EEZs"
-d$reg[which(d$area_name %in% Bra)] <- "Brazil EEZ"
-d$reg[which(d$area_name %in% Can)] <- "Canadian EEZ"
-d$reg[which(d$area_name %in% USA)] <- "United States EEZ"
-d$reg[which(d$area_name %in% NEA)] <- "Northeast Atlantic EEZs"
-d$reg[which(d$area_name %in% ECA)] <- "Eastern Central Atlantic EEZs"
-d$reg[which(d$area_name %in% SEA)] <- "Southeast Atlantic EEZs"
-d$reg[which(d$area_name %in% SWA)] <- "Southwest Atlantic EEZs"
-d$reg[which(d$area_name %in% Med)] <- "Mediterranean Sea EEZs"
-```
-
-Now we will check that we have classified the regions correctly.
-
-```{r}
-#| echo: true
-
-# check region designation 
-othlis <- unique(d$area_name[which(d$reg == "other oceans")])
-print("EEZs of all other oceans: ")
-othlis
-print("U.S. EEZs outside the Atlantic Ocean: ")
-othlis[grep("USA", othlis)]
-print("French EEZs outside the Atlantic Ocean: ")
-othlis[grep("France", othlis)]
-
-unique(d$area_name[which(d$reg == "Western Central Atlantic EEZs")])   # Western Central EEZs:
-unique(d$area_name[which(d$reg == "Brazil EEZ")])   # Brazil EEZs:
-unique(d$area_name[which(d$reg == "Canadian EEZ")])   # Canadian EEZs:
-unique(d$area_name[which(d$reg == "United States EEZ")])  # United States EEZs:
-unique(d$area_name[which(d$reg == "Northeast Atlantic EEZs")])   # Northeast Atlantic EEZs:
-unique(d$area_name[which(d$reg == "Eastern Central Atlantic EEZs")])   # Eastern Central Atlantic EEZs:
-unique(d$area_name[which(d$reg == "Southeast Atlantic EEZs")])   # Southeast Atlantic EEZs:
-unique(d$area_name[which(d$reg == "Southwest Atlantic EEZs")])   # Southwest Atlantic EEZs:
-unique(d$area_name[which(d$reg == "Mediterranean Sea EEZs")])   # Mediterranean Sea EEZs:
-```
-
-## Summarize catch by regional EEZs
-
-Now we will summarize the catch by region by grouping the catch across the EEZs by region and plot the results. The U.S. landings should be very close to what is reported in Section 2 because the majority of U.S. catch is reported through the various data collection systems that are compiled within Sea Around Us.
-
-```{r}
-#| echo: true
-
-# summarize EEZ catch by region
-tab <- tapply(d$lbs, list(d$year, d$reg), sum, na.rm = T)
-#head(tab)
-tab2 <- t(tab)
-tab3 <- tab2[order(rowSums(tab2, na.rm = T), decreasing = T), ]
-tab_glob <- t(tab3)
-#head(tab_glob)
-yrs <- as.numeric(rownames(tab))
-
-par(mar = c(5, 4, 4, 3), mgp = c(3, 1, 0))
-matplot(yrs, tab_glob/10^6, las = 2, type = "l", lty = c(3, rep(1, 9)), lwd = 3, col = glasbey(ncol(tab_glob)), 
-        xlab = "", ylab = "total catch (millions of pounds)", 
-        main = "Global dolphin catches within EEZs (commercial + recreational)")
-legend("topleft", colnames(tab_glob), col = glasbey(ncol(tab_glob)), 
-       lty = c(3, rep(1, 9)), lwd = 3, bty = "n")
-```
-
-We can see that the EEZ catches globally are dominated by areas outside of the Atlantic ("other oceans") so we will replot the data after moving this category. Here we can see that most of the catches historically were coming from the Mediterranean Sea, though these catches have been declining drastially since the 1970s. Catches in the United States have showed an opposite pattern, with low historical catches that increased in the 1980s (largely due to the introduction of recreational monitoring). Catches in the Western Central EEZs have increased gradually over time.
-
-```{r}
-#| echo: true
-
-# remove other oceans
-#head(tab_glob)
-tab <- tab_glob[, -which(colnames(tab_glob) == "other oceans")]
-#head(tab)
-
-matplot(yrs, tab/10^6, las = 2, type = "b", pch = 19, cex = 0.5, lty = 1, col = glasbey(ncol(tab)+1)[-1],   
-        xlab = "", ylab = "total catch (millions of pounds)", axes = F,
-        main = "Dolphin catches from the Atlantic EEZs (commercial + recreational)")
-matplot(yrs, tab/10^6, las = 2, type = "l", pch = 19, lty = 1, lwd = 2, add = T, col = glasbey(ncol(tab)+1)[-1])
-axis(1, at = yrs[seq(1, 90, 2)], las = 2); axis(2); box()
-legend(1952, 25, colnames(tab), col = glasbey(ncol(tab)+1)[-1], pch = 19, lty = 1, lwd = 2, bty = "n", cex = 0.6)
-```
-
-## Merge high seas with catch with exclusive economic zones
-
-Now we will merge in the high seas catch from the steps above into the EEZ catches to get a better picture of total catch in FAO zones 31 and 21. Recall that the U.S. Gulf and Atlantic catches are not necessarily parsed apart correctly in the public databases which get compiled into Sea Around Us, so these will have the same deficiencies as noted in Section 2. Later we will merge in the corrected data.
-
-```{r}
-#| echo: true
-
-hs <- read.csv("data/SAU/high_seas_by_year.csv")
-names(hs)[1] <- "year"
-
-# check that columns match
-#head(tab)
-#head(hs)
-table(rownames(tab) == hs$year)  
-
-tab[which(is.na(tab))] <- 0
-tab_atl <- cbind(tab, hs[2:3])
-
-# check the merge
-head(tab_atl)
-
-# separate all WCA catches 
-unique(d$reg)  # use Western Central, U.S. and Canada
-dwc <- d[which(d$reg == "Western Central Atlantic EEZs" | d$reg == "United States EEZ" | d$reg == "Canadian EEZ"),]
-
-#unique(dwc$area_name[which(dwc$reg == "United States EEZ")])
-#unique(dwc$area_name[which(dwc$reg == "Canadian EEZ")])
-#unique(dwc$area_name[which(dwc$reg == "Western Central Atlantic EEZs")])
-
-# relabel U.S. by area
-dwc$reg[which(dwc$area_name == "USA (East Coast)")] <- "United States East Coast"
-dwc$reg[which(dwc$area_name == "USA (Gulf of Mexico)")] <- "United States Gulf"
-dwc$reg[which(dwc$area_name == "Puerto Rico (USA)")] <- "United States Caribbean"
-dwc$reg[which(dwc$area_name == "US Virgin Isl.")] <- "United States Caribbean"
-#table(dwc$area_name, dwc$reg)
-
-tab_wc <- tapply(dwc$lbs, list(dwc$year, dwc$reg), sum, na.rm = T)
-#head(tab_wc)
-
-# reorder S to N
-tab_wc <- tab_wc[, c(5, 2, 4, 3, 1)]
-head(tab_wc)
-
-# merge in the high seas catch - check years match
-#head(hs)
-table(rownames(tab_wc) == hs$year)
-
-high_seas <- hs$Atlantic..Western.Central + hs$Atlantic..Northwest
-high_seas[high_seas == 0] <- NA
-tab_wc <- cbind(tab_wc, high_seas)
-head(tab_wc)
-```
-
-## Plot Western Atlantic catches
-
-Now we plot the total Western Atlantic catches -- both within the EEZs and the high seas -- separating by U.S., Canada, and the Western Central Atlantic (i.e., the Wider Caribbean). Most of the catch is coming from the United States and the 40 combined Caribbean jurisdictions which comprise the Western Central Atlantic.
-
-```{r}
-#| echo: true
-
-par(mar = c(5, 4, 4, 3), mgp = c(3, 1, 0))
-matplot(yrs, tab_wc/10^6, las = 2, type = "l", lty = 1, lwd = 3, col = c(1, 3:7), 
-        xlab = "", ylab = "total catch (millions of pounds)", 
-        main = "Western Atlantic dolphin catches (commercial + recreational)")
-legend("topleft", colnames(tab_wc), col = c(1, 3:7), lty = 1, lwd = 3, bty = "n")
-
-```
-
-Separating out the mainland United States catches, here are the international and domestic (mainland) catches plotted over time.
-
-```{r}
-#| echo: true
-
-tab_int <- tab_wc[, c(1, 2, 5, 6)]
-head(tab_int)
-int_catch <- round(rowSums(tab_int, na.rm = T), 2)
-dom_catch <- rowSums(tab_wc[, c(3, 4)], na.rm = T)
-
-matplot(yrs, cbind(int_catch, dom_catch)/10^6, las = 2, type = "l", lty = 1, lwd = 3, col = c(2, 4),
-        xlab = "", ylab = "total catch (millions of pounds)", 
-        main = "Western Atlantic dolphin catches in international vs domestic waters\n(FAO areas 21 and 31, commercial + recreational)")
-legend("topleft", c("international", "United States mainland"), col = c(2, 4), lty = 1, lwd = 3, bty = "n")
-
-# output international catches
-write.csv(data.frame(int_catch), file = "data/international_catches.csv", row.names = T)
-```
-
-## Look at Venezuela catches in detail
-
-Note in the plot above a rapid increase in international catches within the Western Atlantic. This is driven by a sudden increase in catches reported within Sea Around Us within the EEZ. We investigate these catches in detail as it seems odd that a relatively small fleet would be able to ramp up effort so rapidly. Data can be downloaded on a country-specific basis, the catches by taxon in the waters of Venezuela are accessed [here](https://www.seaaroundus.org/data/#/eez/862?chart=catch-chart&dimension=taxon&measure=tonnage&limit=10).
-
-```{r}
-#| echo: true
-
-rm(list = ls())  # clear the workspace
-
-# download the data for waters of Venezuela
-ven <- read.csv("data/SAU/SAU EEZ 862 v50-1.csv")  
-
-# subset dolphinfish from the data
-v <- ven[which(ven$common_name == "Common dolphinfish"), ]
-
-#apply(v[1:13], 2, table)
-
-#convert to pounds
-v$pounds <- v$tonnes * 1000 * 2.20462
-
-# look at the characteristics of the data
-par(mar = c(5, 10, 1, 1), mfrow = c(3, 2), mex = 0.5)
-#barplot(tapply(v$pounds/10^6, v$area_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)
-#barplot(tapply(v$pounds/10^6, v$area_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area type", horiz = T)
-barplot(tapply(v$pounds/10^6, v$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
-barplot(tapply(v$pounds/10^6, v$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
-barplot(tapply(v$pounds/10^6, v$fishing_sector, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing sector", horiz = T)
-barplot(tapply(v$pounds/10^6, v$catch_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Catch type", horiz = T)
-barplot(tapply(v$pounds/10^6, v$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
-barplot(tapply(v$pounds/10^6, v$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
-```
-
-Note that a large portion of the catch in the database is listed as coming from an "Unknown Fishing Country." We extract these catches and further investigate the characteristics.
-
-```{r}
-#| echo: true
-
-# extract the Unknown Fishing Country catch
-v1 <- v[which(v$fishing_entity == "Unknown Fishing Country"), ]
-apply(v1[1:15], 2, table)
-
-# look at characteristics
-par(mar = c(3, 10, 1, 5), mfrow = c(2, 2), mex = 0.6)
-barplot(tapply(v1$pounds/10^6, v1$year, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Year", horiz = T)
-barplot(tapply(v1$pounds/10^6, v1$fishing_entity, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Fishing entity", horiz = T)
-barplot(tapply(v1$pounds/10^6, v1$reporting_status, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Reporting status", horiz = T)
-barplot(tapply(v1$pounds/10^6, v1$gear_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Gear type", horiz = T)
-```
-
-Here is another look at the catches within the venezuelan EEZ, separated by fishing entity.
-
-```{r}
-#| echo: true
-
-# summarize Venezuela EEZ catches by fishing entity
-tab <- tapply(v$pounds, list(v$year, v$fishing_entity), sum, na.rm = T)
-head(tab)
-
-matplot(rownames(tab), tab/10^6, las = 2, type = "b", lty = 1, lwd = 2, pch = 19, col = 1:5,
-        xlab = "", ylab = "total catch (millions of pounds)", axes = F, 
-        main = "Total dolphinfish catches in the Venezuelan EEZ")
-axis(1, at = seq(1950, 2020, 5)); axis(2, las = 2); box()
-legend("topleft", colnames(tab), col = 1:5, pch = 19, lty = 1, lwd = 3, bty = "n", title = "Fishing entity")
-
-text(2004, 6, cex = 0.8,
-     "These Unknown Fishing Country\ncatches appear in the database as an\nindustrial fleet using pole and line gear\nand are all listed as reported data\n('Assigned Tuna RFMO catch')")
-```
-
-The very substantial increase in international Western Atlantic dolphin catches can be attributed solely to this Unknown Fishing Country catches which appear in the database beginning in 2013. The documentation of the catch reconstruction can be found in the Sea Around Us documentation files (see Mendoza et al. 2015). We spoke to Jeremy Mendoza and other experts who were involved in the reconstruction of domestic catches in Venezuela, and they noted that the "Assigned tuna RFMO catch" actually emerge from spatially reshuffled landing reports to ICCAT, according to the methods of [Coulter et al. (2020)](https://www.sciencedirect.com/science/article/abs/pii/S0165783619302346). In this work, the Sea Around Us team developed a global spatial reallocation of landings of tunas and associated species that were reported to ICCAT. In short, this work uses the fraction of reported spatially disaggregated data to reallocate all data reported to ICCAT. This step is necessary because there are not many countries that report spatial data to ICCAT in the region, and this method may lead to a significant reallocation of landings from the Caribbean to the Venezuelan EEZ, where the local pole and line fishery is significant (J. Mendoza, personal communication). Thus, it is likely that landings from other EEZs, that were included in the reconstructed catch data layer, could have been reassigned to the Venezuelan EEZ.
-
-Because there may be some overlap between the reconstructed data used in the national EEZ estimates, and the ICCAT reporting that was reassigned, there could potentially be a "double counting" of these catch estimates in the Sea Around Us database. These Unknown Fishing Country catches that lead to a large increase in total estimated catches within the Venezuelan EEZ should be treated with caution at this time, until we can verify with Sea Around Us database managers that the spatial disaggregation method used has not led to an overestimate.
-
-## Distribute the high seas landings across quarters of the year
-
-The international landings are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. The majority of the international landings are caught by longline, so we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the international high seas fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
-
-At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.  
-
-```{r}
-#| echo: true
-
-# read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL
-load("data/per_PLLcatch_by_area_yearquarter.RData")  
-
-percatch[, , 7] # these are the percentages for the NED (Atlantic Northwest)
-
-tab <- tab[which(rownames(tab) >= 1997), ]  # PLL data are only available from 1997 on 
-#tab[nrow(tab), ]
-tab <- rbind(tab, tab[nrow(tab), ], tab[nrow(tab), ], tab[nrow(tab), ])  # interpolate 2019 catches for 2020-2022
-
-NED <- percatch[, , 1]   # create matrices for final catch data
-NCA <- percatch[, , 1]
-
-for (i in 1:ncol(percatch))  { 
-  NED[, i] <- percatch[, i, 7] * tab[i, 1]
-  NCA[, i] <- percatch[, i, 1] * tab[i, 2]
-  }
-
-# format for operating model
-yrs <- sort(rep(as.numeric(colnames(NCA)), 4))
-qrt <- rep(1:4, length(yrs)/4)
-flt <- rep("Intl", length(yrs))
-are <- rep("NED", length(yrs))
-fin1 <- data.frame(cbind(yrs, qrt, flt, are, matrix(NED)))
-are <- rep("NCA", length(yrs))
-fin2 <- data.frame(cbind(yrs, qrt, flt, are, matrix(NCA)))
-
-findat <- data.frame(rbind(fin1, fin2), stringsAsFactors = FALSE)
-names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
-findat$Catch_lbs <- as.numeric(findat$Catch_lbs)
-head(findat)
-
-#plot(findat$Catch_lbs, type = "l")
-#plot(findat$Catch_lbs ~ factor(findat$Area))
-#plot(findat$Catch_lbs ~ factor(findat$Quarter))
-#plot(findat$Catch_lbs ~ factor(findat$Year))
-#apply(findat, 2, table)
-
-write.csv(findat, file = "data/outputs/Intl_highseas_TomFormat.csv")
-
-tab <- tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T)
-#barplot(tab, beside = T, col = rainbow(4))
-
-matplot(yrs + qrt/4, cbind(as.numeric(fin1$V5), as.numeric(fin2$V5))/10^6, lty = 1, lwd = 2, 
-        col = 2:3, type = "l", main = "International high seas catches by quarter", 
-        xlab = "", ylab = "total catch (millions of pounds)")
-legend("topleft", c("NED", "NCA"), lwd = 2, col = 2:3, bty = "n")
-
-```
-
-
-## References
-
-Pauly D., Zeller D., Palomares M.L.D. (Editors), 2020. Sea Around Us Concepts, Design and Data (seaaroundus.org).
