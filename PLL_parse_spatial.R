@@ -171,7 +171,6 @@ for (i in 1:length(yrs)) {
   barplot(tabp2, beside = T, col = rainbow(4), main = yrs[i], las = 2)
   }
 
-
 # outputs for further analysis ----------------------
 
 # Define seasonality (% of dolphin caught in each quarter), by year, for each of the regions.  
@@ -370,7 +369,7 @@ round(colSums(tab3, na.rm = T) / sum(tab3, na.rm = T) * 100, 2)
 # NCA   CAR   FLK  NCFL   NNC   VBM   NED 
 # 0.10  0.15 36.18 34.63 25.45  3.37  0.12 
 
-# reformat for Tom 
+# reformat for input into MSE operating model 
 
 labs <- c()
 for (i in colnames(tab3)) { labs <- c(labs, rep(i, nrow(tab3)))}
@@ -378,7 +377,7 @@ for (i in colnames(tab3)) { labs <- c(labs, rep(i, nrow(tab3)))}
 yrmon <- as.numeric(rownames(tab3))
 yrs <- floor(yrmon)
 qrt <- (yrmon - floor(yrmon)) * 4 + 1
-flt <- rep("com", length(qrt))
+flt <- rep("UScom", length(qrt))
 findat <- data.frame(yrs, qrt, flt, labs, matrix(tab3))
 findat
 names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
@@ -394,7 +393,7 @@ findat <- findat[which(findat$Year <= 2022), ]
 
 apply(findat, 2, table)
 
-write.csv(findat, file = "C:/Users/mandy.karnauskas/Desktop/CONFIDENTIAL/commercial_TomFormat.csv")
+write.csv(findat, file = "C:/Users/mandy.karnauskas/Desktop/CONFIDENTIAL/commercial_TomFormat.csv", row.names = FALSE)
 
 
 findat$Area <- factor(findat$Area, levels = c("", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))

@@ -444,7 +444,7 @@ plot(findat$Catch_lbs ~ factor(findat$Quarter))
 plot(findat$Catch_lbs ~ factor(findat$Year))
 apply(findat, 2, table)
 
-write.csv(findat, file = "data/outputs/CAR_rep_unrep_TomFormat.csv")
+write.csv(findat, file = "data/FINAL_files/CAR_rep_unrep_TomFormat.csv", row.names = FALSE)
 
 # format for operating model - NED 
 flt <- rep("Intl", length(yrs1))
@@ -456,7 +456,7 @@ head(fin)
 
 apply(fin, 2, table)
 
-write.csv(fin, file = "data/FINAL_files/NED_Intl_TomFormat.csv")
+write.csv(fin, file = "data/FINAL_files/NED_Intl_TomFormat.csv", row.names = FALSE)
 
 #barplot(tapply(fin$Catch_lbs, list(fin$Quarter), sum, na.rm = T), col = rainbow(4))
 
