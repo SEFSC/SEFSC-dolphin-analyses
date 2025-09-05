@@ -1,10 +1,14 @@
 
 rm(list = ls())
 
+# load libraries 
 library(sp)
 library(sf)
 library(maps)
 library(yarrr)
+
+# load pelagic longline data 
+# data request from 2023 - sent to M. Damiano
 
 d <- read.csv("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/PLL_1986_2022_catch_effort.csv")
 
@@ -18,69 +22,79 @@ table(d$SET_MMYY, useNA = "always")  # set month and year
 table(d$TDOL, useNA = "always")  # target dolphin?    - ~8% targeted dolphin trips
 table(d$PLL, useNA = "always")   # PLL gear used Y/N  - ~91% PLL trips
 
+# format latitude and longitude 
 d$lat <- d$LATDEG + d$LATMIN/60
 d$lon <- -(d$LONDEG + d$LONMIN/60)
 
-dev.off()
-map("world")
-points(d$lon, d$lat, col = 2, pch = 19, cex = 0.4)
+# check location of points
+#map("world")
+#points(d$lon, d$lat, col = 2, pch = 19, cex = 0.4)
 
-d$area <- NA
-
+# load area polygons and subset PLL data points by area
 ar <- read.csv("data/eez/dolphin_OM_areas.csv")
 
+d$area <- NA
 table(ar$region)
 lis <- unique(ar$region)
 
+# for each area, find the PLL points that fall in the polygon and label the area
 for (i in lis) {
   pol <- ar[which(ar$region == i), 1:2]
   pts <- point.in.polygon(d$lon, d$lat, pol.x = pol$X, pol.y = pol$Y)
   d$area[which(pts == 1)] <- i
 }
 
+# check that subsetting was done correctly - color-coded areas
 table(d$area, useNA = "always")
 map("world", xlim = c(-100, -30), ylim = c(5, 55))
 axis(1); axis(2); box()
 points(d$lon, d$lat, pch = 19, cex = 0.4, col = as.numeric(as.factor(d$area))+1)
 
+# look at dolphin catch within PLL data
 names(d)[grep("DOL", names(d))]
 
-table(d$TDOL, useNA = "always")
-table(d$DOLK, useNA = "always")
-table(d$DOLA, useNA = "always")
-table(d$DOLD, useNA = "always")
-hist(d$DOLK)
-hist(d$DOLA)
-hist(d$DOLD)
-hist(d$DOLPHIN_POUNDS)
+table(d$TDOL, useNA = "always")  # dolphin targeted trips
+table(d$DOLK, useNA = "always")  # number of dolphin kept
+table(d$DOLA, useNA = "always")  # number of dolphin discarded alive
+table(d$DOLD, useNA = "always")  # number of dolphin discarded dead
+hist(d$DOLK, main = "# dolphin kept")
+hist(d$DOLA, main = "# dolphin discarded alive")
+hist(d$DOLD, main = "# dolphin discarded dead")
+hist(d$DOLPHIN_POUNDS, main = "pounds of dolphin kept")
 
+# replace NAs with zeros
 d$DOLA[is.na(d$DOLA)] <- 0
 d$DOLK[is.na(d$DOLK)] <- 0
 d$DOLD[is.na(d$DOLD)] <- 0
 d$DOLPHIN_POUNDS[is.na(d$DOLPHIN_POUNDS)] <- 0
 
 d$DOLTOT <- d$DOLK + d$DOLA + d$DOLD
-hist(d$DOLTOT)
+hist(d$DOLTOT, main = "# dolphin caught")   # total dolphin kept or discarded
 
-d$DISCTOT <- (d$DOLA + d$DOLD) / d$DOLTOT
-d$DISCDEAD <- d$DOLD / d$DOLTOT 
+d$DISCTOT <- (d$DOLA + d$DOLD) / d$DOLTOT   # calculate discard rate
+d$DISCDEAD <- d$DOLD / d$DOLTOT             # calculate dead discard rate
 
-hist(d$DISCTOT)
+hist(d$DISCTOT, main = "rate of discarding (proportion)")
 mean(d$DISCTOT, na.rm = T) * 100  # total discarding rate is 2.9%
-hist(d$DISCDEAD)
+hist(d$DISCDEAD, main = "rate of dead discarding (proportion)")
 mean(d$DISCDEAD, na.rm = T) * 100 # dead discarding rate is 1.4%
 
-map("world", xlim = c(-100, -30), ylim = c(5, 55))
+# plot out pounds caught of dolphin by area
+map("world", xlim = c(-100, -30), ylim = c(5, 55)) 
+    mtext(side = 3, line = 1, "Distribution of pounds of dolphin caught", cex = 1.2, font = 2)
 axis(1); axis(2); box()
 points(d$lon, d$lat, pch = 19, cex = log(d$DOLPHIN_POUNDS)/4, 
        col = transparent(as.numeric(as.factor(d$area))+1, 0.9))
 
 dd <- d[which(d$TDOL == "Y"), ]
 map("world", xlim = c(-100, -30), ylim = c(5, 55))
+mtext(side = 3, line = 1, "Distribution of pounds of dolphin caught - dolphin target trips", cex = 1.2, font = 2)
 axis(1); axis(2); box()
-points(dd$lon, dd$lat, pch = 19, cex = log(dd$DOLPHIN_POUNDS)/2, col = as.numeric(as.factor(dd$area))+1)
+points(dd$lon, dd$lat, pch = 19, cex = log(dd$DOLPHIN_POUNDS)/4, 
+       col = transparent(as.numeric(as.factor(dd$area))+1, 0.9))
 
-barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, sum, na.rm = T))
+barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, sum, na.rm = T), main = "total catch by area")
+barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, mean, na.rm = T), main = "average catch per trip by area")
 
 # make new date variables 
 d$year <- as.numeric(substr(d$SDATE, 1, 4))
@@ -113,7 +127,7 @@ d$area <- factor(d$area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "
 
 barplot(tapply(d$DOLPHIN_POUNDS, d$yrqrt, sum, na.rm = T))
 
-
+dev.off()
 # plot seasonality of dolphin catch by month
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$monold, d$area), sum, na.rm = T)
 barplot(tab, beside = T, col = rainbow(12, end = 0.9))
@@ -145,9 +159,9 @@ barplot(tabp1, beside = T, col = rainbow(4), main = "seasonality of dolphin catc
 
 tabp/tabp1  # numbers are generally very similar - go with weight
 
-
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$area, d$year), sum, na.rm = T)
 
+# look at variability in seasonality by year 
 dev.off()
 yrs <- 1998:2022
 par(mfrow = c(5, 5), mex = 0.6)
@@ -160,13 +174,15 @@ for (i in 1:length(yrs)) {
 
 # outputs for further analysis ----------------------
 
-# Define seasonality (% of dolphin caught in each quarter), by year, for all regions.  
+# Define seasonality (% of dolphin caught in each quarter), by year, for each of the regions.  
 # For the three high seas regions we will use these percentages to parse the total catch (estimated by SAU) by year into quarters.
 # For the four U.S. EEZ regions we will not use these numbers as the trip ticket data are reported by month; 
 # however we will compare the reported percentages to make sure those numbers seem reasonable.  
 
+# summarize total catch in pounds by quarter, year, and area
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$year, d$area), sum, na.rm = T)
 
+# convert to percentages across quarters of the year, for each year/area combination
 percatch <- tab
 for (i in 1:7) {
   temp <- tab[, , i]
@@ -175,33 +191,43 @@ for (i in 1:7) {
 
 percatch[is.na(percatch)] <- 0
 percatch
+colSums(percatch)  # there are a few zeros, we will interpolate these with the nearest-neighbor (previous year)
 
-# Look at how PLL catch is distributed by area.  We will use these numbers to fill in missing 
+percatch[, 6, 3] <- percatch[, 5, 3]
+percatch[, 22, 7] <- percatch[, 21, 7]
+colSums(percatch) 
+
+percatch
+# save this object as we will use it later -- contains percentages by year-quarter by area for filling in international data
+
+save(percatch, file = "data/per_PLLcatch_by_area_yearquarter.RData")
+
+# Look at how PLL catch is distributed by area.  We can use these numbers to fill in missing 
 # areas of reporting (primarily NCA) from the trip ticket data.  
 
 dev.off()
+# plot total catch by area
 barplot(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T), col = 2:8, 
         main = "total dolphin catch by area", xlab = "total pounds landed")
 
-tab <- tapply(d$DOLPHIN_POUNDS, list(d$area, d$year), sum, na.rm = T)
-
+tab <- tapply(d$DOLPHIN_POUNDS, list(d$area, d$yrqrt), sum, na.rm = T)
 barplot(tab, beside = T, col = 2:8, las = 2)
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
 
-barplot(tabp, beside = T, col = 2:8, main = "distribution of catch by area and year", 
-        xlab = "year", ylab = "proportion of total catch (in pounds)",
-        legend = rownames(tabp), args.legend = list(x = "topleft", col = 2:8, horiz = T, bty = "n"))
+matplot(as.numeric(colnames(tab)), t(tab), col = 2:8, main = "distribution of catch by area and quarter", 
+        xlab = "year", ylab = "total catch (in pounds)", 
+        type = "l", pch = 19, lty = 1, lwd = 2)
+legend("top", rownames(tabp), col = 2:8, bty = "n", pch = 19, horiz = T, lty = 1, lwd = 2)
 
-matplot(1997:2022, t(tabp), col = 2:8, main = "distribution of catch by area and year", 
+matplot(as.numeric(colnames(tabp)), t(tabp), col = 2:8, main = "Proportional distribution of catch by area and quarter", 
         xlab = "year", ylab = "proportion of total catch (in pounds)", 
-        type = "b", pch = 19, lty = 1)
-legend("right", rownames(tabp), col = 2:8, bty = "n", pch = 19, lty = 1)
+        type = "l", pch = 19, lty = 1, lwd = 2)
+legend("top", rownames(tabp), col = 2:8, bty = "n", pch = 19, horiz = T, lty = 1, lwd = 2)
 
 # In most years, the majority of the catch comes from the NCFL region
 # As much as quarter of the catch coming from VBM in early years; later tendency to come from NNC
 
-round(rowMeans(tabp, na.rm = T) * 100, 2)
 round(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T) / sum(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T)) * 100, 2)
 
 # Reporting areas are here: https://grunt.sefsc.noaa.gov/ttrs/lu_areas_nmfs.jsp

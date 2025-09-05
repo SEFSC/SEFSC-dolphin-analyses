@@ -19,7 +19,7 @@ book:
   chapters:
     - index.qmd
     - MRIP.qmd
-    - SAU.qmd
+    - SAU_highseas.qmd
     - FOSS.qmd
     - SST.qmd
     
