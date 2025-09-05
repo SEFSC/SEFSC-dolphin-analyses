@@ -20,6 +20,7 @@ book:
     - index.qmd
     - MRIP.qmd
     - SAU_highseas.qmd
+    - SAU_EEZs.qmd
     - FOSS.qmd
     - SST.qmd
     

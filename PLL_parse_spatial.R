@@ -200,7 +200,7 @@ colSums(percatch)
 percatch
 # save this object as we will use it later -- contains percentages by year-quarter by area for filling in international data
 
-save(percatch, file = "data/per_PLLcatch_by_area_yearquarter.RData")
+save(percatch, file = "data/outputs/per_PLLcatch_by_area_yearquarter.RData")
 
 # Look at how PLL catch is distributed by area.  We can use these numbers to fill in missing 
 # areas of reporting (primarily NCA) from the trip ticket data.  
@@ -394,7 +394,7 @@ findat <- findat[which(findat$Year <= 2022), ]
 
 apply(findat, 2, table)
 
-write.csv(findat, file = "C:/Users/mandy.karnauskas/Desktop/commercialTomFormat.csv")
+write.csv(findat, file = "C:/Users/mandy.karnauskas/Desktop/CONFIDENTIAL/commercial_TomFormat.csv")
 
 
 findat$Area <- factor(findat$Area, levels = c("", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))

@@ -11,6 +11,9 @@ Now we read in the landings reported by each country or jurisdiction's respectiv
 ```{r}
 #| echo: true
 
+# load libraries
+library(pals)
+
 rm(list = ls())
 d <- read.csv("data/SAU/SAU Taxa 600006 v50-1.csv", header = T, sep = ",")  # v. 50.1 - June 2024
 head(d)
@@ -391,21 +394,32 @@ for (i in 1:ncol(percatch_car))  {
 sum(CARrep); sum(CAR$landings)
 sum(CARunr); sum(CAR$unreported)
 sum(CAN, na.rm = T); sum(CANqrt, na.rm = T)
+```
 
-CANqrt <- CANqrt[, !is.na(colSums(CANqrt))] # remove NA columns from CAN data
+The Canada jurisdictional data need to be combined with the NED high seas data calculated in the previous section, because both of these are a component of the international catches in the NED area. 
+
+```{r}
+#| echo: true
+
+load("data/outputs/NED_year_quarter.RData")
+
+NEDtot <- NED + CANqrt
+sum(NED, na.rm = T) + sum(CANqrt, na.rm = T); sum(NEDtot, na.rm = T)
+
+NEDtot <- NEDtot[, !is.na(colSums(NEDtot))] # remove NA columns from CAN data
 
 # plot the parsed out data by year-quarter
 yrs <- sort(rep(as.numeric(colnames(CARrep)), 4))
 qrt <- rep(1:4, length(yrs)/4)
-yrs1 <- sort(rep(as.numeric(colnames(CANqrt)), 4))
+yrs1 <- sort(rep(as.numeric(colnames(NEDtot)), 4))
 qrt1 <- rep(1:4, length(yrs1)/4)
 
 matplot(yrs + qrt/4, cbind(matrix(CARrep), matrix(CARunr))/10^6, lty = 1, lwd = 2, 
         col = 2:3, type = "l", main = "International jurisdictional catches by quarter", 
         xlab = "", ylab = "total catch (millions of pounds)")
-lines(yrs1 + qrt1/4, as.numeric(matrix(CANqrt))/10^6, lwd = 2, col = 4)
-legend("topleft", c("Caribbean reported landings", "Caribbean unreported landings", "Canadian reported landings"),        lwd = 2, col = 2:4, bty = "n")
-
+lines(yrs1 + qrt1/4, as.numeric(matrix(NEDtot))/10^6, lwd = 2, col = 4)
+legend("topleft", c("Caribbean reported landings", "Caribbean unreported landings", "NED reported landings"),        
+       lwd = 2, col = 2:4, bty = "n")
 ```
 Finally, we format the data in the format for input into the operating model. 
 
@@ -416,7 +430,7 @@ Finally, we format the data in the format for input into the operating model.
 flt <- rep("Intl", length(yrs))
 are <- rep("CAR", length(yrs))
 fin1 <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARrep)))
-flt <- rep("Unrep", length(yrs))
+flt <- rep("UnRep", length(yrs))
 fin2 <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARunr)))
 
 findat <- data.frame(rbind(fin1, fin2), stringsAsFactors = FALSE)
@@ -432,11 +446,21 @@ apply(findat, 2, table)
 
 write.csv(findat, file = "data/outputs/CAR_rep_unrep_TomFormat.csv")
 
-#barplot(tapply(findat$Catch_lbs, list(findat$Quarter), sum, na.rm = T), col = rainbow(4))
+# format for operating model - NED 
+flt <- rep("Intl", length(yrs1))
+are <- rep("NED", length(yrs1))
+fin <- data.frame(cbind(yrs1, qrt1, flt, are, matrix(NEDtot)), stringsAsFactors = FALSE)
+names(fin) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
+fin$Catch_lbs <- as.numeric(fin$Catch_lbs)
+head(fin)
+
+apply(fin, 2, table)
+
+write.csv(fin, file = "data/FINAL_files/NED_Intl_TomFormat.csv")
+
+#barplot(tapply(fin$Catch_lbs, list(fin$Quarter), sum, na.rm = T), col = rainbow(4))
 
 ```
-
-
 
 ## References
 

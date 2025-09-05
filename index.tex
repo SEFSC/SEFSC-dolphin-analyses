@@ -215,13 +215,14 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={NOAA quarto book},
+  pdftitle={Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic},
   pdfauthor={Mandy Karnauskas},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{NOAA quarto book}
+\title{Analyses to support the Dolphinfish Management Strategy
+Evaluation in the U.S. Atlantic}
 \author{Mandy Karnauskas}
 \date{}
 
@@ -259,8 +260,9 @@
 \begin{scope}{%
 \fontsize{30}{36.0}\selectfont
 \node[anchor=north
-west, align=left, rotate=0] (Title1) at ($(current page.south west)+(\titlelocationleft,\titlelocationbottom)$)  [text width = 5in]  {\textcolor{black}{\bfseries{\nohyphens{NOAA
-quarto book}}}};
+west, align=left, rotate=0] (Title1) at ($(current page.south west)+(\titlelocationleft,\titlelocationbottom)$)  [text width = 5in]  {\textcolor{black}{\bfseries{\nohyphens{Analyses
+to support the Dolphinfish Management Strategy Evaluation in the U.S.
+Atlantic}}}};
 }
 \end{scope}
 
@@ -348,7 +350,8 @@ Northwest Fisheries Science Center}}};
 \newcommand{\titleandsubtitle}{
 % Title and subtitle
 {\fontsize{30}{36.0}\selectfont
-\textcolor{black}{\bfseries{\nohyphens{NOAA quarto book}}}\par
+\textcolor{black}{\bfseries{\nohyphens{Analyses to support the
+Dolphinfish Management Strategy Evaluation in the U.S. Atlantic}}}\par
 }%
 }
 \newcommand{\titlepagetitleblock}{
@@ -678,7 +681,7 @@ landings.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# codes: FL regions 1 (NW FL Panhandle{-} Escambia to Dixie co.) and 2 (SW FL Peninsula{-} Levy to Collier co), but retained FL region 3 (FL Keys{-} Monroe co.)}
+\CommentTok{\# codes for WFL regions: 1 (NW FL Panhandle{-} Escambia to Dixie co.), 2 (SW FL Peninsula{-} Levy to Collier co), 3 (FL Keys{-} Monroe co.)}
 \FunctionTok{table}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{FL\_REG, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)   }
 \end{Highlighting}
 \end{Shaded}
@@ -832,8 +835,9 @@ see that the values are almost identical.
 \begin{Highlighting}[]
 \NormalTok{old }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/RecreationalDolphinLandings\_SAandGOM\_MLarkin.csv"}\NormalTok{, }\AttributeTok{skip =} \DecValTok{6}\NormalTok{)}
 \FunctionTok{plot}\NormalTok{(old}\SpecialCharTok{$}\NormalTok{Year, old}\SpecialCharTok{$}\NormalTok{ATL, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (pounds)"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{, }
-     \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{, }\DecValTok{2025}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\SpecialCharTok{*}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\FloatTok{3.5}\SpecialCharTok{*}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{7}\NormalTok{))}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{names}\NormalTok{(tot1)), tot1, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\NormalTok{)}
+     \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{, }\DecValTok{2025}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{7}\SpecialCharTok{*}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\FloatTok{3.3}\SpecialCharTok{*}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{7}\NormalTok{))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{names}\NormalTok{(tot1)), tot1, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"previous data"}\NormalTok{, }\StringTok{"new data"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lwd =} \FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1054,108 +1058,32 @@ totals by region and sector.
 \begin{Highlighting}[]
 \NormalTok{fin }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(tot[, , }\DecValTok{1}\NormalTok{], tot[, , }\DecValTok{2}\NormalTok{]))}
 \FunctionTok{names}\NormalTok{(fin) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Hire\_FLK"}\NormalTok{, }\StringTok{"Hire\_NCFL"}\NormalTok{, }\StringTok{"Hire\_NNC"}\NormalTok{, }\StringTok{"Hire\_VBM"}\NormalTok{, }\StringTok{"Rec\_FLK"}\NormalTok{, }\StringTok{"Rec\_NCFL"}\NormalTok{, }\StringTok{"Rec\_NNC"}\NormalTok{, }\StringTok{"Rec\_VBM"}\NormalTok{)}
-\NormalTok{fin}
+\FunctionTok{head}\NormalTok{(fin)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-      Hire_FLK  Hire_NCFL   Hire_NNC   Hire_VBM  Rec_FLK  Rec_NCFL     Rec_NNC
-1981  354639.5   74702.50  256755.24   1400.247  8942641  322505.7          NA
-1982  347458.2   92271.42   27578.44   2749.224  8422673 1711834.7   78367.161
-1983 1020005.8   41784.04   88690.53   5379.177 10000662  119370.4   44226.032
-1984 1021086.8   74658.81         NA   4203.048  6717044  486079.7          NA
-1985  717523.0  172989.65   58514.13   8880.857  7925301 1162708.4   77477.096
-1986 1562354.0   63555.89  817192.26  61658.193  5699311  736872.0    2549.586
-1987 1774558.7   61243.58  848994.25  24967.877  6913585  161627.1   79540.365
-1988  826480.6   62392.87 1114627.05  94676.212  6655923  321023.1  202768.950
-1989 3398703.5  405140.01 1970776.23 451477.768 17965047 1079951.5  339371.567
-1990  868572.6  277783.17 1749965.55  31079.442 19900865  312333.3  118539.960
-1991 4268773.7  225552.64 1706751.50 159172.855 23093044  457667.1  277389.646
-1992 2548407.4  189514.34 1619685.06 161149.703 15788853  245395.8   89160.860
-1993 1343093.6  391254.33 1555850.09 741955.369  9967356  742741.8  296399.199
-1994 1131831.7  437642.72 1713981.98 573551.716  9532763 1708942.1  264907.193
-1995 2848691.7  667475.30 1673435.48 145798.587 15558489 1550136.0  271442.073
-1996 2892436.3  309604.42  923128.81 141976.431 10574454 1121937.8  196579.537
-1997 3271271.6  466891.67 2129471.46 110115.485 22423256 1316502.7  660257.843
-1998 1532460.0  252620.73 1921834.08 779364.855 12578694  619824.1  412304.292
-1999 1238462.0  457880.10 2014752.29 288625.130 13745135 1548217.4 1314805.374
-2000 1471481.3  369553.33 3139555.98   3016.589 13379647 2784424.2  826980.337
-2001 2361751.6 1090421.00 1638707.54  34335.241 11690170 3614370.3 1760721.144
-2002 1828918.7 1993778.99 3005172.92 168406.810  8105262 2483946.6  871930.660
-2003 1342339.1  958997.12  928894.01  55690.419 10294918 1860435.4  868200.254
-2004 1509660.5  771820.65 1116373.11 155510.796  6281794 1354303.7  593257.716
-2005  858090.6  734896.20 3153480.89  38020.553  4681210 1898945.9  904360.210
-2006  700089.5  483337.12 2656240.22 136715.477  8540432 1751853.5  749541.413
-2007  718651.9  506776.30 2518430.49  84908.300  8200488 2383417.1 1483630.590
-2008  736213.2 1235299.71 1620865.87 113592.877  8100550 1648662.2  223565.185
-2009 1016583.6  458562.82  928419.86 106262.915  6809447 3805127.7 2359177.817
-2010  552080.9  534671.06 1384434.93 120050.410  3579591 3139199.6 1110479.730
-2011  768597.7  275546.65 1577019.96  17844.729  6097050 1651096.4 2063315.642
-2012  856261.4  615430.34 1236410.76  21887.318  5916144 2867599.1 1082607.063
-2013  614150.1  394570.11  640465.60  16064.763 10124799 2064256.6  540676.961
-2014  897508.4  210198.76  916695.96  56760.758  9940020 1272477.3 1289704.416
-2015 1729825.9  196326.97 1374908.91 277867.986 12093928 1548428.5 3505194.743
-2016  841662.5  454053.51 1236565.76 195837.854  5002273 4372622.6 1704661.669
-2017 1227827.8  161188.31  835080.86  31185.061  5464893 2297930.0  801324.151
-2018  401703.0  105328.49 1465087.58  72211.785  7935729 2606091.5 1347724.203
-2019 1261827.1  250624.40  998102.45  93718.699  4064867 2132483.1 1687239.863
-2020  910431.4  225493.79  667501.79  51621.152  2906913 2052222.0 1089245.171
-2021 1244842.2  146893.15  871760.94 100997.979  3652596 1428508.3  596672.480
-2022  627020.6   90504.71  427953.34  18514.133  3828113 2701619.8  211394.537
-2023  274532.5  118528.80 1281254.55  72728.020  3045801 2639445.1  175189.224
-2024  629327.2   85572.19  506558.07  18752.239  3404227 1358519.1  106307.278
-         Rec_VBM
-1981          NA
-1982   18727.290
-1983    5456.237
-1984       0.000
-1985  112944.274
-1986  103945.134
-1987   52139.772
-1988   33566.163
-1989  996945.390
-1990  509424.981
-1991  464786.733
-1992  509297.261
-1993  871948.601
-1994  594467.414
-1995  609302.619
-1996  486106.187
-1997  197871.963
-1998  606769.298
-1999  523623.688
-2000 1608478.920
-2001  372623.273
-2002 1732356.036
-2003  904780.558
-2004  186538.567
-2005  489236.451
-2006 1214497.040
-2007  236769.123
-2008   96818.461
-2009 1607919.004
-2010  717410.858
-2011 2626410.052
-2012 1041694.282
-2013  364492.286
-2014 2040329.550
-2015 4645796.249
-2016 2186126.672
-2017 1826822.849
-2018 2871124.410
-2019 1440420.940
-2020  689099.471
-2021 1083268.811
-2022 1206278.324
-2023  872490.886
-2024 1346606.842
+      Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM  Rec_FLK  Rec_NCFL   Rec_NNC
+1981  354639.5  74702.50 256755.24  1400.247  8942641  322505.7        NA
+1982  347458.2  92271.42  27578.44  2749.224  8422673 1711834.7 78367.161
+1983 1020005.8  41784.04  88690.53  5379.177 10000662  119370.4 44226.032
+1984 1021086.8  74658.81        NA  4203.048  6717044  486079.7        NA
+1985  717523.0 172989.65  58514.13  8880.857  7925301 1162708.4 77477.096
+1986 1562354.0  63555.89 817192.26 61658.193  5699311  736872.0  2549.586
+        Rec_VBM
+1981         NA
+1982  18727.290
+1983   5456.237
+1984      0.000
+1985 112944.274
+1986 103945.134
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(fin), fin, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
         \AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (pounds)"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(fin), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(fin), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1182,7 +1110,7 @@ totals by region and sector.
 [1] 4.233284e-11
 \end{verbatim}
 
-Here are the final data for years 1981 to 2024.
+Here are the catches (in pounds) for years 1981 to 2024.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1283,9 +1211,1746 @@ Here are the final data for years 1981 to 2024.
 2024 1346606.842
 \end{verbatim}
 
+\section{Looking at extent of
+discarding}\label{looking-at-extent-of-discarding}
+
+Discard estimates (known as B2 estimates) are provided in numbers by the
+MRIP survey but are not available in the Southeast Region Headboat
+Survey. We can look at the overall numbers of dolphinfish caught versus
+reported released from the MRIP survey to get an understanding of the
+extent of discarding.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{write.csv}\NormalTok{(fin, }\AttributeTok{file =} \StringTok{"data/rec\_dolphin\_4areas.csv"}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ T)}
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{perdis }\OtherTok{\textless{}{-}}\NormalTok{ d1}\SpecialCharTok{$}\NormalTok{B2 }\SpecialCharTok{/}\NormalTok{ (d1}\SpecialCharTok{$}\NormalTok{AB1 }\SpecialCharTok{+}\NormalTok{ d1}\SpecialCharTok{$}\NormalTok{B2)  }\CommentTok{\# percent discarded is B2 (fish released alive) / total}
+
+\CommentTok{\# calculate mean discard rate by year, region, sector {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{dis }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{perdis, }\FunctionTok{list}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{YEAR, d1}\SpecialCharTok{$}\NormalTok{region, d1}\SpecialCharTok{$}\NormalTok{sector), mean, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\NormalTok{disr }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{perdis, }\FunctionTok{list}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{region, d1}\SpecialCharTok{$}\NormalTok{sector), mean, }\AttributeTok{na.rm =}\NormalTok{ T)}
+
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(dis), }\FunctionTok{cbind}\NormalTok{(dis[, , }\DecValTok{1}\NormalTok{], dis[, , }\DecValTok{2}\NormalTok{]), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+        \AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"proportion dolphin discarded"}\NormalTok{, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{))}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"top"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"For hire {-} "}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(dis)), }\FunctionTok{paste}\NormalTok{(}\StringTok{"Private {-} "}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(dis))), }
+       \AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MRIP_files/figure-pdf/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(disr }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{)  }\CommentTok{\# discarding rates by region and sector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     ForHire   Rec
+FLK    10.79 18.76
+NCFL    9.44 11.23
+NNC     0.94  9.62
+VBM     2.94 12.69
+\end{verbatim}
+
+According to the MRIP survey and the reported numbers, discarding
+generally increases over time, excluding some highly anomalous estimates
+from the early years which are driven by low sample sizes. Discarding is
+generally higher in the private sector compared to the for-hire sector,
+and is highest in the Florida Keys region.
+
+\section{Split the catches by season}\label{split-the-catches-by-season}
+
+The dolphin MSE operates on a seasonal time step and thus the catches
+and discards must by parsed apart by individual season and year. This is
+not straightforward because MRIP estimates are reported in two-month
+waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are
+3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the
+two waves that have to be split into seasons (e.g., December is lumped
+with January and February; June is lumped with July and August), we
+split the wave 50/50\%, i.e, we make the assumption that half of the
+catch in that wave occurs in one season and the other half occurs in the
+next season.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# define seasons {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\FunctionTok{table}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{WAVE, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+   0    1    2    3    4    5    6 <NA> 
+   5  407  718 1230 1439 1095  581  944 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d1}\SpecialCharTok{$}\NormalTok{YRWAVE }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{YEAR, }\StringTok{"\_"}\NormalTok{, d1}\SpecialCharTok{$}\NormalTok{WAVE)}
+
+\NormalTok{totw }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{LBSEST\_SECWWT, }\FunctionTok{list}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{YRWAVE, d1}\SpecialCharTok{$}\NormalTok{region, d1}\SpecialCharTok{$}\NormalTok{sector), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+
+\NormalTok{f }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(totw[, , }\DecValTok{1}\NormalTok{], totw[, , }\DecValTok{2}\NormalTok{]))}
+\FunctionTok{names}\NormalTok{(f) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Hire\_FLK"}\NormalTok{, }\StringTok{"Hire\_NCFL"}\NormalTok{, }\StringTok{"Hire\_NNC"}\NormalTok{, }\StringTok{"Hire\_VBM"}\NormalTok{, }\StringTok{"Rec\_FLK"}\NormalTok{, }\StringTok{"Rec\_NCFL"}\NormalTok{, }\StringTok{"Rec\_NNC"}\NormalTok{, }\StringTok{"Rec\_VBM"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(f)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+          Hire_FLK Hire_NCFL   Hire_NNC Hire_VBM   Rec_FLK  Rec_NCFL Rec_NNC
+1981_2          NA        NA         NA       NA 2793285.5 270968.46      NA
+1981_3  300873.764        NA 254049.420       NA 3915698.3        NA      NA
+1981_4   50017.460        NA   2705.821       NA  905621.2  51537.26      NA
+1981_5    3748.301        NA         NA       NA  479834.0        NA      NA
+1981_6          NA        NA         NA       NA  848201.5        NA      NA
+1981_NA         NA   74702.5         NA 1400.247        NA        NA      NA
+        Rec_VBM
+1981_2       NA
+1981_3       NA
+1981_4       NA
+1981_5       NA
+1981_6       NA
+1981_NA      NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{YEAR }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{substr}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(f), }\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{WAVE }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{substr}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(f), }\DecValTok{6}\NormalTok{, }\DecValTok{8}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(f)   }\CommentTok{\# table with catches separated by wave and year}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+          Hire_FLK Hire_NCFL   Hire_NNC Hire_VBM   Rec_FLK  Rec_NCFL Rec_NNC
+1981_2          NA        NA         NA       NA 2793285.5 270968.46      NA
+1981_3  300873.764        NA 254049.420       NA 3915698.3        NA      NA
+1981_4   50017.460        NA   2705.821       NA  905621.2  51537.26      NA
+1981_5    3748.301        NA         NA       NA  479834.0        NA      NA
+1981_6          NA        NA         NA       NA  848201.5        NA      NA
+1981_NA         NA   74702.5         NA 1400.247        NA        NA      NA
+        Rec_VBM YEAR WAVE
+1981_2       NA 1981    2
+1981_3       NA 1981    3
+1981_4       NA 1981    4
+1981_5       NA 1981    5
+1981_6       NA 1981    6
+1981_NA      NA 1981   NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f[}\FunctionTok{is.na}\NormalTok{(f)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\NormalTok{f }\OtherTok{\textless{}{-}}\NormalTok{ f[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{YEAR }\SpecialCharTok{\textgreater{}=} \DecValTok{1985}\NormalTok{), ]}
+\NormalTok{f }\OtherTok{\textless{}{-}}\NormalTok{ f[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{YEAR }\SpecialCharTok{\textless{}=} \DecValTok{2024}\NormalTok{), ]}
+
+\FunctionTok{table}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{YEAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 
+   7    7    7    7    7    7    7    7    7    7    7    7    6    6    6    6 
+2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 
+   6    6    6    6    6    6    6    6    6    6    6    6    7    7    7    6 
+2017 2018 2019 2020 2021 2022 2023 2024 
+   6    6    6    6    6    6    6    6 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+ 0  1  2  3  4  5  6 
+15 40 40 40 40 40 40 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# deal with NAs in many locations {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\CommentTok{\# calculate percentages of catch by wave, for each region and fleet}
+\NormalTok{avw }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{LBSEST\_SECWWT, }\FunctionTok{list}\NormalTok{(d1}\SpecialCharTok{$}\NormalTok{WAVE, d1}\SpecialCharTok{$}\NormalTok{region, d1}\SpecialCharTok{$}\NormalTok{sector), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\NormalTok{avw }\OtherTok{\textless{}{-}}\NormalTok{ avw[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, , ]}
+\NormalTok{avw }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(avw[, , }\DecValTok{1}\NormalTok{], avw[, , }\DecValTok{2}\NormalTok{]))}
+\FunctionTok{names}\NormalTok{(avw) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Hire\_FLK"}\NormalTok{, }\StringTok{"Hire\_NCFL"}\NormalTok{, }\StringTok{"Hire\_NNC"}\NormalTok{, }\StringTok{"Hire\_VBM"}\NormalTok{, }\StringTok{"Rec\_FLK"}\NormalTok{, }\StringTok{"Rec\_NCFL"}\NormalTok{, }\StringTok{"Rec\_NNC"}\NormalTok{, }\StringTok{"Rec\_VBM"}\NormalTok{)}
+\NormalTok{avwp }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(avw, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{ (x) x }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(x, }\AttributeTok{na.rm =}\NormalTok{ T)) }
+\CommentTok{\#colSums(avwp)}
+
+\CommentTok{\# go through each column, find NAs and fill in waves by percentages}
+\NormalTok{pre\_colsum }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(f, }\AttributeTok{na.rm =}\NormalTok{ T)  }\CommentTok{\# column sums to check later}
+
+\NormalTok{lis }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)  }\CommentTok{\# list of rows with NA wave data}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{) \{      }\CommentTok{\# loop through each column}
+  \ControlFlowTok{for}\NormalTok{(j }\ControlFlowTok{in}\NormalTok{ lis) \{     }\CommentTok{\# loop through list of NA waves}
+    \ControlFlowTok{if}\NormalTok{ (f[j, i] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{  }\CommentTok{\# if there are NA wave catches, split by known proportion from other years}
+\NormalTok{      miscatch }\OtherTok{\textless{}{-}}\NormalTok{ avwp[, i] }\SpecialCharTok{*}\NormalTok{ f[j, i]   }\CommentTok{\# missing catch is known proportion * NA wave catch}
+\NormalTok{      f[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{YEAR }\SpecialCharTok{==}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{YEAR[j] }\SpecialCharTok{\&}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{!=} \DecValTok{0}\NormalTok{), i] }\OtherTok{\textless{}{-}}\NormalTok{ f[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{YEAR }\SpecialCharTok{==}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{YEAR[j] }\SpecialCharTok{\&}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{!=} \DecValTok{0}\NormalTok{), i] }\SpecialCharTok{+}\NormalTok{ miscatch  }\CommentTok{\# add in missing catch}
+\NormalTok{      f[j, i] }\OtherTok{\textless{}{-}} \DecValTok{0}   \CommentTok{\# set to zero after catch is attributed to waves}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{\}}
+\NormalTok{f[lis, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\CommentTok{\# should be all zeros now}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+        Hire_FLK Hire_NCFL Hire_NNC Hire_VBM Rec_FLK Rec_NCFL Rec_NNC Rec_VBM
+1985_NA        0         0        0        0       0        0       0       0
+1986_NA        0         0        0        0       0        0       0       0
+1987_NA        0         0        0        0       0        0       0       0
+1988_NA        0         0        0        0       0        0       0       0
+1989_NA        0         0        0        0       0        0       0       0
+1990_NA        0         0        0        0       0        0       0       0
+1991_NA        0         0        0        0       0        0       0       0
+1992_NA        0         0        0        0       0        0       0       0
+1993_NA        0         0        0        0       0        0       0       0
+1994_NA        0         0        0        0       0        0       0       0
+1995_NA        0         0        0        0       0        0       0       0
+1996_NA        0         0        0        0       0        0       0       0
+2013_0         0         0        0        0       0        0       0       0
+2014_0         0         0        0        0       0        0       0       0
+2015_0         0         0        0        0       0        0       0       0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pos\_colsum }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(f, }\AttributeTok{na.rm =}\NormalTok{ T) }
+\NormalTok{pre\_colsum[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ pos\_colsum[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{]  }\CommentTok{\# check that catch was parsed correctly {-} column sums should be identical }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f }\OtherTok{\textless{}{-}}\NormalTok{ f[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{!=} \DecValTok{0}\NormalTok{), ]  }\CommentTok{\# remove NA waves which now contain no catch}
+
+\CommentTok{\# split waves 3 and 6 50/50\% to parse into seasons {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{lis }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{==} \DecValTok{3} \SpecialCharTok{|}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{==} \DecValTok{6}\NormalTok{)  }\CommentTok{\# list of 3 and 6 waves for all years}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ lis) \{          }\CommentTok{\# go through list of waves}
+\NormalTok{  temp }\OtherTok{\textless{}{-}}\NormalTok{ f[i, ] }\SpecialCharTok{/} \DecValTok{2}      \CommentTok{\# split catch in half}
+\NormalTok{  temp[}\DecValTok{9}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{YEAR[i]    }\CommentTok{\# reformat year and wave data columns}
+\NormalTok{  temp[}\DecValTok{10}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{WAVE[i]}
+\NormalTok{  temp }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(temp, temp)   }\CommentTok{\# create two half{-}waves and relabel with new wave reference number}
+\NormalTok{  temp[}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ temp[}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{] }\SpecialCharTok{{-}} \FloatTok{0.5}
+\NormalTok{  temp[}\DecValTok{2}\NormalTok{, }\DecValTok{10}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ temp[}\DecValTok{2}\NormalTok{, }\DecValTok{10}\NormalTok{] }\SpecialCharTok{+} \FloatTok{0.5}
+\NormalTok{  f }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(f, temp)         }\CommentTok{\# concatenate with main data table}
+\NormalTok{  \}}
+
+\NormalTok{f }\OtherTok{\textless{}{-}}\NormalTok{ f[}\SpecialCharTok{{-}}\NormalTok{lis, ]  }\CommentTok{\# remove waves that have been split in half}
+
+\NormalTok{pos\_colsum }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(f, }\AttributeTok{na.rm =}\NormalTok{ T) }
+\NormalTok{pre\_colsum[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\SpecialCharTok{==}\NormalTok{ pos\_colsum[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{]  }\CommentTok{\# check that catch was parsed correctly {-} column sums should be identical }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f }\OtherTok{\textless{}{-}}\NormalTok{ f[}\FunctionTok{order}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{YEAR, f}\SpecialCharTok{$}\NormalTok{WAVE), ]  }\CommentTok{\# reorder table in chronological order}
+
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{YEAR[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{==} \FloatTok{6.5}\NormalTok{)] }\OtherTok{\textless{}{-}}\NormalTok{ f}\SpecialCharTok{$}\NormalTok{YEAR[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{==} \FloatTok{6.5}\NormalTok{)] }\SpecialCharTok{+} \DecValTok{1}  \CommentTok{\# add year to December wave so it gets summed with following year}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{WAVE[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE }\SpecialCharTok{==} \FloatTok{6.5}\NormalTok{)] }\OtherTok{\textless{}{-}} \FloatTok{0.5}  \CommentTok{\# change December wave to small number so it gets summed with Jan/Feb}
+
+\FunctionTok{table}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+0.5   1   2 2.5 3.5   4   5 5.5 
+ 40  40  40  40  40  40  40  40 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{seas }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{WAVE, }\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{1.5}\NormalTok{, }\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{, }\DecValTok{6}\NormalTok{))}
+\CommentTok{\#table(f$seas)}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{seas1 }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{seas1[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{seas }\SpecialCharTok{==} \StringTok{"(0,1.5]"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"DJF"}  \CommentTok{\# Dec Jan Feb is 0.5 and 1}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{seas1[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{seas }\SpecialCharTok{==} \StringTok{"(1.5,3]"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"MAM"}  \CommentTok{\# Mar Apr May is 2 and 2.5}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{seas1[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{seas }\SpecialCharTok{==} \StringTok{"(3,4.5]"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"JJA"}  \CommentTok{\# Jun Jul Aug is 3.5 and 4}
+\NormalTok{f}\SpecialCharTok{$}\NormalTok{seas1[}\FunctionTok{which}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{seas }\SpecialCharTok{==} \StringTok{"(4.5,6]"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"SON"}  \CommentTok{\# Sep Oct Nov is 5 and 5.5}
+
+\NormalTok{temp }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(f[, }\DecValTok{1}\NormalTok{], }\FunctionTok{list}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{seas1, f}\SpecialCharTok{$}\NormalTok{YEAR), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\NormalTok{temp1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(temp)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\DecValTok{8}\NormalTok{) \{}
+\NormalTok{  temp2 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(f[, i], }\FunctionTok{list}\NormalTok{(f}\SpecialCharTok{$}\NormalTok{seas1, f}\SpecialCharTok{$}\NormalTok{YEAR), sum, }\AttributeTok{na.rm =}\NormalTok{ T))}
+\NormalTok{  temp1 }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(temp1, temp2)}
+\NormalTok{  \}}
+
+\NormalTok{findat }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(temp)), }\DecValTok{4}\NormalTok{)), }
+                     \FunctionTok{rep}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(temp), }\FunctionTok{ncol}\NormalTok{(temp)), temp1)}
+\FunctionTok{names}\NormalTok{(findat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"season"}\NormalTok{, }\FunctionTok{names}\NormalTok{(f)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{])}
+
+\FunctionTok{colSums}\NormalTok{(f[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{], }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{==} \FunctionTok{colSums}\NormalTok{(findat[, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{na.rm =}\NormalTok{ T)  }\CommentTok{\# check that total catch is equal before and after parsing}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE 
+\end{verbatim}
+
+We plot the results by region and sector, over the time series of year
+and season. We can clearly see the seasonality in the catch by region.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{findat}\SpecialCharTok{$}\NormalTok{yrseas }\OtherTok{\textless{}{-}}\NormalTok{ findat}\SpecialCharTok{$}\NormalTok{year }\SpecialCharTok{+} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{season))}\SpecialCharTok{/}\DecValTok{4}\FloatTok{{-}0.125}
+\FunctionTok{matplot}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{yrseas, findat[, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
+        \AttributeTok{xlab =} \StringTok{"year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(findat[, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{)), }\AttributeTok{col =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MRIP_files/figure-pdf/unnamed-chunk-9-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check that totals match}
+\FunctionTok{cbind}\NormalTok{(}\FunctionTok{colSums}\NormalTok{(findat[, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{na.rm =}\NormalTok{ T), }\FunctionTok{colSums}\NormalTok{(fin[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{), ], }\AttributeTok{na.rm =}\NormalTok{ T))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+               [,1]      [,2]
+Hire_FLK   55604999  54887476
+Hire_NCFL  16909916  16736926
+Hire_NNC   57944903  57886388
+Hire_VBM    5836953   5828072
+Rec_FLK   371462933 363537632
+Rec_NCFL   70803866  69641157
+Rec_NNC    32556596  32479119
+Rec_VBM    40081529  39968585
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# the values should be close but slightly \textgreater{}1 because the last data set includes December 1985 data as part of 1986}
+\FunctionTok{colSums}\NormalTok{(findat[, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{/} \FunctionTok{colSums}\NormalTok{(fin[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{), ], }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+ 1.013073  1.010336  1.001011  1.001524  1.021800  1.016696  1.002385  1.002826 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/MRIP\_catch\_by\_season\_4\_areas.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Here we will format the data for input to the operating model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab3 }\OtherTok{\textless{}{-}}\NormalTok{ findat}
+
+\NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"ForHire"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(tab3)}\SpecialCharTok{*}\DecValTok{4}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\StringTok{"Rec"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(tab3)}\SpecialCharTok{*}\DecValTok{4}\NormalTok{))}
+  
+\NormalTok{yrmon }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(tab3}\SpecialCharTok{$}\NormalTok{yrseas)}
+\NormalTok{yrs }\OtherTok{\textless{}{-}} \FunctionTok{floor}\NormalTok{(yrmon)}
+\NormalTok{qrt }\OtherTok{\textless{}{-}}\NormalTok{ (yrmon }\SpecialCharTok{{-}} \FunctionTok{floor}\NormalTok{(yrmon)) }\SpecialCharTok{*} \DecValTok{4} \SpecialCharTok{+} \FloatTok{0.5}
+\NormalTok{area }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"FLK"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(tab3)), }\FunctionTok{rep}\NormalTok{(}\StringTok{"NCFL"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(tab3)), }
+          \FunctionTok{rep}\NormalTok{(}\StringTok{"NNC"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(tab3)), }\FunctionTok{rep}\NormalTok{(}\StringTok{"VBM"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(tab3)))}
+\NormalTok{area }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(area, }\DecValTok{2}\NormalTok{)}
+
+
+\NormalTok{findat1 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(yrs, qrt, flt, area, }\FunctionTok{matrix}\NormalTok{(}\FunctionTok{as.matrix}\NormalTok{(tab3[,}\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{])))}
+\NormalTok{findat1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      yrs qrt     flt area matrix.as.matrix.tab3...3.10...
+1    1985   1 ForHire  FLK                    4.462090e+03
+2    1985   2 ForHire  FLK                    2.534874e+05
+3    1985   3 ForHire  FLK                    3.808114e+05
+4    1985   4 ForHire  FLK                    4.146999e+04
+5    1986   1 ForHire  FLK                    4.054541e+04
+6    1986   2 ForHire  FLK                    5.011846e+05
+7    1986   3 ForHire  FLK                    8.024703e+05
+8    1986   4 ForHire  FLK                    1.511596e+05
+9    1987   1 ForHire  FLK                    2.414829e+05
+10   1987   2 ForHire  FLK                    9.787720e+05
+11   1987   3 ForHire  FLK                    6.087522e+05
+12   1987   4 ForHire  FLK                    2.491889e+04
+13   1988   1 ForHire  FLK                    5.112349e+04
+14   1988   2 ForHire  FLK                    5.236336e+05
+15   1988   3 ForHire  FLK                    2.796967e+04
+16   1988   4 ForHire  FLK                    1.960574e+05
+17   1989   1 ForHire  FLK                    2.524921e+05
+18   1989   2 ForHire  FLK                    1.898385e+06
+19   1989   3 ForHire  FLK                    5.918365e+05
+20   1989   4 ForHire  FLK                    3.962056e+05
+21   1990   1 ForHire  FLK                    3.673921e+05
+22   1990   2 ForHire  FLK                    5.735168e+05
+23   1990   3 ForHire  FLK                    1.672854e+05
+24   1990   4 ForHire  FLK                    5.481602e+04
+25   1991   1 ForHire  FLK                    1.200051e+05
+26   1991   2 ForHire  FLK                    2.463709e+06
+27   1991   3 ForHire  FLK                    1.530429e+06
+28   1991   4 ForHire  FLK                    1.329583e+05
+29   1992   1 ForHire  FLK                    5.113129e+05
+30   1992   2 ForHire  FLK                    8.083241e+05
+31   1992   3 ForHire  FLK                    9.688738e+05
+32   1992   4 ForHire  FLK                    1.566697e+05
+33   1993   1 ForHire  FLK                    2.333242e+05
+34   1993   2 ForHire  FLK                    5.197939e+05
+35   1993   3 ForHire  FLK                    6.692056e+05
+36   1993   4 ForHire  FLK                    3.734484e+04
+37   1994   1 ForHire  FLK                    8.981145e+04
+38   1994   2 ForHire  FLK                    5.934543e+05
+39   1994   3 ForHire  FLK                    1.406221e+05
+40   1994   4 ForHire  FLK                    2.984649e+05
+41   1995   1 ForHire  FLK                    1.390055e+05
+42   1995   2 ForHire  FLK                    1.039095e+06
+43   1995   3 ForHire  FLK                    1.461029e+06
+44   1995   4 ForHire  FLK                    2.027951e+05
+45   1996   1 ForHire  FLK                    7.773956e+04
+46   1996   2 ForHire  FLK                    1.352282e+06
+47   1996   3 ForHire  FLK                    1.439914e+06
+48   1996   4 ForHire  FLK                    4.336462e+04
+49   1997   1 ForHire  FLK                    3.874707e+04
+50   1997   2 ForHire  FLK                    1.629481e+06
+51   1997   3 ForHire  FLK                    1.514418e+06
+52   1997   4 ForHire  FLK                    8.428625e+04
+53   1998   1 ForHire  FLK                    9.909438e+04
+54   1998   2 ForHire  FLK                    6.713363e+05
+55   1998   3 ForHire  FLK                    6.563503e+05
+56   1998   4 ForHire  FLK                    9.008397e+04
+57   1999   1 ForHire  FLK                    1.387479e+05
+58   1999   2 ForHire  FLK                    4.497292e+05
+59   1999   3 ForHire  FLK                    5.063335e+05
+60   1999   4 ForHire  FLK                    1.268359e+05
+61   2000   1 ForHire  FLK                    8.315590e+04
+62   2000   2 ForHire  FLK                    7.265192e+05
+63   2000   3 ForHire  FLK                    4.308598e+05
+64   2000   4 ForHire  FLK                    2.502685e+05
+65   2001   1 ForHire  FLK                    2.460745e+05
+66   2001   2 ForHire  FLK                    1.233226e+06
+67   2001   3 ForHire  FLK                    7.170208e+05
+68   2001   4 ForHire  FLK                    1.353495e+05
+69   2002   1 ForHire  FLK                    1.250031e+05
+70   2002   2 ForHire  FLK                    7.042666e+05
+71   2002   3 ForHire  FLK                    8.214989e+05
+72   2002   4 ForHire  FLK                    2.144944e+05
+73   2003   1 ForHire  FLK                    1.173219e+05
+74   2003   2 ForHire  FLK                    6.037893e+05
+75   2003   3 ForHire  FLK                    4.592291e+05
+76   2003   4 ForHire  FLK                    1.306186e+05
+77   2004   1 ForHire  FLK                    1.665554e+05
+78   2004   2 ForHire  FLK                    6.537249e+05
+79   2004   3 ForHire  FLK                    6.539262e+05
+80   2004   4 ForHire  FLK                    6.991629e+04
+81   2005   1 ForHire  FLK                    8.617154e+04
+82   2005   2 ForHire  FLK                    3.823569e+05
+83   2005   3 ForHire  FLK                    3.634808e+05
+84   2005   4 ForHire  FLK                    4.281886e+04
+85   2006   1 ForHire  FLK                    6.246935e+04
+86   2006   2 ForHire  FLK                    2.945357e+05
+87   2006   3 ForHire  FLK                    2.947750e+05
+88   2006   4 ForHire  FLK                    4.741635e+04
+89   2007   1 ForHire  FLK                    3.433560e+04
+90   2007   2 ForHire  FLK                    3.291462e+05
+91   2007   3 ForHire  FLK                    3.047614e+05
+92   2007   4 ForHire  FLK                    4.854292e+04
+93   2008   1 ForHire  FLK                    8.213770e+04
+94   2008   2 ForHire  FLK                    3.145215e+05
+95   2008   3 ForHire  FLK                    2.804606e+05
+96   2008   4 ForHire  FLK                    4.715174e+04
+97   2009   1 ForHire  FLK                    1.731352e+05
+98   2009   2 ForHire  FLK                    4.032198e+05
+99   2009   3 ForHire  FLK                    3.926185e+05
+100  2009   4 ForHire  FLK                    5.327003e+04
+101  2010   1 ForHire  FLK                    3.615959e+04
+102  2010   2 ForHire  FLK                    2.687809e+05
+103  2010   3 ForHire  FLK                    2.193667e+05
+104  2010   4 ForHire  FLK                    3.321194e+04
+105  2011   1 ForHire  FLK                    2.245187e+04
+106  2011   2 ForHire  FLK                    3.516103e+05
+107  2011   3 ForHire  FLK                    2.843143e+05
+108  2011   4 ForHire  FLK                    8.316655e+04
+109  2012   1 ForHire  FLK                    8.049080e+04
+110  2012   2 ForHire  FLK                    3.419584e+05
+111  2012   3 ForHire  FLK                    3.499724e+05
+112  2012   4 ForHire  FLK                    9.702987e+04
+113  2013   1 ForHire  FLK                    7.075256e+04
+114  2013   2 ForHire  FLK                    3.346052e+05
+115  2013   3 ForHire  FLK                    1.512397e+05
+116  2013   4 ForHire  FLK                    5.990593e+04
+117  2014   1 ForHire  FLK                    3.864672e+04
+118  2014   2 ForHire  FLK                    4.783451e+05
+119  2014   3 ForHire  FLK                    3.063555e+05
+120  2014   4 ForHire  FLK                    7.951533e+04
+121  2015   1 ForHire  FLK                    1.126962e+05
+122  2015   2 ForHire  FLK                    6.722192e+05
+123  2015   3 ForHire  FLK                    7.334898e+05
+124  2015   4 ForHire  FLK                    1.694061e+05
+125  2016   1 ForHire  FLK                    1.344365e+05
+126  2016   2 ForHire  FLK                    2.417873e+05
+127  2016   3 ForHire  FLK                    5.033407e+05
+128  2016   4 ForHire  FLK                    1.743354e+04
+129  2017   1 ForHire  FLK                    1.170229e+04
+130  2017   2 ForHire  FLK                    6.117980e+05
+131  2017   3 ForHire  FLK                    5.660774e+05
+132  2017   4 ForHire  FLK                    3.588338e+04
+133  2018   1 ForHire  FLK                    2.329070e+04
+134  2018   2 ForHire  FLK                    1.653072e+05
+135  2018   3 ForHire  FLK                    1.361174e+05
+136  2018   4 ForHire  FLK                    8.056149e+04
+137  2019   1 ForHire  FLK                    2.832672e+04
+138  2019   2 ForHire  FLK                    4.269701e+05
+139  2019   3 ForHire  FLK                    3.745493e+05
+140  2019   4 ForHire  FLK                    4.160198e+05
+141  2020   1 ForHire  FLK                    2.420522e+04
+142  2020   2 ForHire  FLK                    5.096188e+05
+143  2020   3 ForHire  FLK                    7.868668e+04
+144  2020   4 ForHire  FLK                    3.096802e+05
+145  2021   1 ForHire  FLK                    2.795122e+04
+146  2021   2 ForHire  FLK                    5.011873e+05
+147  2021   3 ForHire  FLK                    2.016812e+05
+148  2021   4 ForHire  FLK                    5.132135e+05
+149  2022   1 ForHire  FLK                    2.639086e+04
+150  2022   2 ForHire  FLK                    3.009903e+05
+151  2022   3 ForHire  FLK                    2.459965e+05
+152  2022   4 ForHire  FLK                    5.880012e+04
+153  2023   1 ForHire  FLK                    1.499705e+04
+154  2023   2 ForHire  FLK                    1.198942e+05
+155  2023   3 ForHire  FLK                    9.200433e+04
+156  2023   4 ForHire  FLK                    5.271621e+04
+157  2024   1 ForHire  FLK                    3.809446e+03
+158  2024   2 ForHire  FLK                    3.415764e+05
+159  2024   3 ForHire  FLK                    2.234813e+05
+160  2024   4 ForHire  FLK                    4.784226e+04
+161  2025   1 ForHire  FLK                    1.563611e+04
+162  2025   2 ForHire  FLK                              NA
+163  2025   3 ForHire  FLK                              NA
+164  2025   4 ForHire  FLK                              NA
+165  1985   1 ForHire NCFL                    1.294748e+02
+166  1985   2 ForHire NCFL                    9.054349e+04
+167  1985   3 ForHire NCFL                    8.062661e+04
+168  1985   4 ForHire NCFL                    1.555487e+03
+169  1986   1 ForHire NCFL                    3.360800e+02
+170  1986   2 ForHire NCFL                    2.800349e+04
+171  1986   3 ForHire NCFL                    2.370312e+04
+172  1986   4 ForHire NCFL                    1.143834e+04
+173  1987   1 ForHire NCFL                    4.103876e+02
+174  1987   2 ForHire NCFL                    3.073598e+04
+175  1987   3 ForHire NCFL                    2.499202e+04
+176  1987   4 ForHire NCFL                    5.105764e+03
+177  1988   1 ForHire NCFL                    3.474931e+02
+178  1988   2 ForHire NCFL                    3.493479e+04
+179  1988   3 ForHire NCFL                    1.686078e+04
+180  1988   4 ForHire NCFL                    1.018500e+04
+181  1989   1 ForHire NCFL                    4.729552e+02
+182  1989   2 ForHire NCFL                    1.780131e+05
+183  1989   3 ForHire NCFL                    2.109711e+05
+184  1989   4 ForHire NCFL                    1.556368e+04
+185  1990   1 ForHire NCFL                    7.824121e+02
+186  1990   2 ForHire NCFL                    1.476583e+05
+187  1990   3 ForHire NCFL                    1.154803e+05
+188  1990   4 ForHire NCFL                    1.385021e+04
+189  1991   1 ForHire NCFL                    6.480516e+02
+190  1991   2 ForHire NCFL                    1.118934e+05
+191  1991   3 ForHire NCFL                    9.679768e+04
+192  1991   4 ForHire NCFL                    1.054628e+04
+193  1992   1 ForHire NCFL                    6.204025e+03
+194  1992   2 ForHire NCFL                    1.125717e+05
+195  1992   3 ForHire NCFL                    6.841681e+04
+196  1992   4 ForHire NCFL                    7.686783e+03
+197  1993   1 ForHire NCFL                    8.603992e+02
+198  1993   2 ForHire NCFL                    2.689442e+05
+199  1993   3 ForHire NCFL                    1.201582e+05
+200  1993   4 ForHire NCFL                    1.839589e+03
+201  1994   1 ForHire NCFL                    2.400880e+02
+202  1994   2 ForHire NCFL                    2.077107e+05
+203  1994   3 ForHire NCFL                    2.113411e+05
+204  1994   4 ForHire NCFL                    1.834842e+04
+205  1995   1 ForHire NCFL                    3.394897e+02
+206  1995   2 ForHire NCFL                    3.896585e+05
+207  1995   3 ForHire NCFL                    2.726127e+05
+208  1995   4 ForHire NCFL                    4.841136e+03
+209  1996   1 ForHire NCFL                    8.213613e+03
+210  1996   2 ForHire NCFL                    1.778849e+05
+211  1996   3 ForHire NCFL                    1.015929e+05
+212  1996   4 ForHire NCFL                    2.140903e+04
+213  1997   1 ForHire NCFL                    3.872523e+03
+214  1997   2 ForHire NCFL                    2.720876e+05
+215  1997   3 ForHire NCFL                    1.493999e+05
+216  1997   4 ForHire NCFL                    3.987688e+04
+217  1998   1 ForHire NCFL                    3.176531e+03
+218  1998   2 ForHire NCFL                    1.367443e+05
+219  1998   3 ForHire NCFL                    1.057200e+05
+220  1998   4 ForHire NCFL                    6.394769e+03
+221  1999   1 ForHire NCFL                    1.617787e+04
+222  1999   2 ForHire NCFL                    2.315459e+05
+223  1999   3 ForHire NCFL                    1.855573e+05
+224  1999   4 ForHire NCFL                    2.427385e+04
+225  2000   1 ForHire NCFL                    9.786403e+03
+226  2000   2 ForHire NCFL                    2.209559e+05
+227  2000   3 ForHire NCFL                    1.004109e+05
+228  2000   4 ForHire NCFL                    3.691695e+04
+229  2001   1 ForHire NCFL                    1.444289e+04
+230  2001   2 ForHire NCFL                    7.099938e+05
+231  2001   3 ForHire NCFL                    3.323576e+05
+232  2001   4 ForHire NCFL                    3.669715e+04
+233  2002   1 ForHire NCFL                    3.452582e+03
+234  2002   2 ForHire NCFL                    1.067933e+06
+235  2002   3 ForHire NCFL                    8.876937e+05
+236  2002   4 ForHire NCFL                    3.528256e+04
+237  2003   1 ForHire NCFL                    3.840700e+03
+238  2003   2 ForHire NCFL                    5.318615e+05
+239  2003   3 ForHire NCFL                    4.048370e+05
+240  2003   4 ForHire NCFL                    1.538532e+04
+241  2004   1 ForHire NCFL                    4.478344e+03
+242  2004   2 ForHire NCFL                    2.297842e+05
+243  2004   3 ForHire NCFL                    5.213514e+05
+244  2004   4 ForHire NCFL                    1.644082e+04
+245  2005   1 ForHire NCFL                    6.818692e+03
+246  2005   2 ForHire NCFL                    4.295189e+05
+247  2005   3 ForHire NCFL                    2.923724e+05
+248  2005   4 ForHire NCFL                    7.924777e+03
+249  2006   1 ForHire NCFL                    2.665228e+03
+250  2006   2 ForHire NCFL                    1.996467e+05
+251  2006   3 ForHire NCFL                    1.077716e+05
+252  2006   4 ForHire NCFL                    1.744758e+05
+253  2007   1 ForHire NCFL                    2.214669e+03
+254  2007   2 ForHire NCFL                    2.668275e+05
+255  2007   3 ForHire NCFL                    2.325079e+05
+256  2007   4 ForHire NCFL                    3.984227e+03
+257  2008   1 ForHire NCFL                    3.435103e+03
+258  2008   2 ForHire NCFL                    5.630532e+05
+259  2008   3 ForHire NCFL                    6.296220e+05
+260  2008   4 ForHire NCFL                    2.797176e+04
+261  2009   1 ForHire NCFL                    1.553554e+04
+262  2009   2 ForHire NCFL                    2.437370e+05
+263  2009   3 ForHire NCFL                    2.048967e+05
+264  2009   4 ForHire NCFL                    5.340980e+03
+265  2010   1 ForHire NCFL                    3.657414e+03
+266  2010   2 ForHire NCFL                    2.856638e+05
+267  2010   3 ForHire NCFL                    2.244790e+05
+268  2010   4 ForHire NCFL                    2.191794e+04
+269  2011   1 ForHire NCFL                    1.988053e+03
+270  2011   2 ForHire NCFL                    1.798123e+05
+271  2011   3 ForHire NCFL                    8.224854e+04
+272  2011   4 ForHire NCFL                    1.139008e+04
+273  2012   1 ForHire NCFL                    2.961105e+03
+274  2012   2 ForHire NCFL                    2.766761e+05
+275  2012   3 ForHire NCFL                    2.701667e+05
+276  2012   4 ForHire NCFL                    6.606708e+04
+277  2013   1 ForHire NCFL                    1.779384e+03
+278  2013   2 ForHire NCFL                    2.194358e+05
+279  2013   3 ForHire NCFL                    1.575236e+05
+280  2013   4 ForHire NCFL                    1.566620e+04
+281  2014   1 ForHire NCFL                    4.518215e+03
+282  2014   2 ForHire NCFL                    1.092633e+05
+283  2014   3 ForHire NCFL                    8.058665e+04
+284  2014   4 ForHire NCFL                    1.502980e+04
+285  2015   1 ForHire NCFL                    4.176974e+03
+286  2015   2 ForHire NCFL                    7.924758e+04
+287  2015   3 ForHire NCFL                    7.648718e+04
+288  2015   4 ForHire NCFL                    3.612587e+04
+289  2016   1 ForHire NCFL                    3.698497e+03
+290  2016   2 ForHire NCFL                    1.550273e+05
+291  2016   3 ForHire NCFL                    2.872233e+05
+292  2016   4 ForHire NCFL                    8.996649e+03
+293  2017   1 ForHire NCFL                    2.040101e+03
+294  2017   2 ForHire NCFL                    7.402020e+04
+295  2017   3 ForHire NCFL                    7.692057e+04
+296  2017   4 ForHire NCFL                    9.207619e+03
+297  2018   1 ForHire NCFL                    7.239204e+02
+298  2018   2 ForHire NCFL                    5.468464e+04
+299  2018   3 ForHire NCFL                    4.147245e+04
+300  2018   4 ForHire NCFL                    6.945761e+03
+301  2019   1 ForHire NCFL                    2.719131e+03
+302  2019   2 ForHire NCFL                    1.240299e+05
+303  2019   3 ForHire NCFL                    1.203616e+05
+304  2019   4 ForHire NCFL                    5.238812e+03
+305  2020   1 ForHire NCFL                    4.188082e+02
+306  2020   2 ForHire NCFL                    1.058325e+05
+307  2020   3 ForHire NCFL                    8.464547e+04
+308  2020   4 ForHire NCFL                    3.438865e+04
+309  2021   1 ForHire NCFL                    7.634698e+02
+310  2021   2 ForHire NCFL                    5.397084e+04
+311  2021   3 ForHire NCFL                    7.160624e+04
+312  2021   4 ForHire NCFL                    1.839464e+04
+313  2022   1 ForHire NCFL                    3.239231e+03
+314  2022   2 ForHire NCFL                    4.272998e+04
+315  2022   3 ForHire NCFL                    4.157946e+04
+316  2022   4 ForHire NCFL                    5.359988e+03
+317  2023   1 ForHire NCFL                    3.092289e+02
+318  2023   2 ForHire NCFL                    3.614031e+04
+319  2023   3 ForHire NCFL                    7.173598e+04
+320  2023   4 ForHire NCFL                    1.029238e+04
+321  2024   1 ForHire NCFL                    4.297564e+02
+322  2024   2 ForHire NCFL                    2.305942e+04
+323  2024   3 ForHire NCFL                    4.334767e+04
+324  2024   4 ForHire NCFL                    1.839772e+04
+325  2025   1 ForHire NCFL                    5.841041e+02
+326  2025   2 ForHire NCFL                              NA
+327  2025   3 ForHire NCFL                              NA
+328  2025   4 ForHire NCFL                              NA
+329  1985   1 ForHire  NNC                    0.000000e+00
+330  1985   2 ForHire  NNC                    2.925707e+04
+331  1985   3 ForHire  NNC                    2.925707e+04
+332  1985   4 ForHire  NNC                    0.000000e+00
+333  1986   1 ForHire  NNC                    0.000000e+00
+334  1986   2 ForHire  NNC                    4.331248e+05
+335  1986   3 ForHire  NNC                    3.259995e+05
+336  1986   4 ForHire  NNC                    5.640033e+04
+337  1987   1 ForHire  NNC                    1.667679e+03
+338  1987   2 ForHire  NNC                    6.634651e+05
+339  1987   3 ForHire  NNC                    8.440390e+04
+340  1987   4 ForHire  NNC                    1.011253e+05
+341  1988   1 ForHire  NNC                    0.000000e+00
+342  1988   2 ForHire  NNC                    7.807843e+05
+343  1988   3 ForHire  NNC                    2.294885e+05
+344  1988   4 ForHire  NNC                    1.043543e+05
+345  1989   1 ForHire  NNC                    0.000000e+00
+346  1989   2 ForHire  NNC                    1.331147e+06
+347  1989   3 ForHire  NNC                    4.566275e+05
+348  1989   4 ForHire  NNC                    1.819174e+05
+349  1990   1 ForHire  NNC                    1.084238e+03
+350  1990   2 ForHire  NNC                    1.298744e+06
+351  1990   3 ForHire  NNC                    2.762370e+05
+352  1990   4 ForHire  NNC                    1.747245e+05
+353  1991   1 ForHire  NNC                    2.602455e+02
+354  1991   2 ForHire  NNC                    1.111538e+06
+355  1991   3 ForHire  NNC                    3.386228e+05
+356  1991   4 ForHire  NNC                    2.565000e+05
+357  1992   1 ForHire  NNC                    9.123982e+01
+358  1992   2 ForHire  NNC                    1.074642e+06
+359  1992   3 ForHire  NNC                    4.056591e+05
+360  1992   4 ForHire  NNC                    1.393842e+05
+361  1993   1 ForHire  NNC                    0.000000e+00
+362  1993   2 ForHire  NNC                    1.026905e+06
+363  1993   3 ForHire  NNC                    3.961182e+05
+364  1993   4 ForHire  NNC                    1.327154e+05
+365  1994   1 ForHire  NNC                    1.114007e+02
+366  1994   2 ForHire  NNC                    9.896425e+05
+367  1994   3 ForHire  NNC                    5.843752e+05
+368  1994   4 ForHire  NNC                    1.351256e+05
+369  1995   1 ForHire  NNC                    4.838705e+03
+370  1995   2 ForHire  NNC                    1.163134e+06
+371  1995   3 ForHire  NNC                    3.596215e+05
+372  1995   4 ForHire  NNC                    1.501280e+05
+373  1996   1 ForHire  NNC                    5.518140e+02
+374  1996   2 ForHire  NNC                    6.272307e+05
+375  1996   3 ForHire  NNC                    2.266328e+05
+376  1996   4 ForHire  NNC                    6.914937e+04
+377  1997   1 ForHire  NNC                    1.159216e+02
+378  1997   2 ForHire  NNC                    1.305418e+06
+379  1997   3 ForHire  NNC                    5.384247e+05
+380  1997   4 ForHire  NNC                    2.838386e+05
+381  1998   1 ForHire  NNC                    1.790000e+03
+382  1998   2 ForHire  NNC                    1.286262e+06
+383  1998   3 ForHire  NNC                    3.720073e+05
+384  1998   4 ForHire  NNC                    2.627216e+05
+385  1999   1 ForHire  NNC                    8.427480e+02
+386  1999   2 ForHire  NNC                    1.408221e+06
+387  1999   3 ForHire  NNC                    4.320121e+05
+388  1999   4 ForHire  NNC                    1.742143e+05
+389  2000   1 ForHire  NNC                    3.049959e+02
+390  2000   2 ForHire  NNC                    2.310664e+06
+391  2000   3 ForHire  NNC                    5.314265e+05
+392  2000   4 ForHire  NNC                    2.973395e+05
+393  2001   1 ForHire  NNC                    1.255034e+02
+394  2001   2 ForHire  NNC                    1.246703e+06
+395  2001   3 ForHire  NNC                    1.912235e+05
+396  2001   4 ForHire  NNC                    2.001049e+05
+397  2002   1 ForHire  NNC                    6.761108e+02
+398  2002   2 ForHire  NNC                    1.545059e+06
+399  2002   3 ForHire  NNC                    1.004864e+06
+400  2002   4 ForHire  NNC                    4.540662e+05
+401  2003   1 ForHire  NNC                    1.183999e+03
+402  2003   2 ForHire  NNC                    6.743990e+05
+403  2003   3 ForHire  NNC                    2.130953e+05
+404  2003   4 ForHire  NNC                    3.523793e+04
+405  2004   1 ForHire  NNC                    6.161745e+03
+406  2004   2 ForHire  NNC                    8.934973e+05
+407  2004   3 ForHire  NNC                    1.489910e+05
+408  2004   4 ForHire  NNC                    7.388486e+04
+409  2005   1 ForHire  NNC                    0.000000e+00
+410  2005   2 ForHire  NNC                    2.585572e+06
+411  2005   3 ForHire  NNC                    3.369815e+05
+412  2005   4 ForHire  NNC                    2.302774e+05
+413  2006   1 ForHire  NNC                    6.495267e+02
+414  2006   2 ForHire  NNC                    1.798733e+06
+415  2006   3 ForHire  NNC                    4.041334e+05
+416  2006   4 ForHire  NNC                    4.271605e+05
+417  2007   1 ForHire  NNC                    2.637966e+04
+418  2007   2 ForHire  NNC                    1.993879e+06
+419  2007   3 ForHire  NNC                    4.980747e+05
+420  2007   4 ForHire  NNC                    2.590388e+04
+421  2008   1 ForHire  NNC                    4.065881e+02
+422  2008   2 ForHire  NNC                    1.103121e+06
+423  2008   3 ForHire  NNC                    4.078345e+05
+424  2008   4 ForHire  NNC                    8.570458e+04
+425  2009   1 ForHire  NNC                    2.420607e+04
+426  2009   2 ForHire  NNC                    6.344073e+05
+427  2009   3 ForHire  NNC                    1.952106e+05
+428  2009   4 ForHire  NNC                    9.611454e+04
+429  2010   1 ForHire  NNC                    2.687381e+03
+430  2010   2 ForHire  NNC                    7.870523e+05
+431  2010   3 ForHire  NNC                    4.898075e+05
+432  2010   4 ForHire  NNC                    1.070805e+05
+433  2011   1 ForHire  NNC                    4.946504e+02
+434  2011   2 ForHire  NNC                    1.081341e+06
+435  2011   3 ForHire  NNC                    4.121178e+05
+436  2011   4 ForHire  NNC                    8.270966e+04
+437  2012   1 ForHire  NNC                    1.942786e+03
+438  2012   2 ForHire  NNC                    6.529994e+05
+439  2012   3 ForHire  NNC                    4.872517e+05
+440  2012   4 ForHire  NNC                    9.417821e+04
+441  2013   1 ForHire  NNC                    1.180400e+03
+442  2013   2 ForHire  NNC                    3.829178e+05
+443  2013   3 ForHire  NNC                    8.469482e+04
+444  2013   4 ForHire  NNC                    1.719227e+05
+445  2014   1 ForHire  NNC                    6.398102e+02
+446  2014   2 ForHire  NNC                    4.865816e+05
+447  2014   3 ForHire  NNC                    3.421213e+05
+448  2014   4 ForHire  NNC                    8.761344e+04
+449  2015   1 ForHire  NNC                    3.796263e+02
+450  2015   2 ForHire  NNC                    8.873625e+05
+451  2015   3 ForHire  NNC                    3.237039e+05
+452  2015   4 ForHire  NNC                    1.537656e+05
+453  2016   1 ForHire  NNC                    1.007698e+04
+454  2016   2 ForHire  NNC                    6.548437e+05
+455  2016   3 ForHire  NNC                    3.086638e+05
+456  2016   4 ForHire  NNC                    2.719797e+05
+457  2017   1 ForHire  NNC                    1.078562e+03
+458  2017   2 ForHire  NNC                    4.489343e+05
+459  2017   3 ForHire  NNC                    2.993657e+05
+460  2017   4 ForHire  NNC                    8.379875e+04
+461  2018   1 ForHire  NNC                    2.982117e+03
+462  2018   2 ForHire  NNC                    7.496388e+05
+463  2018   3 ForHire  NNC                    3.938811e+05
+464  2018   4 ForHire  NNC                    3.213315e+05
+465  2019   1 ForHire  NNC                    2.361142e+02
+466  2019   2 ForHire  NNC                    5.174288e+05
+467  2019   3 ForHire  NNC                    3.287088e+05
+468  2019   4 ForHire  NNC                    1.493810e+05
+469  2020   1 ForHire  NNC                    2.583884e+03
+470  2020   2 ForHire  NNC                    3.859802e+05
+471  2020   3 ForHire  NNC                    1.904235e+05
+472  2020   4 ForHire  NNC                    9.085066e+04
+473  2021   1 ForHire  NNC                    2.474158e+02
+474  2021   2 ForHire  NNC                    4.377578e+05
+475  2021   3 ForHire  NNC                    1.903206e+05
+476  2021   4 ForHire  NNC                    2.433248e+05
+477  2022   1 ForHire  NNC                    3.577490e+02
+478  2022   2 ForHire  NNC                    1.877862e+05
+479  2022   3 ForHire  NNC                    1.499484e+05
+480  2022   4 ForHire  NNC                    8.883334e+04
+481  2023   1 ForHire  NNC                    1.385437e+03
+482  2023   2 ForHire  NNC                    6.917578e+05
+483  2023   3 ForHire  NNC                    4.855651e+05
+484  2023   4 ForHire  NNC                    1.039317e+05
+485  2024   1 ForHire  NNC                    0.000000e+00
+486  2024   2 ForHire  NNC                    2.081499e+05
+487  2024   3 ForHire  NNC                    1.385556e+05
+488  2024   4 ForHire  NNC                    1.597430e+05
+489  2025   1 ForHire  NNC                    1.094585e+02
+490  2025   2 ForHire  NNC                              NA
+491  2025   3 ForHire  NNC                              NA
+492  2025   4 ForHire  NNC                              NA
+493  1985   1 ForHire  VBM                    0.000000e+00
+494  1985   2 ForHire  VBM                    8.280864e+03
+495  1985   3 ForHire  VBM                    9.521840e+01
+496  1985   4 ForHire  VBM                    5.045926e+02
+497  1986   1 ForHire  VBM                    1.827329e-01
+498  1986   2 ForHire  VBM                    6.103580e+04
+499  1986   3 ForHire  VBM                    2.263707e+02
+500  1986   4 ForHire  VBM                    3.958740e+02
+501  1987   1 ForHire  VBM                    1.433616e-01
+502  1987   2 ForHire  VBM                    7.039843e+03
+503  1987   3 ForHire  VBM                    1.014313e+02
+504  1987   4 ForHire  VBM                    1.782641e+04
+505  1988   1 ForHire  VBM                    1.946561e-01
+506  1988   2 ForHire  VBM                    9.129205e+03
+507  1988   3 ForHire  VBM                    9.912037e+01
+508  1988   4 ForHire  VBM                    8.544770e+04
+509  1989   1 ForHire  VBM                    1.902211e-01
+510  1989   2 ForHire  VBM                    3.274145e+05
+511  1989   3 ForHire  VBM                    4.332058e+03
+512  1989   4 ForHire  VBM                    1.197307e+05
+513  1990   1 ForHire  VBM                    5.062703e-01
+514  1990   2 ForHire  VBM                    2.132708e+04
+515  1990   3 ForHire  VBM                    3.644628e+02
+516  1990   4 ForHire  VBM                    9.387198e+03
+517  1991   1 ForHire  VBM                    6.994376e-01
+518  1991   2 ForHire  VBM                    9.711731e+04
+519  1991   3 ForHire  VBM                    6.804028e+02
+520  1991   4 ForHire  VBM                    6.137384e+04
+521  1992   1 ForHire  VBM                    1.305756e+00
+522  1992   2 ForHire  VBM                    1.311151e+05
+523  1992   3 ForHire  VBM                    2.967570e+02
+524  1992   4 ForHire  VBM                    2.973731e+04
+525  1993   1 ForHire  VBM                    5.695040e-01
+526  1993   2 ForHire  VBM                    7.241465e+05
+527  1993   3 ForHire  VBM                    5.604508e+02
+528  1993   4 ForHire  VBM                    1.724731e+04
+529  1994   1 ForHire  VBM                    1.075557e+00
+530  1994   2 ForHire  VBM                    5.608290e+05
+531  1994   3 ForHire  VBM                    4.745844e+03
+532  1994   4 ForHire  VBM                    7.976476e+03
+533  1995   1 ForHire  VBM                    4.056151e-01
+534  1995   2 ForHire  VBM                    1.151956e+05
+535  1995   3 ForHire  VBM                    1.756989e+03
+536  1995   4 ForHire  VBM                    2.880463e+04
+537  1996   1 ForHire  VBM                    4.132299e+01
+538  1996   2 ForHire  VBM                    4.977416e+04
+539  1996   3 ForHire  VBM                    9.135979e+02
+540  1996   4 ForHire  VBM                    9.128843e+04
+541  1997   1 ForHire  VBM                    2.450390e-01
+542  1997   2 ForHire  VBM                    1.036612e+04
+543  1997   3 ForHire  VBM                    1.425417e+03
+544  1997   4 ForHire  VBM                    9.832395e+04
+545  1998   1 ForHire  VBM                    0.000000e+00
+546  1998   2 ForHire  VBM                    7.553346e+05
+547  1998   3 ForHire  VBM                    1.270259e+03
+548  1998   4 ForHire  VBM                    2.276001e+04
+549  1999   1 ForHire  VBM                    0.000000e+00
+550  1999   2 ForHire  VBM                    2.312582e+05
+551  1999   3 ForHire  VBM                    5.659894e+04
+552  1999   4 ForHire  VBM                    6.873502e+02
+553  2000   1 ForHire  VBM                    8.064427e+01
+554  2000   2 ForHire  VBM                    1.590883e+03
+555  2000   3 ForHire  VBM                    4.318811e+02
+556  2000   4 ForHire  VBM                    9.839474e+02
+557  2001   1 ForHire  VBM                    9.876608e+00
+558  2001   2 ForHire  VBM                    1.849069e+04
+559  2001   3 ForHire  VBM                    3.416471e+03
+560  2001   4 ForHire  VBM                    1.241709e+04
+561  2002   1 ForHire  VBM                    1.098993e+01
+562  2002   2 ForHire  VBM                    8.680582e+04
+563  2002   3 ForHire  VBM                    6.614244e+04
+564  2002   4 ForHire  VBM                    1.539632e+04
+565  2003   1 ForHire  VBM                    6.222483e+01
+566  2003   2 ForHire  VBM                    1.443916e+04
+567  2003   3 ForHire  VBM                    2.469372e+02
+568  2003   4 ForHire  VBM                    4.100432e+04
+569  2004   1 ForHire  VBM                    0.000000e+00
+570  2004   2 ForHire  VBM                    1.152953e+05
+571  2004   3 ForHire  VBM                    1.585921e+03
+572  2004   4 ForHire  VBM                    3.854991e+04
+573  2005   1 ForHire  VBM                    7.965220e+01
+574  2005   2 ForHire  VBM                    2.865057e+04
+575  2005   3 ForHire  VBM                    3.255974e+02
+576  2005   4 ForHire  VBM                    9.044386e+03
+577  2006   1 ForHire  VBM                    0.000000e+00
+578  2006   2 ForHire  VBM                    6.907945e+04
+579  2006   3 ForHire  VBM                    2.770928e+03
+580  2006   4 ForHire  VBM                    6.486364e+04
+581  2007   1 ForHire  VBM                    1.455036e+00
+582  2007   2 ForHire  VBM                    2.436482e+04
+583  2007   3 ForHire  VBM                    2.983204e+03
+584  2007   4 ForHire  VBM                    5.754550e+04
+585  2008   1 ForHire  VBM                    1.478184e+01
+586  2008   2 ForHire  VBM                    9.670219e+04
+587  2008   3 ForHire  VBM                    8.914606e+02
+588  2008   4 ForHire  VBM                    1.599922e+04
+589  2009   1 ForHire  VBM                    0.000000e+00
+590  2009   2 ForHire  VBM                    8.152937e+04
+591  2009   3 ForHire  VBM                    1.413382e+04
+592  2009   4 ForHire  VBM                    1.059973e+04
+593  2010   1 ForHire  VBM                    0.000000e+00
+594  2010   2 ForHire  VBM                    9.819018e+04
+595  2010   3 ForHire  VBM                    1.138712e+03
+596  2010   4 ForHire  VBM                    2.072151e+04
+597  2011   1 ForHire  VBM                    0.000000e+00
+598  2011   2 ForHire  VBM                    1.512896e+04
+599  2011   3 ForHire  VBM                    1.250153e+03
+600  2011   4 ForHire  VBM                    1.465611e+03
+601  2012   1 ForHire  VBM                    0.000000e+00
+602  2012   2 ForHire  VBM                    1.535951e+04
+603  2012   3 ForHire  VBM                    2.296609e+03
+604  2012   4 ForHire  VBM                    4.231196e+03
+605  2013   1 ForHire  VBM                    0.000000e+00
+606  2013   2 ForHire  VBM                    1.036735e+04
+607  2013   3 ForHire  VBM                    8.714024e+02
+608  2013   4 ForHire  VBM                    4.825515e+03
+609  2014   1 ForHire  VBM                    4.930504e-01
+610  2014   2 ForHire  VBM                    4.515808e+04
+611  2014   3 ForHire  VBM                    3.636352e+03
+612  2014   4 ForHire  VBM                    7.943520e+03
+613  2015   1 ForHire  VBM                    2.281061e+01
+614  2015   2 ForHire  VBM                    1.544282e+05
+615  2015   3 ForHire  VBM                    7.493783e+03
+616  2015   4 ForHire  VBM                    1.159326e+05
+617  2016   1 ForHire  VBM                    1.339044e+01
+618  2016   2 ForHire  VBM                    1.659762e+05
+619  2016   3 ForHire  VBM                    1.505553e+04
+620  2016   4 ForHire  VBM                    1.480608e+04
+621  2017   1 ForHire  VBM                    0.000000e+00
+622  2017   2 ForHire  VBM                    3.833937e+03
+623  2017   3 ForHire  VBM                    2.005246e+03
+624  2017   4 ForHire  VBM                    2.533937e+04
+625  2018   1 ForHire  VBM                    6.507979e+00
+626  2018   2 ForHire  VBM                    3.341788e+04
+627  2018   3 ForHire  VBM                    2.440593e+03
+628  2018   4 ForHire  VBM                    3.634945e+04
+629  2019   1 ForHire  VBM                    3.866868e+00
+630  2019   2 ForHire  VBM                    6.313726e+04
+631  2019   3 ForHire  VBM                    1.885881e+04
+632  2019   4 ForHire  VBM                    1.164199e+04
+633  2020   1 ForHire  VBM                    8.064427e+01
+634  2020   2 ForHire  VBM                    1.516255e+04
+635  2020   3 ForHire  VBM                    6.019786e+03
+636  2020   4 ForHire  VBM                    3.042971e+04
+637  2021   1 ForHire  VBM                    9.104998e+00
+638  2021   2 ForHire  VBM                    4.958988e+04
+639  2021   3 ForHire  VBM                    5.388107e+02
+640  2021   4 ForHire  VBM                    5.086524e+04
+641  2022   1 ForHire  VBM                    4.050165e+00
+642  2022   2 ForHire  VBM                    1.172606e+04
+643  2022   3 ForHire  VBM                    1.064174e+03
+644  2022   4 ForHire  VBM                    5.723903e+03
+645  2023   1 ForHire  VBM                    0.000000e+00
+646  2023   2 ForHire  VBM                    3.165680e+04
+647  2023   3 ForHire  VBM                    1.931828e+03
+648  2023   4 ForHire  VBM                    3.913939e+04
+649  2024   1 ForHire  VBM                    0.000000e+00
+650  2024   2 ForHire  VBM                    8.709882e+03
+651  2024   3 ForHire  VBM                    2.099045e+03
+652  2024   4 ForHire  VBM                    7.943312e+03
+653  2025   1 ForHire  VBM                    0.000000e+00
+654  2025   2 ForHire  VBM                              NA
+655  2025   3 ForHire  VBM                              NA
+656  2025   4 ForHire  VBM                              NA
+657  1985   1     Rec  FLK                    4.684663e+05
+658  1985   2     Rec  FLK                    4.452078e+06
+659  1985   3     Rec  FLK                    1.537705e+06
+660  1985   4     Rec  FLK                    1.443498e+06
+661  1986   1     Rec  FLK                    4.020906e+05
+662  1986   2     Rec  FLK                    1.537010e+06
+663  1986   3     Rec  FLK                    2.075606e+06
+664  1986   4     Rec  FLK                    1.225359e+06
+665  1987   1     Rec  FLK                    1.556820e+06
+666  1987   2     Rec  FLK                    2.192920e+06
+667  1987   3     Rec  FLK                    2.961240e+06
+668  1987   4     Rec  FLK                    4.098999e+05
+669  1988   1     Rec  FLK                    7.202998e+05
+670  1988   2     Rec  FLK                    3.018472e+06
+671  1988   3     Rec  FLK                    2.253282e+06
+672  1988   4     Rec  FLK                    7.786410e+05
+673  1989   1     Rec  FLK                    3.945315e+05
+674  1989   2     Rec  FLK                    7.785107e+06
+675  1989   3     Rec  FLK                    7.490678e+06
+676  1989   4     Rec  FLK                    1.972244e+06
+677  1990   1     Rec  FLK                    7.318250e+05
+678  1990   2     Rec  FLK                    1.211452e+07
+679  1990   3     Rec  FLK                    5.174374e+06
+680  1990   4     Rec  FLK                    2.081267e+06
+681  1991   1     Rec  FLK                    8.229340e+05
+682  1991   2     Rec  FLK                    1.043784e+07
+683  1991   3     Rec  FLK                    6.015731e+06
+684  1991   4     Rec  FLK                    5.694630e+06
+685  1992   1     Rec  FLK                    2.178847e+06
+686  1992   2     Rec  FLK                    3.838259e+06
+687  1992   3     Rec  FLK                    9.266735e+06
+688  1992   4     Rec  FLK                    7.945853e+05
+689  1993   1     Rec  FLK                    9.367454e+05
+690  1993   2     Rec  FLK                    3.404812e+06
+691  1993   3     Rec  FLK                    3.461382e+06
+692  1993   4     Rec  FLK                    2.073350e+06
+693  1994   1     Rec  FLK                    8.204078e+05
+694  1994   2     Rec  FLK                    3.825881e+06
+695  1994   3     Rec  FLK                    3.779174e+06
+696  1994   4     Rec  FLK                    1.223023e+06
+697  1995   1     Rec  FLK                    8.304530e+05
+698  1995   2     Rec  FLK                    7.321132e+06
+699  1995   3     Rec  FLK                    6.059479e+06
+700  1995   4     Rec  FLK                    9.971934e+05
+701  1996   1     Rec  FLK                    8.944467e+05
+702  1996   2     Rec  FLK                    4.717398e+06
+703  1996   3     Rec  FLK                    4.144946e+06
+704  1996   4     Rec  FLK                    8.143585e+05
+705  1997   1     Rec  FLK                    8.229003e+05
+706  1997   2     Rec  FLK                    1.366213e+07
+707  1997   3     Rec  FLK                    7.460292e+06
+708  1997   4     Rec  FLK                    6.803199e+05
+709  1998   1     Rec  FLK                    5.126049e+05
+710  1998   2     Rec  FLK                    4.808405e+06
+711  1998   3     Rec  FLK                    6.697606e+06
+712  1998   4     Rec  FLK                    4.808060e+05
+713  1999   1     Rec  FLK                    2.224750e+06
+714  1999   2     Rec  FLK                    6.375714e+06
+715  1999   3     Rec  FLK                    4.880669e+06
+716  1999   4     Rec  FLK                    4.465400e+05
+717  2000   1     Rec  FLK                    3.883957e+05
+718  2000   2     Rec  FLK                    6.358022e+06
+719  2000   3     Rec  FLK                    4.543957e+06
+720  2000   4     Rec  FLK                    1.945322e+06
+721  2001   1     Rec  FLK                    7.347928e+05
+722  2001   2     Rec  FLK                    5.589528e+06
+723  2001   3     Rec  FLK                    4.428842e+06
+724  2001   4     Rec  FLK                    1.006040e+06
+725  2002   1     Rec  FLK                    5.576250e+05
+726  2002   2     Rec  FLK                    2.214085e+06
+727  2002   3     Rec  FLK                    2.925741e+06
+728  2002   4     Rec  FLK                    1.707999e+06
+729  2003   1     Rec  FLK                    1.456263e+06
+730  2003   2     Rec  FLK                    4.995939e+06
+731  2003   3     Rec  FLK                    3.649030e+06
+732  2003   4     Rec  FLK                    7.827342e+05
+733  2004   1     Rec  FLK                    9.672219e+05
+734  2004   2     Rec  FLK                    2.849332e+06
+735  2004   3     Rec  FLK                    2.248755e+06
+736  2004   4     Rec  FLK                    3.599090e+05
+737  2005   1     Rec  FLK                    5.237065e+05
+738  2005   2     Rec  FLK                    2.074780e+06
+739  2005   3     Rec  FLK                    1.481262e+06
+740  2005   4     Rec  FLK                    4.284965e+05
+741  2006   1     Rec  FLK                    7.714475e+05
+742  2006   2     Rec  FLK                    2.360906e+06
+743  2006   3     Rec  FLK                    4.707929e+06
+744  2006   4     Rec  FLK                    7.207076e+05
+745  2007   1     Rec  FLK                    1.687930e+06
+746  2007   2     Rec  FLK                    3.048185e+06
+747  2007   3     Rec  FLK                    2.545278e+06
+748  2007   4     Rec  FLK                    1.088889e+06
+749  2008   1     Rec  FLK                    4.599396e+05
+750  2008   2     Rec  FLK                    3.741868e+06
+751  2008   3     Rec  FLK                    2.419131e+06
+752  2008   4     Rec  FLK                    1.130458e+06
+753  2009   1     Rec  FLK                    1.060551e+06
+754  2009   2     Rec  FLK                    2.307627e+06
+755  2009   3     Rec  FLK                    2.391186e+06
+756  2009   4     Rec  FLK                    9.739787e+05
+757  2010   1     Rec  FLK                    9.141962e+05
+758  2010   2     Rec  FLK                    1.487555e+06
+759  2010   3     Rec  FLK                    1.119818e+06
+760  2010   4     Rec  FLK                    5.835857e+05
+761  2011   1     Rec  FLK                    1.585451e+05
+762  2011   2     Rec  FLK                    2.840895e+06
+763  2011   3     Rec  FLK                    1.874902e+06
+764  2011   4     Rec  FLK                    1.027396e+06
+765  2012   1     Rec  FLK                    5.832363e+05
+766  2012   2     Rec  FLK                    1.913413e+06
+767  2012   3     Rec  FLK                    2.147562e+06
+768  2012   4     Rec  FLK                    1.229422e+06
+769  2013   1     Rec  FLK                    3.905219e+05
+770  2013   2     Rec  FLK                    5.642923e+06
+771  2013   3     Rec  FLK                    3.496798e+06
+772  2013   4     Rec  FLK                    6.223060e+05
+773  2014   1     Rec  FLK                    6.260843e+05
+774  2014   2     Rec  FLK                    3.609216e+06
+775  2014   3     Rec  FLK                    4.087638e+06
+776  2014   4     Rec  FLK                    1.674867e+06
+777  2015   1     Rec  FLK                    2.513409e+05
+778  2015   2     Rec  FLK                    6.725790e+06
+779  2015   3     Rec  FLK                    3.086404e+06
+780  2015   4     Rec  FLK                    1.961057e+06
+781  2016   1     Rec  FLK                    4.919460e+05
+782  2016   2     Rec  FLK                    2.370240e+06
+783  2016   3     Rec  FLK                    1.718750e+06
+784  2016   4     Rec  FLK                    6.215559e+05
+785  2017   1     Rec  FLK                    1.519864e+05
+786  2017   2     Rec  FLK                    3.691597e+06
+787  2017   3     Rec  FLK                    9.818841e+05
+788  2017   4     Rec  FLK                    6.070687e+05
+789  2018   1     Rec  FLK                    2.533863e+05
+790  2018   2     Rec  FLK                    3.234459e+06
+791  2018   3     Rec  FLK                    2.474352e+06
+792  2018   4     Rec  FLK                    1.831259e+06
+793  2019   1     Rec  FLK                    4.962654e+05
+794  2019   2     Rec  FLK                    2.593726e+06
+795  2019   3     Rec  FLK                    1.113341e+06
+796  2019   4     Rec  FLK                    9.086961e+04
+797  2020   1     Rec  FLK                    5.812551e+04
+798  2020   2     Rec  FLK                    1.336144e+06
+799  2020   3     Rec  FLK                    1.105212e+06
+800  2020   4     Rec  FLK                    3.407217e+05
+801  2021   1     Rec  FLK                    3.157635e+05
+802  2021   2     Rec  FLK                    1.821803e+06
+803  2021   3     Rec  FLK                    7.596949e+05
+804  2021   4     Rec  FLK                    7.848983e+05
+805  2022   1     Rec  FLK                    1.633176e+05
+806  2022   2     Rec  FLK                    1.574723e+06
+807  2022   3     Rec  FLK                    1.470855e+06
+808  2022   4     Rec  FLK                    6.657709e+05
+809  2023   1     Rec  FLK                    1.138258e+05
+810  2023   2     Rec  FLK                    1.143757e+06
+811  2023   3     Rec  FLK                    6.930613e+05
+812  2023   4     Rec  FLK                    1.022943e+06
+813  2024   1     Rec  FLK                    1.741675e+05
+814  2024   2     Rec  FLK                    1.667158e+06
+815  2024   3     Rec  FLK                    9.281034e+05
+816  2024   4     Rec  FLK                    6.951332e+05
+817  2025   1     Rec  FLK                    3.138698e+04
+818  2025   2     Rec  FLK                              NA
+819  2025   3     Rec  FLK                              NA
+820  2025   4     Rec  FLK                              NA
+821  1985   1     Rec NCFL                    0.000000e+00
+822  1985   2     Rec NCFL                    6.036182e+05
+823  1985   3     Rec NCFL                    5.590902e+05
+824  1985   4     Rec NCFL                    0.000000e+00
+825  1986   1     Rec NCFL                    0.000000e+00
+826  1986   2     Rec NCFL                    3.338597e+05
+827  1986   3     Rec NCFL                    3.017922e+05
+828  1986   4     Rec NCFL                    8.768057e+04
+829  1987   1     Rec NCFL                    1.353952e+04
+830  1987   2     Rec NCFL                    1.077096e+05
+831  1987   3     Rec NCFL                    1.505825e+04
+832  1987   4     Rec NCFL                    3.885919e+04
+833  1988   1     Rec NCFL                    0.000000e+00
+834  1988   2     Rec NCFL                    2.502125e+05
+835  1988   3     Rec NCFL                    2.737798e+04
+836  1988   4     Rec NCFL                    4.343268e+04
+837  1989   1     Rec NCFL                    1.399500e+05
+838  1989   2     Rec NCFL                    2.442929e+05
+839  1989   3     Rec NCFL                    2.253837e+05
+840  1989   4     Rec NCFL                    2.617131e+05
+841  1990   1     Rec NCFL                    2.086118e+05
+842  1990   2     Rec NCFL                    1.494802e+05
+843  1990   3     Rec NCFL                    4.926664e+04
+844  1990   4     Rec NCFL                    1.135865e+05
+845  1991   1     Rec NCFL                    0.000000e+00
+846  1991   2     Rec NCFL                    2.595592e+05
+847  1991   3     Rec NCFL                    1.863238e+05
+848  1991   4     Rec NCFL                    1.178413e+04
+849  1992   1     Rec NCFL                    0.000000e+00
+850  1992   2     Rec NCFL                    1.727708e+05
+851  1992   3     Rec NCFL                    4.607402e+04
+852  1992   4     Rec NCFL                    2.655088e+04
+853  1993   1     Rec NCFL                    0.000000e+00
+854  1993   2     Rec NCFL                    4.355714e+05
+855  1993   3     Rec NCFL                    2.752532e+05
+856  1993   4     Rec NCFL                    2.290328e+04
+857  1994   1     Rec NCFL                    3.723780e+04
+858  1994   2     Rec NCFL                    6.328460e+05
+859  1994   3     Rec NCFL                    5.279053e+05
+860  1994   4     Rec NCFL                    3.281162e+05
+861  1995   1     Rec NCFL                    1.918508e+05
+862  1995   2     Rec NCFL                    5.730691e+05
+863  1995   3     Rec NCFL                    8.825788e+05
+864  1995   4     Rec NCFL                    6.613425e+04
+865  1996   1     Rec NCFL                    2.835385e+04
+866  1996   2     Rec NCFL                    4.246640e+05
+867  1996   3     Rec NCFL                    6.274736e+05
+868  1996   4     Rec NCFL                    6.980021e+04
+869  1997   1     Rec NCFL                    0.000000e+00
+870  1997   2     Rec NCFL                    4.617975e+05
+871  1997   3     Rec NCFL                    6.912068e+05
+872  1997   4     Rec NCFL                    1.634984e+05
+873  1998   1     Rec NCFL                    0.000000e+00
+874  1998   2     Rec NCFL                    1.689554e+05
+875  1998   3     Rec NCFL                    1.873414e+05
+876  1998   4     Rec NCFL                    1.458389e+05
+877  1999   1     Rec NCFL                    1.459837e+05
+878  1999   2     Rec NCFL                    7.204270e+05
+879  1999   3     Rec NCFL                    6.613227e+05
+880  1999   4     Rec NCFL                    1.147492e+05
+881  2000   1     Rec NCFL                    2.342309e+04
+882  2000   2     Rec NCFL                    1.292909e+06
+883  2000   3     Rec NCFL                    1.223197e+06
+884  2000   4     Rec NCFL                    2.444075e+05
+885  2001   1     Rec NCFL                    3.043074e+05
+886  2001   2     Rec NCFL                    1.526796e+06
+887  2001   3     Rec NCFL                    1.626879e+06
+888  2001   4     Rec NCFL                    1.400650e+05
+889  2002   1     Rec NCFL                    4.023345e+04
+890  2002   2     Rec NCFL                    9.589750e+05
+891  2002   3     Rec NCFL                    7.704207e+05
+892  2002   4     Rec NCFL                    5.947019e+05
+893  2003   1     Rec NCFL                    1.996363e+05
+894  2003   2     Rec NCFL                    1.196275e+06
+895  2003   3     Rec NCFL                    5.198576e+05
+896  2003   4     Rec NCFL                    5.640292e+04
+897  2004   1     Rec NCFL                    5.587967e+04
+898  2004   2     Rec NCFL                    6.996628e+05
+899  2004   3     Rec NCFL                    5.903592e+05
+900  2004   4     Rec NCFL                    3.085426e+04
+901  2005   1     Rec NCFL                    2.566053e+04
+902  2005   2     Rec NCFL                    7.310031e+05
+903  2005   3     Rec NCFL                    1.137113e+06
+904  2005   4     Rec NCFL                    2.547820e+04
+905  2006   1     Rec NCFL                    5.351815e+03
+906  2006   2     Rec NCFL                    8.487273e+05
+907  2006   3     Rec NCFL                    7.853118e+05
+908  2006   4     Rec NCFL                    7.268633e+04
+909  2007   1     Rec NCFL                    1.582543e+05
+910  2007   2     Rec NCFL                    1.269099e+06
+911  2007   3     Rec NCFL                    9.717851e+05
+912  2007   4     Rec NCFL                    2.940661e+04
+913  2008   1     Rec NCFL                    2.669028e+04
+914  2008   2     Rec NCFL                    5.067091e+05
+915  2008   3     Rec NCFL                    1.070780e+06
+916  2008   4     Rec NCFL                    2.970883e+04
+917  2009   1     Rec NCFL                    2.401520e+04
+918  2009   2     Rec NCFL                    1.689311e+06
+919  2009   3     Rec NCFL                    2.046079e+06
+920  2009   4     Rec NCFL                    3.594953e+04
+921  2010   1     Rec NCFL                    2.454607e+04
+922  2010   2     Rec NCFL                    8.796385e+05
+923  2010   3     Rec NCFL                    2.247155e+06
+924  2010   4     Rec NCFL                    1.240658e+04
+925  2011   1     Rec NCFL                    3.455564e+04
+926  2011   2     Rec NCFL                    9.178266e+05
+927  2011   3     Rec NCFL                    5.412456e+05
+928  2011   4     Rec NCFL                    1.574686e+05
+929  2012   1     Rec NCFL                    0.000000e+00
+930  2012   2     Rec NCFL                    8.746241e+05
+931  2012   3     Rec NCFL                    1.894418e+06
+932  2012   4     Rec NCFL                    9.855716e+04
+933  2013   1     Rec NCFL                    2.144051e+04
+934  2013   2     Rec NCFL                    1.133952e+06
+935  2013   3     Rec NCFL                    8.739791e+05
+936  2013   4     Rec NCFL                    3.488479e+04
+937  2014   1     Rec NCFL                    0.000000e+00
+938  2014   2     Rec NCFL                    6.355006e+05
+939  2014   3     Rec NCFL                    5.279255e+05
+940  2014   4     Rec NCFL                    1.063765e+05
+941  2015   1     Rec NCFL                    2.674703e+03
+942  2015   2     Rec NCFL                    8.061179e+05
+943  2015   3     Rec NCFL                    5.417106e+05
+944  2015   4     Rec NCFL                    2.005999e+05
+945  2016   1     Rec NCFL                    3.551940e+04
+946  2016   2     Rec NCFL                    1.880964e+06
+947  2016   3     Rec NCFL                    2.411574e+06
+948  2016   4     Rec NCFL                    3.674186e+04
+949  2017   1     Rec NCFL                    2.128542e+04
+950  2017   2     Rec NCFL                    1.121239e+06
+951  2017   3     Rec NCFL                    1.145773e+06
+952  2017   4     Rec NCFL                    1.479721e+04
+953  2018   1     Rec NCFL                    4.798984e+04
+954  2018   2     Rec NCFL                    1.292812e+06
+955  2018   3     Rec NCFL                    1.214296e+06
+956  2018   4     Rec NCFL                    5.313994e+04
+957  2019   1     Rec NCFL                    1.805194e+04
+958  2019   2     Rec NCFL                    8.596577e+05
+959  2019   3     Rec NCFL                    1.202456e+06
+960  2019   4     Rec NCFL                    4.788760e+04
+961  2020   1     Rec NCFL                    4.941575e+03
+962  2020   2     Rec NCFL                    8.708714e+05
+963  2020   3     Rec NCFL                    1.093047e+06
+964  2020   4     Rec NCFL                    7.473885e+04
+965  2021   1     Rec NCFL                    1.356446e+04
+966  2021   2     Rec NCFL                    4.814084e+05
+967  2021   3     Rec NCFL                    6.071702e+05
+968  2021   4     Rec NCFL                    2.963646e+05
+969  2022   1     Rec NCFL                    4.356505e+04
+970  2022   2     Rec NCFL                    1.398654e+06
+971  2022   3     Rec NCFL                    1.267020e+06
+972  2022   4     Rec NCFL                    3.594554e+04
+973  2023   1     Rec NCFL                    2.716461e+04
+974  2023   2     Rec NCFL                    1.207814e+06
+975  2023   3     Rec NCFL                    1.299211e+06
+976  2023   4     Rec NCFL                    1.052561e+05
+977  2024   1     Rec NCFL                    0.000000e+00
+978  2024   2     Rec NCFL                    6.938219e+05
+979  2024   3     Rec NCFL                    5.986244e+05
+980  2024   4     Rec NCFL                    3.303640e+04
+981  2025   1     Rec NCFL                    3.303640e+04
+982  2025   2     Rec NCFL                              NA
+983  2025   3     Rec NCFL                              NA
+984  2025   4     Rec NCFL                              NA
+985  1985   1     Rec  NNC                    0.000000e+00
+986  1985   2     Rec  NNC                    3.873855e+04
+987  1985   3     Rec  NNC                    3.873855e+04
+988  1985   4     Rec  NNC                    0.000000e+00
+989  1986   1     Rec  NNC                    0.000000e+00
+990  1986   2     Rec  NNC                    2.549586e+03
+991  1986   3     Rec  NNC                    0.000000e+00
+992  1986   4     Rec  NNC                    0.000000e+00
+993  1987   1     Rec  NNC                    0.000000e+00
+994  1987   2     Rec  NNC                    7.412236e+04
+995  1987   3     Rec  NNC                    0.000000e+00
+996  1987   4     Rec  NNC                    5.418005e+03
+997  1988   1     Rec  NNC                    0.000000e+00
+998  1988   2     Rec  NNC                    1.909134e+05
+999  1988   3     Rec  NNC                    1.185557e+04
+1000 1988   4     Rec  NNC                    0.000000e+00
+1001 1989   1     Rec  NNC                    0.000000e+00
+1002 1989   2     Rec  NNC                    1.902856e+05
+1003 1989   3     Rec  NNC                    1.465598e+05
+1004 1989   4     Rec  NNC                    1.588620e+03
+1005 1990   1     Rec  NNC                    9.376058e+02
+1006 1990   2     Rec  NNC                    1.017529e+05
+1007 1990   3     Rec  NNC                    1.379817e+04
+1008 1990   4     Rec  NNC                    2.988903e+03
+1009 1991   1     Rec  NNC                    0.000000e+00
+1010 1991   2     Rec  NNC                    7.471727e+04
+1011 1991   3     Rec  NNC                    1.882011e+05
+1012 1991   4     Rec  NNC                    1.447126e+04
+1013 1992   1     Rec  NNC                    0.000000e+00
+1014 1992   2     Rec  NNC                    4.499024e+04
+1015 1992   3     Rec  NNC                    2.068819e+04
+1016 1992   4     Rec  NNC                    2.348243e+04
+1017 1993   1     Rec  NNC                    0.000000e+00
+1018 1993   2     Rec  NNC                    2.759011e+05
+1019 1993   3     Rec  NNC                    1.677273e+04
+1020 1993   4     Rec  NNC                    3.725324e+03
+1021 1994   1     Rec  NNC                    0.000000e+00
+1022 1994   2     Rec  NNC                    1.311286e+05
+1023 1994   3     Rec  NNC                    1.101410e+05
+1024 1994   4     Rec  NNC                    2.273649e+04
+1025 1995   1     Rec  NNC                    9.011241e+02
+1026 1995   2     Rec  NNC                    1.396278e+05
+1027 1995   3     Rec  NNC                    1.128793e+05
+1028 1995   4     Rec  NNC                    1.893502e+04
+1029 1996   1     Rec  NNC                    0.000000e+00
+1030 1996   2     Rec  NNC                    1.076565e+05
+1031 1996   3     Rec  NNC                    6.420212e+04
+1032 1996   4     Rec  NNC                    2.472091e+04
+1033 1997   1     Rec  NNC                    0.000000e+00
+1034 1997   2     Rec  NNC                    4.358563e+05
+1035 1997   3     Rec  NNC                    1.733239e+05
+1036 1997   4     Rec  NNC                    5.107759e+04
+1037 1998   1     Rec  NNC                    0.000000e+00
+1038 1998   2     Rec  NNC                    2.813807e+05
+1039 1998   3     Rec  NNC                    8.236200e+04
+1040 1998   4     Rec  NNC                    4.856163e+04
+1041 1999   1     Rec  NNC                    0.000000e+00
+1042 1999   2     Rec  NNC                    7.658788e+05
+1043 1999   3     Rec  NNC                    1.105604e+05
+1044 1999   4     Rec  NNC                    4.383661e+05
+1045 2000   1     Rec  NNC                    0.000000e+00
+1046 2000   2     Rec  NNC                    4.822238e+05
+1047 2000   3     Rec  NNC                    3.086571e+05
+1048 2000   4     Rec  NNC                    3.609943e+04
+1049 2001   1     Rec  NNC                    0.000000e+00
+1050 2001   2     Rec  NNC                    1.306376e+06
+1051 2001   3     Rec  NNC                    4.407184e+05
+1052 2001   4     Rec  NNC                    1.362622e+04
+1053 2002   1     Rec  NNC                    0.000000e+00
+1054 2002   2     Rec  NNC                    5.714948e+05
+1055 2002   3     Rec  NNC                    2.149395e+05
+1056 2002   4     Rec  NNC                    8.549641e+04
+1057 2003   1     Rec  NNC                    0.000000e+00
+1058 2003   2     Rec  NNC                    6.097702e+05
+1059 2003   3     Rec  NNC                    2.393101e+05
+1060 2003   4     Rec  NNC                    1.911989e+04
+1061 2004   1     Rec  NNC                    0.000000e+00
+1062 2004   2     Rec  NNC                    1.130043e+05
+1063 2004   3     Rec  NNC                    4.759809e+05
+1064 2004   4     Rec  NNC                    2.136272e+03
+1065 2005   1     Rec  NNC                    2.136272e+03
+1066 2005   2     Rec  NNC                    5.906869e+05
+1067 2005   3     Rec  NNC                    2.595178e+05
+1068 2005   4     Rec  NNC                    5.415554e+04
+1069 2006   1     Rec  NNC                    0.000000e+00
+1070 2006   2     Rec  NNC                    6.079730e+05
+1071 2006   3     Rec  NNC                    1.069085e+05
+1072 2006   4     Rec  NNC                    2.871739e+04
+1073 2007   1     Rec  NNC                    5.942542e+03
+1074 2007   2     Rec  NNC                    7.446139e+05
+1075 2007   3     Rec  NNC                    4.911765e+05
+1076 2007   4     Rec  NNC                    1.638259e+05
+1077 2008   1     Rec  NNC                    8.401426e+04
+1078 2008   2     Rec  NNC                    1.520610e+05
+1079 2008   3     Rec  NNC                    7.150417e+04
+1080 2008   4     Rec  NNC                    0.000000e+00
+1081 2009   1     Rec  NNC                    0.000000e+00
+1082 2009   2     Rec  NNC                    1.264628e+06
+1083 2009   3     Rec  NNC                    1.087706e+06
+1084 2009   4     Rec  NNC                    6.844584e+03
+1085 2010   1     Rec  NNC                    2.232589e+04
+1086 2010   2     Rec  NNC                    6.534632e+05
+1087 2010   3     Rec  NNC                    4.043579e+05
+1088 2010   4     Rec  NNC                    3.033275e+04
+1089 2011   1     Rec  NNC                    0.000000e+00
+1090 2011   2     Rec  NNC                    1.069911e+06
+1091 2011   3     Rec  NNC                    4.698892e+05
+1092 2011   4     Rec  NNC                    5.235156e+05
+1093 2012   1     Rec  NNC                    2.302064e+03
+1094 2012   2     Rec  NNC                    4.907943e+05
+1095 2012   3     Rec  NNC                    3.902222e+05
+1096 2012   4     Rec  NNC                    1.761655e+05
+1097 2013   1     Rec  NNC                    2.312303e+04
+1098 2013   2     Rec  NNC                    4.094121e+05
+1099 2013   3     Rec  NNC                    1.233905e+05
+1100 2013   4     Rec  NNC                    7.874372e+03
+1101 2014   1     Rec  NNC                    0.000000e+00
+1102 2014   2     Rec  NNC                    1.110407e+06
+1103 2014   3     Rec  NNC                    1.588618e+05
+1104 2014   4     Rec  NNC                    2.043554e+04
+1105 2015   1     Rec  NNC                    0.000000e+00
+1106 2015   2     Rec  NNC                    2.063566e+06
+1107 2015   3     Rec  NNC                    1.061391e+06
+1108 2015   4     Rec  NNC                    3.802375e+05
+1109 2016   1     Rec  NNC                    0.000000e+00
+1110 2016   2     Rec  NNC                    1.047769e+06
+1111 2016   3     Rec  NNC                    6.005003e+05
+1112 2016   4     Rec  NNC                    5.639231e+04
+1113 2017   1     Rec  NNC                    0.000000e+00
+1114 2017   2     Rec  NNC                    4.679636e+05
+1115 2017   3     Rec  NNC                    3.251755e+05
+1116 2017   4     Rec  NNC                    8.185031e+03
+1117 2018   1     Rec  NNC                    0.000000e+00
+1118 2018   2     Rec  NNC                    6.791719e+05
+1119 2018   3     Rec  NNC                    3.564936e+05
+1120 2018   4     Rec  NNC                    3.120586e+05
+1121 2019   1     Rec  NNC                    0.000000e+00
+1122 2019   2     Rec  NNC                    1.086972e+06
+1123 2019   3     Rec  NNC                    3.921515e+05
+1124 2019   4     Rec  NNC                    2.081160e+05
+1125 2020   1     Rec  NNC                    0.000000e+00
+1126 2020   2     Rec  NNC                    6.442826e+05
+1127 2020   3     Rec  NNC                    4.355690e+05
+1128 2020   4     Rec  NNC                    9.393537e+03
+1129 2021   1     Rec  NNC                    0.000000e+00
+1130 2021   2     Rec  NNC                    3.354591e+05
+1131 2021   3     Rec  NNC                    2.612134e+05
+1132 2021   4     Rec  NNC                    0.000000e+00
+1133 2022   1     Rec  NNC                    0.000000e+00
+1134 2022   2     Rec  NNC                    1.095702e+05
+1135 2022   3     Rec  NNC                    3.506203e+04
+1136 2022   4     Rec  NNC                    6.676231e+04
+1137 2023   1     Rec  NNC                    0.000000e+00
+1138 2023   2     Rec  NNC                    1.497840e+05
+1139 2023   3     Rec  NNC                    2.540520e+04
+1140 2023   4     Rec  NNC                    0.000000e+00
+1141 2024   1     Rec  NNC                    0.000000e+00
+1142 2024   2     Rec  NNC                    8.349211e+04
+1143 2024   3     Rec  NNC                    2.281517e+04
+1144 2024   4     Rec  NNC                    0.000000e+00
+1145 2025   1     Rec  NNC                    0.000000e+00
+1146 2025   2     Rec  NNC                              NA
+1147 2025   3     Rec  NNC                              NA
+1148 2025   4     Rec  NNC                              NA
+1149 1985   1     Rec  VBM                    0.000000e+00
+1150 1985   2     Rec  VBM                    1.129443e+05
+1151 1985   3     Rec  VBM                    0.000000e+00
+1152 1985   4     Rec  VBM                    0.000000e+00
+1153 1986   1     Rec  VBM                    0.000000e+00
+1154 1986   2     Rec  VBM                    7.339022e+04
+1155 1986   3     Rec  VBM                    0.000000e+00
+1156 1986   4     Rec  VBM                    3.055492e+04
+1157 1987   1     Rec  VBM                    0.000000e+00
+1158 1987   2     Rec  VBM                    4.206392e+04
+1159 1987   3     Rec  VBM                    0.000000e+00
+1160 1987   4     Rec  VBM                    1.007585e+04
+1161 1988   1     Rec  VBM                    0.000000e+00
+1162 1988   2     Rec  VBM                    2.932505e+04
+1163 1988   3     Rec  VBM                    0.000000e+00
+1164 1988   4     Rec  VBM                    4.241116e+03
+1165 1989   1     Rec  VBM                    0.000000e+00
+1166 1989   2     Rec  VBM                    6.821138e+05
+1167 1989   3     Rec  VBM                    6.273420e+03
+1168 1989   4     Rec  VBM                    3.085581e+05
+1169 1990   1     Rec  VBM                    0.000000e+00
+1170 1990   2     Rec  VBM                    1.469085e+05
+1171 1990   3     Rec  VBM                    0.000000e+00
+1172 1990   4     Rec  VBM                    3.625165e+05
+1173 1991   1     Rec  VBM                    0.000000e+00
+1174 1991   2     Rec  VBM                    3.136398e+05
+1175 1991   3     Rec  VBM                    0.000000e+00
+1176 1991   4     Rec  VBM                    1.511470e+05
+1177 1992   1     Rec  VBM                    0.000000e+00
+1178 1992   2     Rec  VBM                    8.693982e+04
+1179 1992   3     Rec  VBM                    1.026340e+04
+1180 1992   4     Rec  VBM                    4.120940e+05
+1181 1993   1     Rec  VBM                    0.000000e+00
+1182 1993   2     Rec  VBM                    6.988338e+05
+1183 1993   3     Rec  VBM                    3.495753e+03
+1184 1993   4     Rec  VBM                    1.696190e+05
+1185 1994   1     Rec  VBM                    0.000000e+00
+1186 1994   2     Rec  VBM                    5.119812e+05
+1187 1994   3     Rec  VBM                    2.273618e+03
+1188 1994   4     Rec  VBM                    8.021262e+04
+1189 1995   1     Rec  VBM                    0.000000e+00
+1190 1995   2     Rec  VBM                    5.290627e+05
+1191 1995   3     Rec  VBM                    8.023987e+04
+1192 1995   4     Rec  VBM                    0.000000e+00
+1193 1996   1     Rec  VBM                    0.000000e+00
+1194 1996   2     Rec  VBM                    4.084946e+05
+1195 1996   3     Rec  VBM                    0.000000e+00
+1196 1996   4     Rec  VBM                    7.761164e+04
+1197 1997   1     Rec  VBM                    0.000000e+00
+1198 1997   2     Rec  VBM                    1.498605e+05
+1199 1997   3     Rec  VBM                    0.000000e+00
+1200 1997   4     Rec  VBM                    4.801143e+04
+1201 1998   1     Rec  VBM                    0.000000e+00
+1202 1998   2     Rec  VBM                    4.708166e+05
+1203 1998   3     Rec  VBM                    0.000000e+00
+1204 1998   4     Rec  VBM                    1.359527e+05
+1205 1999   1     Rec  VBM                    0.000000e+00
+1206 1999   2     Rec  VBM                    2.411140e+05
+1207 1999   3     Rec  VBM                    2.572690e+04
+1208 1999   4     Rec  VBM                    2.567828e+05
+1209 2000   1     Rec  VBM                    0.000000e+00
+1210 2000   2     Rec  VBM                    1.440373e+06
+1211 2000   3     Rec  VBM                    0.000000e+00
+1212 2000   4     Rec  VBM                    1.681063e+05
+1213 2001   1     Rec  VBM                    0.000000e+00
+1214 2001   2     Rec  VBM                    2.879419e+05
+1215 2001   3     Rec  VBM                    5.977503e+04
+1216 2001   4     Rec  VBM                    2.490633e+04
+1217 2002   1     Rec  VBM                    0.000000e+00
+1218 2002   2     Rec  VBM                    6.060759e+05
+1219 2002   3     Rec  VBM                    1.599474e+05
+1220 2002   4     Rec  VBM                    9.663327e+05
+1221 2003   1     Rec  VBM                    0.000000e+00
+1222 2003   2     Rec  VBM                    1.223911e+05
+1223 2003   3     Rec  VBM                    0.000000e+00
+1224 2003   4     Rec  VBM                    7.823895e+05
+1225 2004   1     Rec  VBM                    0.000000e+00
+1226 2004   2     Rec  VBM                    1.283020e+05
+1227 2004   3     Rec  VBM                    0.000000e+00
+1228 2004   4     Rec  VBM                    5.823660e+04
+1229 2005   1     Rec  VBM                    0.000000e+00
+1230 2005   2     Rec  VBM                    2.756822e+05
+1231 2005   3     Rec  VBM                    0.000000e+00
+1232 2005   4     Rec  VBM                    2.135543e+05
+1233 2006   1     Rec  VBM                    0.000000e+00
+1234 2006   2     Rec  VBM                    6.831538e+05
+1235 2006   3     Rec  VBM                    1.111672e+05
+1236 2006   4     Rec  VBM                    4.201761e+05
+1237 2007   1     Rec  VBM                    0.000000e+00
+1238 2007   2     Rec  VBM                    2.089240e+05
+1239 2007   3     Rec  VBM                    0.000000e+00
+1240 2007   4     Rec  VBM                    2.784509e+04
+1241 2008   1     Rec  VBM                    0.000000e+00
+1242 2008   2     Rec  VBM                    6.659730e+04
+1243 2008   3     Rec  VBM                    2.248205e+04
+1244 2008   4     Rec  VBM                    7.739115e+03
+1245 2009   1     Rec  VBM                    0.000000e+00
+1246 2009   2     Rec  VBM                    1.573958e+06
+1247 2009   3     Rec  VBM                    3.543890e+03
+1248 2009   4     Rec  VBM                    3.041695e+04
+1249 2010   1     Rec  VBM                    0.000000e+00
+1250 2010   2     Rec  VBM                    5.114340e+05
+1251 2010   3     Rec  VBM                    5.630438e+03
+1252 2010   4     Rec  VBM                    2.003465e+05
+1253 2011   1     Rec  VBM                    0.000000e+00
+1254 2011   2     Rec  VBM                    2.626410e+06
+1255 2011   3     Rec  VBM                    0.000000e+00
+1256 2011   4     Rec  VBM                    0.000000e+00
+1257 2012   1     Rec  VBM                    0.000000e+00
+1258 2012   2     Rec  VBM                    1.041694e+06
+1259 2012   3     Rec  VBM                    0.000000e+00
+1260 2012   4     Rec  VBM                    0.000000e+00
+1261 2013   1     Rec  VBM                    0.000000e+00
+1262 2013   2     Rec  VBM                    1.374911e+05
+1263 2013   3     Rec  VBM                    0.000000e+00
+1264 2013   4     Rec  VBM                    2.270012e+05
+1265 2014   1     Rec  VBM                    0.000000e+00
+1266 2014   2     Rec  VBM                    1.746051e+06
+1267 2014   3     Rec  VBM                    1.453196e+05
+1268 2014   4     Rec  VBM                    1.489590e+05
+1269 2015   1     Rec  VBM                    0.000000e+00
+1270 2015   2     Rec  VBM                    2.279425e+06
+1271 2015   3     Rec  VBM                    2.682508e+05
+1272 2015   4     Rec  VBM                    2.098120e+06
+1273 2016   1     Rec  VBM                    0.000000e+00
+1274 2016   2     Rec  VBM                    1.667758e+06
+1275 2016   3     Rec  VBM                    2.730686e+05
+1276 2016   4     Rec  VBM                    2.453000e+05
+1277 2017   1     Rec  VBM                    0.000000e+00
+1278 2017   2     Rec  VBM                    1.287459e+06
+1279 2017   3     Rec  VBM                    2.537905e+04
+1280 2017   4     Rec  VBM                    5.139850e+05
+1281 2018   1     Rec  VBM                    0.000000e+00
+1282 2018   2     Rec  VBM                    8.945892e+05
+1283 2018   3     Rec  VBM                    5.947017e+03
+1284 2018   4     Rec  VBM                    1.970588e+06
+1285 2019   1     Rec  VBM                    0.000000e+00
+1286 2019   2     Rec  VBM                    8.636894e+05
+1287 2019   3     Rec  VBM                    1.059053e+05
+1288 2019   4     Rec  VBM                    4.708263e+05
+1289 2020   1     Rec  VBM                    0.000000e+00
+1290 2020   2     Rec  VBM                    4.699253e+05
+1291 2020   3     Rec  VBM                    7.429021e+03
+1292 2020   4     Rec  VBM                    2.117452e+05
+1293 2021   1     Rec  VBM                    0.000000e+00
+1294 2021   2     Rec  VBM                    6.502247e+05
+1295 2021   3     Rec  VBM                    1.280529e+04
+1296 2021   4     Rec  VBM                    4.192489e+05
+1297 2022   1     Rec  VBM                    9.898678e+02
+1298 2022   2     Rec  VBM                    6.221143e+05
+1299 2022   3     Rec  VBM                    2.531032e+04
+1300 2022   4     Rec  VBM                    5.588537e+05
+1301 2023   1     Rec  VBM                    0.000000e+00
+1302 2023   2     Rec  VBM                    4.341456e+05
+1303 2023   3     Rec  VBM                    3.106470e+03
+1304 2023   4     Rec  VBM                    4.352388e+05
+1305 2024   1     Rec  VBM                    0.000000e+00
+1306 2024   2     Rec  VBM                    9.457560e+05
+1307 2024   3     Rec  VBM                    7.382052e+02
+1308 2024   4     Rec  VBM                    4.001127e+05
+1309 2025   1     Rec  VBM                    0.000000e+00
+1310 2025   2     Rec  VBM                              NA
+1311 2025   3     Rec  VBM                              NA
+1312 2025   4     Rec  VBM                              NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(findat1) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Quarter"}\NormalTok{, }\StringTok{"Fleet"}\NormalTok{, }\StringTok{"Area"}\NormalTok{, }\StringTok{"Catch\_lbs"}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(findat1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Year Quarter   Fleet Area Catch_lbs
+1 1985       1 ForHire  FLK   4462.09
+2 1985       2 ForHire  FLK 253487.38
+3 1985       3 ForHire  FLK 380811.37
+4 1985       4 ForHire  FLK  41469.99
+5 1986       1 ForHire  FLK  40545.41
+6 1986       2 ForHire  FLK 501184.61
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#plot(findat1$Catch\_lbs, type = "l")}
+\CommentTok{\#plot(findat1$Catch\_lbs \textasciitilde{} factor(findat1$Area))}
+\CommentTok{\#plot(findat1$Catch\_lbs \textasciitilde{} factor(findat1$Quarter))}
+\CommentTok{\#plot(findat1$Catch\_lbs \textasciitilde{} factor(findat1$Year))}
+
+\NormalTok{findat1 }\OtherTok{\textless{}{-}}\NormalTok{ findat1[}\FunctionTok{which}\NormalTok{(findat1}\SpecialCharTok{$}\NormalTok{Year }\SpecialCharTok{\textless{}=} \DecValTok{2022}\NormalTok{), ]}
+\NormalTok{findat1 }\OtherTok{\textless{}{-}}\NormalTok{ findat1[}\FunctionTok{which}\NormalTok{(findat1}\SpecialCharTok{$}\NormalTok{Year }\SpecialCharTok{\textgreater{}=} \DecValTok{1986}\NormalTok{), ]}
+\CommentTok{\#apply(findat1, 2, table)}
+
+\NormalTok{findat }\OtherTok{\textless{}{-}}\NormalTok{ findat[}\FunctionTok{which}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{year }\SpecialCharTok{\textgreater{}=}\DecValTok{1986} \SpecialCharTok{\&}\NormalTok{ findat}\SpecialCharTok{$}\NormalTok{year }\SpecialCharTok{\textless{}=} \DecValTok{2022}\NormalTok{), ]}
+\CommentTok{\#check that the numbers are exactly the same}
+\FunctionTok{tapply}\NormalTok{(findat1}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(findat1}\SpecialCharTok{$}\NormalTok{Area, findat1}\SpecialCharTok{$}\NormalTok{Fleet), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      ForHire       Rec
+FLK  54012811 357091651
+NCFL 16532764  65643193
+NNC  56097190  32197622
+VBM   5736592  37749487
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(findat[}\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+ 54012811  16532764  56097190   5736592 357091651  65643193  32197622  37749487 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(findat1, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/rec\_catch\_TomFormat.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1305,19 +2970,11 @@ fishing sectors and for all species globally.
 
 \section{Data access and upload}\label{data-access-and-upload-1}
 
-For catches within each country's exclusive economic zones, data are
-downloaded download data from the
-\href{https://www.seaaroundus.org/data/\#/topic/biodiversity}{Sea Around
-Us site}(Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by
-Taxon Tools and Data, we filter by EEZ for All regions, and then filter
-by Taxon at the Species level for Common dolphinfish (Coryphaena
-hippurus). After clicking ``View graphs'' one can access the full data
-set using the ``Download Data'' button. The high seas data are accessed
-in the Basic Search
+The high seas data are accessed in the Basic Search
 \href{https://www.seaaroundus.org/data/\#/highseas}{High seas section of
 the site}. The individual regions can be clicked on (e.g., Atlantic,
-Western Central) and then the data are dowloaded using the Download Data
-button.
+Western Central) and then the data are downloaded using the Download
+Data button.
 
 The current version of data in use is version 50.1, accessed June 2024
 (the data files can be found on github in the
@@ -1501,7 +3158,29 @@ $end_use_type
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-2-1.pdf}
+\includegraphics{SAU_highseas_files/figure-pdf/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds, hs}\SpecialCharTok{$}\NormalTok{catch\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{)   }\CommentTok{\# \textless{}\textless{} 1\% are discards}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Discards Landings 
+    0.03    99.97 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds, hs}\SpecialCharTok{$}\NormalTok{reporting\_status, sum, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(hs}\SpecialCharTok{$}\NormalTok{pounds) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{)  }\CommentTok{\# \textless{}\textless{} 1\% are unreported}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Reported Unreported 
+     99.97       0.03 
+\end{verbatim}
 
 \section{Summarize the high seas
 landings}\label{summarize-the-high-seas-landings}
@@ -1522,7 +3201,7 @@ time.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-3-1.pdf}
+\includegraphics{SAU_highseas_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
 Finally we output the subset of high seas dolphin catch for the two
 areas. Because we have already accounted for the USA landings in our
@@ -1592,6 +3271,131 @@ database.
 \end{Highlighting}
 \end{Shaded}
 
+\section{Distribute the high seas landings across quarters of the
+year}\label{distribute-the-high-seas-landings-across-quarters-of-the-year}
+
+The international landings are only reported as annual catches and do
+not have any month or season associated with them. However, the MSE
+operating model requires seasonal catches. The majority of the
+international landings are caught by longline, so we will assume that
+the fleet distribution of the U.S. pelagic longline is representative of
+the seasonality of the international high seas fleets. Now we parse the
+annual catches according to the seasonality of the U.S. fleet.
+
+At the time of analysis, the SAU database only contained catches to
+2019, so we interpolated the 2019 values to cover years 2020 - 2022.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# read in the percentage of the catch by area and year{-}quarter combinations from the U.S. PLL}
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/per\_PLLcatch\_by\_area\_yearquarter.RData"}\NormalTok{)  }
+
+\NormalTok{tab }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\FunctionTok{which}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab) }\SpecialCharTok{\textgreater{}=} \DecValTok{1997}\NormalTok{), ]  }\CommentTok{\# PLL data are only available from 1997 on }
+\CommentTok{\#tab[nrow(tab), ]}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(tab, tab[}\FunctionTok{nrow}\NormalTok{(tab), ], tab[}\FunctionTok{nrow}\NormalTok{(tab), ], tab[}\FunctionTok{nrow}\NormalTok{(tab), ])  }\CommentTok{\# interpolate 2019 catches for 2020{-}2022}
+\FunctionTok{tail}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Atlantic, Northwest Atlantic, Western Central
+2017            34806.93                 1374259.7
+2018            29328.36                  885814.8
+2019            21870.62                  632747.2
+                21870.62                  632747.2
+                21870.62                  632747.2
+                21870.62                  632747.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{NED }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, , }\DecValTok{1}\NormalTok{]   }\CommentTok{\# create matrices for final catch data}
+\NormalTok{NCA }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, , }\DecValTok{1}\NormalTok{]}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(percatch))  \{ }
+\NormalTok{  NED[, i] }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, i, }\DecValTok{7}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ tab[i, }\DecValTok{1}\NormalTok{]   }\CommentTok{\# these are the percentages for the NED (Atlantic Northwest)}
+\NormalTok{  NCA[, i] }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, i, }\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ tab[i, }\DecValTok{2}\NormalTok{]   }\CommentTok{\# these are the percentages for the NCA (Western Central Atlantic)}
+\NormalTok{  \}}
+
+\CommentTok{\# plot the parsed out data by year{-}quarter}
+\NormalTok{yrs }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(NCA)), }\DecValTok{4}\NormalTok{))}
+\NormalTok{qrt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs)}\SpecialCharTok{/}\DecValTok{4}\NormalTok{)}
+
+\FunctionTok{matplot}\NormalTok{(yrs }\SpecialCharTok{+}\NormalTok{ qrt}\SpecialCharTok{/}\DecValTok{4}\NormalTok{, }\FunctionTok{cbind}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(NED), }\FunctionTok{matrix}\NormalTok{(NCA))}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
+        \AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{main =} \StringTok{"International high seas catches by quarter"}\NormalTok{, }
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"NED"}\NormalTok{, }\StringTok{"NCA"}\NormalTok{), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_highseas_files/figure-pdf/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# save NED data in this format because it needs to be combined with Canada EEZ catches}
+\FunctionTok{save}\NormalTok{(NED, }\AttributeTok{file =} \StringTok{"data/outputs/NED\_year\_quarter.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, we format the data in the format for input into the operating
+model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# format for operating model}
+\NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"Intl"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
+\NormalTok{are }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"NED"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
+\NormalTok{fin1 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(NED)))}
+\NormalTok{are }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"NCA"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
+\NormalTok{fin2 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(NCA)))}
+
+\NormalTok{findat }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{rbind}\NormalTok{(fin1, fin2), }\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(findat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Quarter"}\NormalTok{, }\StringTok{"Fleet"}\NormalTok{, }\StringTok{"Area"}\NormalTok{, }\StringTok{"Catch\_lbs"}\NormalTok{)}
+\NormalTok{findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs)}
+\FunctionTok{head}\NormalTok{(findat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Year Quarter Fleet Area Catch_lbs
+1 1997       1  Intl  NED         0
+2 1997       2  Intl  NED         0
+3 1997       3  Intl  NED         0
+4 1997       4  Intl  NED         0
+5 1998       1  Intl  NED         0
+6 1998       2  Intl  NED         0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#plot(findat$Catch\_lbs, type = "l")}
+\CommentTok{\#plot(findat$Catch\_lbs \textasciitilde{} factor(findat$Area))}
+\CommentTok{\#plot(findat$Catch\_lbs \textasciitilde{} factor(findat$Quarter))}
+\CommentTok{\#plot(findat$Catch\_lbs \textasciitilde{} factor(findat$Year))}
+\CommentTok{\#apply(findat, 2, table)}
+\CommentTok{\#barplot(tapply(findat$Catch\_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T), beside = T, col = rainbow(4))}
+
+\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/Intl\_highseas\_TomFormat.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\chapter{Analysis of international landings estimates from Sea Around Us
+-- territorial
+waters}\label{analysis-of-international-landings-estimates-from-sea-around-us-territorial-waters}
+
+\section{Data access and upload}\label{data-access-and-upload-2}
+
+For catches within each country's exclusive economic zones, data are
+downloaded download data from the
+\href{https://www.seaaroundus.org/data/\#/topic/biodiversity}{Sea Around
+Us site}(Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by
+Taxon Tools and Data, we filter by EEZ for All regions, and then filter
+by Taxon at the Species level for Common dolphinfish (Coryphaena
+hippurus). After clicking ``View graphs'' one can access the full data
+set using the ``Download Data'' button.
+
 \section{Read in the landings within excluzive economic zones
 (EEZs)}\label{read-in-the-landings-within-excluzive-economic-zones-eezs}
 
@@ -1602,6 +3406,9 @@ basin.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# load libraries}
+\FunctionTok{library}\NormalTok{(pals)}
+
 \FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
 \NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/SAU/SAU Taxa 600006 v50{-}1.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)  }\CommentTok{\# v. 50.1 {-} June 2024}
 \FunctionTok{head}\NormalTok{(d)}
@@ -1665,7 +3472,29 @@ landings than reported landings and a variety of gear types are used.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-6-1.pdf}
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, d}\SpecialCharTok{$}\NormalTok{catch\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{)   }\CommentTok{\# 15\% are discards}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Discards Landings 
+   15.18    84.82 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, d}\SpecialCharTok{$}\NormalTok{reporting\_status, sum, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{)  }\CommentTok{\# 55\% are unreported}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Reported Unreported 
+     44.52      55.48 
+\end{verbatim}
 
 \section{Separating the EEZs by area}\label{separating-the-eezs-by-area}
 
@@ -2067,7 +3896,7 @@ compiled within Sea Around Us.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-9-1.pdf}
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-5-1.pdf}
 
 We can see that the EEZ catches globally are dominated by areas outside
 of the Atlantic (``other oceans'') so we will replot the data after
@@ -2078,6 +3907,9 @@ United States have showed an opposite pattern, with low historical
 catches that increased in the 1980s (largely due to the introduction of
 recreational monitoring). Catches in the Western Central EEZs have
 increased gradually over time.
+
+We save these data for later use, and move on to analyzing only the
+Western Central and Northwest Atlantic jurisdictions.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2095,259 +3927,63 @@ increased gradually over time.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-10-1.pdf}
-
-\section{Merge high seas with catch with exclusive economic
-zones}\label{merge-high-seas-with-catch-with-exclusive-economic-zones}
-
-Now we will merge in the high seas catch from the steps above into the
-EEZ catches to get a better picture of total catch in FAO zones 31 and
-21. Recall that the U.S. Gulf and Atlantic catches are not necessarily
-parsed apart correctly in the public databases which get compiled into
-Sea Around Us, so these will have the same deficiencies as noted in
-Section 2. Later we will merge in the corrected data.
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-6-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{hs }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/SAU/high\_seas\_by\_year.csv"}\NormalTok{)}
-\FunctionTok{names}\NormalTok{(hs)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"year"}
+\FunctionTok{write.csv}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(tab), }\AttributeTok{file =} \StringTok{"data/outputs/intl\_catches\_allAtlantic.csv"}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ T)}
 
-\CommentTok{\# check that columns match}
-\CommentTok{\#head(tab)}
-\CommentTok{\#head(hs)}
-\FunctionTok{table}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab) }\SpecialCharTok{==}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{year)  }
+\NormalTok{dwest }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Canadian EEZ"} \SpecialCharTok{|}\NormalTok{ d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Western Central Atlantic EEZs"}\NormalTok{), ]}
+\FunctionTok{save}\NormalTok{(dwest, }\AttributeTok{file =} \StringTok{"data/outputs/SAU\_EEZs\_WCA.RData"}\NormalTok{)}
+
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(dwest}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(dwest}\SpecialCharTok{$}\NormalTok{year, dwest}\SpecialCharTok{$}\NormalTok{area\_name), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\FunctionTok{sort}\NormalTok{(}\FunctionTok{colSums}\NormalTok{(tab, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{decreasing =}\NormalTok{ T)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{15}\NormalTok{]  }\CommentTok{\# eight countries are responsible for vast majority of catch with total landings across all years exceeding 2M pounds}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-
-TRUE 
-  70 
+              Bahamas  Guadeloupe  (France)             Venezuela 
+            102439744              77112296              69319813 
+  Martinique (France)                 Haiti           Saint Lucia 
+             41322610              41295995              39294031 
+             Dominica    Dominican Republic     Mexico (Atlantic) 
+             26516078              25336178              16150763 
+              Grenada     Trinidad & Tobago   Aruba (Netherlands) 
+             15619929              14306678              13517868 
+              Jamaica     Puerto Rico (USA) Curaçao (Netherlands) 
+             10236038               9784950               9667059 
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tab[}\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(tab))] }\OtherTok{\textless{}{-}} \DecValTok{0}
-\NormalTok{tab\_atl }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(tab, hs[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{])}
+\NormalTok{lis }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{colSums}\NormalTok{(tab, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{decreasing =}\NormalTok{ T)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{])}
+\NormalTok{tab1 }\OtherTok{\textless{}{-}}\NormalTok{ tab[, }\FunctionTok{colnames}\NormalTok{(tab) }\SpecialCharTok{\%in\%}\NormalTok{ lis]}
 
-\CommentTok{\# check the merge}
-\FunctionTok{head}\NormalTok{(tab\_atl)}
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab1), tab1}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{col =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }\AttributeTok{axes =}\NormalTok{ F, }
+        \AttributeTok{main =} \StringTok{"Total dolphinfish catches in Caribbean EEZs (top 8 jurisdictions)"}\NormalTok{)}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1950}\NormalTok{, }\DecValTok{2020}\NormalTok{, }\DecValTok{5}\NormalTok{)); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab1), }\AttributeTok{col =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Fishing area name"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-     Mediterranean Sea EEZs United States EEZ Brazil EEZ
-1950               26162262           1548245    1127242
-1951               25410830           1721403    1060734
-1952               30206350           1871779    1128992
-1953               31275619           2024535    1111008
-1954               31383840           2177865    1090492
-1955               30056210           2309815    1190424
-     Western Central Atlantic EEZs Northeast Atlantic EEZs
-1950                       1345027                 1173441
-1951                       1467925                 1187386
-1952                       1510406                 1193045
-1953                       2001465                 1141504
-1954                       2069754                 1269523
-1955                       2130341                 1405543
-     Eastern Central Atlantic EEZs Southwest Atlantic EEZs
-1950                      677552.5                       0
-1951                      693004.4                       0
-1952                      708466.7                       0
-1953                      723939.4                       0
-1954                      739422.5                       0
-1955                      754915.9                       0
-     Southeast Atlantic EEZs Canadian EEZ Atlantic..Northwest
-1950                       0            0                   0
-1951                       0            0                   0
-1952                       0            0                   0
-1953                       0            0                   0
-1954                       0            0                   0
-1955                       0            0                   0
-     Atlantic..Western.Central
-1950                         0
-1951                         0
-1952                         0
-1953                         0
-1954                         0
-1955                         0
-\end{verbatim}
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-6-2.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# separate all WCA catches }
-\FunctionTok{unique}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg)  }\CommentTok{\# use Western Central, U.S. and Canada}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
- [1] "other oceans"                  "Western Central Atlantic EEZs"
- [3] "Brazil EEZ"                    "Eastern Central Atlantic EEZs"
- [5] "Mediterranean Sea EEZs"        "Northeast Atlantic EEZs"      
- [7] "United States EEZ"             "Southeast Atlantic EEZs"      
- [9] "Southwest Atlantic EEZs"       "Canadian EEZ"                 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{dwc }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Western Central Atlantic EEZs"} \SpecialCharTok{|}\NormalTok{ d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"United States EEZ"} \SpecialCharTok{|}\NormalTok{ d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Canadian EEZ"}\NormalTok{),]}
-
-\CommentTok{\#unique(dwc$area\_name[which(dwc$reg == "United States EEZ")])}
-\CommentTok{\#unique(dwc$area\_name[which(dwc$reg == "Canadian EEZ")])}
-\CommentTok{\#unique(dwc$area\_name[which(dwc$reg == "Western Central Atlantic EEZs")])}
-
-\CommentTok{\# relabel U.S. by area}
-\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"USA (East Coast)"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States East Coast"}
-\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"USA (Gulf of Mexico)"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States Gulf"}
-\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"Puerto Rico (USA)"}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States Caribbean"}
-\NormalTok{dwc}\SpecialCharTok{$}\NormalTok{reg[}\FunctionTok{which}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"US Virgin Isl."}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"United States Caribbean"}
-\CommentTok{\#table(dwc$area\_name, dwc$reg)}
-
-\NormalTok{tab\_wc }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(dwc}\SpecialCharTok{$}\NormalTok{year, dwc}\SpecialCharTok{$}\NormalTok{reg), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
-\CommentTok{\#head(tab\_wc)}
-
-\CommentTok{\# reorder S to N}
-\NormalTok{tab\_wc }\OtherTok{\textless{}{-}}\NormalTok{ tab\_wc[, }\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)]}
-\FunctionTok{head}\NormalTok{(tab\_wc)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     Western Central Atlantic EEZs United States Caribbean United States Gulf
-1950                       1202464                142562.8           309225.3
-1951                       1299559                168365.6           339921.3
-1952                       1341943                168463.5           370512.4
-1953                       1839330                162135.2           400578.5
-1954                       1901095                168659.3           433479.6
-1955                       1954511                175830.1           463752.0
-     United States East Coast Canadian EEZ
-1950                  1239020           NA
-1951                  1381482           NA
-1952                  1501267           NA
-1953                  1623956           NA
-1954                  1744386           NA
-1955                  1846063           NA
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# merge in the high seas catch {-} check years match}
-\CommentTok{\#head(hs)}
-\FunctionTok{table}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab\_wc) }\SpecialCharTok{==}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{year)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-TRUE 
-  70 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{high\_seas }\OtherTok{\textless{}{-}}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{Atlantic..Western.Central }\SpecialCharTok{+}\NormalTok{ hs}\SpecialCharTok{$}\NormalTok{Atlantic..Northwest}
-\NormalTok{high\_seas[high\_seas }\SpecialCharTok{==} \DecValTok{0}\NormalTok{] }\OtherTok{\textless{}{-}} \ConstantTok{NA}
-\NormalTok{tab\_wc }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(tab\_wc, high\_seas)}
-\FunctionTok{head}\NormalTok{(tab\_wc)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     Western Central Atlantic EEZs United States Caribbean United States Gulf
-1950                       1202464                142562.8           309225.3
-1951                       1299559                168365.6           339921.3
-1952                       1341943                168463.5           370512.4
-1953                       1839330                162135.2           400578.5
-1954                       1901095                168659.3           433479.6
-1955                       1954511                175830.1           463752.0
-     United States East Coast Canadian EEZ high_seas
-1950                  1239020           NA        NA
-1951                  1381482           NA        NA
-1952                  1501267           NA        NA
-1953                  1623956           NA        NA
-1954                  1744386           NA        NA
-1955                  1846063           NA        NA
-\end{verbatim}
-
-\section{Plot Western Atlantic
-catches}\label{plot-western-atlantic-catches}
-
-Now we plot the total Western Atlantic catches -- both within the EEZs
-and the high seas -- separating by U.S., Canada, and the Western Central
-Atlantic (i.e., the Wider Caribbean). Most of the catch is coming from
-the United States and the 40 combined Caribbean jurisdictions which
-comprise the Western Central Atlantic.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{mgp =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
-\FunctionTok{matplot}\NormalTok{(yrs, tab\_wc}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{7}\NormalTok{), }
-        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }
-        \AttributeTok{main =} \StringTok{"Western Atlantic dolphin catches (commercial + recreational)"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(tab\_wc), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\SpecialCharTok{:}\DecValTok{7}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-12-1.pdf}
-
-Separating out the mainland United States catches, here are the
-international and domestic (mainland) catches plotted over time.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tab\_int }\OtherTok{\textless{}{-}}\NormalTok{ tab\_wc[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{)]}
-\FunctionTok{head}\NormalTok{(tab\_int)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     Western Central Atlantic EEZs United States Caribbean Canadian EEZ
-1950                       1202464                142562.8           NA
-1951                       1299559                168365.6           NA
-1952                       1341943                168463.5           NA
-1953                       1839330                162135.2           NA
-1954                       1901095                168659.3           NA
-1955                       1954511                175830.1           NA
-     high_seas
-1950        NA
-1951        NA
-1952        NA
-1953        NA
-1954        NA
-1955        NA
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{int\_catch }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{rowSums}\NormalTok{(tab\_int, }\AttributeTok{na.rm =}\NormalTok{ T), }\DecValTok{2}\NormalTok{)}
-\NormalTok{dom\_catch }\OtherTok{\textless{}{-}} \FunctionTok{rowSums}\NormalTok{(tab\_wc[, }\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{)], }\AttributeTok{na.rm =}\NormalTok{ T)}
-
-\FunctionTok{matplot}\NormalTok{(yrs, }\FunctionTok{cbind}\NormalTok{(int\_catch, dom\_catch)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{),}
-        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }
-        \AttributeTok{main =} \StringTok{"Western Atlantic dolphin catches in international vs domestic waters}\SpecialCharTok{\textbackslash{}n}\StringTok{(FAO areas 21 and 31, commercial + recreational)"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"international"}\NormalTok{, }\StringTok{"United States mainland"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-13-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# output international catches}
-\FunctionTok{write.csv}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(int\_catch), }\AttributeTok{file =} \StringTok{"data/international\_catches.csv"}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ T)}
-\end{Highlighting}
-\end{Shaded}
+Note the rapid eight-fold increase in catches listed within the
+Venezuelan EEZ which occurs from 2013 - 2019. This increase is
+responsible for a rapid increase in estimated international catches
+within the Western Atlantic seen in the prior plot.
 
 \section{Look at Venezuela catches in
 detail}\label{look-at-venezuela-catches-in-detail}
 
-Note in the plot above a rapid increase in international catches within
-the Western Atlantic. This is driven by a sudden increase in catches
-reported within Sea Around Us within the EEZ. We investigate these
-catches in detail as it seems odd that a relatively small fleet would be
-able to ramp up effort so rapidly. Data can be downloaded on a
-country-specific basis, the catches by taxon in the waters of Venezuela
-are accessed
+The figures above indicate that the database shows a rapid increase in
+international catches within the Western Atlantic, driven by a sudden
+increase in catches reported within Sea Around Us database within the
+Venezuelan EEZ. We investigate these catches in detai, as it seems odd
+that a relatively small fleet from a single country would be able to
+ramp up effort so rapidly. Data can be downloaded on a country-specific
+basis, the catches by taxon in the waters of Venezuela are accessed
 \href{https://www.seaaroundus.org/data/\#/eez/862?chart=catch-chart&dimension=taxon&measure=tonnage&limit=10}{here}.
 
 \begin{Shaded}
@@ -2369,7 +4005,7 @@ are accessed
 \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mex =} \FloatTok{0.5}\NormalTok{)}
 \CommentTok{\#barplot(tapply(v$pounds/10\^{}6, v$area\_name, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area name", horiz = T)}
 \CommentTok{\#barplot(tapply(v$pounds/10\^{}6, v$area\_type, sum, na.rm = T), las = 2, xlab = "millions of pounds", main = "Area type", horiz = T)}
-\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{year, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing entity"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{year, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Year"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
 \FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{fishing\_entity, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing entity"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
 \FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{fishing\_sector, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Fishing sector"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
 \FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(v}\SpecialCharTok{$}\NormalTok{pounds}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, v}\SpecialCharTok{$}\NormalTok{catch\_type, sum, }\AttributeTok{na.rm =}\NormalTok{ T), }\AttributeTok{las =} \DecValTok{2}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"millions of pounds"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Catch type"}\NormalTok{, }\AttributeTok{horiz =}\NormalTok{ T)}
@@ -2378,7 +4014,7 @@ are accessed
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-14-1.pdf}
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-7-1.pdf}
 
 Note that a large portion of the catch in the database is listed as
 coming from an ``Unknown Fishing Country.'' We extract these catches and
@@ -2482,7 +4118,7 @@ Direct human consumption
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-15-1.pdf}
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-8-1.pdf}
 
 Here is another look at the catches within the venezuelan EEZ, separated
 by fishing entity.
@@ -2525,7 +4161,7 @@ by fishing entity.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SAU_files/figure-pdf/unnamed-chunk-16-1.pdf}
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-9-1.pdf}
 
 The very substantial increase in international Western Atlantic dolphin
 catches can be attributed solely to this Unknown Fishing Country catches
@@ -2552,11 +4188,585 @@ could have been reassigned to the Venezuelan EEZ.
 Because there may be some overlap between the reconstructed data used in
 the national EEZ estimates, and the ICCAT reporting that was reassigned,
 there could potentially be a ``double counting'' of these catch
-estimates in the Sea Around Us database. These Unknown Fishing Country
-catches that lead to a large increase in total estimated catches within
-the Venezuelan EEZ should be treated with caution at this time, until we
-can verify with Sea Around Us database managers that the spatial
-disaggregation method used has not led to an overestimate.
+estimates in the Sea Around Us database. We verified with Sea Around Us
+database managers that their method led to an error resulting in an
+overestimate of the catch, and they advised us to remove these Unknown
+Fishing Country catches as they are difficult to trace back to the data
+source.
+
+\section{Compile catch in CAR and NED jurisdictional waters by discards
+and reporting
+type}\label{compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type}
+
+Now that we have separated the EEZ catch by region, we will summarize it
+according to the areas used in the dolphin management strategy
+evaluation operating model. We will separate the catch by discards
+versus landings and reported versus unreported data so that we can use
+these data in various sensitivity analyses.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())  }\CommentTok{\# clear the workspace}
+
+\CommentTok{\# load data}
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/outputs/SAU\_EEZs\_WCA.RData"}\NormalTok{)  }\CommentTok{\# SAU EEZ data for NED and NCA saved from earlier}
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/outputs/erroneous\_catch\_to\_be\_removed.RData"}\NormalTok{)   }\CommentTok{\# double{-}counted catch values to be removed}
+
+\NormalTok{d }\OtherTok{\textless{}{-}}\NormalTok{ dwest}
+
+\CommentTok{\# summarize the catch by area, discards/landings and reported/unreported}
+\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{catch\_type, d}\SpecialCharTok{$}\NormalTok{reporting\_status, d}\SpecialCharTok{$}\NormalTok{reg), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, , Canadian EEZ
+
+         Reported Unreported
+Discards       NA         NA
+Landings  1220146         NA
+
+, , Western Central Atlantic EEZs
+
+          Reported Unreported
+Discards        NA    2179444
+Landings 393279187  176215080
+\end{verbatim}
+
+The catch from the Canadian EEZs is 100\% landings, with no unreported
+data and no discards. In the WCA there are no reported discards, only
+unreported discards. Thus, we only need to separate out unreported
+discards and landings for the WCA.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summarize the catch by year, area, discards/landings and reported/unreported}
+
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{year }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{levels =} \DecValTok{1950}\SpecialCharTok{:}\DecValTok{2019}\NormalTok{)}
+\NormalTok{dc }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Canadian EEZ"}\NormalTok{), ]}
+\NormalTok{dw }\OtherTok{\textless{}{-}}\NormalTok{ d[}\FunctionTok{which}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{reg }\SpecialCharTok{==} \StringTok{"Western Central Atlantic EEZs"}\NormalTok{), ]}
+
+\CommentTok{\# verify proper identification of the erroneous Venezuelan Unknown Fishing Country catches }
+\NormalTok{bad }\OtherTok{\textless{}{-}}\NormalTok{ dw[}\FunctionTok{which}\NormalTok{(dw}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"Venezuela"} \SpecialCharTok{\&}\NormalTok{ dw}\SpecialCharTok{$}\NormalTok{fishing\_entity }\SpecialCharTok{==} \StringTok{"Unknown Fishing Country"}\NormalTok{), ]}
+\CommentTok{\#dim(bad)}
+\NormalTok{bad\_totals }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(bad}\SpecialCharTok{$}\NormalTok{lbs, bad}\SpecialCharTok{$}\NormalTok{year, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+
+\FunctionTok{cbind}\NormalTok{(}\FunctionTok{tail}\NormalTok{(bad\_totals, }\DecValTok{10}\NormalTok{), }\FunctionTok{tail}\NormalTok{(removecatch, }\DecValTok{10}\NormalTok{)) }\CommentTok{\# the numbers match exactly}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+        [,1]    [,2]
+2010      NA      NA
+2011      NA      NA
+2012      NA      NA
+2013 1968566 1968566
+2014 2759603 2759603
+2015 4915156 4915156
+2016 5112450 5112450
+2017 6599737 6599737
+2018 8236857 8236857
+2019 7307245 7307245
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# now remove those bad catches from the database prior to summarizing}
+\CommentTok{\#dim(dw)}
+\NormalTok{dw }\OtherTok{\textless{}{-}}\NormalTok{ dw[}\SpecialCharTok{{-}}\FunctionTok{which}\NormalTok{(dw}\SpecialCharTok{$}\NormalTok{area\_name }\SpecialCharTok{==} \StringTok{"Venezuela"} \SpecialCharTok{\&}\NormalTok{ dw}\SpecialCharTok{$}\NormalTok{fishing\_entity }\SpecialCharTok{==} \StringTok{"Unknown Fishing Country"}\NormalTok{), ]}
+\CommentTok{\#dim(dw)}
+
+\NormalTok{CAN }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(dc}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(dc}\SpecialCharTok{$}\NormalTok{year, dc}\SpecialCharTok{$}\NormalTok{catch\_type, dc}\SpecialCharTok{$}\NormalTok{reporting\_status), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\FunctionTok{tail}\NormalTok{(CAN)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, , Reported
+
+      Landings
+2014 531022.55
+2015  38945.76
+2016 354370.65
+2017  83776.88
+2018  12588.88
+2019  36112.19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab\_dw }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(dw}\SpecialCharTok{$}\NormalTok{lbs, }\FunctionTok{list}\NormalTok{(dw}\SpecialCharTok{$}\NormalTok{year, dw}\SpecialCharTok{$}\NormalTok{catch\_type, dw}\SpecialCharTok{$}\NormalTok{reporting\_status), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\FunctionTok{tail}\NormalTok{(tab\_dw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+, , Reported
+
+     Discards Landings
+2014       NA  9923818
+2015       NA 11590469
+2016       NA 11225710
+2017       NA 11702729
+2018       NA 11460758
+2019       NA 11066090
+
+, , Unreported
+
+     Discards Landings
+2014 38062.63  2816498
+2015 39134.61  2794662
+2016 38973.17  2778493
+2017 38728.81  2762926
+2018 38769.93  2732351
+2019 38655.51  2743182
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# combine CAR reported landings, unreported discards, unreported landings}
+\NormalTok{CAR }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(tab\_dw[, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{], tab\_dw[, , }\DecValTok{2}\NormalTok{]))  }
+\FunctionTok{names}\NormalTok{(CAR) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"landings"}\NormalTok{, }\StringTok{"discards"}\NormalTok{, }\StringTok{"unreported"}\NormalTok{)}
+
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(CAR), }\FunctionTok{cbind}\NormalTok{(CAN, CAR)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{5}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{,}
+        \AttributeTok{main =} \StringTok{"Total dolphinfish catches in NED and NCA jurisdictional waters"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"Canadian reported landings"}\NormalTok{, }\StringTok{"Caribbean landings"}\NormalTok{, }
+                    \StringTok{"Caribbean discards"}\NormalTok{, }\StringTok{"Caribbean unreported landings"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(}\FunctionTok{sum}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{discards, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{discards, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{+} \FunctionTok{sum}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{landings, }\AttributeTok{na.rm =}\NormalTok{ T)) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{)  }\CommentTok{\# discards are 0.6\% of landings}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.61
+\end{verbatim}
+
+Note that the Caribbean unreported discards in the database are
+negligible (\textless{} 1\%) and we exclude them from further analysis.
+
+\section{Distribute the territorial international catches across
+quarters of the
+year}\label{distribute-the-territorial-international-catches-across-quarters-of-the-year}
+
+The international landings are only reported as annual catches and do
+not have any month or season associated with them. However, the MSE
+operating model requires seasonal catches. Lacking other information on
+the seasonality of these fleets, we will assume that the fleet
+distribution of the U.S. pelagic longline is representative of the
+seasonality of the jurisdictional fleets. Now we parse the annual
+catches according to the seasonality of the U.S. fleet.
+
+The pelagic longline logbook data is only available going back to 1997,
+but there are Caribbean catches extending back to the 1950s. To
+interpolate the seasonality for 1986 - 1996, we take the average
+seasonality of the oldest 10 years of logbook data (1997 - 2006) and use
+those averages for the unknown years.
+
+At the time of analysis, the SAU database only contained catches to
+2019, so we interpolated the 2019 values to cover years 2020 - 2022.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#par(mar = c(5, 10, 3, 1))}
+\CommentTok{\#barplot(tapply(dw$lbs, dw$gear\_type, sum, na.rm = T), horiz = T, las = 2)}
+\CommentTok{\#barplot(tapply(dc$lbs, dc$gear\_type, sum, na.rm = T), horiz = T, las = 2)}
+
+\CommentTok{\# read in the percentage of the catch by area and year{-}quarter combinations from the U.S. PLL}
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/per\_PLLcatch\_by\_area\_yearquarter.RData"}\NormalTok{)  }
+
+\NormalTok{percatch[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, ] }\CommentTok{\# matrix 2 == Caribbean, matrix 7 == NED (Atlantic Northwest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+        NCA         CAR         FLK        NCFL         NNC         VBM 
+0.755794702 0.547263682 0.049739219 0.001825132 0.000000000 0.000000000 
+        NED 
+0.000000000 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{CAN }\OtherTok{\textless{}{-}}\NormalTok{ CAN[}\FunctionTok{which}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(CAN) }\SpecialCharTok{\textgreater{}=} \DecValTok{1997}\NormalTok{)]  }\CommentTok{\# PLL data are only available from 1997 on }
+\NormalTok{CAN }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(CAN, CAN[}\FunctionTok{length}\NormalTok{(CAN)], CAN[}\FunctionTok{length}\NormalTok{(CAN)], CAN[}\FunctionTok{length}\NormalTok{(CAN)])  }\CommentTok{\# interpolate 2019 catches for 2020{-}2022}
+
+\NormalTok{CANqrt }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, , }\DecValTok{7}\NormalTok{]   }\CommentTok{\# create matrix for final catch data}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(percatch))  \{ }
+\NormalTok{  CANqrt[, i] }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, i, }\DecValTok{7}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ CAN[i]  \}}
+
+\NormalTok{percatch\_car }\OtherTok{\textless{}{-}}\NormalTok{ percatch[, , }\DecValTok{2}\NormalTok{]}
+\NormalTok{int }\OtherTok{\textless{}{-}} \FunctionTok{rowMeans}\NormalTok{(percatch\_car[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{])}
+\NormalTok{percatch\_car }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{rep}\NormalTok{(int, }\FunctionTok{length}\NormalTok{(}\DecValTok{1986}\SpecialCharTok{:}\DecValTok{1996}\NormalTok{)), }\AttributeTok{nrow =} \DecValTok{4}\NormalTok{), percatch\_car)}
+\FunctionTok{colnames}\NormalTok{(percatch\_car) }\OtherTok{\textless{}{-}} \DecValTok{1986}\SpecialCharTok{:}\DecValTok{2022}   \CommentTok{\# full data frame for Caribbean seasonality 1986 {-} 2022}
+
+\NormalTok{CAR }\OtherTok{\textless{}{-}}\NormalTok{ CAR[}\FunctionTok{which}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(CAR) }\SpecialCharTok{\textgreater{}=} \DecValTok{1986}\NormalTok{), ]  }\CommentTok{\# only need Caribbean data from 1986 on }
+\NormalTok{CAR }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(CAR, CAR[}\FunctionTok{nrow}\NormalTok{(CAR), ], CAR[}\FunctionTok{nrow}\NormalTok{(CAR), ], CAR[}\FunctionTok{nrow}\NormalTok{(CAR), ])  }\CommentTok{\# interpolate 2019 catches for 2020{-}2022}
+
+\CommentTok{\#dim(CAR)}
+\CommentTok{\#dim(percatch\_car)}
+
+\NormalTok{CARrep }\OtherTok{\textless{}{-}}\NormalTok{ percatch\_car   }\CommentTok{\# create matrices for final catch data}
+\NormalTok{CARunr }\OtherTok{\textless{}{-}}\NormalTok{ percatch\_car}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(percatch\_car))  \{ }
+\NormalTok{  CARrep[, i] }\OtherTok{\textless{}{-}}\NormalTok{ percatch\_car[, i] }\SpecialCharTok{*}\NormalTok{ CAR[i, }\DecValTok{1}\NormalTok{]}
+\NormalTok{  CARunr[, i] }\OtherTok{\textless{}{-}}\NormalTok{ percatch\_car[, i] }\SpecialCharTok{*}\NormalTok{ CAR[i, }\DecValTok{3}\NormalTok{]}
+\NormalTok{\}}
+
+\CommentTok{\# ensure sums are equal after parsing}
+\FunctionTok{sum}\NormalTok{(CARrep); }\FunctionTok{sum}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{landings)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 286220280
+\end{verbatim}
+
+\begin{verbatim}
+[1] 286220280
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(CARunr); }\FunctionTok{sum}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{unreported)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 112754888
+\end{verbatim}
+
+\begin{verbatim}
+[1] 112754888
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(CAN, }\AttributeTok{na.rm =}\NormalTok{ T); }\FunctionTok{sum}\NormalTok{(CANqrt, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1328482
+\end{verbatim}
+
+\begin{verbatim}
+[1] 1328482
+\end{verbatim}
+
+The Canada jurisdictional data need to be combined with the NED high
+seas data calculated in the previous section, because both of these are
+a component of the international catches in the NED area.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/outputs/NED\_year\_quarter.RData"}\NormalTok{)}
+
+\NormalTok{NEDtot }\OtherTok{\textless{}{-}}\NormalTok{ NED }\SpecialCharTok{+}\NormalTok{ CANqrt}
+\FunctionTok{sum}\NormalTok{(NED, }\AttributeTok{na.rm =}\NormalTok{ T) }\SpecialCharTok{+} \FunctionTok{sum}\NormalTok{(CANqrt, }\AttributeTok{na.rm =}\NormalTok{ T); }\FunctionTok{sum}\NormalTok{(NEDtot, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1808855
+\end{verbatim}
+
+\begin{verbatim}
+[1] 1808855
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{NEDtot }\OtherTok{\textless{}{-}}\NormalTok{ NEDtot[, }\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(}\FunctionTok{colSums}\NormalTok{(NEDtot))] }\CommentTok{\# remove NA columns from CAN data}
+
+\CommentTok{\# plot the parsed out data by year{-}quarter}
+\NormalTok{yrs }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(CARrep)), }\DecValTok{4}\NormalTok{))}
+\NormalTok{qrt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs)}\SpecialCharTok{/}\DecValTok{4}\NormalTok{)}
+\NormalTok{yrs1 }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(NEDtot)), }\DecValTok{4}\NormalTok{))}
+\NormalTok{qrt1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs1)}\SpecialCharTok{/}\DecValTok{4}\NormalTok{)}
+
+\FunctionTok{matplot}\NormalTok{(yrs }\SpecialCharTok{+}\NormalTok{ qrt}\SpecialCharTok{/}\DecValTok{4}\NormalTok{, }\FunctionTok{cbind}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(CARrep), }\FunctionTok{matrix}\NormalTok{(CARunr))}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }
+        \AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{main =} \StringTok{"International jurisdictional catches by quarter"}\NormalTok{, }
+        \AttributeTok{xlab =} \StringTok{""}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(yrs1 }\SpecialCharTok{+}\NormalTok{ qrt1}\SpecialCharTok{/}\DecValTok{4}\NormalTok{, }\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(NEDtot))}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{4}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"Caribbean reported landings"}\NormalTok{, }\StringTok{"Caribbean unreported landings"}\NormalTok{, }\StringTok{"NED reported landings"}\NormalTok{),        }
+       \AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-14-1.pdf}
+
+Finally, we format the data in the format for input into the operating
+model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# format for operating model {-} Caribbean }
+\NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"Intl"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
+\NormalTok{are }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"CAR"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
+\NormalTok{fin1 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(CARrep)))}
+\NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"UnRep"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
+\NormalTok{fin2 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(CARunr)))}
+
+\NormalTok{findat }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{rbind}\NormalTok{(fin1, fin2), }\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(findat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Quarter"}\NormalTok{, }\StringTok{"Fleet"}\NormalTok{, }\StringTok{"Area"}\NormalTok{, }\StringTok{"Catch\_lbs"}\NormalTok{)}
+\NormalTok{findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs)}
+\FunctionTok{head}\NormalTok{(findat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Year Quarter Fleet Area Catch_lbs
+1 1986       1  Intl  CAR 1983610.3
+2 1986       2  Intl  CAR 1363432.3
+3 1986       3  Intl  CAR  216194.7
+4 1986       4  Intl  CAR  104564.4
+5 1987       1  Intl  CAR 1491251.1
+6 1987       2  Intl  CAR 1025009.7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Fleet))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-15-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Quarter))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-15-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Year))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SAU_EEZs_files/figure-pdf/unnamed-chunk-15-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(findat, }\DecValTok{2}\NormalTok{, table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$Year
+
+1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 
+   8    8    8    8    8    8    8    8    8    8    8    8    8    8    8    8 
+2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 
+   8    8    8    8    8    8    8    8    8    8    8    8    8    8    8    8 
+2018 2019 2020 2021 2022 
+   8    8    8    8    8 
+
+$Quarter
+
+ 1  2  3  4 
+74 74 74 74 
+
+$Fleet
+
+ Intl UnRep 
+  148   148 
+
+$Area
+
+CAR 
+296 
+
+$Catch_lbs
+
+      0.000    9788.658   18795.593   31325.988   36496.425   40597.091 
+         10           1           1           1           1           1 
+  42107.302   47942.517   56401.113   58679.944   60096.556   60355.398 
+          1           1           1           1           1           1 
+  60985.763   68676.820   73889.208   75072.838   75366.606   76555.925 
+          1           1           1           1           1           1 
+  77324.643   77796.214   78610.095   79013.468   86809.568   87372.358 
+          1           1           1           1           1           1 
+  87909.943   87912.183   88337.800   88700.132   91332.089   91760.040 
+          1           1           1           1           1           1 
+  95367.294   95587.693  101642.938  103649.945  103959.370  104564.413 
+          1           1           1           1           1           1 
+ 114975.069  117566.580  122091.821  122788.214  125568.197  125577.532 
+          1           1           1           1           1           1 
+ 127378.801  127939.292  128377.939  129341.470  134181.182  141994.444 
+          1           1           1           1           1           1 
+ 142082.599  153611.205  155218.688  155826.075  157841.728  159874.464 
+          1           1           1           1           1           1 
+ 160849.471  162532.231  163366.235  174374.503  177603.665  178729.645 
+          1           1           1           2           1           1 
+ 180648.863  181760.360  181800.152  181826.986  182644.985  183296.695 
+          1           1           1           1           1           1 
+ 183394.133  188835.902  189720.723  190653.498  191294.330  197634.680 
+          1           1           1           1           1           1 
+ 203382.417  211165.836  216194.717  221034.105  224371.646  224865.912 
+          1           1           1           1           1           1 
+ 231889.538  238171.536  242198.267  243077.667  259621.606  261005.227 
+          1           1           1           1           1           2 
+ 267423.130  277429.596  289365.228  293766.363  296609.364  297403.409 
+          1           1           1           1           1           1 
+ 317602.615  321111.411  328467.823  338237.998  342580.505  344719.080 
+          1           1           1           1           1           1 
+ 350192.731  350633.439  370608.639  378979.578  379620.789  438906.151 
+          1           1           1           1           1           2 
+ 439008.388  466663.514  483510.559  488685.417  523276.184  523542.377 
+          1           1           1           1           1           2 
+ 524667.731  532547.301  541712.711  560990.412  619518.125  622719.273 
+          1           1           1           1           1           1 
+ 625779.400  645979.955  675898.404  716799.006  723381.857  734121.066 
+          1           1           1           1           1           1 
+ 746891.341  750312.866  769344.634  775617.931  798676.095  820451.542 
+          1           1           1           1           1           1 
+ 851850.118  854920.890  858458.688  868863.599  876913.328  880696.803 
+          1           1           1           1           1           1 
+ 895488.156  898560.296  911356.265  935450.233  936218.338  945759.571 
+          1           1           1           1           1           1 
+ 972684.090  978886.865  982717.351 1008248.523 1014397.405 1020305.956 
+          1           1           1           1           1           1 
+1025009.732 1028012.380 1028200.006 1029911.297 1030269.383 1038946.142 
+          1           1           1           1           1           1 
+1041714.819 1047861.626 1088240.645 1118948.693 1124895.908 1135461.213 
+          1           1           1           1           1           1 
+1139262.299 1140356.772 1146271.954 1146409.210 1151850.846 1154659.868 
+          1           1           1           1           1           1 
+1156575.350 1167309.105 1177790.191 1190893.874 1196473.997 1228880.724 
+          1           1           1           1           1           1 
+1246383.379 1250459.272 1276394.128 1302814.665 1308570.723 1325292.742 
+          1           1           1           1           1           1 
+1354934.942 1363432.275 1383992.545 1394153.707 1418728.597 1424148.555 
+          1           1           1           1           1           1 
+1429721.395 1438589.646 1440643.324 1466865.812 1475811.608 1491251.114 
+          1           1           1           1           1           1 
+1491435.663 1498903.198 1512675.756 1532969.639 1542658.460 1585629.832 
+          1           1           1           1           1           1 
+1591032.836 1618981.402 1637304.009 1657473.212 1667671.316 1675787.852 
+          1           1           1           1           1           1 
+1682661.369 1686504.331 1732590.200 1740708.527 1749610.120 1770974.671 
+          1           1           1           1           1           1 
+1786489.583 1813319.956 1835946.074 1852637.965 1946880.641 1950497.933 
+          1           1           1           1           1           1 
+1983610.336 1996588.054 2002961.321 2021760.666 2022477.562 2061491.464 
+          1           1           1           1           1           1 
+2077364.264 2110469.016 2118698.602 2159404.791 2230264.367 2258349.389 
+          1           1           1           1           1           1 
+2263054.276 2317658.148 2382056.825 2390035.223 2436024.009 2449550.826 
+          1           1           1           1           1           1 
+2453636.667 2540069.809 2545447.091 2610725.425 2624048.582 2628773.185 
+          1           1           1           1           1           1 
+2685145.127 2688922.121 2695338.730 2736131.059 2837913.353 2864429.705 
+          1           1           1           1           1           1 
+2880396.604 2888123.223 2891591.411 2914038.968 2917460.171 2983399.544 
+          1           1           1           1           1           1 
+3000124.991 3070081.011 3155727.641 3226823.465 3289151.671 3454064.554 
+          1           1           1           1           1           1 
+3477179.365 3620975.746 3676441.965 3678185.252 3692098.460 3716765.085 
+          1           1           1           1           1           1 
+3873854.414 3981096.712 4006560.875 4012351.024 4115948.700 4147793.564 
+          1           1           1           1           1           1 
+4191143.840 4202312.777 4406265.156 4544821.781 4553634.683 4950968.882 
+          1           1           1           1           1           1 
+5025475.429 5117965.494 5268563.446 5346275.700 5406331.249 5583072.690 
+          1           1           1           1           1           1 
+5604911.442 5605940.459 5650523.616 5793197.766 6042732.914 7006586.524 
+          1           1           1           1           1           1 
+8549747.268 
+          1 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/outputs/CAR\_rep\_unrep\_TomFormat.csv"}\NormalTok{)}
+
+\CommentTok{\# format for operating model {-} NED }
+\NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"Intl"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs1))}
+\NormalTok{are }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"NED"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs1))}
+\NormalTok{fin }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs1, qrt1, flt, are, }\FunctionTok{matrix}\NormalTok{(NEDtot)), }\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(fin) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Quarter"}\NormalTok{, }\StringTok{"Fleet"}\NormalTok{, }\StringTok{"Area"}\NormalTok{, }\StringTok{"Catch\_lbs"}\NormalTok{)}
+\NormalTok{fin}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(fin}\SpecialCharTok{$}\NormalTok{Catch\_lbs)}
+\FunctionTok{head}\NormalTok{(fin)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Year Quarter Fleet Area Catch_lbs
+1 2007       1  Intl  NED     0.000
+2 2007       2  Intl  NED  1450.366
+3 2007       3  Intl  NED 13279.912
+4 2007       4  Intl  NED     0.000
+5 2008       1  Intl  NED     0.000
+6 2008       2  Intl  NED  1312.750
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(fin, }\DecValTok{2}\NormalTok{, table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$Year
+
+2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 
+   4    4    4    4    4    4    4    4    4    4    4    4    4    4    4    4 
+
+$Quarter
+
+ 1  2  3  4 
+16 16 16 16 
+
+$Fleet
+
+Intl 
+  64 
+
+$Area
+
+NED 
+ 64 
+
+$Catch_lbs
+
+     0.0000    172.2071   1312.7496   1450.3658   2242.1859   2661.4120 
+         33           1           1           1           1           1 
+  5080.1088   5124.9962   5250.9982   5461.1683   7529.1307   9708.7436 
+          1           1           1           1           1           1 
+ 13279.9117  13518.2557  22170.8813  23742.5934  24859.8919  37049.2036 
+          1           1           1           1           1           1 
+ 39255.8271  39772.1232  57982.8061  89487.2772  93932.0946  94171.8058 
+          1           1           4           1           1           1 
+108201.9757 111054.6782 224735.2547 261488.1078 334210.2501 
+          1           1           1           1           1 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(fin, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/NED\_Intl\_TomFormat.csv"}\NormalTok{)}
+
+\CommentTok{\#barplot(tapply(fin$Catch\_lbs, list(fin$Quarter), sum, na.rm = T), col = rainbow(4))}
+\end{Highlighting}
+\end{Shaded}
 
 \section{References}\label{references}
 
@@ -2573,7 +4783,7 @@ through the FOSS (Fisheries One Stop Shop) data portal. The advantage of
 this portal is that commercial and recreational data are available
 side-by-side in the same units (pounds landed).
 
-\section{Data access and upload}\label{data-access-and-upload-2}
+\section{Data access and upload}\label{data-access-and-upload-3}
 
 Data are downloaded from the NOAA Fisheries
 \href{https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::}{FOSS

@@ -340,6 +340,6 @@ findat <- findat[which(findat$year >=1986 & findat$year <= 2022), ]
 tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)
 colSums(findat[3:10], na.rm = T)
 
-write.csv(findat1, file = "data/rec_formattedTom.csv", row.names = FALSE)
+write.csv(findat1, file = "data/FINAL_files/rec_catch_TomFormat.csv", row.names = FALSE)
 
 ```

@@ -139,6 +139,10 @@ matplot(yrs + qrt/4, cbind(matrix(NED), matrix(NCA))/10^6, lty = 1, lwd = 2,
         col = 2:3, type = "l", main = "International high seas catches by quarter", 
         xlab = "", ylab = "total catch (millions of pounds)")
 legend("topleft", c("NED", "NCA"), lwd = 2, col = 2:3, bty = "n")
+
+# save NED data in this format because it needs to be combined with Canada EEZ catches
+save(NED, file = "data/outputs/NED_year_quarter.RData")
+
 ```
 
 Finally, we format the data in the format for input into the operating model.  
@@ -165,5 +169,5 @@ head(findat)
 #apply(findat, 2, table)
 #barplot(tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T), beside = T, col = rainbow(4))
 
-write.csv(findat, file = "data/outputs/Intl_highseas_TomFormat.csv")
+write.csv(findat, file = "data/FINAL_files/Intl_highseas_TomFormat.csv")
 ```
