@@ -35,8 +35,8 @@ book:
     align: center
     tools: 
       - icon: globe
-        href: https://nmfs-opensci.github.io
-        text: "NMFS Open Science"
+        href: https://www.fisheries.noaa.gov/southeast/science-data/dolphinfish-management-strategy-evaluation-us-atlantic
+        text: "dolphinfish management strategy evaluation"
     style: "docked"
     search: true
     collapse-level: 1
