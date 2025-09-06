@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Analysis of international landings estimates from Sea Around Us database – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>3&nbsp; Analysis of international landings in the high seas – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./SAU_highseas.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us database</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./SAU_highseas.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,25 +181,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_highseas.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us database</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_EEZs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us – territorial waters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./compile_all_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./FOSS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SST.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">SST</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SST</span></span></a>
   </div>
 </li>
     </ul>
@@ -224,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us database</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></h1>
 </div>
 
 
@@ -488,7 +494,7 @@ $end_use_type
 <p>At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/per_PLLcatch_by_area_yearquarter.RData"</span>)  </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/outputs/per_PLLcatch_by_area_yearquarter.RData"</span>)  </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[<span class="fu">which</span>(<span class="fu">rownames</span>(tab) <span class="sc">&gt;=</span> <span class="dv">1997</span>), ]  <span class="co"># PLL data are only available from 1997 on </span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#tab[nrow(tab), ]</span></span>
@@ -971,8 +977,8 @@ $end_use_type
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./SAU_EEZs.html" class="pagination-link" aria-label="Analysis of international landings estimates from Sea Around Us -- territorial waters">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us – territorial waters</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./SAU_EEZs.html" class="pagination-link" aria-label="Analysis of international landings in territorial waters">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

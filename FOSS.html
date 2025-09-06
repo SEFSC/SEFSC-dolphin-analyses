@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; NOAA Fisheries landings data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>6&nbsp; NOAA Fisheries landings data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./SST.html" rel="next">
-<link href="./SAU_EEZs.html" rel="prev">
+<link href="./compile_all_data.html" rel="prev">
 <link href="./assets/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./FOSS.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./FOSS.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,25 +181,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_highseas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us database</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_EEZs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us – territorial waters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./compile_all_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./FOSS.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SST.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">SST</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SST</span></span></a>
   </div>
 </li>
     </ul>
@@ -212,11 +218,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">5.1</span> Data access and upload</a></li>
-  <li><a href="#summarize-the-landings" id="toc-summarize-the-landings" class="nav-link" data-scroll-target="#summarize-the-landings"><span class="header-section-number">5.2</span> Summarize the landings</a></li>
-  <li><a href="#plot-the-summary" id="toc-plot-the-summary" class="nav-link" data-scroll-target="#plot-the-summary"><span class="header-section-number">5.3</span> Plot the summary</a></li>
-  <li><a href="#updated-gulfatlantic-parsing-of-data" id="toc-updated-gulfatlantic-parsing-of-data" class="nav-link" data-scroll-target="#updated-gulfatlantic-parsing-of-data"><span class="header-section-number">5.4</span> Updated Gulf/Atlantic parsing of data</a></li>
-  <li><a href="#plots-with-updated-data" id="toc-plots-with-updated-data" class="nav-link" data-scroll-target="#plots-with-updated-data"><span class="header-section-number">5.5</span> Plots with updated data</a></li>
+  <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">6.1</span> Data access and upload</a></li>
+  <li><a href="#summarize-the-landings" id="toc-summarize-the-landings" class="nav-link" data-scroll-target="#summarize-the-landings"><span class="header-section-number">6.2</span> Summarize the landings</a></li>
+  <li><a href="#plot-the-summary" id="toc-plot-the-summary" class="nav-link" data-scroll-target="#plot-the-summary"><span class="header-section-number">6.3</span> Plot the summary</a></li>
+  <li><a href="#updated-gulfatlantic-parsing-of-data" id="toc-updated-gulfatlantic-parsing-of-data" class="nav-link" data-scroll-target="#updated-gulfatlantic-parsing-of-data"><span class="header-section-number">6.4</span> Updated Gulf/Atlantic parsing of data</a></li>
+  <li><a href="#plots-with-updated-data" id="toc-plots-with-updated-data" class="nav-link" data-scroll-target="#plots-with-updated-data"><span class="header-section-number">6.5</span> Plots with updated data</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/FOSS.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/FOSS.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -225,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NOAA Fisheries landings data</span></h1>
 </div>
 
 
@@ -243,8 +249,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Here we will explore commercial and recreational landings data accessed through the FOSS (Fisheries One Stop Shop) data portal. The advantage of this portal is that commercial and recreational data are available side-by-side in the same units (pounds landed).</p>
-<section id="data-access-and-upload" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">5.1</span> Data access and upload</h2>
+<section id="data-access-and-upload" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">6.1</span> Data access and upload</h2>
 <p>Data are downloaded from the NOAA Fisheries <a href="https://www.fisheries.noaa.gov/foss/f?p=215:200:660844904940::NO:RP::">FOSS site</a>. For the Data Set, we choose both commercial and recreational. For the Years, we select all years from 1980 to the present. For NMFS Region, we select the “NMFS Regions” button and then select the Gulf, South Atlantic, Middle Atlantic and New England from the box. For the Species, we select “Dolphinfish” and “Dolphinfish**.” For Report Format, we choose TOTALS BY YEAR/REGION. Hitting the “RUN REPORT” button then generates the data needed for the subsequent analysis, which can be downloaded as a .csv file under the “Actions” button.</p>
 <p>We then read in the data file and clean it for analysis (removing the commas from the numbers so that R recognizes the values as numbers). We output the file header to make sure it was read in and that the numbers were converted correctly.</p>
 <div class="cell">
@@ -279,8 +285,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="summarize-the-landings" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="summarize-the-landings"><span class="header-section-number">5.2</span> Summarize the landings</h2>
+<section id="summarize-the-landings" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="summarize-the-landings"><span class="header-section-number">6.2</span> Summarize the landings</h2>
 <p>We then summarize the landings (in pounds) by year, sector, and region. The result is a new data frame with each row representing a year and each column representing the total landings for each region and sector.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compile by year for sectors and regions ---------------</span></span>
@@ -342,8 +348,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="plot-the-summary" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="plot-the-summary"><span class="header-section-number">5.3</span> Plot the summary</h2>
+<section id="plot-the-summary" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="plot-the-summary"><span class="header-section-number">6.3</span> Plot the summary</h2>
 <p>Now we plot the data, using similar color schemes by region. Because the recreational data have high imprecision prior to the 1990s we plot from 1990 to the last year of data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select years ---------------------</span></span>
@@ -374,8 +380,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="updated-gulfatlantic-parsing-of-data" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="updated-gulfatlantic-parsing-of-data"><span class="header-section-number">5.4</span> Updated Gulf/Atlantic parsing of data</h2>
+<section id="updated-gulfatlantic-parsing-of-data" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="updated-gulfatlantic-parsing-of-data"><span class="header-section-number">6.4</span> Updated Gulf/Atlantic parsing of data</h2>
 <p>There are some issues with the way that the FOSS system splits out Gulf and Atlantic catches by Monroe County, which is on the border between the two jurisdictions. We received data from Mike Larkin (SERO) which has the correct split out of data for Monroe County between the Gulf and Atlantic. We compare the total recreational catch for the Gulf and Atlantic between the FOSS data and the updated data. The numbers are very close; the average difference from the FOSS data is 2%.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv"</span>, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">skip =</span> <span class="dv">6</span>)</span>
@@ -457,8 +463,8 @@ logical      31 </code></pre>
 </div>
 </div>
 </section>
-<section id="plots-with-updated-data" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="plots-with-updated-data"><span class="header-section-number">5.5</span> Plots with updated data</h2>
+<section id="plots-with-updated-data" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="plots-with-updated-data"><span class="header-section-number">6.5</span> Plots with updated data</h2>
 <p>We replace the FOSS values for Gulf and South Atlantic recreational catches with these new values and re-plot the full data set. We can also plot the landings as a line graph so that the relative magnitudes of catch across region and sector are more easily compared.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -882,13 +888,13 @@ logical      31 </code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./SAU_EEZs.html" class="pagination-link" aria-label="Analysis of international landings estimates from Sea Around Us -- territorial waters">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings estimates from Sea Around Us – territorial waters</span></span>
+      <a href="./compile_all_data.html" class="pagination-link" aria-label="Data compilation for all fleets in the operating model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./SST.html" class="pagination-link" aria-label="SST">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">SST</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SST</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
