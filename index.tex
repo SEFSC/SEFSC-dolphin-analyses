@@ -2956,8 +2956,8 @@ VBM   5736592  37749487
 
 \bookmarksetup{startatroot}
 
-\chapter{Analysis of international landings estimates from Sea Around Us
-database}\label{analysis-of-international-landings-estimates-from-sea-around-us-database}
+\chapter{Analysis of international landings in the high
+seas}\label{analysis-of-international-landings-in-the-high-seas}
 
 Here we will explore commercial and recreational landings data as
 estimated by the \href{https://www.seaaroundus.org/data/\#/eez}{Sea
@@ -3288,7 +3288,7 @@ At the time of analysis, the SAU database only contained catches to
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# read in the percentage of the catch by area and year{-}quarter combinations from the U.S. PLL}
-\FunctionTok{load}\NormalTok{(}\StringTok{"data/per\_PLLcatch\_by\_area\_yearquarter.RData"}\NormalTok{)  }
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/outputs/per\_PLLcatch\_by\_area\_yearquarter.RData"}\NormalTok{)  }
 
 \NormalTok{tab }\OtherTok{\textless{}{-}}\NormalTok{ tab[}\FunctionTok{which}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab) }\SpecialCharTok{\textgreater{}=} \DecValTok{1997}\NormalTok{), ]  }\CommentTok{\# PLL data are only available from 1997 on }
 \CommentTok{\#tab[nrow(tab), ]}
@@ -3381,9 +3381,8 @@ model.
 
 \bookmarksetup{startatroot}
 
-\chapter{Analysis of international landings estimates from Sea Around Us
--- territorial
-waters}\label{analysis-of-international-landings-estimates-from-sea-around-us-territorial-waters}
+\chapter{Analysis of international landings in territorial
+waters}\label{analysis-of-international-landings-in-territorial-waters}
 
 \section{Data access and upload}\label{data-access-and-upload-2}
 
@@ -4379,7 +4378,7 @@ At the time of analysis, the SAU database only contained catches to
 \CommentTok{\#barplot(tapply(dc$lbs, dc$gear\_type, sum, na.rm = T), horiz = T, las = 2)}
 
 \CommentTok{\# read in the percentage of the catch by area and year{-}quarter combinations from the U.S. PLL}
-\FunctionTok{load}\NormalTok{(}\StringTok{"data/per\_PLLcatch\_by\_area\_yearquarter.RData"}\NormalTok{)  }
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/outputs/per\_PLLcatch\_by\_area\_yearquarter.RData"}\NormalTok{)  }
 
 \NormalTok{percatch[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, ] }\CommentTok{\# matrix 2 == Caribbean, matrix 7 == NED (Atlantic Northwest)}
 \end{Highlighting}
@@ -4772,6 +4771,210 @@ $Catch_lbs
 
 Pauly D., Zeller D., Palomares M.L.D. (Editors), 2020. Sea Around Us
 Concepts, Design and Data (seaaroundus.org).
+
+\bookmarksetup{startatroot}
+
+\chapter{Data compilation for all fleets in the operating
+model}\label{data-compilation-for-all-fleets-in-the-operating-model}
+
+In this last step we will compile all of the output data files from the
+different data sources (NMFS commercial trip tickets, NMFS recreational
+statistics, Sea Around Us) and check the files for accuracy.\\
+\#\# Data upload
+
+First we access all of the final data files from the previous steps.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# clear workspace}
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\CommentTok{\# view data files in directory}
+\FunctionTok{dir}\NormalTok{(}\StringTok{"data/FINAL\_files/"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "CAR_rep_unrep_TomFormat.csv"         "commercial_TomFormat.csv"           
+[3] "complete_catch_dataset_09052025.csv" "Intl_highseas_TomFormat.csv"        
+[5] "NED_Intl_TomFormat.csv"              "rec_catch_TomFormat.csv"            
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{intc }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/CAR\_rep\_unrep\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{inth }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/Intl\_highseas\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{intn }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/NED\_Intl\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{com }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/commercial\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{rec }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/rec\_catch\_TomFormat.csv"}\NormalTok{)}
+
+\CommentTok{\#head(intc)}
+\CommentTok{\#head(inth)}
+\CommentTok{\#head(intn)}
+\CommentTok{\#head(com)}
+\CommentTok{\#head(rec)}
+
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(intc, inth, intn, com, rec)}
+
+\CommentTok{\# check for zeros and NAs}
+\CommentTok{\#hist(d$Catch\_lbs)}
+\FunctionTok{table}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+FALSE  TRUE 
+ 2078   710 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+FALSE 
+ 2788 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(d, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{ (x) }\FunctionTok{table}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     Year   Quarter     Fleet      Area Catch_lbs 
+     2788      2788      2788      2788      2788 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# resort levels geographically}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{Area }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Area, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"NCA"}\NormalTok{, }\StringTok{"CAR"}\NormalTok{, }\StringTok{"FLK"}\NormalTok{, }\StringTok{"NCFL"}\NormalTok{, }\StringTok{"NNC"}\NormalTok{, }\StringTok{"VBM"}\NormalTok{, }\StringTok{"NED"}\NormalTok{))}
+\NormalTok{d}\SpecialCharTok{$}\NormalTok{Fleet }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Fleet, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Rec"}\NormalTok{, }\StringTok{"Hire"}\NormalTok{, }\StringTok{"UScom"}\NormalTok{, }\StringTok{"Intl"}\NormalTok{, }\StringTok{"UnRep"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Recall that there are seven defined areas in the operating model, over
+which the catches are summed. Four of these areas are within the U.S.
+EEZ and the other three areas are international waters (high seas and
+jurisdictional waters of other countries).
+
+\begin{figure}[H]
+
+{\centering \includegraphics{data/eez/new_spatial_zones1.png}
+
+}
+
+\caption{Areas defined in the operating model.}
+
+\end{figure}%
+
+\section{Visualizing the final data
+set}\label{visualizing-the-final-data-set}
+
+We plot the final data set in a number of different ways to detect any
+errors that may have occurred during processing.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plot the total catches by each factor}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mex =} \FloatTok{0.7}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, d}\SpecialCharTok{$}\NormalTok{Year, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{,}
+        \AttributeTok{main =} \StringTok{"Total catch by year"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, d}\SpecialCharTok{$}\NormalTok{Quarter, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }
+        \AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Total catch by quarter"}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, d}\SpecialCharTok{$}\NormalTok{Fleet, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }
+        \AttributeTok{main =} \StringTok{"Total catch by fleet"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\FunctionTok{barplot}\NormalTok{(}\FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, d}\SpecialCharTok{$}\NormalTok{Area, sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }
+        \AttributeTok{main =} \StringTok{"Total catch by area"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{compile_all_data_files/figure-pdf/unnamed-chunk-2-1.pdf}
+
+The total catch in the regions analyzed is highly variable but
+relatively stable over time with a slight decrease in recent years. Most
+of the catch is caught in quarter 2 (March - May). The largest sector is
+the U.S. private recreational sector, followed by international fleets
+(all types), the for-hire fleet and then the U.S. commercial fleet. Most
+of the fishing activity takes place in the Florida Keys and the Greater
+Caribbean, with other regions contributing much less.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Fleet, d}\SpecialCharTok{$}\NormalTok{Area), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}
+\FunctionTok{barplot}\NormalTok{(tab, }\AttributeTok{beside =}\NormalTok{ T, }\AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{rownames}\NormalTok{(tab),}
+        \AttributeTok{main =} \StringTok{"Total dolphin catch by area and fleet"}\NormalTok{, }
+        \AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{compile_all_data_files/figure-pdf/unnamed-chunk-3-1.pdf}
+
+As expected, U.S. recreational fishing (private and for-hire) only takes
+place in the four U.S. EEZ regions (FLK, NCFL, NNC and VBM). The U.S.
+commercial fishery operates largely in those four U.S. EEZ regions, with
+small amounts of catch in the high seas of NCA, CAR and NED regions.
+International catches occur largely in the Caribbean, with lesser
+amounts in the NCA and NED high seas regions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Quarter, d}\SpecialCharTok{$}\NormalTok{Area), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}
+\NormalTok{tabp }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(tab, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(x, }\AttributeTok{na.rm =}\NormalTok{ T))}
+
+\FunctionTok{barplot}\NormalTok{(tabp, }\AttributeTok{beside =}\NormalTok{ T, }\AttributeTok{col =} \FunctionTok{rainbow}\NormalTok{(}\DecValTok{4}\NormalTok{), }
+        \AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"winter (DJF)"}\NormalTok{, }\StringTok{"spring (MAM)"}\NormalTok{, }\StringTok{"summer (JJA)"}\NormalTok{, }\StringTok{"fall (SON)"}\NormalTok{), }
+        \AttributeTok{args.legend =} \FunctionTok{list}\NormalTok{(}\AttributeTok{x =} \DecValTok{15}\NormalTok{, }\AttributeTok{y =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{), }
+        \AttributeTok{main =} \StringTok{"Total dolphin catch by area and season"}\NormalTok{, }
+        \AttributeTok{ylab =} \StringTok{"proportion of catch)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{compile_all_data_files/figure-pdf/unnamed-chunk-4-1.pdf}
+
+This plot shows the seasonal movements of dolphin across the different
+regions, as expressed through the proportion of catch that occurs in
+each quarter within each area. In the NCA and CAR regions, most of the
+catch occurs in winter, whereas in the U.S. South Atlantic regions, most
+of the catch occurs in spring and summer. In the U.S. Mid-Atlantic the
+catch also occurs largely in spring, and also fall. In the NED region
+most of the catch occurs in summer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Year, d}\SpecialCharTok{$}\NormalTok{Fleet), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}
+
+\FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab), tab, }
+        \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"navy"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"darkturquoise"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"pink"}\NormalTok{), }
+        \AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+        \AttributeTok{main =} \StringTok{"Total annual dolphin catch by fleet"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{""}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"top"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }
+       \FunctionTok{c}\NormalTok{(}\StringTok{"U.S. private rec"}\NormalTok{, }\StringTok{"U.S. for{-}hire"}\NormalTok{, }\StringTok{"U.S. commercial"}\NormalTok{, }
+         \StringTok{"International"}\NormalTok{, }\StringTok{"Unreported"}\NormalTok{),}
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"navy"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"darkturquoise"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"pink"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{compile_all_data_files/figure-pdf/unnamed-chunk-5-1.pdf}
+
+This plot shows the time series of total annual dolphin catches by
+fleet. We can compare these figures with the plots from the previous
+chapters to ensure the data were processed correctly. The magnitude and
+variability of the landings match the expectations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(d, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/complete\_catch\_dataset\_09052025.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \bookmarksetup{startatroot}
 

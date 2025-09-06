@@ -1,4 +1,4 @@
-# Analysis of international landings estimates from Sea Around Us database
+# Analysis of international landings in the high seas
 
 Here we will explore commercial and recreational landings data as estimated by the [Sea Around Us Project](https://www.seaaroundus.org/data/#/eez). This data set includes reported data for fisheries worldwide as well as reconstructed estimates for unreported landings. For each country, project scientists assemble available data on landings and use additional sociological and fishing data plus expert information and opinion, to produce their best estimates of total landings from all fishing sectors and for all species globally.
 
@@ -116,7 +116,7 @@ At the time of analysis, the SAU database only contained catches to 2019, so we 
 #| echo: true
 
 # read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL
-load("data/per_PLLcatch_by_area_yearquarter.RData")  
+load("data/outputs/per_PLLcatch_by_area_yearquarter.RData")  
 
 tab <- tab[which(rownames(tab) >= 1997), ]  # PLL data are only available from 1997 on 
 #tab[nrow(tab), ]

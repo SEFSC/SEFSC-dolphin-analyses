@@ -1,4 +1,4 @@
-# Analysis of international landings estimates from Sea Around Us -- territorial waters
+# Analysis of international landings in territorial waters
 
 ## Data access and upload
 
@@ -360,7 +360,7 @@ At the time of analysis, the SAU database only contained catches to 2019, so we 
 #barplot(tapply(dc$lbs, dc$gear_type, sum, na.rm = T), horiz = T, las = 2)
 
 # read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL
-load("data/per_PLLcatch_by_area_yearquarter.RData")  
+load("data/outputs/per_PLLcatch_by_area_yearquarter.RData")  
 
 percatch[1, 1, ] # matrix 2 == Caribbean, matrix 7 == NED (Atlantic Northwest)
 

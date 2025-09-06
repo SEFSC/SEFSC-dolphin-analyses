@@ -21,6 +21,7 @@ book:
     - MRIP.qmd
     - SAU_highseas.qmd
     - SAU_EEZs.qmd
+    - compile_all_data.qmd
     - FOSS.qmd
     - SST.qmd
     

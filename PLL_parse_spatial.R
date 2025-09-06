@@ -393,8 +393,7 @@ findat <- findat[which(findat$Year <= 2022), ]
 
 apply(findat, 2, table)
 
-write.csv(findat, file = "C:/Users/mandy.karnauskas/Desktop/CONFIDENTIAL/commercial_TomFormat.csv", row.names = FALSE)
-
+write.csv(findat, file = "data/FINAL_files/commercial_TomFormat.csv", row.names = FALSE)
 
 findat$Area <- factor(findat$Area, levels = c("", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
 
