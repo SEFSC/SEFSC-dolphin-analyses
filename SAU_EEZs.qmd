@@ -444,7 +444,7 @@ plot(findat$Catch_lbs ~ factor(findat$Quarter))
 plot(findat$Catch_lbs ~ factor(findat$Year))
 apply(findat, 2, table)
 
-write.csv(findat, file = "data/FINAL_files/CAR_rep_unrep_TomFormat.csv", row.names = FALSE)
+write.csv(findat, file = "data/FINAL_files/CAR_Intl_unrep_TomFormat.csv", row.names = FALSE)
 
 # format for operating model - NED 
 flt <- rep("Intl", length(yrs1))

@@ -14,25 +14,23 @@ rm(list = ls())
 # view data files in directory
 dir("data/FINAL_files/")
 
-intc <- read.csv("data/FINAL_files/CAR_rep_unrep_TomFormat.csv")
-inth <- read.csv("data/FINAL_files/Intl_highseas_TomFormat.csv")
-intn <- read.csv("data/FINAL_files/NED_Intl_TomFormat.csv")
+intc <- read.csv("data/FINAL_files/CAR_Intl_unrep_TomFormat.csv")
+intn <- read.csv("data/FINAL_files/NCA_Intl_TomFormat.csv")
+intw <- read.csv("data/FINAL_files/NED_Intl_TomFormat.csv")
 com <- read.csv("data/FINAL_files/commercial_TomFormat.csv")
 rec <- read.csv("data/FINAL_files/rec_catch_TomFormat.csv")
 
-#head(intc)
-#head(inth)
-#head(intn)
-#head(com)
-#head(rec)
+apply(intc[1:4], 2, table, useNA = "always")
+apply(intn[1:4], 2, table, useNA = "always")
+apply(intw[1:4], 2, table, useNA = "always")
+apply(com[1:4], 2, table, useNA = "always")
+apply(rec[1:4], 2, table, useNA = "always")
 
-d <- rbind(intc, inth, intn, com, rec)
+d <- rbind(intc, intn, intw, com, rec)
 
 # check for zeros and NAs
 #hist(d$Catch_lbs)
 table(d$Catch_lbs == 0)
-table(is.na(d$Catch_lbs))
-apply(d, 2, function (x) table(is.na(x)))
 
 # resort levels geographically
 d$Area <- factor(d$Area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
@@ -48,6 +46,7 @@ We plot the final data set in a number of different ways to detect any errors th
 
 ```{r}
 #| echo: true
+#| fig-width: 9
 
 # plot the total catches by each factor
 par(mfrow = c(2, 2), mex = 0.7)
@@ -64,9 +63,13 @@ The total catch in the regions analyzed is highly variable but relatively stable
 
 ```{r}
 #| echo: true
-par(mfrow = c(1, 1))
+#| fig-height: 4
+
+
+par(mfrow = c(1, 1), mar = c(2, 5, 3, 1))
 tab <- tapply(d$Catch_lbs, list(d$Fleet, d$Area), sum, na.rm = T)/10^6
-barplot(tab, beside = T, col = 2:6, legend = rownames(tab),
+barplot(tab, beside = T, col = c("navy", "blue", "darkturquoise", "red", "pink")
+        , legend = rownames(tab),
         main = "Total dolphin catch by area and fleet", 
         ylab = "total catch (millions of pounds)")
 ```
@@ -78,11 +81,12 @@ As expected, U.S. recreational fishing (private and for-hire) only takes place i
 tab <- tapply(d$Catch_lbs, list(d$Quarter, d$Area), sum, na.rm = T)/10^6
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
 
+par(mar = c(2, 4, 3, 1))
 barplot(tabp, beside = T, col = rainbow(4), 
         legend = c("winter (DJF)", "spring (MAM)", "summer (JJA)", "fall (SON)"), 
         args.legend = list(x = 15, y = 0.7, bty = "n"), 
         main = "Total dolphin catch by area and season", 
-        ylab = "proportion of catch)")
+        ylab = "proportion of catch")
 ```
 
 This plot shows the seasonal movements of dolphin across the different regions, as expressed through the proportion of catch that occurs in each quarter within each area. In the NCA and CAR regions, most of the catch occurs in winter, whereas in the U.S. South Atlantic regions, most of the catch occurs in spring and summer. In the U.S. Mid-Atlantic the catch also occurs largely in spring, and also fall. In the NED region most of the catch occurs in summer.  
@@ -92,12 +96,13 @@ This plot shows the seasonal movements of dolphin across the different regions, 
 
 tab <- tapply(d$Catch_lbs, list(d$Year, d$Fleet), sum, na.rm = T)/10^6
 
+par(mar = c(2, 4, 3, 1))
 matplot(rownames(tab), tab, 
         col = c("navy", "blue", "darkturquoise", "red", "pink"), 
         type = "l", lwd = 2, lty = c(rep(1, 3), 2, 2), 
         main = "Total annual dolphin catch by fleet", xlab = "",
         ylab = "total catch (millions of pounds)")
-legend("top", lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
+legend(2002, 25, lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
        c("U.S. private rec", "U.S. for-hire", "U.S. commercial", 
          "International", "Unreported"),
        col = c("navy", "blue", "darkturquoise", "red", "pink"))
@@ -107,5 +112,5 @@ This plot shows the time series of total annual dolphin catches by fleet.  We ca
 
 ```{r}
 #| echo: true
-write.csv(d, file = "data/FINAL_files/complete_catch_dataset_09052025.csv", row.names = FALSE)
+write.csv(d, file = "data/FINAL_files/complete_catch_dataset_09052025b.csv", row.names = FALSE)
 ```

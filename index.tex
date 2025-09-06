@@ -3338,18 +3338,16 @@ At the time of analysis, the SAU database only contained catches to
 \end{Shaded}
 
 Finally, we format the data in the format for input into the operating
-model.
+model. We only include NCA here, as the NED high seas catches must be
+combined with international catches in territorial waters of Canada and
+France in the NED region.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# format for operating model}
 \NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"Intl"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
-\NormalTok{are }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"NED"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
-\NormalTok{fin1 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(NED)))}
 \NormalTok{are }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"NCA"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs))}
-\NormalTok{fin2 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(NCA)))}
-
-\NormalTok{findat }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{rbind}\NormalTok{(fin1, fin2), }\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{findat }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(yrs, qrt, flt, are, }\FunctionTok{matrix}\NormalTok{(NCA)))}
 \FunctionTok{names}\NormalTok{(findat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Quarter"}\NormalTok{, }\StringTok{"Fleet"}\NormalTok{, }\StringTok{"Area"}\NormalTok{, }\StringTok{"Catch\_lbs"}\NormalTok{)}
 \NormalTok{findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(findat}\SpecialCharTok{$}\NormalTok{Catch\_lbs)}
 \FunctionTok{head}\NormalTok{(findat)}
@@ -3358,12 +3356,12 @@ model.
 
 \begin{verbatim}
   Year Quarter Fleet Area Catch_lbs
-1 1997       1  Intl  NED         0
-2 1997       2  Intl  NED         0
-3 1997       3  Intl  NED         0
-4 1997       4  Intl  NED         0
-5 1998       1  Intl  NED         0
-6 1998       2  Intl  NED         0
+1 1997       1  Intl  NCA         0
+2 1997       2  Intl  NCA         0
+3 1997       3  Intl  NCA         0
+4 1997       4  Intl  NCA         0
+5 1998       1  Intl  NCA         0
+6 1998       2  Intl  NCA         0
 \end{verbatim}
 
 \begin{Shaded}
@@ -3375,7 +3373,7 @@ model.
 \CommentTok{\#apply(findat, 2, table)}
 \CommentTok{\#barplot(tapply(findat$Catch\_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T), beside = T, col = rainbow(4))}
 
-\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/Intl\_highseas\_TomFormat.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/NCA\_Intl\_TomFormat.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4696,7 +4694,7 @@ $Catch_lbs
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/CAR\_rep\_unrep\_TomFormat.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(findat, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/CAR\_Intl\_unrep\_TomFormat.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 
 \CommentTok{\# format for operating model {-} NED }
 \NormalTok{flt }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"Intl"}\NormalTok{, }\FunctionTok{length}\NormalTok{(yrs1))}
@@ -4795,26 +4793,179 @@ First we access all of the final data files from the previous steps.
 \end{Shaded}
 
 \begin{verbatim}
-[1] "CAR_rep_unrep_TomFormat.csv"         "commercial_TomFormat.csv"           
-[3] "complete_catch_dataset_09052025.csv" "Intl_highseas_TomFormat.csv"        
-[5] "NED_Intl_TomFormat.csv"              "rec_catch_TomFormat.csv"            
+[1] "CAR_Intl_unrep_TomFormat.csv"        
+[2] "commercial_TomFormat.csv"            
+[3] "complete_catch_dataset_09052025b.csv"
+[4] "NCA_Intl_TomFormat.csv"              
+[5] "NED_Intl_TomFormat.csv"              
+[6] "rec_catch_TomFormat.csv"             
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{intc }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/CAR\_rep\_unrep\_TomFormat.csv"}\NormalTok{)}
-\NormalTok{inth }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/Intl\_highseas\_TomFormat.csv"}\NormalTok{)}
-\NormalTok{intn }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/NED\_Intl\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{intc }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/CAR\_Intl\_unrep\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{intn }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/NCA\_Intl\_TomFormat.csv"}\NormalTok{)}
+\NormalTok{intw }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/NED\_Intl\_TomFormat.csv"}\NormalTok{)}
 \NormalTok{com }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/commercial\_TomFormat.csv"}\NormalTok{)}
 \NormalTok{rec }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/FINAL\_files/rec\_catch\_TomFormat.csv"}\NormalTok{)}
 
-\CommentTok{\#head(intc)}
-\CommentTok{\#head(inth)}
-\CommentTok{\#head(intn)}
-\CommentTok{\#head(com)}
-\CommentTok{\#head(rec)}
+\FunctionTok{apply}\NormalTok{(intc[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{], }\DecValTok{2}\NormalTok{, table, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(intc, inth, intn, com, rec)}
+\begin{verbatim}
+$Year
+
+1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 
+   8    8    8    8    8    8    8    8    8    8    8    8    8    8    8    8 
+2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 
+   8    8    8    8    8    8    8    8    8    8    8    8    8    8    8    8 
+2018 2019 2020 2021 2022 <NA> 
+   8    8    8    8    8    0 
+
+$Quarter
+
+   1    2    3    4 <NA> 
+  74   74   74   74    0 
+
+$Fleet
+
+ Intl UnRep  <NA> 
+  148   148     0 
+
+$Area
+
+ CAR <NA> 
+ 296    0 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(intn[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{], }\DecValTok{2}\NormalTok{, table, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$Year
+
+1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 
+   4    4    4    4    4    4    4    4    4    4    4    4    4    4    4    4 
+2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 <NA> 
+   4    4    4    4    4    4    4    4    4    4    0 
+
+$Quarter
+
+   1    2    3    4 <NA> 
+  26   26   26   26    0 
+
+$Fleet
+
+Intl <NA> 
+ 104    0 
+
+$Area
+
+ NCA <NA> 
+ 104    0 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(intw[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{], }\DecValTok{2}\NormalTok{, table, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$Year
+
+2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 
+   4    4    4    4    4    4    4    4    4    4    4    4    4    4    4    4 
+<NA> 
+   0 
+
+$Quarter
+
+   1    2    3    4 <NA> 
+  16   16   16   16    0 
+
+$Fleet
+
+Intl <NA> 
+  64    0 
+
+$Area
+
+ NED <NA> 
+  64    0 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(com[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{], }\DecValTok{2}\NormalTok{, table, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$Year
+
+1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 
+  28   28   28   28   28   28   28   28   28   28   28   28   28   28   28   28 
+2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 
+  28   28   28   28   28   28   28   28   28   28   28   28   28   28   28   28 
+2018 2019 2020 2021 2022 <NA> 
+  28   28   28   28   28    0 
+
+$Quarter
+
+   1    2    3    4 <NA> 
+ 259  259  259  259    0 
+
+$Fleet
+
+UScom  <NA> 
+ 1036     0 
+
+$Area
+
+ CAR  FLK  NCA NCFL  NED  NNC  VBM <NA> 
+ 148  148  148  148  148  148  148    0 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(rec[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{], }\DecValTok{2}\NormalTok{, table, }\AttributeTok{useNA =} \StringTok{"always"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$Year
+
+1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 
+  32   32   32   32   32   32   32   32   32   32   32   32   32   32   32   32 
+2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 
+  32   32   32   32   32   32   32   32   32   32   32   32   32   32   32   32 
+2018 2019 2020 2021 2022 <NA> 
+  32   32   32   32   32    0 
+
+$Quarter
+
+   1    2    3    4 <NA> 
+ 296  296  296  296    0 
+
+$Fleet
+
+Hire  Rec <NA> 
+ 592  592    0 
+
+$Area
+
+ FLK NCFL  NNC  VBM <NA> 
+ 296  296  296  296    0 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(intc, intn, intw, com, rec)}
 
 \CommentTok{\# check for zeros and NAs}
 \CommentTok{\#hist(d$Catch\_lbs)}
@@ -4825,30 +4976,7 @@ First we access all of the final data files from the previous steps.
 \begin{verbatim}
 
 FALSE  TRUE 
- 2078   710 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{table}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-FALSE 
- 2788 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{apply}\NormalTok{(d, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{ (x) }\FunctionTok{table}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x)))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     Year   Quarter     Fleet      Area Catch_lbs 
-     2788      2788      2788      2788      2788 
+ 2047   637 
 \end{verbatim}
 
 \begin{Shaded}
@@ -4907,9 +5035,10 @@ Caribbean, with other regions contributing much less.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{))}
 \NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Fleet, d}\SpecialCharTok{$}\NormalTok{Area), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}
-\FunctionTok{barplot}\NormalTok{(tab, }\AttributeTok{beside =}\NormalTok{ T, }\AttributeTok{col =} \DecValTok{2}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{rownames}\NormalTok{(tab),}
+\FunctionTok{barplot}\NormalTok{(tab, }\AttributeTok{beside =}\NormalTok{ T, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"navy"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"darkturquoise"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"pink"}\NormalTok{)}
+\NormalTok{        , }\AttributeTok{legend =} \FunctionTok{rownames}\NormalTok{(tab),}
         \AttributeTok{main =} \StringTok{"Total dolphin catch by area and fleet"}\NormalTok{, }
         \AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
 \end{Highlighting}
@@ -4929,11 +5058,12 @@ amounts in the NCA and NED high seas regions.
 \NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Quarter, d}\SpecialCharTok{$}\NormalTok{Area), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}
 \NormalTok{tabp }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(tab, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(x, }\AttributeTok{na.rm =}\NormalTok{ T))}
 
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{))}
 \FunctionTok{barplot}\NormalTok{(tabp, }\AttributeTok{beside =}\NormalTok{ T, }\AttributeTok{col =} \FunctionTok{rainbow}\NormalTok{(}\DecValTok{4}\NormalTok{), }
         \AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"winter (DJF)"}\NormalTok{, }\StringTok{"spring (MAM)"}\NormalTok{, }\StringTok{"summer (JJA)"}\NormalTok{, }\StringTok{"fall (SON)"}\NormalTok{), }
         \AttributeTok{args.legend =} \FunctionTok{list}\NormalTok{(}\AttributeTok{x =} \DecValTok{15}\NormalTok{, }\AttributeTok{y =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{), }
         \AttributeTok{main =} \StringTok{"Total dolphin catch by area and season"}\NormalTok{, }
-        \AttributeTok{ylab =} \StringTok{"proportion of catch)"}\NormalTok{)}
+        \AttributeTok{ylab =} \StringTok{"proportion of catch"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4951,12 +5081,13 @@ most of the catch occurs in summer.
 \begin{Highlighting}[]
 \NormalTok{tab }\OtherTok{\textless{}{-}} \FunctionTok{tapply}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Catch\_lbs, }\FunctionTok{list}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{Year, d}\SpecialCharTok{$}\NormalTok{Fleet), sum, }\AttributeTok{na.rm =}\NormalTok{ T)}\SpecialCharTok{/}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}
 
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{))}
 \FunctionTok{matplot}\NormalTok{(}\FunctionTok{rownames}\NormalTok{(tab), tab, }
         \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"navy"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"darkturquoise"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"pink"}\NormalTok{), }
         \AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }
         \AttributeTok{main =} \StringTok{"Total annual dolphin catch by fleet"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{""}\NormalTok{,}
         \AttributeTok{ylab =} \StringTok{"total catch (millions of pounds)"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"top"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }
+\FunctionTok{legend}\NormalTok{(}\DecValTok{2002}\NormalTok{, }\DecValTok{25}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{bty =} \StringTok{"n"}\NormalTok{, }
        \FunctionTok{c}\NormalTok{(}\StringTok{"U.S. private rec"}\NormalTok{, }\StringTok{"U.S. for{-}hire"}\NormalTok{, }\StringTok{"U.S. commercial"}\NormalTok{, }
          \StringTok{"International"}\NormalTok{, }\StringTok{"Unreported"}\NormalTok{),}
        \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"navy"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"darkturquoise"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"pink"}\NormalTok{))}
@@ -4972,7 +5103,7 @@ variability of the landings match the expectations.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{write.csv}\NormalTok{(d, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/complete\_catch\_dataset\_09052025.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.csv}\NormalTok{(d, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/complete\_catch\_dataset\_09052025b.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

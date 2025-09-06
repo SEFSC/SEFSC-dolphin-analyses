@@ -145,19 +145,15 @@ save(NED, file = "data/outputs/NED_year_quarter.RData")
 
 ```
 
-Finally, we format the data in the format for input into the operating model.  
+Finally, we format the data in the format for input into the operating model. We only include NCA here, as the NED high seas catches must be combined with international catches in territorial waters of Canada and France in the NED region.   
 
 ```{r}
 #| echo: true
 
 # format for operating model
 flt <- rep("Intl", length(yrs))
-are <- rep("NED", length(yrs))
-fin1 <- data.frame(cbind(yrs, qrt, flt, are, matrix(NED)))
 are <- rep("NCA", length(yrs))
-fin2 <- data.frame(cbind(yrs, qrt, flt, are, matrix(NCA)))
-
-findat <- data.frame(rbind(fin1, fin2), stringsAsFactors = FALSE)
+findat <- data.frame(cbind(yrs, qrt, flt, are, matrix(NCA)))
 names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
 findat$Catch_lbs <- as.numeric(findat$Catch_lbs)
 head(findat)
@@ -169,5 +165,5 @@ head(findat)
 #apply(findat, 2, table)
 #barplot(tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T), beside = T, col = rainbow(4))
 
-write.csv(findat, file = "data/FINAL_files/Intl_highseas_TomFormat.csv", row.names = FALSE)
+write.csv(findat, file = "data/FINAL_files/NCA_Intl_TomFormat.csv", row.names = FALSE)
 ```
