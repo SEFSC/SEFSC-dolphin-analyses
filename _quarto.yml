@@ -18,6 +18,7 @@ book:
           
   chapters:
     - index.qmd
+    - makeEEZ.qmd
     - MRIP.qmd
     - SAU_highseas.qmd
     - SAU_EEZs.qmd

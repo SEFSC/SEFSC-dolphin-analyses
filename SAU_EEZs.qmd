@@ -2,7 +2,7 @@
 
 ## Data access and upload
 
-For catches within each country's exclusive economic zones, data are downloaded download data from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity) (Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. 
+For catches within each country's exclusive economic zones, data are downloaded from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity) (Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. 
 
 ## Read in the landings within excluzive economic zones (EEZs)
 
@@ -148,7 +148,8 @@ Now we summarize the catch by region by grouping the catch across the EEZs by re
 
 ```{r}
 #| echo: true
-#| fig-width: 10
+#| fig-width: 9
+#| fig-height: 9
 
 # summarize EEZ catch by region
 tab <- tapply(d$lbs, list(d$year, d$reg), sum, na.rm = T)
