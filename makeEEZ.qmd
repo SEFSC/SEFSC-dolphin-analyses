@@ -13,22 +13,21 @@ We download the U.S. Atlantic EEZ from [Marineregions.org](https://www.marinereg
 #| echo: true
 
 # clear workspace and load the libraries
-
-if (!requireNamespace("sf", quietly = TRUE)) {
-  install.packages("sf") }
 if (!requireNamespace("maps", quietly = TRUE)) {
   install.packages("maps") }
-library(sf)
 library(maps)
 
 rm(list = ls())
 
 # read in the shapefile downloaded from Marineregions.org
-shp_data <- st_read("data/eez/eez.shp")
+#library(sf)
+#shp_data <- st_read("data/eez/eez.shp")
+#coords <- st_coordinates(shp_data)
+#co <- as.data.frame(coords)
+#save(co, file = "data/eez/Marineregions_EEZ.RData")
 
-coords <- st_coordinates(shp_data)
-co <- as.data.frame(coords)
-head(coords)
+load("data/eez/Marineregions_EEZ.RData")
+head(co)
 map("usa", xlim = c(-140, -60), ylim = c(20, 50))
 axis(1); axis(2); box()
 points(co$X, co$Y, pch = 19, col = 2)
