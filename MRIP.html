@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; NOAA Fisheries recreational landings data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>3&nbsp; NOAA Fisheries recreational catch data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./MRIP.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./MRIP.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -193,13 +193,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_highseas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international catches in the high seas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_EEZs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis of international catches in territorial waters</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -219,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">3.1</span> Data access and upload</a></li>
-  <li><a href="#separate-gulf-and-atlantic-recreational-landings" id="toc-separate-gulf-and-atlantic-recreational-landings" class="nav-link" data-scroll-target="#separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational landings</a></li>
+  <li><a href="#separate-gulf-and-atlantic-recreational-catches" id="toc-separate-gulf-and-atlantic-recreational-catches" class="nav-link" data-scroll-target="#separate-gulf-and-atlantic-recreational-catches"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational catches</a></li>
   <li><a href="#partition-catches-by-area-and-sector" id="toc-partition-catches-by-area-and-sector" class="nav-link" data-scroll-target="#partition-catches-by-area-and-sector"><span class="header-section-number">3.3</span> Partition catches by area and sector</a></li>
   <li><a href="#looking-at-extent-of-discarding" id="toc-looking-at-extent-of-discarding" class="nav-link" data-scroll-target="#looking-at-extent-of-discarding"><span class="header-section-number">3.4</span> Looking at extent of discarding</a></li>
   <li><a href="#split-the-catches-by-season" id="toc-split-the-catches-by-season" class="nav-link" data-scroll-target="#split-the-catches-by-season"><span class="header-section-number">3.5</span> Split the catches by season</a></li>
@@ -231,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></h1>
 </div>
 
 
@@ -248,10 +248,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total landings.</p>
+<p>Here we will partition recreational catch data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total catches.</p>
 <section id="data-access-and-upload" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">3.1</span> Data access and upload</h2>
-<p>Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The landings are in FES MRIP and the units are in pounds whole weight.</p>
+<p>Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The catches are in FES MRIP and the units are in pounds whole weight.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
@@ -379,9 +379,9 @@ Coryphaena hippurus
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d[<span class="fu">which</span>(d<span class="sc">$</span>YEAR <span class="sc">&lt;</span> <span class="dv">2025</span>), ]    <span class="co"># take out 2025 because incomplete year      </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="separate-gulf-and-atlantic-recreational-landings" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational landings</h2>
-<p>Now we filter the data set to separate out the Gulf versus Atlantic landings.</p>
+<section id="separate-gulf-and-atlantic-recreational-catches" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="separate-gulf-and-atlantic-recreational-catches"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational catches</h2>
+<p>Now we filter the data set to separate out the Gulf versus Atlantic catches.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># codes for WFL regions: 1 (NW FL Panhandle- Escambia to Dixie co.), 2 (SW FL Peninsula- Levy to Collier co), 3 (FL Keys- Monroe co.)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># subregional codes: 6 is Atlantic and 7 is Gulf</span></span>
@@ -458,7 +458,7 @@ Coryphaena hippurus
   &lt;NA&gt;    0</code></pre>
 </div>
 </div>
-<p>Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.</p>
+<p>Now we can summarize the total dolphin catches in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize by year and compare --------------------------</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
