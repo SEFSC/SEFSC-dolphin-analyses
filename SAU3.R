@@ -1,8 +1,29 @@
+##############  code bits taken from other sections that need to be pulled together  ################
+
+# summarize EEZ catch by region
+tab <- tapply(d$lbs, list(d$year, d$reg), sum, na.rm = T)
+#head(tab)
+tab2 <- t(tab)
+tab3 <- tab2[order(rowSums(tab2, na.rm = T), decreasing = T), ]
+tab_glob <- t(tab3)
+#head(tab_glob)
+yrs <- as.numeric(rownames(tab))
+
+par(mar = c(5, 4, 4, 3), mgp = c(3, 1, 0))
+matplot(yrs, tab_glob/10^6, las = 2, type = "l", lty = c(3, rep(1, 9)), lwd = 3, col = glasbey(ncol(tab_glob)), 
+        xlab = "", ylab = "total catch (millions of pounds)", 
+        main = "Global dolphin catches within EEZs (commercial + recreational)")
+legend("topleft", colnames(tab_glob), col = glasbey(ncol(tab_glob)), 
+       lty = c(3, rep(1, 9)), lwd = 3, bty = "n")
+
+
+
+
 ## Merge high seas with catch with exclusive economic zones
 
-Now we will merge in the high seas catch from the steps above into the EEZ catches to get a better picture of total catch in FAO zones 31 and 21. Recall that the U.S. Gulf and Atlantic catches are not necessarily parsed apart correctly in the public databases which get compiled into Sea Around Us, so these will have the same deficiencies as noted in Section 2. Later we will merge in the corrected data.  
+#Now we will merge in the high seas catch from the steps above into the EEZ catches to get a better picture of total catch in FAO zones 31 and 21. Recall that the U.S. Gulf and Atlantic catches are not necessarily parsed apart correctly in the public databases which get compiled into Sea Around Us, so these will have the same deficiencies as noted in Section 2. Later we will merge in the corrected data.  
 
-```{r}
+#```{r}
 #| echo: true
 
 hs <- read.csv("data/SAU/high_seas_by_year.csv")

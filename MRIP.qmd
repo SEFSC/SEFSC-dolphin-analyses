@@ -4,7 +4,7 @@ Here we will partition recreational landings data from NOAA Fisheries’ Marine 
 
 ## Data access and upload
 
-Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Aug19_MRIP_FES/. The landings are in FES MRIP and the units are in pounds whole weight.
+Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The landings are in FES MRIP and the units are in pounds whole weight.
 
 ```{r}
 #| warning: false
@@ -37,8 +37,6 @@ Now we filter the data set to separate out the Gulf versus Atlantic landings.
 #| echo: true
 
 # codes for WFL regions: 1 (NW FL Panhandle- Escambia to Dixie co.), 2 (SW FL Peninsula- Levy to Collier co), 3 (FL Keys- Monroe co.)
-table(d$FL_REG, useNA = "always")   
-
 # subregional codes: 6 is Atlantic and 7 is Gulf
 table(d$FL_REG, d$SUB_REG, useNA = "always")
 unique(d$NEW_STA)
@@ -66,11 +64,11 @@ Now we can summarize the total dolphin landings in weight for the U.S. Atlantic,
 # summarize by year and compare --------------------------
 
 tot1 <- tapply(d1$LBSEST_SECWWT, d1$YEAR, sum, na.rm = T)
-head(tot1)
+#head(tot1)
 
 old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
 plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total catch (pounds)", lwd = 4, 
-     xlim = c(1980, 2025), ylim = c(7*10^6, 3.3*10^7))
+     xlim = c(1980, 2025), ylim = c(7*10^6, 3.3*10^7), bty = "n")
 lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2, lty = 2)
 legend("topright", c("previous data", "new data"), col = c(1, 2), lwd = c(4, 2), lty = c(1, 2))
 
@@ -132,11 +130,13 @@ tot <- tapply(d1$LBSEST_SECWWT, list(d1$YEAR, d1$region, d1$sector), sum, na.rm 
 head(tot)
 
 fin <- data.frame(cbind(tot[, , 1], tot[, , 2]))
-names(fin) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
+names(fin) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", 
+                "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
 head(fin)
 
-matplot(rownames(fin), fin, lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), type = "l", lwd = 2, 
-        xlab = "year", ylab = "total catch (pounds)")
+matplot(rownames(fin), fin/10^6, lty = c(rep(2, 4), rep(1, 4)), 
+        col = rep(1:4, 2), type = "l", lwd = 2, 
+        xlab = "year", ylab = "total catch (millions of pounds)")
 legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
 # check that totals match
@@ -144,15 +144,7 @@ cor(rowSums(fin, na.rm = T), tot1)
 mean(rowSums(fin, na.rm = T) - tot1)   # very tiny differences
 
 ```
-
 Here are the catches (in pounds) for years 1981 to 2024.
-
-```{r}
-#| warning: false
-#| echo: true
-
-fin
-```
 
 ## Looking at extent of discarding
 
@@ -170,7 +162,7 @@ dis <- tapply(d1$perdis, list(d1$YEAR, d1$region, d1$sector), mean, na.rm = T)
 disr <- tapply(d1$perdis, list(d1$region, d1$sector), mean, na.rm = T)
 
 matplot(rownames(dis), cbind(dis[, , 1], dis[, , 2]), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), 
-        type = "l", lwd = 2, xlab = "year", ylab = "proportion dolphin discarded", ylim = c(0, 0.5))
+        type = "l", lwd = 2, xlab = "year", ylab = "proportion dolphin discarded alive", ylim = c(0, 0.5))
 legend("top", c(paste("For hire - ", colnames(dis)), paste("Private - ", colnames(dis))), 
        lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
@@ -300,10 +292,8 @@ legend("topright", colnames(findat[, 3:10]), lty = c(rep(2, 4), rep(1, 4)), col 
 cbind(colSums(findat[, 3:10], na.rm = T), colSums(fin[-c(1:5), ], na.rm = T))
 # the values should be close but slightly >1 because the last data set includes December 1985 data as part of 1986
 colSums(findat[, 3:10], na.rm = T) / colSums(fin[-c(1:5), ], na.rm = T)
-
-#write.csv(findat, file = "data/outputs/MRIP_catch_by_season_4_areas.csv", row.names = FALSE)
 ```
-Here we will format the data for input to the operating model 
+Here we will format the data for input to the operating model.  
 
 ```{r}
 #| echo: true
@@ -319,11 +309,8 @@ area <- c(rep("FLK", nrow(tab3)), rep("NCFL", nrow(tab3)),
           rep("NNC", nrow(tab3)), rep("VBM", nrow(tab3)))
 area <- rep(area, 2)
 
-
 findat1 <- data.frame(yrs, qrt, flt, area, matrix(as.matrix(tab3[,3:10])))
-findat1
 names(findat1) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
-
 head(findat1)
 
 #plot(findat1$Catch_lbs, type = "l")
@@ -340,6 +327,7 @@ findat <- findat[which(findat$year >=1986 & findat$year <= 2022), ]
 tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)
 colSums(findat[3:10], na.rm = T)
 
+# output final numbers in correct format
 write.csv(findat1, file = "data/FINAL_files/rec_catch_TomFormat.csv", row.names = FALSE)
 
 ```

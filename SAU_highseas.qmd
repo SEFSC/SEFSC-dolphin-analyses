@@ -6,7 +6,7 @@ Here we will explore commercial and recreational landings data as estimated by t
 
 The high seas data are accessed in the Basic Search [High seas section of the site](https://www.seaaroundus.org/data/#/highseas). The individual regions can be clicked on (e.g., Atlantic, Western Central) and then the data are downloaded using the Download Data button.  
 
-The current version of data in use is version 50.1, accessed June 2024 (the data files can be found on github in the SEFSC-dolphin-analyses/data /SAU/ folder). This was still the most recent version of data available as of June 2025.
+The current version of data in use is version 50.1, accessed June 2024 (the data files can be found on github in the SEFSC-dolphin-analyses/data /SAU/ folder). This was still the most recent version of data available as of September 2025.
 
 ## Read in the high seas landings
 
@@ -44,6 +44,7 @@ We extract the data for dolphinfish and look at the characteristics of the landi
 ```{r}
 #| warning: false
 #| echo: true
+#| fig-height: 8
 
 # check species name and filter out dolphinfish
 unique(hs$common_name)[grep("dolphin", unique(hs$common_name))]
@@ -140,7 +141,7 @@ matplot(yrs + qrt/4, cbind(matrix(NED), matrix(NCA))/10^6, lty = 1, lwd = 2,
         xlab = "", ylab = "total catch (millions of pounds)")
 legend("topleft", c("NED", "NCA"), lwd = 2, col = 2:3, bty = "n")
 
-# save NED data in this format because it needs to be combined with Canada EEZ catches
+# save NED data in this format because it needs to be combined with Canadian EEZ catches
 save(NED, file = "data/outputs/NED_year_quarter.RData")
 
 ```
