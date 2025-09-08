@@ -1,6 +1,6 @@
-# Analysis of international landings in the high seas
+# Analysis of international catches in the high seas
 
-Here we will explore commercial and recreational landings data as estimated by the [Sea Around Us Project](https://www.seaaroundus.org/data/#/eez). This data set includes reported data for fisheries worldwide as well as reconstructed estimates for unreported landings. For each country, project scientists assemble available data on landings and use additional sociological and fishing data plus expert information and opinion, to produce their best estimates of total landings from all fishing sectors and for all species globally.
+Here we will explore commercial and recreational catch data as estimated by the [Sea Around Us Project](https://www.seaaroundus.org/data/#/eez). This data set includes reported data for fisheries worldwide as well as reconstructed estimates for unreported catches. For each country, project scientists assemble available data on catch and use additional sociological and fishing data plus expert information and opinion, to produce their best estimates of total catch from all fishing sectors and for all species globally.
 
 ## Data access and upload
 
@@ -8,9 +8,9 @@ The high seas data are accessed in the Basic Search [High seas section of the si
 
 The current version of data in use is version 50.1, accessed June 2024 (the data files can be found on github in the SEFSC-dolphin-analyses/data /SAU/ folder). This was still the most recent version of data available as of September 2025.
 
-## Read in the high seas landings
+## Read in the high seas catches
 
-First we read in the high seas landings for the Western Central Atlantic and Northwest Atlantic zones. These are equivalent to FAO areas 21 and 31.
+First we read in the high seas catches for the Western Central Atlantic and Northwest Atlantic zones. These are equivalent to FAO areas 21 and 31.
 
 ```{r}
 #| warning: false
@@ -39,7 +39,7 @@ h3 <- read.csv(paste0("data/SAU/", hslis[3]))
 hs <- rbind(h1, h3) 
 ```
 
-We extract the data for dolphinfish and look at the characteristics of the landings. Most of the landings are in the Western Central Atlantic, and the primary fishing entities are Venezuela and Saint Lucia. The fishing sector is all industrial, and the vast majority of the catch is reported landings, with only a tiny fraction of discards or unreported landings listed in the database. The gear type is primarily long line.
+We extract the data for dolphinfish and look at the characteristics of the catches. Most of the catches are in the Western Central Atlantic, and the primary fishing entities are Venezuela and Saint Lucia. The fishing sector is all industrial, and the vast majority of the catch is reported landings, with only a tiny fraction of discards or unreported landings listed in the database. The gear type is primarily long line.
 
 ```{r}
 #| warning: false
@@ -72,7 +72,7 @@ round(tapply(hs$pounds, hs$reporting_status, sum, na.rm = T) / sum(hs$pounds) * 
 
 ```
 
-## Summarize the high seas landings
+## Summarize the high seas catches
 
 We plot the annual catches by fishing entity to look at trends over time.
 
@@ -90,7 +90,7 @@ matplot(as.numeric(rownames(tab)), tab/10^6, type = "l", col = glasbey(ncol(tab)
 legend("topleft", colnames(tab), col = glasbey(ncol(tab)), lty = 1, lwd = 2, cex = 0.8, bty = "n")
 ```
 
-Finally we output the subset of high seas dolphin catch for the two areas. Because we have already accounted for the USA landings in our national reporting and are aiming to only summarize international landings here, we filter out the USA landings from the Sea Around Us database.
+Finally we output the subset of high seas dolphin catch for the two areas. Because we have already accounted for the USA catches in our national reporting and are aiming to only summarize international catches here, we filter out the USA catches from the Sea Around Us database.
 
 ```{r}
 #| warning: false
@@ -107,9 +107,9 @@ tail(tab, 40)
 write.csv(tab, file = "data/SAU/high_seas_by_year.csv")
 ```
 
-## Distribute the high seas landings across quarters of the year
+## Distribute the high seas catches across quarters of the year
 
-The international landings are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. The majority of the international landings are caught by longline, so we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the international high seas fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
+The international catches are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. The majority of the international catches are caught by longline, so we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the international high seas fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
 
 At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.
 

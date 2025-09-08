@@ -1,12 +1,12 @@
-# Analysis of international landings in territorial waters
+# Analysis of international catches in territorial waters
 
 ## Data access and upload
 
 For catches within each country's exclusive economic zones, data are downloaded from the [Sea Around Us site](https://www.seaaroundus.org/data/#/topic/biodiversity) (Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking "View graphs" one can access the full data set using the "Download Data" button. 
 
-## Read in the landings within excluzive economic zones (EEZs)
+## Read in the catches within excluzive economic zones (EEZs)
 
-Now we read in the landings reported by each country or jurisdiction's respective EEZ. Because we have extracted dolphin landings for EEZs worldwide, we need to separate out the landings for the Atlantic Ocean basin.
+Now we read in the catches reported by each country or jurisdiction's respective EEZ. Because we have extracted dolphin catches for EEZs worldwide, we need to separate out the catches for the Atlantic Ocean basin.
 
 ```{r}
 #| echo: true
@@ -24,15 +24,16 @@ head(d)
 d$lbs <- d$tonnes * 1000 * 2.20462
 ```
 
-We look at the characteristics of the landings within EEZs. These are largely industrial and artisanal in nature. Landings are the majority of the catch but discards are also present. There are more unreported landings than reported landings and a variety of gear types are used.
+We look at the characteristics of the catches within EEZs. These are largely industrial and artisanal in nature. Landings are the majority of the catch but discards are also present. There are more unreported landings than reported landings and a variety of gear types are used.
 
 ```{r}
 #| warning: false
 #| echo: true
 #| fig-width: 9
+#| fig-height: 7
 
 # look at characteristics of data 
-par(mfrow = c(2, 2), mar = c(12, 7, 3, 1), mex = 0.5, mgp = c(5, 1, 0))
+par(mfrow = c(2, 2), mar = c(20, 7, 3, 1), mex = 0.5, mgp = c(5.5, 1, 0))
 barplot(tapply(d$lbs, d$fishing_sector, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Fishing sector")
 barplot(tapply(d$lbs, d$catch_type, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Catch type")
 barplot(tapply(d$lbs, d$reporting_status, sum, na.rm = T)/10^6, las = 2, ylab = "millions of pounds", main = "Reporting status")
@@ -160,7 +161,7 @@ save(dwest, file = "data/outputs/SAU_EEZs_WCA.RData")
 
 tab <- tapply(dwest$lbs, list(dwest$year, dwest$area_name), sum, na.rm = T)
 
-# eight countries are responsible for vast majority of catch with total landings across all years exceeding 20M pounds
+# eight countries are responsible for vast majority of catch with total catches across all years exceeding 20M pounds
 par(mar = c(17, 4, 3, 1))
 barplot(sort(colSums(tab, na.rm = T)/10^6, decreasing = T), horiz = F, las = 2,
         main = "Total dolphin catch (1950 - 2022) in the Western Atlantic, by EEZ", 
@@ -332,7 +333,7 @@ Note that the Caribbean unreported discards in the database are negligible (< 1%
 
 ## Distribute the territorial international catches across quarters of the year
 
-The international landings are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. Lacking other information on the seasonality of these fleets, we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the jurisdictional fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
+The international catches are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. Lacking other information on the seasonality of these fleets, we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the jurisdictional fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.
 
 The pelagic longline logbook data is only available going back to 1997, but there are Caribbean catches extending back to the 1950s. To interpolate the seasonality for 1986 - 1996, we take the average seasonality of the oldest 10 years of logbook data (1997 - 2006) and use those averages for the unknown years.  
 

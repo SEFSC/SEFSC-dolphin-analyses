@@ -27,27 +27,33 @@ rec <- read.csv("data/FINAL_files/rec_catch_TomFormat.csv")
 ```
 This file contains all international catches and unreported catches for the greater Caribbean region (jurisdictional waters of all countries). Recall that estimated discards were very small (< 1%) and were removed from the summary.     
 ```{r}
+#| echo: true
 apply(intc[1:4], 2, table, useNA = "always")
 ```
 This file contains all international catches for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.  
 ```{r}
+#| echo: true
 apply(intn[1:4], 2, table, useNA = "always")
 ```
 This file contains all international catches for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas catches, as well as catches from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.  
 ```{r}
+#| echo: true
 apply(intw[1:4], 2, table, useNA = "always")
 ```
 This file contains all catches for the U.S. commercial fleet, including catches from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (< 2%) and were removed from the summary.   
 ```{r}
+#| echo: true
 apply(com[1:4], 2, table, useNA = "always")
 ```
 This file contains all catches for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region.   
 ```{r}
+#| echo: true
 apply(rec[1:4], 2, table, useNA = "always")
 ```
 Now we combine the data files and create some figures with the final composite data file.  
 
 ```{r}
+#| echo: true
 d <- rbind(intc, intn, intw, com, rec)
 
 # how many rows contain zeros 
@@ -125,7 +131,7 @@ legend(2002, 25, lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n",
          "International", "Unreported"),
        col = c("navy", "blue", "darkturquoise", "red", "pink"))
 ```
-This plot shows the time series of total annual dolphin catches by fleet.  We can compare these figures with the plots from the previous chapters to ensure the data were processed correctly. The magnitude and variability of the landings match the expectations.  
+This plot shows the time series of total annual dolphin catches by fleet.  We can compare these figures with the plots from the previous chapters to ensure the data were processed correctly. The magnitude and variability of the catches match the expectations.  
 
 ```{r}
 #| echo: true

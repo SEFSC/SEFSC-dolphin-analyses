@@ -1,10 +1,10 @@
-# NOAA Fisheries recreational landings data
+# NOAA Fisheries recreational catch data
 
-Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total landings.
+Here we will partition recreational catch data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total catches.
 
 ## Data access and upload
 
-Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The landings are in FES MRIP and the units are in pounds whole weight.
+Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The catches are in FES MRIP and the units are in pounds whole weight.
 
 ```{r}
 #| warning: false
@@ -29,9 +29,9 @@ d <- d[which(d$YEAR < 2025), ]    # take out 2025 because incomplete year
 
 ```
 
-## Separate Gulf and Atlantic recreational landings
+## Separate Gulf and Atlantic recreational catches
 
-Now we filter the data set to separate out the Gulf versus Atlantic landings.
+Now we filter the data set to separate out the Gulf versus Atlantic catches.
 
 ```{r}
 #| echo: true
@@ -56,7 +56,7 @@ dim(d1)
 table(d1$FL_REG, d1$NEW_STA, useNA = "always")  # retained are all Atlantic states plus region 3 of Florida
 ```
 
-Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
+Now we can summarize the total dolphin catches in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
 
 ```{r}
 #| echo: true

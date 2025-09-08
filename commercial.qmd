@@ -4,7 +4,7 @@ We do not display the commercial data analysis here because it is based on logbo
 
 ## Analysis of logbook data
 
-We first use the pelagic longline logbook data to understand how the fleet operates in the high seas on a seasonal basis. These numbers are used later to estimate the seasonality of the international landings, because those are only reported on an annual basis but quarterly values are needed.
+We first use the pelagic longline logbook data to understand how the fleet operates in the high seas on a seasonal basis. These numbers are used later to estimate the seasonality of the international catches, because those are only reported on an annual basis but quarterly values are needed.
 
 The steps are as follows:
 
