@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Mandy Karnauskas">
 
-<title>Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>4&nbsp; NOAA Fisheries commercial data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./makeEEZ.html" rel="next">
+<link href="./SAU_highseas.html" rel="next">
+<link href="./MRIP.html" rel="prev">
 <link href="./assets/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./commercial.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -133,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -151,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./commercial.html" class="sidebar-item-text sidebar-link">
+  <a href="./commercial.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></span></a>
   </div>
 </li>
@@ -183,39 +183,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
-  <ul class="collapse">
-  <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details"><span class="header-section-number">1.1</span> Details</a></li>
-  </ul></li>
+  <li><a href="#analysis-of-logbook-data" id="toc-analysis-of-logbook-data" class="nav-link active" data-scroll-target="#analysis-of-logbook-data"><span class="header-section-number">4.1</span> Analysis of logbook data</a></li>
+  <li><a href="#analysis-of-trip-ticket-data" id="toc-analysis-of-trip-ticket-data" class="nav-link" data-scroll-target="#analysis-of-trip-ticket-data"><span class="header-section-number">4.2</span> Analysis of trip ticket data</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/commercial.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/commercial.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></h1>
 </div>
 
 
-<div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
-  
-    <div class="quarto-title-meta-contents">
-    <p class="author">Mandy Karnauskas </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            NOAA Fisheres
-          </p>
-      </div>
-  </div>
 
 <div class="quarto-title-meta">
 
-      
+    
   
     
   </div>
@@ -225,15 +210,30 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>Here we will be displaying various data summaries and analyses related to dolphin management in the U.S. South Atlantic.</p>
-<section id="details" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="details"><span class="header-section-number">1.1</span> Details</h2>
-<p>The documentation of this data exploration was developed in R, using R Studio and Quarto.</p>
-
-
+<p>We do not display the commercial data analysis here because it is based on logbook reporting and trip ticket databases, which both contain confidential data. The code for processing the commercial data can be seen in the file “commercial.R” and the steps are outlined below.</p>
+<section id="analysis-of-logbook-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="analysis-of-logbook-data"><span class="header-section-number">4.1</span> Analysis of logbook data</h2>
+<p>We first use the pelagic longline logbook data to understand how the fleet operates in the high seas on a seasonal basis. These numbers are used later to estimate the seasonality of the international landings, because those are only reported on an annual basis but quarterly values are needed.</p>
+<p>The steps are as follows: 1. Read in the pelagic longline data which contains set level entries including location of fishing, target species, gear used, other details of the fishing trip and number of dolphin caught, discarded alive, discarded dead, and the total pounds of dolphin kept. 2. Format the longitude and latitude of the sets into decimal degrees, and find the points that fall within each of the seven polygons representing the areas of the operating model. Check that subsetting was done correctly and add and area identifier. 3. Look at the characteristics of the dolphin catch and calculate the discard rates by trip. Dead discarding rate is found to be 1.4% on average and total discard rate is 2.9% on average. 4. Standardize date formatting and add identifier for season (quarter). Specify a new year variable to allow December to be grouped with January and February. 5. Summarize the total dolphin catch (in pounds) by year, quarter, and area. 6. Convert the total pounds by year-quarter and area to proportions such that each year-quarter combination has four seasonal proportions summing to 1. Save the matrix of proportions for later analysis.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="plots/PLL_seasonality.png" class="img-fluid figure-img"></p>
+<figcaption>Seasonality of the pelagic longline fleet according to the logbook data. Figure shows the proportion of dolphin catch occurring in each season, for each region of the operating model.</figcaption>
+</figure>
+</div>
 </section>
+<section id="analysis-of-trip-ticket-data" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="analysis-of-trip-ticket-data"><span class="header-section-number">4.2</span> Analysis of trip ticket data</h2>
+<p>Not all of the commercial dolphin catch activity is reported in the logbooks because dolphin are targeted via a variety of permits and gear types, not all of which have the same reporting requirements. Therefore, in order to parse the commercial catches by year, area and quarter, we use the commercial trip ticket data compiled by NOAA Fisheries. These are the same data used for quota monitoring and thus are the best representation of the total catch.</p>
+<p>The steps are as follows: 1. Read in the trip ticket data file, which contains commercial dolphinfish landings for the Atlantic coast from 1986-2023, including all landings by year even if the gear type or area is unknown. The dataset specifies the year and month of landing, an area of fishing, gear, and the state where landed. Pounds are in units of whole weight. 2. Read in operating model regions and classify the list of logbook areas into those seven regions. Assign each reported area to an operating model region accordingly. 3. Standardize date formatting and add identifier for season (quarter). Specify a new year variable to allow December to be grouped with January and February. 4. Summarize the landings by year-quarter, gear (PLL gear vs.&nbsp;other gears) and region. 5. For most combinations of year-quarter, region and gear, there are substantial landings for which the area of fishing is unknown and therefore the region cannot be defined. We assume that those landings follow the same distribution with regard to region as the other landings for that year-quarter and gear combination. For each year-quarter/gear combination, we calculate the proportion of catch that occurs in each of the seven regions. The total landings of unknown regions are multiplied by those proportions and then added to the landings from known regions. In cases where none of the areas are known for that year-quarter/gear combination, proportions from the quarter immediately previous to that quarter are used. Sum the landings by gear type to get the total landings for each year-quarter and region. 6. Reformat the data according to the specifications needed for input to the operating model (columns specifying the year, quarter, fleet, area and total catch). 7. Sum landings by year from the original data file and the final outputs to ensure that data were processed correctly and no catch is missing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="plots/tripticket_seasonality.png" class="img-fluid figure-img"></p>
+<figcaption>Seasonality of the commercial dolphin catch according to the trip ticket data. Figure shows the proportion of dolphin catch occurring in each season, for each region of the operating model.</figcaption>
+</figure>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -638,10 +638,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./MRIP.html" class="pagination-link" aria-label="NOAA Fisheries recreational landings data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./makeEEZ.html" class="pagination-link" aria-label="Defining the regions for the operating model">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining the regions for the operating model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./SAU_highseas.html" class="pagination-link" aria-label="Analysis of international landings in the high seas">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -653,7 +656,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/commercial.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/commercial.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

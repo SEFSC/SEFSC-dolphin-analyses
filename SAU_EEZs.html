@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Analysis of international landings in territorial waters – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>6&nbsp; Analysis of international landings in territorial waters – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./SAU_EEZs.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./SAU_EEZs.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -186,20 +186,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./commercial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./SAU_highseas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SAU_EEZs.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./compile_all_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span></a>
   </div>
 </li>
     </ul>
@@ -212,14 +218,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">5.1</span> Data access and upload</a></li>
-  <li><a href="#read-in-the-landings-within-excluzive-economic-zones-eezs" id="toc-read-in-the-landings-within-excluzive-economic-zones-eezs" class="nav-link" data-scroll-target="#read-in-the-landings-within-excluzive-economic-zones-eezs"><span class="header-section-number">5.2</span> Read in the landings within excluzive economic zones (EEZs)</a></li>
-  <li><a href="#separating-the-eezs-by-area" id="toc-separating-the-eezs-by-area" class="nav-link" data-scroll-target="#separating-the-eezs-by-area"><span class="header-section-number">5.3</span> Separating the EEZs by area</a></li>
-  <li><a href="#summarize-catch-by-regional-eezs" id="toc-summarize-catch-by-regional-eezs" class="nav-link" data-scroll-target="#summarize-catch-by-regional-eezs"><span class="header-section-number">5.4</span> Summarize catch by regional EEZs</a></li>
-  <li><a href="#look-at-venezuela-catches-in-detail" id="toc-look-at-venezuela-catches-in-detail" class="nav-link" data-scroll-target="#look-at-venezuela-catches-in-detail"><span class="header-section-number">5.5</span> Look at Venezuela catches in detail</a></li>
-  <li><a href="#compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type" id="toc-compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type" class="nav-link" data-scroll-target="#compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type"><span class="header-section-number">5.6</span> Compile catch in CAR and NED jurisdictional waters by discards and reporting type</a></li>
-  <li><a href="#distribute-the-territorial-international-catches-across-quarters-of-the-year" id="toc-distribute-the-territorial-international-catches-across-quarters-of-the-year" class="nav-link" data-scroll-target="#distribute-the-territorial-international-catches-across-quarters-of-the-year"><span class="header-section-number">5.7</span> Distribute the territorial international catches across quarters of the year</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5.8</span> References</a></li>
+  <li><a href="#data-access-and-upload" id="toc-data-access-and-upload" class="nav-link active" data-scroll-target="#data-access-and-upload"><span class="header-section-number">6.1</span> Data access and upload</a></li>
+  <li><a href="#read-in-the-landings-within-excluzive-economic-zones-eezs" id="toc-read-in-the-landings-within-excluzive-economic-zones-eezs" class="nav-link" data-scroll-target="#read-in-the-landings-within-excluzive-economic-zones-eezs"><span class="header-section-number">6.2</span> Read in the landings within excluzive economic zones (EEZs)</a></li>
+  <li><a href="#separating-the-eezs-by-area" id="toc-separating-the-eezs-by-area" class="nav-link" data-scroll-target="#separating-the-eezs-by-area"><span class="header-section-number">6.3</span> Separating the EEZs by area</a></li>
+  <li><a href="#summarize-catch-by-regional-eezs" id="toc-summarize-catch-by-regional-eezs" class="nav-link" data-scroll-target="#summarize-catch-by-regional-eezs"><span class="header-section-number">6.4</span> Summarize catch by regional EEZs</a></li>
+  <li><a href="#look-at-venezuela-catches-in-detail" id="toc-look-at-venezuela-catches-in-detail" class="nav-link" data-scroll-target="#look-at-venezuela-catches-in-detail"><span class="header-section-number">6.5</span> Look at Venezuela catches in detail</a></li>
+  <li><a href="#compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type" id="toc-compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type" class="nav-link" data-scroll-target="#compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type"><span class="header-section-number">6.6</span> Compile catch in CAR and NED jurisdictional waters by discards and reporting type</a></li>
+  <li><a href="#distribute-the-territorial-international-catches-across-quarters-of-the-year" id="toc-distribute-the-territorial-international-catches-across-quarters-of-the-year" class="nav-link" data-scroll-target="#distribute-the-territorial-international-catches-across-quarters-of-the-year"><span class="header-section-number">6.7</span> Distribute the territorial international catches across quarters of the year</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.8</span> References</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/SAU_EEZs.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/SAU_EEZs.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -228,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis of international landings in territorial waters</span></h1>
 </div>
 
 
@@ -245,12 +251,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="data-access-and-upload" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">5.1</span> Data access and upload</h2>
+<section id="data-access-and-upload" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="data-access-and-upload"><span class="header-section-number">6.1</span> Data access and upload</h2>
 <p>For catches within each country’s exclusive economic zones, data are downloaded from the <a href="https://www.seaaroundus.org/data/#/topic/biodiversity">Sea Around Us site</a> (Pauly, Zeller, and Palomares, 2020.). In the Biodiversity by Taxon Tools and Data, we filter by EEZ for All regions, and then filter by Taxon at the Species level for Common dolphinfish (Coryphaena hippurus). After clicking “View graphs” one can access the full data set using the “Download Data” button.</p>
 </section>
-<section id="read-in-the-landings-within-excluzive-economic-zones-eezs" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="read-in-the-landings-within-excluzive-economic-zones-eezs"><span class="header-section-number">5.2</span> Read in the landings within excluzive economic zones (EEZs)</h2>
+<section id="read-in-the-landings-within-excluzive-economic-zones-eezs" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="read-in-the-landings-within-excluzive-economic-zones-eezs"><span class="header-section-number">6.2</span> Read in the landings within excluzive economic zones (EEZs)</h2>
 <p>Now we read in the landings reported by each country or jurisdiction’s respective EEZ. Because we have extracted dolphin landings for EEZs worldwide, we need to separate out the landings for the Atlantic Ocean basin.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load libraries</span></span>
@@ -322,8 +328,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="separating-the-eezs-by-area" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="separating-the-eezs-by-area"><span class="header-section-number">5.3</span> Separating the EEZs by area</h2>
+<section id="separating-the-eezs-by-area" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="separating-the-eezs-by-area"><span class="header-section-number">6.3</span> Separating the EEZs by area</h2>
 <p>Now we have to manually assign the different EEZs to respective areas. We separate the geographical areas within the Atlantic Ocean (North and South) and lump all other EEZs into “other oceans.” This latter category is largely the Pacific Ocean and to a lesser extent the Indian Ocean. We remove the high seas catch from this database as it is not ocean-specific and we have extracted the ocean-specific high seas catch previously.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the high seas catch from this database</span></span>
@@ -589,8 +595,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="summarize-catch-by-regional-eezs" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="summarize-catch-by-regional-eezs"><span class="header-section-number">5.4</span> Summarize catch by regional EEZs</h2>
+<section id="summarize-catch-by-regional-eezs" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="summarize-catch-by-regional-eezs"><span class="header-section-number">6.4</span> Summarize catch by regional EEZs</h2>
 <p>Now we summarize the catch by region by grouping the catch across the EEZs by region. We save these data for later analysis, and move on to analyzing only the Western Central and Northwest Atlantic jurisdictions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize EEZ catch by region</span></span>
@@ -641,8 +647,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Note the rapid eight-fold increase in catches listed within the Venezuelan EEZ which occurs from 2013 - 2019. This increase is responsible for a rapid increase in estimated international catches within the Western Atlantic.</p>
 </section>
-<section id="look-at-venezuela-catches-in-detail" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="look-at-venezuela-catches-in-detail"><span class="header-section-number">5.5</span> Look at Venezuela catches in detail</h2>
+<section id="look-at-venezuela-catches-in-detail" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="look-at-venezuela-catches-in-detail"><span class="header-section-number">6.5</span> Look at Venezuela catches in detail</h2>
 <p>The figures above indicate that the database shows a rapid increase in international catches within the Western Atlantic, driven by a sudden increase in catches reported within Sea Around Us database within the Venezuelan EEZ. We investigate these catches in detail, as it seems odd that a relatively small fleet from a single country would be able to ramp up effort so rapidly. Data can be downloaded on a country-specific basis, the catches by taxon in the waters of Venezuela are accessed <a href="https://www.seaaroundus.org/data/#/eez/862?chart=catch-chart&amp;dimension=taxon&amp;measure=tonnage&amp;limit=10">here</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())  <span class="co"># clear the workspace</span></span>
@@ -736,8 +742,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The very substantial increase in international Western Atlantic dolphin catches can be attributed solely to this Unknown Fishing Country catches which appear in the database beginning in 2013. The documentation of the catch reconstruction can be found in the Sea Around Us documentation files (see Mendoza et al.&nbsp;2015). We spoke to Jeremy Mendoza and other experts who were involved in the reconstruction of domestic catches in Venezuela, and they noted that the “Assigned tuna RFMO catch” actually emerge from spatially reshuffled landing reports to ICCAT, according to the methods of <a href="https://www.sciencedirect.com/science/article/abs/pii/S0165783619302346">Coulter et al.&nbsp;(2020)</a>. In this work, the Sea Around Us team developed a global spatial reallocation of landings of tunas and associated species that were reported to ICCAT. In short, this work uses the fraction of reported spatially disaggregated data to reallocate all data reported to ICCAT. This step is necessary because there are not many countries that report spatial data to ICCAT in the region, and this method may lead to a significant reallocation of landings from the Caribbean to the Venezuelan EEZ, where the local pole and line fishery is significant (J. Mendoza, personal communication). Thus, it is likely that landings from other EEZs, that were included in the reconstructed catch data layer, could have been reassigned to the Venezuelan EEZ.</p>
 <p>Because there may be some overlap between the reconstructed data used in the national EEZ estimates, and the ICCAT reporting that was reassigned, there could potentially be a “double counting” of these catch estimates in the Sea Around Us database. We verified with Sea Around Us database managers that their method led to an error resulting in an overestimate of the catch, and they advised us to remove these Unknown Fishing Country catches as they are difficult to trace back to the data source.</p>
 </section>
-<section id="compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type"><span class="header-section-number">5.6</span> Compile catch in CAR and NED jurisdictional waters by discards and reporting type</h2>
+<section id="compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="compile-catch-in-car-and-ned-jurisdictional-waters-by-discards-and-reporting-type"><span class="header-section-number">6.6</span> Compile catch in CAR and NED jurisdictional waters by discards and reporting type</h2>
 <p>Now that we have separated the EEZ catch by region, we will summarize it according to the areas used in the dolphin management strategy evaluation operating model. We will separate the catch by discards versus landings and reported versus unreported data so that we can use these data in various sensitivity analyses.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())  <span class="co"># clear the workspace</span></span>
@@ -855,8 +861,8 @@ Landings 393279187  176215080</code></pre>
 </div>
 <p>Note that the Caribbean unreported discards in the database are negligible (&lt; 1%) and we exclude them from further analysis.</p>
 </section>
-<section id="distribute-the-territorial-international-catches-across-quarters-of-the-year" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="distribute-the-territorial-international-catches-across-quarters-of-the-year"><span class="header-section-number">5.7</span> Distribute the territorial international catches across quarters of the year</h2>
+<section id="distribute-the-territorial-international-catches-across-quarters-of-the-year" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="distribute-the-territorial-international-catches-across-quarters-of-the-year"><span class="header-section-number">6.7</span> Distribute the territorial international catches across quarters of the year</h2>
 <p>The international landings are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. Lacking other information on the seasonality of these fleets, we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the jurisdictional fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.</p>
 <p>The pelagic longline logbook data is only available going back to 1997, but there are Caribbean catches extending back to the 1950s. To interpolate the seasonality for 1986 - 1996, we take the average seasonality of the oldest 10 years of logbook data (1997 - 2006) and use those averages for the unknown years.</p>
 <p>At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.</p>
@@ -1011,8 +1017,8 @@ Landings 393279187  176215080</code></pre>
 <span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a><span class="co">#barplot(tapply(fin$Catch_lbs, list(fin$Quarter), sum, na.rm = T), col = rainbow(4))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="references" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="references"><span class="header-section-number">5.8</span> References</h2>
+<section id="references" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="references"><span class="header-section-number">6.8</span> References</h2>
 <p>Pauly D., Zeller D., Palomares M.L.D. (Editors), 2020. Sea Around Us Concepts, Design and Data (seaaroundus.org).</p>
 
 
@@ -1421,12 +1427,12 @@ Landings 393279187  176215080</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./SAU_highseas.html" class="pagination-link" aria-label="Analysis of international landings in the high seas">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analysis of international landings in the high seas</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./compile_all_data.html" class="pagination-link" aria-label="Data compilation for all fleets in the operating model">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data compilation for all fleets in the operating model</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
