@@ -13,6 +13,11 @@ We download the U.S. Atlantic EEZ from [Marineregions.org](https://www.marinereg
 #| echo: true
 
 # clear workspace and load the libraries
+
+if (!requireNamespace("sf", quietly = TRUE)) {
+  install.packages("sf") }
+if (!requireNamespace("maps", quietly = TRUE)) {
+  install.packages("maps") }
 library(sf)
 library(maps)
 
