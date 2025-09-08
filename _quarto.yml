@@ -20,6 +20,7 @@ book:
     - index.qmd
     - makeEEZ.qmd
     - MRIP.qmd
+    - commercial.qmd
     - SAU_highseas.qmd
     - SAU_EEZs.qmd
     - compile_all_data.qmd

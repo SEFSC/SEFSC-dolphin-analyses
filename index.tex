@@ -532,56 +532,32 @@ We download the U.S. Atlantic EEZ from
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# clear workspace and load the libraries}
-\FunctionTok{library}\NormalTok{(sf)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Warning: package 'sf' was built under R version 4.5.1
-\end{verbatim}
-
-\begin{verbatim}
-Linking to GEOS 3.13.1, GDAL 3.11.0, PROJ 9.6.0; sf_use_s2() is TRUE
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{requireNamespace}\NormalTok{(}\StringTok{"maps"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"maps"}\NormalTok{) \}}
 \FunctionTok{library}\NormalTok{(maps)}
 
 \FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
 
 \CommentTok{\# read in the shapefile downloaded from Marineregions.org}
-\NormalTok{shp\_data }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(}\StringTok{"data/eez/eez.shp"}\NormalTok{)}
+\CommentTok{\#library(sf)}
+\CommentTok{\#shp\_data \textless{}{-} st\_read("data/eez/eez.shp")}
+\CommentTok{\#coords \textless{}{-} st\_coordinates(shp\_data)}
+\CommentTok{\#co \textless{}{-} as.data.frame(coords)}
+\CommentTok{\#save(co, file = "data/eez/Marineregions\_EEZ.RData")}
+
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/eez/Marineregions\_EEZ.RData"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(co)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-Reading layer `eez' from data source 
-  `C:\Users\mandy.karnauskas\Desktop\SEFSC-dolphin-analyses\data\eez\eez.shp' 
-  using driver `ESRI Shapefile'
-Simple feature collection with 1 feature and 31 fields
-Geometry type: MULTIPOLYGON
-Dimension:     XY
-Bounding box:  xmin: -129.2348 ymin: 23.83333 xmax: -65.69972 ymax: 49.00226
-Geodetic CRS:  WGS 84
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{coords }\OtherTok{\textless{}{-}} \FunctionTok{st\_coordinates}\NormalTok{(shp\_data)}
-\NormalTok{co }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(coords)}
-\FunctionTok{head}\NormalTok{(coords)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-             X        Y L1 L2 L3
-[1,] -67.28403 45.19125  1  1  1
-[2,] -67.28400 45.19126  1  1  1
-[3,] -67.28387 45.19125  1  1  1
-[4,] -67.28383 45.19125  1  1  1
-[5,] -67.28372 45.19125  1  1  1
-[6,] -67.28365 45.19125  1  1  1
+          X        Y L1 L2 L3
+1 -67.28403 45.19125  1  1  1
+2 -67.28400 45.19126  1  1  1
+3 -67.28387 45.19125  1  1  1
+4 -67.28383 45.19125  1  1  1
+5 -67.28372 45.19125  1  1  1
+6 -67.28365 45.19125  1  1  1
 \end{verbatim}
 
 \begin{Shaded}
@@ -624,8 +600,8 @@ computations later in the process.
 \NormalTok{co4 }\OtherTok{\textless{}{-}}\NormalTok{ co4[}\FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(co4), }\DecValTok{800}\NormalTok{), ]}
 
 \FunctionTok{map}\NormalTok{(}\StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{100}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{60}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{23}\NormalTok{, }\DecValTok{50}\NormalTok{))}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{points}\NormalTok{(co3}\SpecialCharTok{$}\NormalTok{X, co3}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{2}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{)}
 \FunctionTok{points}\NormalTok{(co4}\SpecialCharTok{$}\NormalTok{X, co4}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{4}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{)}
@@ -652,7 +628,7 @@ computations later in the process.
 \NormalTok{cofin }\OtherTok{\textless{}{-}}\NormalTok{ cofin[}\SpecialCharTok{{-}}\NormalTok{lis, ]}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{70}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{65}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{43}\NormalTok{, }\DecValTok{47}\NormalTok{), }\AttributeTok{col =} \DecValTok{8}\NormalTok{)     }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cofin), }\AttributeTok{cex =} \FloatTok{0.9}\NormalTok{)}
@@ -664,7 +640,7 @@ computations later in the process.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{72}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{71}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\FloatTok{34.8}\NormalTok{, }\FloatTok{35.1}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cofin), }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{)}
@@ -680,7 +656,7 @@ computations later in the process.
 \NormalTok{cofin }\OtherTok{\textless{}{-}}\NormalTok{ cofin[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{83}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{60}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{23}\NormalTok{, }\DecValTok{47}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
@@ -736,7 +712,7 @@ eastern boundary is -71.1 degrees W.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{77}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{76.4}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{28}\NormalTok{, }\FloatTok{28.9}\NormalTok{))}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cofin), }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{)}
@@ -754,7 +730,7 @@ eastern boundary is -71.1 degrees W.
 \FunctionTok{names}\NormalTok{(CAR) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{)}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{95}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{60}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{36}\NormalTok{))}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{X, CAR}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
@@ -780,7 +756,7 @@ the U.S. EEZ and Caribbean territorial seas to the West.
 \FunctionTok{names}\NormalTok{(NCA) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{)}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{85}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{30}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{36}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(NCA}\SpecialCharTok{$}\NormalTok{X, NCA}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{3}\NormalTok{)}
 \end{Highlighting}
@@ -829,7 +805,7 @@ degrees north, as dolphin are not caught above this latitude.
 \FunctionTok{names}\NormalTok{(NED) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{)}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{85}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{30}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{30}\NormalTok{, }\DecValTok{60}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(NED}\SpecialCharTok{$}\NormalTok{X, NED}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
@@ -863,7 +839,7 @@ to Indian River County and NE FL encompassing Brevard to Nassau County.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{81}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{78}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\FloatTok{27.5}\NormalTok{, }\FloatTok{28.9}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{) }
 \FunctionTok{text}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cofin), }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{)   }\CommentTok{\# find points falling at 28N}
@@ -880,7 +856,7 @@ to Indian River County and NE FL encompassing Brevard to Nassau County.
 \NormalTok{FLK }\OtherTok{\textless{}{-}}\NormalTok{ cofin[}\DecValTok{1289}\SpecialCharTok{:}\DecValTok{1632}\NormalTok{, ]  }\CommentTok{\# subset points along EEZ}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{85}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{75}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{30}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(FLK}\SpecialCharTok{$}\NormalTok{X, FLK}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
@@ -905,7 +881,7 @@ parsed along this boundary.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{72}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{70}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\FloatTok{34.5}\NormalTok{, }\FloatTok{35.4}\NormalTok{))}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cofin), }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{)  }\CommentTok{\# find points that fall at 35N}
@@ -921,7 +897,7 @@ parsed along this boundary.
 \NormalTok{NCFL }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cofin[}\DecValTok{1632}\SpecialCharTok{:}\DecValTok{1663}\NormalTok{, ], cofin[}\DecValTok{569}\SpecialCharTok{:}\DecValTok{1289}\NormalTok{, ])  }\CommentTok{\# subset along EEZ}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{85}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{70}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{25}\NormalTok{, }\DecValTok{40}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(NCFL}\SpecialCharTok{$}\NormalTok{X, NCFL}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
@@ -948,7 +924,7 @@ this region.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{72}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{70}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\FloatTok{36.5}\NormalTok{, }\FloatTok{37.4}\NormalTok{))}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(cofin}\SpecialCharTok{$}\NormalTok{X, cofin}\SpecialCharTok{$}\NormalTok{Y, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(cofin), }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{)}
@@ -964,7 +940,7 @@ this region.
 \NormalTok{NNC }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cofin[}\DecValTok{1663}\SpecialCharTok{:}\DecValTok{1673}\NormalTok{, ], cofin[}\DecValTok{425}\SpecialCharTok{:}\DecValTok{569}\NormalTok{, ])}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{85}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{70}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{25}\NormalTok{, }\DecValTok{40}\NormalTok{))}
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(NNC}\SpecialCharTok{$}\NormalTok{X, NNC}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
@@ -985,7 +961,7 @@ which encompasses national waters from Virginia up to Maine.
 \NormalTok{VBM }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(cofin[}\DecValTok{1673}\SpecialCharTok{:}\DecValTok{1702}\NormalTok{, ], cofin[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{425}\NormalTok{, ])}
 
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"usa"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{80}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{60}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{30}\NormalTok{, }\DecValTok{50}\NormalTok{)) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 \FunctionTok{polygon}\NormalTok{(VBM}\SpecialCharTok{$}\NormalTok{X, VBM}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{col =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
@@ -1000,8 +976,10 @@ boundaries align.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{png}\NormalTok{(}\AttributeTok{filename =} \StringTok{"data/eez/new\_spatial\_zones1.png"}\NormalTok{, }\AttributeTok{width=} \DecValTok{800}\NormalTok{, }\AttributeTok{height =} \DecValTok{900}\NormalTok{)}
+
 \FunctionTok{map}\NormalTok{(}\AttributeTok{database =} \StringTok{"world"}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{92}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{38}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{55}\NormalTok{), }\AttributeTok{col =} \DecValTok{8}\NormalTok{) }
-\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{1}\NormalTok{, }\StringTok{"degrees W"}\NormalTok{, }\AttributeTok{line =} \DecValTok{2}\NormalTok{); }\FunctionTok{mtext}\NormalTok{(}\AttributeTok{side =} \DecValTok{2}\NormalTok{, }\StringTok{"degrees N"}\NormalTok{, }\AttributeTok{line =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{); }\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{2}\NormalTok{); }\FunctionTok{box}\NormalTok{()}
 
 \FunctionTok{polygon}\NormalTok{(CAR}\SpecialCharTok{$}\NormalTok{X, CAR}\SpecialCharTok{$}\NormalTok{Y, }\AttributeTok{border =} \DecValTok{1}\NormalTok{)}
@@ -1021,10 +999,15 @@ boundaries align.
 \FunctionTok{text}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{79.3}\NormalTok{, }\FunctionTok{mean}\NormalTok{(NCFL}\SpecialCharTok{$}\NormalTok{Y), }\StringTok{"NCFL"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{73.8}\NormalTok{, }\FunctionTok{mean}\NormalTok{(NNC}\SpecialCharTok{$}\NormalTok{Y), }\StringTok{"NNC"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{71.5}\NormalTok{, }\FunctionTok{mean}\NormalTok{(VBM}\SpecialCharTok{$}\NormalTok{Y), }\StringTok{"VBM"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.2}\NormalTok{)}
+
+\FunctionTok{dev.off}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{makeEEZ_files/figure-pdf/unnamed-chunk-10-1.pdf}
+\begin{verbatim}
+pdf 
+  2 
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1046,6 +1029,16 @@ boundaries align.
 \FunctionTok{write.csv}\NormalTok{(zones, }\AttributeTok{file =} \StringTok{"data/eez/dolphin\_OM\_areas.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{data/eez/new_spatial_zones1.png}
+
+}
+
+\caption{Areas defined in the operating model.}
+
+\end{figure}%
 
 \bookmarksetup{startatroot}
 
@@ -2048,6 +2041,105 @@ VBM   5736592  37749487
 \FunctionTok{write.csv}\NormalTok{(findat1, }\AttributeTok{file =} \StringTok{"data/FINAL\_files/rec\_catch\_TomFormat.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\chapter{NOAA Fisheries commercial
+data}\label{noaa-fisheries-commercial-data}
+
+We do not display the commercial data analysis here because it is based
+on logbook reporting and trip ticket databases, which both contain
+confidential data. The code for processing the commercial data can be
+seen in the file ``commercial.R'' and the steps are outlined below.
+
+\section{Analysis of logbook data}\label{analysis-of-logbook-data}
+
+We first use the pelagic longline logbook data to understand how the
+fleet operates in the high seas on a seasonal basis. These numbers are
+used later to estimate the seasonality of the international landings,
+because those are only reported on an annual basis but quarterly values
+are needed.
+
+The steps are as follows: 1. Read in the pelagic longline data which
+contains set level entries including location of fishing, target
+species, gear used, other details of the fishing trip and number of
+dolphin caught, discarded alive, discarded dead, and the total pounds of
+dolphin kept. 2. Format the longitude and latitude of the sets into
+decimal degrees, and find the points that fall within each of the seven
+polygons representing the areas of the operating model. Check that
+subsetting was done correctly and add and area identifier. 3. Look at
+the characteristics of the dolphin catch and calculate the discard rates
+by trip. Dead discarding rate is found to be 1.4\% on average and total
+discard rate is 2.9\% on average. 4. Standardize date formatting and add
+identifier for season (quarter). Specify a new year variable to allow
+December to be grouped with January and February. 5. Summarize the total
+dolphin catch (in pounds) by year, quarter, and area. 6. Convert the
+total pounds by year-quarter and area to proportions such that each
+year-quarter combination has four seasonal proportions summing to 1.
+Save the matrix of proportions for later analysis.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{plots/PLL_seasonality.png}
+
+}
+
+\caption{Seasonality of the pelagic longline fleet according to the
+logbook data. Figure shows the proportion of dolphin catch occurring in
+each season, for each region of the operating model.}
+
+\end{figure}%
+
+\section{Analysis of trip ticket
+data}\label{analysis-of-trip-ticket-data}
+
+Not all of the commercial dolphin catch activity is reported in the
+logbooks because dolphin are targeted via a variety of permits and gear
+types, not all of which have the same reporting requirements. Therefore,
+in order to parse the commercial catches by year, area and quarter, we
+use the commercial trip ticket data compiled by NOAA Fisheries. These
+are the same data used for quota monitoring and thus are the best
+representation of the total catch.
+
+The steps are as follows: 1. Read in the trip ticket data file, which
+contains commercial dolphinfish landings for the Atlantic coast from
+1986-2023, including all landings by year even if the gear type or area
+is unknown. The dataset specifies the year and month of landing, an area
+of fishing, gear, and the state where landed. Pounds are in units of
+whole weight. 2. Read in operating model regions and classify the list
+of logbook areas into those seven regions. Assign each reported area to
+an operating model region accordingly. 3. Standardize date formatting
+and add identifier for season (quarter). Specify a new year variable to
+allow December to be grouped with January and February. 4. Summarize the
+landings by year-quarter, gear (PLL gear vs.~other gears) and region. 5.
+For most combinations of year-quarter, region and gear, there are
+substantial landings for which the area of fishing is unknown and
+therefore the region cannot be defined. We assume that those landings
+follow the same distribution with regard to region as the other landings
+for that year-quarter and gear combination. For each year-quarter/gear
+combination, we calculate the proportion of catch that occurs in each of
+the seven regions. The total landings of unknown regions are multiplied
+by those proportions and then added to the landings from known regions.
+In cases where none of the areas are known for that year-quarter/gear
+combination, proportions from the quarter immediately previous to that
+quarter are used. Sum the landings by gear type to get the total
+landings for each year-quarter and region. 6. Reformat the data
+according to the specifications needed for input to the operating model
+(columns specifying the year, quarter, fleet, area and total catch). 7.
+Sum landings by year from the original data file and the final outputs
+to ensure that data were processed correctly and no catch is missing.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{plots/tripticket_seasonality.png}
+
+}
+
+\caption{Seasonality of the commercial dolphin catch according to the
+trip ticket data. Figure shows the proportion of dolphin catch occurring
+in each season, for each region of the operating model.}
+
+\end{figure}%
 
 \bookmarksetup{startatroot}
 

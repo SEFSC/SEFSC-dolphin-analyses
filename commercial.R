@@ -8,7 +8,8 @@ library(maps)
 library(yarrr)
 
 # load pelagic longline data 
-# data request from 2023 - sent to M. Damiano
+# data request from June 23, 2023 - sent to M. Damiano by S. Alhale 
+# file is "damiano_request623.xlsx" and folder is "Matt Damiano PLL request" on Google Drive
 
 d <- read.csv("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/PLL_1986_2022_catch_effort.csv")
 
@@ -144,9 +145,16 @@ tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$area), sum, na.rm = T)
 barplot(tab, beside = T, col = rainbow(4))
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
-barplot(tabp, beside = T, col = rainbow(4), main = "seasonality of dolphin catch by region", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)",
-        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4), bty = "n"))
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region", 
+        xlab = "region", ylab = "proportion of total catch (in pounds)", las = 1,
+        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4, end = 0.8), bty = "n"))
+
+# plot seasonality 
+png(filename = "plots/PLL_seasonality.png", width = 600, height = 300)
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- logbook data", 
+        xlab = "region", ylab = "proportion of total catch (in pounds)", las = 1,
+        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 12, y = 0.8, col = rainbow(4, end = 0.8), bty = "n"))
+dev.off()
 
 # look to see if there is a difference when plotted by number
 tab <- tapply(d$DOLK, list(d$quarter, d$area), sum, na.rm = T)
@@ -235,26 +243,40 @@ round(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T) / sum(tapply(d$DOLPHIN_PO
 # NCA   CAR   FLK  NCFL   NNC   VBM   NED 
 # 1.80  1.38  0.92 78.96  7.01  9.34  0.60
 
-###################  TRIP TICKET DATA  #################
 
+
+###################  TRIP TICKET DATA  ######################
+
+# clear workspace 
 rm(list = ls())
 
-d <- read.csv("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/SA_COM_DOLPHIN_1986_2023.csv")
+# Trip ticket data provided to M. Karnauskas by K. Detloff (file name: SA_COM_DOLPHIN_1986_2023.xlsx)
+# Notes attached to data: 
+# Data are commercial dolphinfish landings for the Atlantic coast from 1986-2023
+# Include all landings by year even if the gear type or area is unknown 
+# Area 0 indicates an unknown that could be anywhere along the Atlantic coast and 
+# areas 799 and 800 indicate an unknown somewhere in the South Atlantic. 
+# Also included the state of landing to maybe help refine things in the case of unknown fishing areas. 
+# Pounds are in units of whole weight.
+# The map of trip ticket areas is here (the 3 digit series): https://grunt.sefsc.noaa.gov/ttrs/lu_areas_nmfs.jsp
 
+# read trip ticket data
+dorig <- read.csv("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/SA_COM_DOLPHIN_1986_2023.csv")
+
+d <- dorig
 head(d)
 dim(d)
 
-apply(d, 2, table)
+apply(d, 2, table, useNA = "always")
 
-# from Kyle: SQL code:  SELECT * FROM sedat.xref_area_nmfs_fin@secapxdv_dblk.sfsc.noaa.gov
-
+# read in file with NMFS area codes
 f <- read.csv("data/fin_nmfs_codes.csv")
 f$latc <- f$lat + 0.5
 f$lonc <- -(f$lon + 0.5)
 f$area2 <- f$area
 
+# read in operating model shapefiles
 ar <- read.csv("data/eez/dolphin_OM_areas.csv")
-
 table(ar$region)
 lis <- unique(ar$region)
 
@@ -279,13 +301,14 @@ f$area2[which(f$latc < 35 & f$latc > 28)] <- "NCFL"
 
 f$area2[which(f$latc < 28)] <- "FLK"
 
+# look at areas defined by region and make sure correctly specified
 map("world", xlim = c(-90, -50), ylim = c(20, 55))
 axis(1); axis(2); box()
 points(f$lonc, f$latc, pch = 19, cex = 1, col = as.numeric(as.factor(f$area2)))
-
 for (i in unique(ar$region)) { 
   polygon(ar$X[which(ar$region == i)], ar$Y[which(ar$region == i)], border = 8)}
 
+# look at how landings are distributed by reported area and state landed
 d$region <- f$area2[match(d$AREA, f$FIN)]
 table(d$STATE, d$region, d$GEAR)
 
@@ -391,18 +414,31 @@ plot(findat$Catch_lbs ~ factor(findat$Year))
 
 findat <- findat[which(findat$Year <= 2022), ]
 
-apply(findat, 2, table)
+apply(findat, 2, table, useNA = "always")
+
+dorig <- dorig[which(dorig$YEAR <= 2022), ]
+check1 <- tapply(dorig$WW, dorig$YEAR, sum, na.rm = T)
+check2 <- tapply(findat$Catch_lbs, findat$Year, sum, na.rm = T)
+plot(check1, check2)
+round(check1 / check2, 2)  # note these should be slightly different because December catch moved to following year
 
 write.csv(findat, file = "data/FINAL_files/commercial_TomFormat.csv", row.names = FALSE)
 
-findat$Area <- factor(findat$Area, levels = c("", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
+findat$Area <- factor(findat$Area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
 
 tab <- tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T)
 barplot(tab, beside = T, col = rainbow(4))
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
-barplot(tabp, beside = T, col = rainbow(4), main = "seasonality of dolphin catch by region -- trip ticket", 
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- trip ticket data", 
         xlab = "region", ylab = "proportion of total catch (in pounds)",
-        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4), bty = "n"))
+        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 10, y = 0.7, col = rainbow(4, end = 0.8), bty = "n"))
+
+dev.off()
+png(filename = "plots/tripticket_seasonality.png", width = 600, height = 300)
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- trip ticket data", 
+        xlab = "region", ylab = "proportion of total catch (in pounds)",
+        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 12, y = 0.8, col = rainbow(4, end = 0.8), bty = "n"))
+dev.off()
 
 
