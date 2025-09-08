@@ -27,7 +27,7 @@ rm(list = ls())
 
 load("data/eez/Marineregions_EEZ.RData")
 head(co)
-map("usa", xlim = c(-140, -60), ylim = c(20, 50))
+map("usa", xlim = c(-130, -63), ylim = c(22, 50))
 axis(1); axis(2); box()
 points(co$X, co$Y, pch = 19, col = 2)
 
@@ -99,7 +99,8 @@ abline(v = -60)
 
 cofin <- cofin[, 1:2]
 
-map(database = "usa", xlim = c(-83, -60), ylim = c(23, 47)) 
+map(database = "usa", xlim = c(-83, -60), ylim = c(23, 47), col = 0) 
+map(database = "usa", xlim = c(-83, -60), ylim = c(23, 47), add = T) 
 mtext(side = 1, "degrees W", line = 2); mtext(side = 2, "degrees N", line = 3)
 axis(1); axis(2, las = 2); box()
 polygon(cofin$X, cofin$Y, border = 2)
@@ -117,7 +118,7 @@ Here is a final U.S. South Atlantic EEZ polygon, with a simplified coastline to 
 
 ## Define the Caribbean region
 
-Now we define the boundaries of the Caribbean region. Its northernmost boundary aligns with the EEZ along Florida's coast up to 28.3 degrees N, at which point the boundary cuts southeast until it intersects with the 24N boundary just east of the Bahamas, approximating the Bahamas EEX. Its western boundary is -90 degrees W and its southern boundary is 8 degrees N (essentially the land boundary of the Caribbean Sea). Its eastern boundary is -71.1 degrees W.
+Now we define the boundaries of the Caribbean region. Its northernmost boundary aligns with the EEZ along Florida's coast up to 28.3 degrees N, at which point the boundary cuts southeast until it intersects with the 24N boundary just east of the Bahamas, approximating the Bahamas EEZ. Its western boundary is -90 degrees W and its southern boundary is 8 degrees N (essentially the land boundary of the Caribbean Sea). Its eastern boundary is -71.1 degrees W.
 
 ```{r}
 #| echo: true

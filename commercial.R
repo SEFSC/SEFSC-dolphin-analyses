@@ -152,7 +152,7 @@ barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of do
 # plot seasonality 
 png(filename = "plots/PLL_seasonality.png", width = 600, height = 300)
 barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- logbook data", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)", las = 1,
+        xlab = "region", ylab = "proportion of total catch (in pounds)", las = 1, ylim = c(0, 0.8), 
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 12, y = 0.8, col = rainbow(4, end = 0.8), bty = "n"))
 dev.off()
 
@@ -437,7 +437,7 @@ barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of do
 dev.off()
 png(filename = "plots/tripticket_seasonality.png", width = 600, height = 300)
 barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- trip ticket data", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)",
+        xlab = "region", ylab = "proportion of total catch (in pounds)", ylim = c(0, 0.8), 
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 12, y = 0.8, col = rainbow(4, end = 0.8), bty = "n"))
 dev.off()
 
