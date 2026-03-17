@@ -45,6 +45,9 @@ for (i in lis) {
   d$area[which(pts == 1)] <- i
 }
 
+d$area2 <- d$area
+d$area2[which(d$area == "NCA" & d$lon < (-62))] <- "NCA_W"
+
 # check that subsetting was done correctly - color-coded areas
 table(d$area, useNA = "always")
 map("world", xlim = c(-100, -30), ylim = c(5, 55))
@@ -72,6 +75,9 @@ d$DOLPHIN_POUNDS[is.na(d$DOLPHIN_POUNDS)] <- 0
 d$DOLTOT <- d$DOLK + d$DOLA + d$DOLD
 hist(d$DOLTOT, main = "# dolphin caught")   # total dolphin kept or discarded
 
+# calculate CPUE
+d$cpue <- d$DOLPHIN_POUNDS / d$HOOKS
+
 d$DISCTOT <- (d$DOLA + d$DOLD) / d$DOLTOT   # calculate discard rate
 d$DISCDEAD <- d$DOLD / d$DOLTOT             # calculate dead discard rate
 
@@ -79,6 +85,8 @@ hist(d$DISCTOT, main = "rate of discarding (proportion)")
 mean(d$DISCTOT, na.rm = T) * 100  # total discarding rate is 2.9%
 hist(d$DISCDEAD, main = "rate of dead discarding (proportion)")
 mean(d$DISCDEAD, na.rm = T) * 100 # dead discarding rate is 1.4%
+
+d$area <- factor(d$area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
 
 # plot out pounds caught of dolphin by area
 map("world", xlim = c(-100, -30), ylim = c(5, 55)) 
@@ -94,8 +102,59 @@ axis(1); axis(2); box()
 points(dd$lon, dd$lat, pch = 19, cex = log(dd$DOLPHIN_POUNDS)/4, 
        col = transparent(as.numeric(as.factor(dd$area))+1, 0.9))
 
-barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, sum, na.rm = T), main = "total catch by area")
+barplot(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T)/10^6, 
+        main = "Total dolphin catch by area 1986-2022 from PLL logbook", ylab = "millions of pounds")
 barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, mean, na.rm = T), main = "average catch per trip by area")
+
+dp <- d[which(d$PLL == "Y" & d$TDOL == "Y"), ]  # subset PLL trips
+map("world", xlim = c(-90, -40), ylim = c(15, 48))
+mtext(side = 3, line = 1, "Distribution of PLL dolphin CPUE - dolphin target trips", cex = 1.2, font = 2)
+#points(d$lon, d$lat, pch = 19, cex = 0.5)
+axis(1); axis(2, las = 2); box()
+points(dp$lon, dp$lat, pch = 19, cex = (log(dp$cpue)+6)/3, 
+       col = transparent(as.numeric(as.factor(dp$area)), 0.9))
+x <- c(0.1, 0.5, 1, 5)
+legend("topleft", legend = x, pt.cex = (log(x)+6)/3, pch = 19, col = transparent(1, 0.7), title = "total pounds per # hooks")
+
+dp <- d[which(d$PLL == "Y" & d$TDOL == "N"), ] # subset PLL trips not targeting dolphin
+map("world", xlim = c(-90, -40), ylim = c(15, 48))
+mtext(side = 3, line = 1, "Distribution of PLL dolphin CPUE - other species target trips", cex = 1.2, font = 2)
+axis(1); axis(2, las = 2); box()
+points(dp$lon, dp$lat, pch = 19, cex = (log(dp$cpue)+6)/3, 
+       col = transparent(as.numeric(as.factor(dp$area)), 0.9))
+x <- c(0.1, 0.5, 1, 5)
+legend("topleft", legend = x, pt.cex = (log(x)+6)/3, pch = 19, col = transparent(1, 0.7), title = "total pounds per # hooks")
+
+dp <- d[which(d$PLL == "Y" & d$TDOL == "Y"), ]  # subset PLL trips
+plot(dp$cpue, dp$DOLPHIN_POUNDS)
+plot(dp$cpue, dp$DOLPHIN_POUNDS, xlim = c(0, 10))
+
+dp$cpue[which(dp$cpue == "Inf")] <- NA
+boxplot((dp$cpue) ~ dp$area2, ylim = c(0, 5))
+barplot(tapply(dp$cpue, dp$area2, mean, na.rm = T), main = "Average nominal PLL CPUE by region (dolphin target trips)", 
+        ylab = "dolphin catch per unit effort (pounds / hooks)")
+barplot(tapply(as.numeric(dp$cpue>0), dp$area2, mean, na.rm = T))
+
+tab <- tapply(dp$cpue, list(dp$quarter, dp$area), mean, na.rm = T)
+tab[which(is.na(tab))] <- 0
+
+# look at distribution of dolphin PLL trips
+
+map("world", xlim = c(-100, -30), ylim = c(5, 55))
+mtext(side = 3, line = 1, "Distribution of logbook trips with dolphin present", cex = 1.2, font = 2)
+points(d$lon[d$DOLPHIN_POUNDS == 0], d$lat[d$DOLPHIN_POUNDS == 0], pch = 19, cex = 1, 
+       col = transparent(2, 0.9))
+points(d$lon[d$DOLPHIN_POUNDS > 0], d$lat[d$DOLPHIN_POUNDS > 0], pch = 19, cex = 1, col = transparent(3, 0.6))
+axis(1); axis(2, las = 2); box()
+legend("topleft", c("no dolphin", "dolphin present"), pch = 19, col = c(2, 3))
+
+for (i in unique(ar$region)) { 
+  ar1 <- ar[which(ar$region == i), ]
+  polygon(ar1$X, ar1$Y, border = 1, lwd = 2, lty = 1)
+}
+text(-80, 12, "CAR", cex = 1.2)
+text(-50, 30, "NCA", cex = 1.2)
+text(-50, 52, "NED", cex = 1.2)
 
 # make new date variables 
 d$year <- as.numeric(substr(d$SDATE, 1, 4))
@@ -123,8 +182,6 @@ barplot(tapply(d$DOLPHIN_POUNDS, d$SET_YEAR, sum, na.rm = T), las = 2) # starts 
 
 d <- d[which(d$year >= 1997), ]
 d <- d[which(d$year < 2023), ]
-
-d$area <- factor(d$area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
 
 barplot(tapply(d$DOLPHIN_POUNDS, d$yrqrt, sum, na.rm = T))
 
@@ -317,17 +374,22 @@ d$gear2[which(d$GEAR == "UNK")] <- "HL"
 
 table(d$STATE, d$region, d$gear2)
 
+d$region[d$region == ""] <- "unknown"
 unique(d$region)
-d$region <- factor(d$region, levels = c("", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
+d$region <- factor(d$region, levels = c("unknown", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
 
 barplot(tapply(d$WW, d$YEAR, sum, na.rm = T), las = 2)
 barplot(tapply(d$WW, d$MONTH, sum, na.rm = T))
 barplot(tapply(d$WW, d$GEAR, sum, na.rm = T))
 barplot(tapply(d$WW, d$STATE, sum, na.rm = T))
 barplot(tapply(d$WW, d$AREA, sum, na.rm = T), las = 2)
-barplot(tapply(d$WW, d$region, sum, na.rm = T))
-barplot(tapply(d$WW, list(d$GEAR, d$region), sum, na.rm = T), beside = T, 
-        legend.text = unique(d$GEAR), col = 2:4)
+barplot(tapply(d$WW, d$region, sum, na.rm = T)/10^6, main = "Total dolphin catch by area 1986 - 2023 from trip tickets", 
+        ylab = "millions of pounds")
+tab <- tapply(d$WW, list(d$GEAR, d$region), sum, na.rm = T)
+barplot(tab/10^6, beside = T, 
+        legend.text = rownames(tab), col = 2:4, 
+        main = "Total trip ticket landings by gear and reported area 1986-2023", 
+        ylab = "millions of pounds")
 
 # convert month December to following year 
 d$MONTH[which(d$MONTH == 12)] <- 0.5
