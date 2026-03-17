@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./assets/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-872c1a08ee464f6f4a0f517161213825.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-46883e25cf4b14a05bbe39937ba072c6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -132,7 +133,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="https://raw.githubusercontent.com/nmfs-opensci/assets/main/logo/nmfs-opensci-logo3.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="https://raw.githubusercontent.com/nmfs-opensci/assets/main/logo/nmfs-opensci-logo3.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="https://raw.githubusercontent.com/nmfs-opensci/assets/main/logo/nmfs-opensci-logo3.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</a> 
@@ -257,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.2" class="anchored" data-anchor-id="read-in-the-high-seas-catches"><span class="header-section-number">5.2</span> Read in the high seas catches</h2>
 <p>First we read in the high seas catches for the Western Central Atlantic and Northwest Atlantic zones. These are equivalent to FAO areas 21 and 31.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pals"</span>)) <span class="fu">install.packages</span>(<span class="st">"pals"</span>)</span>
@@ -267,14 +269,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>hslis <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="st">"data/SAU/"</span>)[<span class="fu">grep</span>(<span class="st">"HighSeas"</span>, <span class="fu">dir</span>(<span class="st">"data/SAU/"</span>))]</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># identify areas 21 and 31</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>hslis[<span class="dv">1</span>]; hslis[<span class="dv">3</span>]   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>hslis[<span class="dv">1</span>]; hslis[<span class="dv">3</span>]   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SAU HighSeas 21 v50-1.csv"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SAU HighSeas 31 v50-1.csv"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#download data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#download data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(<span class="st">"data/SAU/"</span>, hslis[<span class="dv">1</span>]))   </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(<span class="st">"data/SAU/"</span>, hslis[<span class="dv">3</span>]))</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -282,19 +284,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(h1$area_name)</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(h3$area_name)</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> <span class="fu">rbind</span>(h1, h3) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> <span class="fu">rbind</span>(h1, h3) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We extract the data for dolphinfish and look at the characteristics of the catches. Most of the catches are in the Western Central Atlantic, and the primary fishing entities are Venezuela and Saint Lucia. The fishing sector is all industrial, and the vast majority of the catch is reported landings, with only a tiny fraction of discards or unreported landings listed in the database. The gear type is primarily long line.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check species name and filter out dolphinfish</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(hs<span class="sc">$</span>common_name)[<span class="fu">grep</span>(<span class="st">"dolphin"</span>, <span class="fu">unique</span>(hs<span class="sc">$</span>common_name))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check species name and filter out dolphinfish</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(hs<span class="sc">$</span>common_name)[<span class="fu">grep</span>(<span class="st">"dolphin"</span>, <span class="fu">unique</span>(hs<span class="sc">$</span>common_name))]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Common dolphinfish"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> hs[<span class="fu">which</span>(hs<span class="sc">$</span>common_name <span class="sc">==</span> <span class="st">"Common dolphinfish"</span>), ]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> hs[<span class="fu">which</span>(hs<span class="sc">$</span>common_name <span class="sc">==</span> <span class="st">"Common dolphinfish"</span>), ]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># look at the categories within each column of data</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(hs[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="dv">2</span>, table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(hs[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="dv">2</span>, table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$area_name
 
@@ -381,7 +383,7 @@ $end_use_type
                    Other 
                       37 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert from metric tonnes to pounds</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert from metric tonnes to pounds</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>hs<span class="sc">$</span>pounds <span class="ot">&lt;-</span> hs<span class="sc">$</span>tonnes <span class="sc">*</span> <span class="dv">1000</span> <span class="sc">*</span> <span class="fl">2.20462</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># produce barplot of key data fields</span></span>
@@ -393,7 +395,7 @@ $end_use_type
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, hs<span class="sc">$</span>fishing_sector, sum, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"millions of pounds"</span>, <span class="at">main =</span> <span class="st">"Fishing sector"</span>, <span class="at">horiz =</span> T)</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, hs<span class="sc">$</span>catch_type, sum, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"millions of pounds"</span>, <span class="at">main =</span> <span class="st">"Catch type"</span>, <span class="at">horiz =</span> T)</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, hs<span class="sc">$</span>reporting_status, sum, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"millions of pounds"</span>, <span class="at">main =</span> <span class="st">"Reporting status"</span>, <span class="at">horiz =</span> T)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, hs<span class="sc">$</span>gear_type, sum, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"millions of pounds"</span>, <span class="at">main =</span> <span class="st">"Gear type"</span>, <span class="at">horiz =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, hs<span class="sc">$</span>gear_type, sum, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"millions of pounds"</span>, <span class="at">main =</span> <span class="st">"Gear type"</span>, <span class="at">horiz =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -401,12 +403,12 @@ $end_use_type
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds, hs<span class="sc">$</span>catch_type, sum, <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">sum</span>(hs<span class="sc">$</span>pounds) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)   <span class="co"># &lt;&lt; 1% are discards</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds, hs<span class="sc">$</span>catch_type, sum, <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">sum</span>(hs<span class="sc">$</span>pounds) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)   <span class="co"># &lt;&lt; 1% are discards</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Discards Landings 
     0.03    99.97 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds, hs<span class="sc">$</span>reporting_status, sum, <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">sum</span>(hs<span class="sc">$</span>pounds) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)  <span class="co"># &lt;&lt; 1% are unreported</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(hs<span class="sc">$</span>pounds, hs<span class="sc">$</span>reporting_status, sum, <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">sum</span>(hs<span class="sc">$</span>pounds) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)  <span class="co"># &lt;&lt; 1% are unreported</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Reported Unreported 
      99.97       0.03 </code></pre>
@@ -417,14 +419,14 @@ $end_use_type
 <h2 data-number="5.3" class="anchored" data-anchor-id="summarize-the-high-seas-catches"><span class="header-section-number">5.3</span> Summarize the high seas catches</h2>
 <p>We plot the annual catches by fishing entity to look at trends over time.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hs<span class="sc">$</span>fishing_entity <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(hs<span class="sc">$</span>fishing_entity)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hs<span class="sc">$</span>fishing_entity <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(hs<span class="sc">$</span>fishing_entity)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hs<span class="sc">$</span>fishing_entity <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(hs<span class="sc">$</span>fishing_entity)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>), <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">tapply</span>(hs<span class="sc">$</span>pounds, <span class="fu">list</span>(hs<span class="sc">$</span>year, hs<span class="sc">$</span>fishing_entity), sum, <span class="at">na.rm =</span> T)</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">as.numeric</span>(<span class="fu">rownames</span>(tab)), tab<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="fu">glasbey</span>(<span class="fu">ncol</span>(tab)), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>, </span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"High seas Western Central Atlantic dolphin catch"</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">colnames</span>(tab), <span class="at">col =</span> <span class="fu">glasbey</span>(<span class="fu">ncol</span>(tab)), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">colnames</span>(tab), <span class="at">col =</span> <span class="fu">glasbey</span>(<span class="fu">ncol</span>(tab)), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -435,12 +437,12 @@ $end_use_type
 </div>
 <p>Finally we output the subset of high seas dolphin catch for the two areas. Because we have already accounted for the USA catches in our national reporting and are aiming to only summarize international catches here, we filter out the USA catches from the Sea Around Us database.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> hs[<span class="fu">which</span>(hs<span class="sc">$</span>fishing_entity <span class="sc">!=</span> <span class="st">"USA"</span>), ]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> hs[<span class="fu">which</span>(hs<span class="sc">$</span>fishing_entity <span class="sc">!=</span> <span class="st">"USA"</span>), ]</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>hs<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(hs<span class="sc">$</span>year, <span class="at">levels =</span> <span class="dv">1950</span><span class="sc">:</span><span class="dv">2019</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">tapply</span>(hs<span class="sc">$</span>pounds, <span class="fu">list</span>(hs<span class="sc">$</span>year, hs<span class="sc">$</span>area_name), sum, <span class="at">na.rm =</span> T)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>tab[<span class="fu">is.na</span>(tab)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tab, <span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tab, <span class="dv">40</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Atlantic, Northwest Atlantic, Western Central
 1980               0.000                     0.000
@@ -484,8 +486,8 @@ $end_use_type
 2018           29328.358                885814.754
 2019           21870.621                632747.157</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write summary to merge with EEZ data </span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(tab, <span class="at">file =</span> <span class="st">"data/SAU/high_seas_by_year.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write summary to merge with EEZ data </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(tab, <span class="at">file =</span> <span class="st">"data/SAU/high_seas_by_year.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="distribute-the-high-seas-catches-across-quarters-of-the-year" class="level2" data-number="5.4">
@@ -493,13 +495,13 @@ $end_use_type
 <p>The international catches are only reported as annual catches and do not have any month or season associated with them. However, the MSE operating model requires seasonal catches. The majority of the international catches are caught by longline, so we will assume that the fleet distribution of the U.S. pelagic longline is representative of the seasonality of the international high seas fleets. Now we parse the annual catches according to the seasonality of the U.S. fleet.</p>
 <p>At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/outputs/per_PLLcatch_by_area_yearquarter.RData"</span>)  </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[<span class="fu">which</span>(<span class="fu">rownames</span>(tab) <span class="sc">&gt;=</span> <span class="dv">1997</span>), ]  <span class="co"># PLL data are only available from 1997 on </span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#tab[nrow(tab), ]</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tab, tab[<span class="fu">nrow</span>(tab), ], tab[<span class="fu">nrow</span>(tab), ], tab[<span class="fu">nrow</span>(tab), ])  <span class="co"># interpolate 2019 catches for 2020-2022</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tab)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Atlantic, Northwest Atlantic, Western Central
 2017            34806.93                 1374259.7
@@ -509,7 +511,7 @@ $end_use_type
                 21870.62                  632747.2
                 21870.62                  632747.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>NED <span class="ot">&lt;-</span> percatch[, , <span class="dv">1</span>]   <span class="co"># create matrices for final catch data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>NED <span class="ot">&lt;-</span> percatch[, , <span class="dv">1</span>]   <span class="co"># create matrices for final catch data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>NCA <span class="ot">&lt;-</span> percatch[, , <span class="dv">1</span>]</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(percatch))  { </span>
@@ -524,7 +526,7 @@ $end_use_type
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(yrs <span class="sc">+</span> qrt<span class="sc">/</span><span class="dv">4</span>, <span class="fu">cbind</span>(<span class="fu">matrix</span>(NED), <span class="fu">matrix</span>(NCA))<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">main =</span> <span class="st">"International high seas catches by quarter"</span>, </span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">c</span>(<span class="st">"NED"</span>, <span class="st">"NCA"</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">c</span>(<span class="st">"NED"</span>, <span class="st">"NCA"</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -532,18 +534,18 @@ $end_use_type
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save NED data in this format because it needs to be combined with Canadian EEZ catches</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(NED, <span class="at">file =</span> <span class="st">"data/outputs/NED_year_quarter.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save NED data in this format because it needs to be combined with Canadian EEZ catches</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(NED, <span class="at">file =</span> <span class="st">"data/outputs/NED_year_quarter.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we format the data in the format for input into the operating model. We only include NCA here, as the NED high seas catches must be combined with international catches in territorial waters of Canada and France in the NED region.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># format for operating model</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># format for operating model</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>flt <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"Intl"</span>, <span class="fu">length</span>(yrs))</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>are <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"NCA"</span>, <span class="fu">length</span>(yrs))</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(yrs, qrt, flt, are, <span class="fu">matrix</span>(NCA)))</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Quarter"</span>, <span class="st">"Fleet"</span>, <span class="st">"Area"</span>, <span class="st">"Catch_lbs"</span>)</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>findat<span class="sc">$</span>Catch_lbs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(findat<span class="sc">$</span>Catch_lbs)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(findat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(findat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Year Quarter Fleet Area Catch_lbs
 1 1997       1  Intl  NCA         0
@@ -553,14 +555,14 @@ $end_use_type
 5 1998       1  Intl  NCA         0
 6 1998       2  Intl  NCA         0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat$Catch_lbs, type = "l")</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat$Catch_lbs, type = "l")</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat$Catch_lbs ~ factor(findat$Area))</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat$Catch_lbs ~ factor(findat$Quarter))</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat$Catch_lbs ~ factor(findat$Year))</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#apply(findat, 2, table)</span></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#barplot(tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T), beside = T, col = rainbow(4))</span></span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(findat, <span class="at">file =</span> <span class="st">"data/FINAL_files/NCA_Intl_TomFormat.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(findat, <span class="at">file =</span> <span class="st">"data/FINAL_files/NCA_Intl_TomFormat.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -618,13 +620,14 @@ $end_use_type
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
