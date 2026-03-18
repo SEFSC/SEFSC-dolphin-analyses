@@ -1,10 +1,10 @@
 # Predictive indices - El Niño
 
-Dolphin abundance in South Atlantic waters is driven by a combination of factors that are mostly outside of U.S. fishery management control, including environmental conditions and catch in international waters. In order to create a management procedure for the dolphin management strategy evaluation we need an index that can predict ahead of time whether the abundance of dolphin in U.S. waters is likely to be above or below average in a given year. Ideally this index can capture the dynamics early in the year or a season ahead in order to allow adequate time for management response. In the following sections we explore potential predictive indices of dolphin abundance. 
+Dolphin abundance in South Atlantic waters is driven by a combination of factors that are mostly outside of U.S. fishery management control, including environmental conditions and catch in international waters. In order to create a management procedure for the dolphin management strategy evaluation we need an index that can predict ahead of time whether the abundance of dolphin in U.S. waters is likely to be above or below average in a given year. Ideally this index can capture the dynamics early in the year or a season ahead in order to allow adequate time for management response. In the following sections we explore potential predictive indices of dolphin abundance.
 
 ## Recreational catch as a proxy for availability
 
-Because the recreational catch is generally unconstrained by management (the total catch quota is rarely reached and catches are on average well below the bag limits), the total recreational catch could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from Section 3 @sec-MRIP and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM).  We also include Gulf of America catches because dolphin are not managed in the Gulf region and thus the catch is not constrained by management and is most likely a function of availability.  
+Because the recreational catch is generally unconstrained by management (the total catch quota is rarely reached and catches are on average well below the bag limits), the total recreational catch could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from Section 3 @sec-MRIP and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America catches because dolphin are not managed in the Gulf region and thus the catch is not constrained by management and is most likely a function of availability.
 
 ```{r}
 #| warning: false
@@ -21,7 +21,7 @@ names(rec)[1] <- "Year"
 
 ## Plot the recreational landings
 
-Plotting the total recreational catch by region and the proportion of catch by region, we can observe that most of the catch in U.S. waters came from the FLK region, particularly in the earlier years.  More recently, an increasing proportion of the catch has been coming from NCFL and further north, with FLK composing only about 50% of the catch. Gulf catches have historically been a small proportion of the total catch and have remained small throughout time. Catches in the VBM region were historically very small (~1%) but in recent years have varied between 10-18% of the catch.  
+Plotting the total recreational catch by region and the proportion of catch by region, we can observe that most of the catch in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the catch has been coming from NCFL and further north, with FLK composing only about 50% of the catch. Gulf catches have historically been a small proportion of the total catch and have remained small throughout time. Catches in the VBM region were historically very small (\~1%) but in recent years have varied between 10-18% of the catch.
 
 ```{r}
 #| echo: true
@@ -51,13 +51,14 @@ rec$ALL <- rec$GULF + rec$ATL
 rec <- rec[which(rec$Year >= 1990), ]
 
 ```
-Recreational monitoring was first established in 1979 and went through a number of changes in the 1980s, particularly related to monitoring of the for-hire fleet. We can see a very large jump in catches in the late 1980s that we suspect is related to some of these changes in methodology. For our data explorations we will use recreational data from 1990 forward as a reference period in which the monitoring was more standardized.  
+
+Recreational monitoring was first established in 1979 and went through a number of changes in the 1980s, particularly related to monitoring of the for-hire fleet. We can see a very large jump in catches in the late 1980s that we suspect is related to some of these changes in methodology. For our data explorations we will use recreational data from 1990 forward as a reference period in which the monitoring was more standardized.
 
 ## Potential influence of El Niño Southern Oscillation
 
 We note that many large peaks in recreational catch have occurred in years where there were severe El Niño events (e.g., 1997-1998, 2015). We first explore the El Niño Southern Oscillation (ENSO) as a potential environmental predictor of dolphin abundace. An index based on El Niño is potentially attractive because there is some ability for seasonal predictions of El Niño (3-6 months ahead of time). As large-scale disruptors of atmospheric conditions across the globe, El Niño events have impacts on the distribution of temperatures in the Atlantic and could trigger changes in fish distributions.
 
-We use the [multivariate ENSO index from NOAA's Physical Sciences Laboratory](https://www.psl.noaa.gov/enso/mei/), which combines the influences of five different variables related to Pacific Ocean state into one index. The index is updated monthly and historical data can be downloaded directly from the site.     
+We use the [multivariate ENSO index from NOAA's Physical Sciences Laboratory](https://www.psl.noaa.gov/enso/mei/), which combines the influences of five different variables related to Pacific Ocean state into one index. The index is updated monthly and historical data can be downloaded directly from the site.
 
 ```{r}
 #| echo: true
@@ -87,9 +88,10 @@ text(346, 2, "El Niño events")
 text(346, -2, "La Niña events")
 
 ```
-Here is the raw time series, showing positive and negative anomalies in the ENSO state.  
 
-Now we will compare the ENSO index to the recreational catches. First we compare the annual average ENSO index to the catches from the different regions. We report adjusted R-squared values and p-values for linear regression of the ENSO index versus the catches; significant relationships are highlighted in blue.  
+Here is the raw time series, showing positive and negative anomalies in the ENSO state.
+
+Now we will compare the ENSO index to the recreational catches. First we compare the annual average ENSO index to the catches from the different regions. We report adjusted R-squared values and p-values for linear regression of the ENSO index versus the catches; significant relationships are highlighted in blue.
 
 ```{r}
 #| warning: false
@@ -124,7 +126,8 @@ legend("topleft",
 }
 
 ```
-The ENSO index appears to be most closely related to the total recreational catch across the South Atlantic (driven primarily by catches in the FLK region). The relationship is highly significant and the ENSO index explains 19% of the variation in the total catches.  
+
+The ENSO index appears to be most closely related to the total recreational catch across the South Atlantic (driven primarily by catches in the FLK region). The relationship is highly significant and the ENSO index explains 19% of the variation in the total catches.
 
 ## Seasonal influence of El Niño Southern Oscillation
 
@@ -156,9 +159,10 @@ legend("topleft",
 }
 
 ```
-A significant relationship between the monthly ENSO index and total South Atlantic recreational landings occurs with the May-June index, but the strongest relationship occurs in June-July (with 28% of the variance in landings explained by the index in that month). The relationship in the late summer and fall months are also significant, which is expected since the ENSO index is highly correlated from month to month.    
 
-We will test the June-July ENSO index in the management procedure as it has the strongest relationship.  
+A significant relationship between the monthly ENSO index and total South Atlantic recreational landings occurs with the May-June index, but the strongest relationship occurs in June-July (with 28% of the variance in landings explained by the index in that month). The relationship in the late summer and fall months are also significant, which is expected since the ENSO index is highly correlated from month to month.
+
+We will test the June-July ENSO index in the management procedure as it has the strongest relationship.
 
 ```{r}
 #| warning: false

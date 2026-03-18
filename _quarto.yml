@@ -24,6 +24,7 @@ book:
     - SAU_highseas.qmd
     - SAU_EEZs.qmd
     - compile_all_data.qmd
+    - indices_intro.qmd
     
   page-footer:
     right: "This page is built with [Quarto](https://quarto.org/)."
