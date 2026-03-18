@@ -13,6 +13,10 @@ Because the recreational catch is generally unconstrained by management (the tot
 # clear workspace
 rm(list = ls())
 
+# install library
+if(!require("readr")) install.packages("readr")
+library(readr)
+
 # read in data file
 rec <- read.csv("data/recLandings.csv")
 names(rec)[1] <- "Year"
@@ -64,9 +68,6 @@ We use the [multivariate ENSO index from NOAA's Physical Sciences Laboratory](ht
 #| echo: true
 #| fig-width: 10
 #| fig-height: 5
-
-# install library
-library(readr)
 
 #download ENSO index
 url <- "https://www.psl.noaa.gov/enso/mei/data/meiv2.data"

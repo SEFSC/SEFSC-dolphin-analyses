@@ -25,6 +25,7 @@ book:
     - SAU_EEZs.qmd
     - compile_all_data.qmd
     - indices_intro.qmd
+    - blue_blob_index.qmd
     
   page-footer:
     right: "This page is built with [Quarto](https://quarto.org/)."
