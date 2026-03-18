@@ -14,15 +14,15 @@ For this analysis we need a historical temperature record that is available at l
 rm(list = ls())
 
 # install libraries
-if(!require("ncdf4")) install.packages("ncdf4")
-if(!require("maps")) install.packages("maps")
-if(!require("lubridate")) install.packages("lubridate")
-if(!require("rerddap")) install.packages("rerddap")
+# if(!require("ncdf4")) install.packages("ncdf4")
+ if(!require("maps")) install.packages("maps")
+# if(!require("lubridate")) install.packages("lubridate")
+# if(!require("rerddap")) install.packages("rerddap")
 
-library(ncdf4)
-library(maps)
-library(lubridate)
-library(rerddap)
+# library(ncdf4)
+ library(maps)
+# library(lubridate)
+# library(rerddap)
 
 # get ERDDAP info 
 id <- info('nceiErsstv5')   #https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html
