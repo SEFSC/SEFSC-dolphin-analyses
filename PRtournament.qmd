@@ -13,6 +13,10 @@ We first input the data set, parse out the dates to extract month and year, and 
 # clear workspace
 rm(list = ls())
 
+
+library(dplyr)
+library(emmeans) # Best for extracting standardized indices
+
 # import data -------------------------------------
 d <- read.csv("data/PRDNER-DolTournamentData.csv") 
 #apply(d, 2, table)
@@ -305,14 +309,14 @@ dat$mon <- as.factor(dat$mon)
 dat$zone <- as.factor(dat$zone)
 
 # standardization -----------------------------------
-out <- lm(log(dat$cpue) ~ dat$year + 0 + dat$mon + dat$zone)
+
+out <- glm(log(dat$cpue) ~ dat$year + dat$mon + dat$zone, 
+                    family = gaussian)
 summary(out)
 anova(out)
 
 # estimated coefficients from standardization
-exp(out$coefficients[1:length(unique(dat$year))])
-stcpue <- exp(out$coefficients[1:length(unique(dat$year))])
-ind <- data.frame(sort(unique(dat$year)), stcpue)
+ind <- emmeans(out, "year", type = "response") %>% as.data.frame()
 names(ind)[1] <- "Year"
 
 ```
@@ -323,14 +327,16 @@ Finally, we compare the standardized CPUE with the nominal CPUE. The two time se
 #| echo: true
 
 # look at nominal vs standardized index ------------------------
-plot(yrs, stcpue, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from dolphin tournament data",
-     xlab = "year", ylab = "CPUE (fish / (boats x time))")
-points(yrs, stcpue, pch = 1, lwd = 2, col = 4) 
+plot(yrs, ind$response, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from dolphin tournament data",
+     xlab = "year", ylab = "CPUE (fish / (boats x time))", ylim = c(0, 1.4))
+points(yrs, ind$response, pch = 1, lwd = 2, col = 4) 
+lines(yrs, ind$lower.CL, col = 4, lty = 2)
+lines(yrs, ind$upper.CL, col = 4, lty = 2)
 lines(yrs, tapply(dat$cpue, dat$year, mean, na.rm = T) *1.0, col = 2, lwd = 2)
 points(yrs, tapply(dat$cpue, dat$year, mean, na.rm = T) *1.0, col = 2, lwd = 2, pch = 1)
 legend("topleft", c("nominal", "standardized"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")
 
-cor(stcpue, tapply(dat$cpue, dat$year, mean, na.rm = T))
+cor(ind$response, tapply(dat$cpue, dat$year, mean, na.rm = T))
 
 ```
 
@@ -348,9 +354,9 @@ rec$ATL <- rowSums(rec[3:6], na.rm = T)
 
 d <- merge(rec, ind, by = "Year")
 
-plot(d$stcpue, d$ATL, col = 0)
-text(d$stcpue, d$ATL, d$Year, col = 1)
-out <- lm(d$ATL ~ d$stcpue)
+plot(d$response, d$ATL, col = 0)
+text(d$response, d$ATL, d$Year, col = 1)
+out <- lm(d$ATL ~ d$response)
 abline(out, col = 8)
 summary(out)
 
