@@ -26,6 +26,7 @@ book:
     - compile_all_data.qmd
     - indices_intro.qmd
     - blue_blob_index.qmd
+    - PRtournament.qmd
     
   page-footer:
     right: "This page is built with [Quarto](https://quarto.org/)."
