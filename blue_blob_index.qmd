@@ -4,7 +4,7 @@ Dolphin have a circumtropical distribution, migrating to temperate waters in sum
 
 ## Accessing temperature data
 
-For this analysis we need a historical temperature record that is available at large spatial (entire Atlantic) and temporal (monthly-yearly) scales.  We use NOAA's [Extended Reconstructed Sea Surface Temperature (ERSST)](https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html) data, provided by the NOAA National Centers for Environmental Information and available through ERDDAP. This temperature record goes back to the mid-1800s, is available at monthly time steps and a 2x2-degree grid size resolution, and is suitable for looking at large-scale patterns over decades. We download the data from 1980 - present and subset for the Atlantic Ocean from 100W - 0W longitude and 0N - 70N latitude.      
+For this analysis we need a historical temperature record that is available at large spatial (entire Atlantic) and temporal (monthly-yearly) scales.  We use NOAA's [Extended Reconstructed Sea Surface Temperature (ERSST)](https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html) data, provided by the NOAA National Centers for Environmental Information and available through ERDDAP. This temperature record goes back to the mid-1800s, is available at monthly time steps and a 2°x2° grid size resolution, and is suitable for looking at large-scale patterns over decades. We download the data from 1980 - present and subset for the Atlantic Ocean from 100°W - 0°W longitude and 0°N - 70°N latitude.      
 
 ```{r}
 #| warning: false
@@ -14,18 +14,18 @@ For this analysis we need a historical temperature record that is available at l
 rm(list = ls())
 
 # install libraries
+if(!require("maps")) install.packages("maps")
 # if(!require("ncdf4")) install.packages("ncdf4")
- if(!require("maps")) install.packages("maps")
 # if(!require("lubridate")) install.packages("lubridate")
 # if(!require("rerddap")) install.packages("rerddap")
 
-# library(ncdf4)
  library(maps)
+# library(ncdf4)
 # library(lubridate)
 # library(rerddap)
 
 # get ERDDAP info 
-id <- info('nceiErsstv5')   #https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html
+# id <- info('nceiErsstv5')   #https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html
 
 # download data using griddap - initially takes a long time
 # uncomment lines below to update analysis
@@ -79,7 +79,8 @@ In order to identify potential temperature patterns that are influential in driv
 
 ```{r}
 #| echo: true
-#| fig-width: 12
+#| fig-width: 15
+#| fig-height: 14
 
 # upload recreational landings
 rec <- read.csv("data/recLandings.csv")
@@ -98,13 +99,12 @@ sortyr <- rec$Year[order(rec$ALL)]
 # cols <- rainbow(100, start = 0.1, end = 0.65)[100:1]
 cols <- c(0, rainbow(3, start = 0.4, end = 0.6), 2)
 
-# legend
-
 # set up plot
 nf <- layout(matrix(c(2:56, rep(1, 11), 57:111), 11, 11, byrow = FALSE), 
              c(rep(3, 5), 2, rep(3, 5)), c(4, rep(3, 11)))
 #layout.show(nf)
 
+#legend
 par(mar = c(0, 0, 0, 0))
 plot(1, type = "n", axes = FALSE, xlab = "", ylab = "")
 legend("center", fill = cols, c("<26", "26-27", "27-28.5", "28.5-30", ">30"),
@@ -122,7 +122,7 @@ status[10] <- "highest"
 # for lowest and highest years, visualize temperature patterns across the Atlantic
 for (j in 1: length(yrs))  {
   k <- which(yr == yrs[j])
-  par(mex = 0.5, mar = c(2, 4, 2, 2)+1)
+  par(mex = 0.5, mar = c(2, 2, 2, 2)+1)
   plot(rec$Year, rec$ALL/10^6, type = "l", col = 4, ylim = c(0, 32), lwd = 2, ylab = "rec catch", 
        main = yrs[j])
   text(1990, 3, status[j], pos = 4)
@@ -143,7 +143,7 @@ for (j in 1: length(yrs))  {
 
 ```
 
-Looking at the set of plots on the left side (low abundance years) versus the right side (high abundance years), there seems to be a particularly notable pattern with respect to temperatures in the range of 28.5 - 30 degrees Celsius. In the low abundance years, temperatures in this range are distributed in a band across the Atlantic near the equator. In the high abundance years, waters near the equator are much cooler and the 28.5 - 30 degree temperatures appear to be concentrated in a very small area near the Florida Keys. This pattern seems most prominent in the months of May and June.     
+Looking at the set of plots on the left side (low abundance years) versus the right side (high abundance years), there seems to be a particularly notable pattern with respect to temperatures in the range of 28.5° - 30° Celsius. In the low abundance years, temperatures in this range are distributed in a band across the Atlantic near the equator. In the high abundance years, waters near the equator are much cooler and the 28.5° - 30° temperatures appear to be concentrated in a very small area near the Florida Keys. This pattern seems most prominent in the months of May and June.     
 
 ## May temperature distributions
 
@@ -152,6 +152,7 @@ We will take a closer look at May temperature distributions across the Atlantic 
 ```{r}
 #| echo: true
 #| fig-width: 10
+#| fig-height: 10
 
 # look at May patterns --------------------
 
@@ -176,18 +177,19 @@ plot(1, type = "n", axes = FALSE, xlab = "", ylab = "")
 legend("center", fill = cols, c("<26", "26-27", "27-28.5", "28.5-30", ">30"),
        border = c(1, 0, 0, 0, 0),
        pt.cex = 2, bty = "n", 
-       title = "SST\n(deg C)", title.font = 2)
+       title = "SST (deg C)", title.font = 2)
 ```
-The pattern with 28.5 - 30 degree C waters seems to hold across all years, with low abundance years (top) tending to have these waters distributed across the Atlantic, and high abundance years (bottom) tending to have these waters restricted to a small area near the Gulf and U.S. South Atlantic. 
+The pattern with 28.5° - 30° C waters seems to hold across all years, with low abundance years (top) tending to have these waters distributed across the Atlantic, and high abundance years (bottom) tending to have these waters restricted to a small area near the Gulf and U.S. South Atlantic. 
 
 ## Quantifying the temperature distribution in an index
 
-We can attempt to quantify these patterns in an index by calculating a proportion of waters covered by the dark blue water mass. It seems most useful to consider the coverage of this water mass that occurs in U.S. South Atlantic waters (approximately the yellow box; 100W-78W and 18-32N) versus the coverage of this water mass in the larger North Atlantic region (the larger red box; 100W-30W and 0-32N). We first calculate the number of cells in which these 28.5 - 30 degree C waters occur in each box, and then divide to obtain an overall proportion.  
+We can attempt to quantify these patterns in an index by calculating a proportion of waters covered by the dark blue water mass. It seems most useful to consider the coverage of this water mass that occurs in U.S. South Atlantic waters (approximately the yellow box; 100°W-78°W and 18°N-32°N) versus the coverage of this water mass in the larger North Atlantic region (the larger red box; 100°W-30°W and 0°-32°N). We first calculate the number of cells in which these 28.5° - 30° C waters occur in each box, and then divide to obtain an overall proportion.  
 
 ```{r}
 #| warning: false
 #| echo: true
-#| fig-width: 12
+#| fig-width: 10
+#| fig-height: 10
 
 # calculate proportion of 28.5 - 30 degree C waters in US South Atlantic waters
 
@@ -198,8 +200,8 @@ lon[lons]
 lat[lats]
 
 # find indexing for 100W - 78W and 18N - 32N
-lon[lons][1:12]  # should be -100 to -78
-lat[lats][10:17] # should be 18 to 32
+lonind <- which(lon[lons] <= (-78) & lon[lons] >= (-100))
+latind <- which(lat[lats] <=32 & lat[lats] >= 18)
 
 # subset SST data for all May months
 kar <- sst[lons, lats, which(mon == 5)]
@@ -214,7 +216,7 @@ ind$Year <- yr[which(mon == 5)]
 for (i in 1:dim(kar)[3])  {
   k1 <- kar[, , i]
   k2 <- (k1 >28.5 & k1 < 30.0)
-  ind$perar[i] <- length(which(k2[1:12, 10:17] == TRUE))/ length(which(k2 == TRUE))
+  ind$perar[i] <- length(which(k2[lonind, latind] == TRUE))/ length(which(k2 == TRUE))
 }
 
 # replace NA values with zero
@@ -244,13 +246,13 @@ plot(1, type = "n", axes = FALSE, xlab = "", ylab = "")
 legend("center", fill = cols, c("<26", "26-27", "27-28.5", "28.5-30", ">30"),
        border = c(1, 0, 0, 0, 0),
        pt.cex = 2, bty = "n", 
-       title = "SST\n(deg C)", title.font = 2)
+       title = "SST (deg C)", title.font = 2)
 ```
 To ensure correct calculation of the index we re-display the May temperature patterns in chronological order and note the index value on each plot.  
 
 ## Comparison of "blue blob" index with landings
 
-Now we plot the "blue blob" index against the recreational landings. We can see that a statistical relationship does exist, whereby above average "blue blob" index values are associated with above average recreational landings in U.S. South Atlantic waters, and below average index values are associated with below average landings. Gray lines denote the mean values for the index and the catch; we see that this relationship holds true for almost all years in the time series.  
+Now we plot the "blue blob" index against the recreational landings.  
 
 ```{r}
 #| warning: false
@@ -275,10 +277,18 @@ abline(h = mean(d$ATL)/10^6, col = 8)
 text(0.7, 28, "preferred temperatures clustered\nnear U.S. waters == higher landings", col = "darkgreen", font = 3)
 text(0.25, 10.5, "preferred temperatures extend across\nCaribbean and/or absent from\nU.S waters == lower landings", col = "darkred", font = 3)
 
+```
+We can see that a statistical relationship does exist, whereby above average "blue blob" index values are associated with above average recreational landings in U.S. South Atlantic waters, and below average index values are associated with below average landings. Gray lines denote the mean values for the index and the catch; we see that this relationship holds true for almost all years in the time series. 
+
+The "blue blob" index explains about 45% of the variation in the landings in the U.S. South Atlantic.  
+
+```{r}
+#| warning: false
+#| echo: true
+
 summary(out)
 
 # output the index
 write.csv(ind, file = "indices/blue_blob_index.csv", row.names = F)
 
 ```
-The "blue blob" index explains about 45% of the variation in the landings in the U.S. South Atlantic.  

@@ -1,10 +1,10 @@
-# Predictive indices - El Niño
+# Predictive indices of dolphin abundance
 
 Dolphin abundance in South Atlantic waters is driven by a combination of factors that are mostly outside of U.S. fishery management control, including environmental conditions and catch in international waters. In order to create a management procedure for the dolphin management strategy evaluation we need an index that can predict ahead of time whether the abundance of dolphin in U.S. waters is likely to be above or below average in a given year. Ideally this index can capture the dynamics early in the year or a season ahead in order to allow adequate time for management response. In the following sections we explore potential predictive indices of dolphin abundance.
 
 ## Recreational catch as a proxy for availability
 
-Because the recreational catch is generally unconstrained by management (the total catch quota is rarely reached and catches are on average well below the bag limits), the total recreational catch could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from Section 3 @sec-MRIP and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America catches because dolphin are not managed in the Gulf region and thus the catch is not constrained by management and is most likely a function of availability.
+Because the recreational catch is generally unconstrained by management (the total catch quota is rarely reached and catches are on average well below the bag limits), the total recreational catch could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from [Section 3](@sec-MRIP) and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America catches because dolphin are not managed in the Gulf region and thus the catch is not constrained by management and is most likely a function of availability.
 
 ```{r}
 #| warning: false
@@ -81,7 +81,7 @@ names(e) <- c("Year", "DJ", "JF", "FM", "MA", "AM", "MJ", "JJ", "JA", "AS", "SO"
 ets <- as.vector(as.matrix(t(e[2:13])))
 years <- sort(rep(e$Year, 12)) + rep((0:11)/12, length(min(e$Year):max(e$Year)))
 
-barplot(ets, names.arg = years, las = 2, 
+barplot(ets, names.arg = floor(years), las = 2, 
         col = ifelse(ets >= 0, "lightgreen", "red"), border= NA, ylim = c(-3, 3),
         main = "multivariate ENSO index", xlab = "Year", ylab = "ENSO index")
 abline(h = 0)
@@ -98,6 +98,7 @@ Now we will compare the ENSO index to the recreational catches. First we compare
 #| warning: false
 #| echo: true
 #| fig-width: 10
+#| fig-height: 8
 
 # calculate mean
 e$mean <- rowMeans(e[2:13], na.rm = T)
