@@ -30,7 +30,7 @@ if(!require("maps")) install.packages("maps")
 # download data using griddap - initially takes a long time
 # uncomment lines below to update analysis
 # sst_grab <- griddap(id, fields = 'sst', 
-#                    time = c('1980-01-15', '2025-12-15'), 
+#                    time = c('1990-01-01', '2025-01-01'), 
 #                    longitude = c(260, 358), latitude = c(0, 70))
 
 # open nc file and extract variables
@@ -41,15 +41,15 @@ if(!require("maps")) install.packages("maps")
 # lat <- v1$dim[[2]]$vals
 # nc_close(nc)
 
-# save(v1, sst, lon, lat, file = "data/ERSST.RData")
+# convert time variable to month and year
+#tim <- as.POSIXct(v1$dim[[4]]$vals, origin = "1970-01-01")
+#mon <- as.numeric(substr(tim, 6, 7))
+#yr <- substr(tim, 1, 4)
+#dim(sst)
+
+#save(sst, lon, lat, tim, mon, yr, file = "data/ERSST.RData")
 
 load("data/ERSST.RData")
-
-# convert time variable to month and year
-tim <- as.POSIXct(v1$dim[[4]]$vals, origin = "1970-01-01")
-mon <- as.numeric(substr(tim, 6, 7))
-yr <- substr(tim, 1, 4)
-dim(sst)
 
 # check conversions
 tim[1:5]
