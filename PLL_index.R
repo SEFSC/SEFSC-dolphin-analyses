@@ -27,14 +27,14 @@ dat$lon <- -(dat$LONDEG + dat$LONMIN/60)
 
 # look at distribution around Caribbean region ------------------
 par(mfrow = c(6, 6), mex = 0.3)
-#for (i in 1990:2022) { 
+# for (i in 1990:2022) { 
 #  map('world', xlim = c(-90, -50), ylim = c(10, 30))
 #  axis(1); axis(2, las = 2); box()
 #  d1 <- dat[which(dat$SET_YEAR == i) ,]
 #  points(d1$lon, d1$lat, pch = 19, col = "#FF000055")
 #  mtext(side = 3, i)
 #  rect(xleft = -75, ybottom = 12, xright = -60, ytop = 23, col = NA, border = 4)
-#}
+# }
 
 #  find the PLL points that fall in the Caribbean ----------------
 dat$car <- 0
@@ -42,9 +42,9 @@ dat$car[which(dat$lon > (-70) & dat$lon < (-60) & dat$lat > 12 & dat$lat < 23)] 
 
 # check that subsetting was done correctly - color-coded areas
 dev.off()
-#map("world", xlim = c(-100, -30), ylim = c(5, 55))
-#axis(1); axis(2); box()
-#points(dat$lon, dat$lat, pch = 19, cex = 0.4, col = as.numeric(as.factor(dat$col))+1)
+# map("world", xlim = c(-100, -30), ylim = c(5, 55))
+# axis(1); axis(2); box()
+# points(dat$lon, dat$lat, pch = 19, cex = 0.4, col = as.numeric(as.factor(dat$col))+1)
 
 table(dat$car, useNA = "always")
 d <- dat[which(dat$car == 1), ]
@@ -77,7 +77,7 @@ d <- d[-which(d$HOOKS == 0), ]
 
 # calculate CPUE ------------------------------------------------
 #d$cpue <- d$DOLPHIN_POUNDS / d$HOOKS
-d$cpue <- d$DOLTOT / d$HOOKS
+d$cpue <- d$DOLTOT / (d$HOOKS / 1000)
 
 # make new date variables 
 d$year <- as.numeric(substr(d$SDATE, 1, 4))
@@ -91,6 +91,7 @@ table(d$year == d$SET_YEAR)
 d <- d[which(d$mon >= 1 & d$mon <= 4), ]
 
 # explore factors to include in model --------------------------
+dev.off()
 par(mfrow = c(5, 5))
 for (i in 26:50) {
   f <- tapply(d$cpue, d[, i], mean, na.rm = T)
@@ -148,6 +149,7 @@ for (i in 32:38) {
 # convert targeting to factors
 d$TSWO <- as.factor(d$TSWO)
 d$TMIX <- as.factor(d$TMIX)
+d$TDOL <- as.factor(d$TDOL)
 
 # standardize the CPUE -------------------------------------------
 
@@ -166,14 +168,30 @@ anova(outp)
 dp <- d[d$cpue > 0, ]
 
 # model the log abundance when presence
-out <- glm(log(cpue) ~ year + mon + tempbin + HBFLbin + TMIX + TSWO, data = dp, family = "gaussian")
+out <- glm(log(cpue) ~ year + mon + tempbin + HBFLbin + TMIX + TSWO + TDOL, data = dp, family = "gaussian")
 summary(out)        
 anova(out) 
+
+# calculate deviance explained
+null_dev_bin <- outp$null.deviance
+resid_dev_bin <- outp$deviance
+null_dev_log <- out$null.deviance
+resid_dev_log <- out$deviance
+
+# Calculate Deviance Explained (D^2) for Individual D^2
+d2_bin <- (null_dev_bin - resid_dev_bin) / null_dev_bin
+d2_log <- (null_dev_log - resid_dev_log) / null_dev_log
+
+# Total Delta-Lognormal D^2
+total_null <- null_dev_bin + null_dev_log
+total_resid <- resid_dev_bin + resid_dev_log
+total_d2 <- (total_null - total_resid) / total_null
 
 # combined variance function 
 comb.var <- function(A, Ase, P, Pse, p) { (P^2 * Ase^2 + A^2 * Pse^2 + 2 * p * A * P * Ase * Pse)  }   # combined var
 
 # calculate the least-squares means from the linear models
+emm_options(rg.limit = 30000)
 predlogit <- as.data.frame(emmeans(outp, specs = ~ year, type = "response"))
 predpos  <- as.data.frame(emmeans(out, specs = ~ year, type = "response"))
 table(predpos$year == predlogit$year)  # check that years are the same
@@ -199,48 +217,6 @@ ind <- data.frame(cbind(yrs, predind, predse, predlogit$prob, predpos$response, 
 names(ind) <- c("Year", "index", "SE", "predpos", "Npres", "nominal")
 
 write.csv(ind, file = "indices/PLL_index.csv")
-save(outp, out, file = "linear_model_outputs.RData")
+save(outp, out, d2_bin, d2_log, total_d2, file = "data/linear_model_outputs.RData")
 
-
-
-plot(yrs, predind, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from PLL data",
-     xlab = "year", ylab = "CPUE (fish / hooks)", ylim = c(0, 0.014))
-points(yrs, predind, pch = 1, lwd = 2, col = 4) 
-lines(yrs, predind - 1.96*predse, col = 4, lty = 2)
-lines(yrs,predind + 1.96*predse, col = 4, lty = 2)
-lines(yrs, nom, col = 2, lwd = 2)
-points(yrs, nom, col = 2, lwd = 2, pch = 1)
-legend("topleft", c("nominal", "standardized"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")
-
-
-rec <- read.csv("data/recLandings.csv")
-names(rec)[1] <- "Year"
-rec$ATL <- rowSums(rec[3:6], na.rm = T)
-rec <- rec[which(rec$Year >= 1990), ]
-
-d1 <- merge(rec, ind, by = "Year")
-
-lis <- c("index", "nominal", "predpos", "Npres")
-labs <- c("standardized CPUE index", "nominal CPUE",
-          "standardized probability of occurrence", 
-          "standardized abundance when present")
-
-par(mfrow = c(2, 2), mar = c(4, 5, 2, 1), mgp = c(2.5, 1, 0))
-
-for (i in 1:4) { 
-  j <- which(names(d1) == lis[i])
-  plot(d1[, j], d1$ATL/10^6, col = 0, xlab = labs[i], ylim = c(5, 32), las = 1,
-       ylab = "total South Atlantic recreational landings\n(millions of pounds)")
-  text(d1[, j], d1$ATL/10^6, substr(d1$Year, 1, 4), col = 1)
-  out <- lm(d1$ATL/10^6 ~ d1[, j ])
-  abline(out, col = 8)
-  summary(out)
-
-  r2 <- summary(out)$adj.r.squared
-  p_val <- summary(out)$coefficients[2, 4]
-  p_display <- ifelse(p_val < 0.001, "p < 0.001", paste("p =", round(p_val, 3)))
-  legend("bottomright", 
-       legend = bquote(R^2 == .(round(r2, 2)) ~ "; " ~ p == .(round(p_val, 3))),
-       bty = "n", cex = 1.2, text.col = 4)
-}
 
