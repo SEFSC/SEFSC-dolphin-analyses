@@ -41,7 +41,7 @@ sst_grab <- griddap(id, fields = 'sst',
  lat <- v1$dim[[2]]$vals
  nc_close(nc)
 
-# save(v1, sst, lon, lat, file = "data/ERSST.RData")
+ save(v1, sst, lon, lat, file = "data/ERSST.RData")
 
 #load("data/ERSST.RData")
 

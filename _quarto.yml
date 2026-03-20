@@ -25,7 +25,6 @@ book:
     - SAU_EEZs.qmd
     - compile_all_data.qmd
     - indices_intro.qmd
-    - blue_blob_index.qmd
     - PRtournament.qmd
     
   page-footer:
