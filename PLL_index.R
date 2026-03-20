@@ -3,10 +3,7 @@
 rm(list = ls())
 
 # load libraries 
-library(sp)
-library(sf)
 library(maps)
-library(yarrr)
 
 # load pelagic longline data ------------------------------------------
 # data request from June 23, 2023 - sent to M. Damiano by S. Alhale 
@@ -20,7 +17,7 @@ dim(dat)
 table(dat$TDOL, useNA = "always")  # target dolphin?    - ~8% targeted dolphin trips
 table(dat$PLL, useNA = "always")   # PLL gear used Y/N  - ~91% PLL trips
 
-# format latitude and longitude 
+# format latitude and longitude -----------------------------------
 dat$lat <- dat$LATDEG + dat$LATMIN/60
 dat$lon <- -(dat$LONDEG + dat$LONMIN/60)
 
@@ -53,7 +50,7 @@ table(dat$car, useNA = "always")
 d <- dat[which(dat$car == 1), ]
 dim(d)
 
-# look at dolphin catch within PLL data
+# look at dolphin catch within PLL data -----------------------------
 names(d)[grep("DOL", names(d))]
 
 table(d$TDOL, useNA = "always")  # dolphin targeted trips
@@ -71,13 +68,15 @@ d$DOLK[is.na(d$DOLK)] <- 0
 d$DOLD[is.na(d$DOLD)] <- 0
 d$DOLPHIN_POUNDS[is.na(d$DOLPHIN_POUNDS)] <- 0
 
+# calculate total dolphin kept or discarded -----------------------
 d$DOLTOT <- d$DOLK + d$DOLA + d$DOLD
 hist(d$DOLTOT, main = "# dolphin caught")   # total dolphin kept or discarded
 
+# remove zero hook data to avoid infinite CPUE
 d <- d[-which(d$HOOKS == 0), ]
 
-# calculate CPUE
-#dc$cpue <- dc$DOLPHIN_POUNDS / dc$HOOKS
+# calculate CPUE ------------------------------------------------
+#d$cpue <- d$DOLPHIN_POUNDS / d$HOOKS
 d$cpue <- d$DOLTOT / d$HOOKS
 
 # make new date variables 
@@ -88,62 +87,77 @@ table(d$year, useNA = "always")
 table(d$mon, useNA = "always")
 table(d$year == d$SET_YEAR)
 
+# select months for analysis ------------------------------------
 d <- d[which(d$mon >= 1 & d$mon <= 4), ]
 
+# explore factors to include in model --------------------------
 par(mfrow = c(5, 5))
 for (i in 26:50) {
   f <- tapply(d$cpue, d[, i], mean, na.rm = T)
   barplot(f, las = 1, main = names(d[i]))
 }
 
+par(mfrow = c(2, 2))
 barplot(tapply(d$cpue, d$year, mean, na.rm = T), las = 2)
 barplot(tapply(d$cpue, d$mon, mean, na.rm = T))
 barplot(tapply(d$cpue, d$PLL, mean, na.rm = T))
 barplot(tapply(d$cpue, d$TDOL, mean, na.rm = T))
 
+# look at numbers of observations by different factors 
 apply(d[,26:52], 2, table, useNA = "always")
 
 # prepare factors for standardization --------------------
 
+# year as factor
 d$year <- as.factor(d$year)
 
+# temperature bins by 5-degree increments
 d$tempbin <- cut(d$TEMP, breaks = c(0, seq(70, 85, 5)))
 table(d$tempbin, useNA = "always")
 
+# month as factor
 d$mon <- as.factor(d$mon)
 table(d$mon, useNA = "always")
 
+# hooks between floats as binned factor
 table(d$HBFL)
 d$HBFL[which(d$HBFL > 10)] <- NA
 d$HBFLbin <- cut(d$HBFL, breaks = c(0, 2, 3, 4, 5, 10))
 table(d$HBFLbin, useNA = "always")
 
+# little resolution in data for bait and lights/hooks (similar values for all obs)
 table(d$BAIT)
 hist(d$LIGHTS/d$HOOKS)
 
-for (i in 32:38) {
-  d[,i] <- d[,i] == "Y"
-  d[,i] <- as.numeric(d[,i])
-  d[,i] <- as.factor(d[, i])
-}
-
+# look at targeting - left is change in CPUE, right is number of obs by category
 par(mfrow = c(7, 2), mex = 0.5)
 for (i in 32:38) {
   f <- tapply(d$cpue, d[, i], mean, na.rm = T)
   barplot(f, las = 1, main = names(d[i]))
   barplot(table(d[, i]), main = names(d[i]))
 }
+# only major targeting is swordfish and mixed
+
+# change to zeros and ones
+for (i in 32:38) {
+  d[,i] <- d[,i] == "Y"
+  d[,i] <- as.numeric(d[,i])
+  d[,i] <- as.factor(d[, i])
+}
+
+d$TSWO <- as.factor(d$TSWO)
+d$TMIX <- as.factor(d$TMIX)
 
 table(d$cpue == 0, useNA = "always")                     # # of observations > 1
 d$pres <- d$cpue
-d$pres[which(d$pres > 0)] <- 1
+d$pres[d$pres > 0] <- 1
 table(d$pres, useNA = "always")
 
 outp <- glm(pres ~ year + mon + tempbin + HBFLbin + TMIX + TSWO, data = d, family = "binomial")
 summary(outp)        
 anova(outp) 
 
-dp <- d[which(d$cpue > 0), ]
+dp <- d[d$cpue > 0, ]
 
 out <- glm(log(cpue) ~ year + mon + tempbin + HBFLbin + TMIX + TSWO, data = dp, family = "gaussian")
 summary(out)        
@@ -156,7 +170,8 @@ predlogit <- as.data.frame(emmeans(outp, specs = ~ year, type = "response"))
 predpos  <- as.data.frame(emmeans(out, specs = ~ year, type = "response"))
 table(predpos$year == predlogit$year)
 
-co <- as.numeric(cor(predlogit$prob, predpos$response, method="pearson"))
+co <- cor(predlogit$prob, predpos$response, method="pearson")
+co  # correlation between indices is very small 
 predse <- sqrt(comb.var(predpos$response, predpos$SE, predlogit$prob, predlogit$SE, co))
 predind <-  predlogit$prob * predpos$response    # estimated abundance is prob. of occurrence * estimated abundance when present
 
@@ -167,10 +182,10 @@ table(as.numeric(names(nom)) == yrs)
 
 dev.off()
 plot(yrs, predind, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from PLL data",
-     xlab = "year", ylab = "CPUE (fish / hooks)", ylim = c(0, 0.015))
+     xlab = "year", ylab = "CPUE (fish / hooks)", ylim = c(0, 0.014))
 points(yrs, predind, pch = 1, lwd = 2, col = 4) 
-lines(yrs, predind - predse, col = 4, lty = 2)
-lines(yrs,predind + predse, col = 4, lty = 2)
+lines(yrs, predind - 1.96*predse, col = 4, lty = 2)
+lines(yrs,predind + 1.96*predse, col = 4, lty = 2)
 lines(yrs, nom, col = 2, lwd = 2)
 points(yrs, nom, col = 2, lwd = 2, pch = 1)
 legend("topleft", c("nominal", "standardized"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")

@@ -15,35 +15,35 @@ rm(list = ls())
 
 # install libraries
 if(!require("maps")) install.packages("maps")
- if(!require("ncdf4")) install.packages("ncdf4")
- if(!require("lubridate")) install.packages("lubridate")
- if(!require("rerddap")) install.packages("rerddap")
+# if(!require("ncdf4")) install.packages("ncdf4")
+# if(!require("lubridate")) install.packages("lubridate")
+# if(!require("rerddap")) install.packages("rerddap")
 
- library(maps)
- library(ncdf4)
- library(lubridate)
- library(rerddap)
+# library(maps)
+# library(ncdf4)
+# library(lubridate)
+# library(rerddap)
 
 # get ERDDAP info 
- id <- info('nceiErsstv5')   #https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html
+# id <- info('nceiErsstv5')   #https://coastwatch.pfeg.noaa.gov/erddap/griddap/nceiErsstv5.html
 
 # download data using griddap - initially takes a long time
 # uncomment lines below to update analysis
-sst_grab <- griddap(id, fields = 'sst', 
-                    time = c('1980-01-15', '2025-12-15'), 
-                    longitude = c(260, 358), latitude = c(0, 70))
+# sst_grab <- griddap(id, fields = 'sst', 
+#                    time = c('1980-01-15', '2025-12-15'), 
+#                    longitude = c(260, 358), latitude = c(0, 70))
 
 # open nc file and extract variables
- nc <- nc_open(sst_grab$summary$filename, write=FALSE, readunlim=TRUE, verbose=FALSE)
- v1 <- nc$var[[1]]
- sst <- ncvar_get(nc, v1)
- lon <- v1$dim[[1]]$vals - 360
- lat <- v1$dim[[2]]$vals
- nc_close(nc)
+# nc <- nc_open(sst_grab$summary$filename, write=FALSE, readunlim=TRUE, verbose=FALSE)
+# v1 <- nc$var[[1]]
+# sst <- ncvar_get(nc, v1)
+# lon <- v1$dim[[1]]$vals - 360
+# lat <- v1$dim[[2]]$vals
+# nc_close(nc)
 
- save(v1, sst, lon, lat, file = "data/ERSST.RData")
+# save(v1, sst, lon, lat, file = "data/ERSST.RData")
 
-#load("data/ERSST.RData")
+load("data/ERSST.RData")
 
 # convert time variable to month and year
 tim <- as.POSIXct(v1$dim[[4]]$vals, origin = "1970-01-01")
@@ -122,6 +122,7 @@ status[10] <- "highest"
 # for lowest and highest years, visualize temperature patterns across the Atlantic
 for (j in 1: length(yrs))  {
   k <- which(yr == yrs[j])
+  print(k)
   par(mex = 0.5, mar = c(2, 2, 2, 2)+1)
   plot(rec$Year, rec$ALL/10^6, type = "l", col = 4, ylim = c(0, 32), lwd = 2, ylab = "rec catch", 
        main = yrs[j])
