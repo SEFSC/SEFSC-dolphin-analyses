@@ -145,20 +145,27 @@ for (i in 32:38) {
   d[,i] <- as.factor(d[, i])
 }
 
+# convert targeting to factors
 d$TSWO <- as.factor(d$TSWO)
 d$TMIX <- as.factor(d$TMIX)
 
-table(d$cpue == 0, useNA = "always")                     # # of observations > 1
+# standardize the CPUE -------------------------------------------
+
+# make presence/absence variable 
+table(d$cpue == 0, useNA = "always")                 # # of observations > 1
 d$pres <- d$cpue
 d$pres[d$pres > 0] <- 1
 table(d$pres, useNA = "always")
 
+# model the presence-absence as a binomial regression 
 outp <- glm(pres ~ year + mon + tempbin + HBFLbin + TMIX + TSWO, data = d, family = "binomial")
 summary(outp)        
 anova(outp) 
 
+# subset abundance when present data
 dp <- d[d$cpue > 0, ]
 
+# model the log abundance when presence
 out <- glm(log(cpue) ~ year + mon + tempbin + HBFLbin + TMIX + TSWO, data = dp, family = "gaussian")
 summary(out)        
 anova(out) 
@@ -166,21 +173,36 @@ anova(out)
 # combined variance function 
 comb.var <- function(A, Ase, P, Pse, p) { (P^2 * Ase^2 + A^2 * Pse^2 + 2 * p * A * P * Ase * Pse)  }   # combined var
 
+# calculate the least-squares means from the linear models
 predlogit <- as.data.frame(emmeans(outp, specs = ~ year, type = "response"))
 predpos  <- as.data.frame(emmeans(out, specs = ~ year, type = "response"))
-table(predpos$year == predlogit$year)
+table(predpos$year == predlogit$year)  # check that years are the same
 
+# calculate correlation between indices 
 co <- cor(predlogit$prob, predpos$response, method="pearson")
 co  # correlation between indices is very small 
-predse <- sqrt(comb.var(predpos$response, predpos$SE, predlogit$prob, predlogit$SE, co))
-predind <-  predlogit$prob * predpos$response    # estimated abundance is prob. of occurrence * estimated abundance when present
 
+# calculate the combined index and the combined SE
+predind <-  predlogit$prob * predpos$response    # estimated abundance is prob. of occurrence * estimated abundance when present
+predse <- sqrt(comb.var(predpos$response, predpos$SE, predlogit$prob, predlogit$SE, co))
+
+# year variable
 yrs <- as.numeric(as.vector(predpos$year))
 
+# calculate the nominal CPUE
 nom <- tapply(d$cpue, d$year, mean, na.rm = T)
 table(as.numeric(names(nom)) == yrs)
 
-dev.off()
+# output the data ---------------------------------------------
+
+ind <- data.frame(cbind(yrs, predind, predse, predlogit$prob, predpos$response, nom))
+names(ind) <- c("Year", "index", "SE", "predpos", "Npres", "nominal")
+
+write.csv(ind, file = "indices/PLL_index.csv")
+save(outp, out, file = "linear_model_outputs.RData")
+
+
+
 plot(yrs, predind, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from PLL data",
      xlab = "year", ylab = "CPUE (fish / hooks)", ylim = c(0, 0.014))
 points(yrs, predind, pch = 1, lwd = 2, col = 4) 
@@ -189,9 +211,6 @@ lines(yrs,predind + 1.96*predse, col = 4, lty = 2)
 lines(yrs, nom, col = 2, lwd = 2)
 points(yrs, nom, col = 2, lwd = 2, pch = 1)
 legend("topleft", c("nominal", "standardized"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")
-
-ind <- data.frame(cbind(yrs, predind, predse, predlogit$prob, predpos$response, nom))
-names(ind) <- c("Year", "index", "SE", "predpos", "Npres", "nominal")
 
 
 rec <- read.csv("data/recLandings.csv")
