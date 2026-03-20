@@ -13,6 +13,8 @@ We first input the data set, parse out the dates to extract month and year, and 
 # clear workspace
 rm(list = ls())
 
+if(!require("dplyr")) install.packages("dplyr")
+if(!require("emmeans")) install.packages("emmeans")
 
 library(dplyr)
 library(emmeans) # Best for extracting standardized indices
