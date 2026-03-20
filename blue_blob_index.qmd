@@ -19,7 +19,7 @@ if(!require("maps")) install.packages("maps")
 # if(!require("lubridate")) install.packages("lubridate")
 # if(!require("rerddap")) install.packages("rerddap")
 
-# library(maps)
+ library(maps)
 # library(ncdf4)
 # library(lubridate)
 # library(rerddap)
