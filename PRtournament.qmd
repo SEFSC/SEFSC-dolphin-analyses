@@ -362,7 +362,7 @@ out <- lm(d$ATL ~ d$response)
 abline(out, col = 8)
 summary(out)
 
-r2 <- summary(out)$r.squared
+r2 <- summary(out)$adj.r.squared
 p_val <- summary(out)$coefficients[2, 4]
 p_display <- ifelse(p_val < 0.001, "p < 0.001", paste("p =", round(p_val, 3)))
 legend("bottomright", 
