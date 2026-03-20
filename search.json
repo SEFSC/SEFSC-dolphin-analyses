@@ -418,5 +418,35 @@
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Puerto Rico tournament index</span>"
     ]
+  },
+  {
+    "objectID": "PLL_index_results.html",
+    "href": "PLL_index_results.html",
+    "title": "11  NOAA Fisheries commercial data",
+    "section": "",
+    "text": "11.1 Analysis of logbook data\nA substantial portion of the U.S. pelagic longline fishery operates in the Caribbean region, and we can analyze the catch rates in this region as a potential predictive index of dolphin abundance in the South Atlantic later in the year. The logbook data are confidential and cannot be shown here, but we show the results of the standardization process. The code for processing the pelagic longline logbook data can be seen in the file “PLL_index.R” and the steps are outlined below.\nThe goal of the analysis is to create a standardized index of relative abundance for dolphin, using wintertime catch rates from the pelagic longline (PLL) fleet. The standardization process removes the potential influence of nuisance factors from the catch data, such as species targeting or differences in gear deployment, so that the index represents the underlying abundance of the fish.\nThe steps are as follows:",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>NOAA Fisheries commercial data</span>"
+    ]
+  },
+  {
+    "objectID": "PLL_index_results.html#analysis-of-logbook-data",
+    "href": "PLL_index_results.html#analysis-of-logbook-data",
+    "title": "11  NOAA Fisheries commercial data",
+    "section": "",
+    "text": "Read in the pelagic longline data which contains set level entries including location of fishing, target species, gear used, other details of the fishing trip and number of dolphin caught, discarded alive, discarded dead, and the total pounds of dolphin kept.\nFormat the longitude and latitude of the sets into decimal degrees, and find the points that fall in the Caribbean region (we use 70W - 60W and 12N - 23N as boundaries). Check that subsetting was done correctly, and extract the Caribbean data from the data set.\nInspect the dolphin catch columns (number of dolphin kept, discarded alive and dead). Replace NA values with zeros. Calculate the total dolphin catch as the total kept and discarded. Remove data for which the number of hooks is not reported. Calcuate the catch rate as total dolphin caught divided by 1,000 hooks.\nStandardize date formatting and add identifiers for month.\nExplore the different factors to include in the standardization model, relying on previous literature and best practices for standardizing PLL logbook data. Analyze the number of observations for different gear configurations and target species. Factors considered were: temperature, month, number of hooks between floats, bait type, number of lights between hooks, and species targeted. Temperature was binned in 5-degree increments. Month and hooks between floats were converted to factors. There was little resolution in the data for bait type and number of lights per hook, with similar values across all observations. The only major reported species targeted were dolphin, swordfish and mixed; targeting for other species were only listed in a small number of sets.\nUse the delta-lognormal method to create an index of abundance for dolphin, estimated using a generalized linear model approach. The delta model fits separately the: 1) proportion of positive sets, assuming a binomial error distribution, and 2) the mean catch rate of sets where at least one dolphin was caught, assuming a lognormal error distribution. Inspect the significance of the model factors and calculate the least-squares means from the linear models for the year predictor estimates. The index of abundance is the standardized proportion positive by year multiplied by the standardized abundance when present.\nCalculate the deviance explained by each model, the standard errors, and the combined variance for the standardized index.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>NOAA Fisheries commercial data</span>"
+    ]
+  },
+  {
+    "objectID": "PLL_index_results.html#model-results",
+    "href": "PLL_index_results.html#model-results",
+    "title": "11  NOAA Fisheries commercial data",
+    "section": "11.2 Model results",
+    "text": "11.2 Model results\nWe will upload the model results and show the standardized index.\n\nload(\"data/linear_model_outputs.RData\")\n\n# Print results\ncat(\"Deviance Explained (Binomial): \", round(d2_bin * 100, 2), \"%\\n\")\n\nDeviance Explained (Binomial):  10.85 %\n\ncat(\"Deviance Explained (Lognormal):\", round(d2_log * 100, 2), \"%\\n\")\n\nDeviance Explained (Lognormal): 32.13 %\n\ncat(\"Total Delta-Lognormal D^2: \", round(total_d2 * 100, 2), \"%\\n\")\n\nTotal Delta-Lognormal D^2:  14.56 %\n\n\n\nind &lt;- read.csv(\"indices/PLL_index.csv\")\n\nplot(ind$Year, ind$index, type = \"l\", lwd = 2, col = 4, main = \"Nominal versus standardized CPUE from PLL data\",\n     xlab = \"year\", ylab = \"CPUE (dolphin / 1000 hooks)\", ylim = c(0, 14))\npoints(ind$Year, ind$index, pch = 1, lwd = 2, col = 4) \nlines(ind$Year, ind$index - 1.96*ind$SE, col = 4, lty = 2)\nlines(ind$Year, ind$index + 1.96*ind$SE, col = 4, lty = 2)\nlines(ind$Year, ind$nominal, col = 2, lwd = 2)\npoints(ind$Year, ind$nominal, col = 2, lwd = 2, pch = 1)\nlegend(\"topleft\", c(\"nominal CPUE\", \"standardized CPUE\"), lwd = 2, pch = 19, col = c(2, 4), bty = \"n\")\n\n\n\n\n\n\n\n\n\nrec &lt;- read.csv(\"data/recLandings.csv\")\nnames(rec)[1] &lt;- \"Year\"\nrec$ATL &lt;- rowSums(rec[3:6], na.rm = T)\nrec &lt;- rec[which(rec$Year &gt;= 1990), ]\n\nd1 &lt;- merge(rec, ind, by = \"Year\")\n\nlis &lt;- c(\"index\", \"nominal\", \"predpos\", \"Npres\")\nlabs &lt;- c(\"standardized CPUE index\", \"nominal CPUE\",\n          \"standardized probability of occurrence\", \n          \"standardized abundance when present\")\n\npar(mfrow = c(2, 2), mar = c(4, 5, 2, 1), mgp = c(2.5, 1, 0))\n\nfor (i in 1:4) { \n  j &lt;- which(names(d1) == lis[i])\n  plot(d1[, j], d1$ATL/10^6, col = 0, xlab = labs[i], ylim = c(5, 32), las = 1,\n       ylab = \"total South Atlantic recreational landings\\n(millions of pounds)\")\n  text(d1[, j], d1$ATL/10^6, substr(d1$Year, 1, 4), col = 1)\n  out &lt;- lm(d1$ATL/10^6 ~ d1[, j ])\n  abline(out, col = 8)\n  summary(out)\n\n  r2 &lt;- summary(out)$adj.r.squared\n  p_val &lt;- summary(out)$coefficients[2, 4]\n  p_display &lt;- ifelse(p_val &lt; 0.001, \"p &lt; 0.001\", paste(\"p =\", round(p_val, 3)))\n  legend(\"bottomright\", \n       legend = bquote(R^2 == .(round(r2, 2)) ~ \"; \" ~ p == .(round(p_val, 3))),\n       bty = \"n\", cex = 1.2, text.col = 4)\n}",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>NOAA Fisheries commercial data</span>"
+    ]
   }
 ]
