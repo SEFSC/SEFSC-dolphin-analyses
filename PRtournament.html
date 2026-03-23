@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -670,10 +670,10 @@ FALSE  TRUE
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="st">"Average CPUE of tournament-caught dolphinfish by year"</span>, </span>
 <span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"CPUE"</span>)</span>
 <span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(dat<span class="sc">$</span>cpue, dat<span class="sc">$</span>mon, mean, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">1</span>,  </span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Average CPUE of tournament-caught dolphinfish by year"</span>, </span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Average CPUE of tournament-caught dolphinfish by month"</span>, </span>
 <span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"month"</span>, <span class="at">ylab =</span> <span class="st">"CPUE"</span>)</span>
 <span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(dat<span class="sc">$</span>cpue, dat<span class="sc">$</span>zone, mean, <span class="at">na.rm =</span> T), <span class="at">las =</span> <span class="dv">1</span>, </span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="st">"Average CPUE of tournament-caught dolphinfish by year"</span>, </span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="st">"Average CPUE of tournament-caught dolphinfish by zone"</span>, </span>
 <span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"zone"</span>, <span class="at">ylab =</span> <span class="st">"CPUE"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
@@ -682,13 +682,15 @@ FALSE  TRUE
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">tapply</span>(dat<span class="sc">$</span>cpue, dat<span class="sc">$</span>year, mean, <span class="at">na.rm =</span> T), <span class="fu">tapply</span>(dat<span class="sc">$</span>cpueW, dat<span class="sc">$</span>year, mean, <span class="at">na.rm =</span> T), </span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"nominal CPUE by number"</span>, <span class="at">ylab =</span> <span class="st">"nominal CPUE by weight"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="PRtournament_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="PRtournament_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
@@ -784,7 +786,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># look at nominal vs standardized index ------------------------</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yrs, ind<span class="sc">$</span>response, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">main =</span> <span class="st">"Nominal versus standardized CPUE from dolphin tournament data"</span>,</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"CPUE (fish / (boats x time))"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.4</span>))</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"CPUE (fish / (boats x time))"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.8</span>))</span>
 <span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(yrs, ind<span class="sc">$</span>response, <span class="at">pch =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">4</span>) </span>
 <span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs, ind<span class="sc">$</span>lower.CL, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yrs, ind<span class="sc">$</span>upper.CL, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
@@ -794,7 +796,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="PRtournament_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="PRtournament_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -847,7 +849,7 @@ F-statistic: 5.385 on 1 and 19 DF,  p-value: 0.0316</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="PRtournament_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="PRtournament_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>

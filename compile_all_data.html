@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -274,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>In this last step we will compile all of the output data files from the different data sources (NMFS commercial trip tickets, NMFS recreational statistics, Sea Around Us) and check the files for accuracy.</p>
-<p>Recall that there are seven defined areas in the operating model, over which the catches are summed. Four of these areas are within the U.S. EEZ and the other three areas are international waters (high seas and jurisdictional waters of other countries).</p>
+<p>Recall that there are seven defined areas in the operating model, over which the landings are summed. Four of these areas are within the U.S. EEZ and the other three areas are international waters (high seas and jurisdictional waters of other countries).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="data/eez/new_spatial_zones1.png" class="img-fluid figure-img"></p>
@@ -304,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>com <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/FINAL_files/commercial_TomFormat.csv"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/FINAL_files/rec_catch_TomFormat.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This file contains all international catches and unreported catches for the greater Caribbean region (jurisdictional waters of all countries). Recall that estimated discards were very small (&lt; 1%) and were removed from the summary.</p>
+<p>This file contains all international landings and unreported catches for the greater Caribbean region (jurisdictional waters of all countries). Recall that estimated discards were very small (&lt; 1%) and were removed from the summary.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(intc[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">2</span>, table, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -333,7 +333,7 @@ $Area
  296    0 </code></pre>
 </div>
 </div>
-<p>This file contains all international catches for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.</p>
+<p>This file contains all international landings for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(intn[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">2</span>, table, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -360,7 +360,7 @@ $Area
  104    0 </code></pre>
 </div>
 </div>
-<p>This file contains all international catches for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas catches, as well as catches from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.</p>
+<p>This file contains all international landings for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas landings, as well as landings from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(intw[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">2</span>, table, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -387,7 +387,7 @@ $Area
   64    0 </code></pre>
 </div>
 </div>
-<p>This file contains all catches for the U.S. commercial fleet, including catches from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (&lt; 2%) and were removed from the summary.</p>
+<p>This file contains all landings for the U.S. commercial fleet, including landings from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (&lt; 2%) and were removed from the summary.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(com[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">2</span>, table, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -416,7 +416,7 @@ $Area
  148  148  148  148  148  148  148    0 </code></pre>
 </div>
 </div>
-<p>This file contains all catches for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region.</p>
+<p>This file contains all landings for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(rec[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">2</span>, table, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -466,16 +466,16 @@ FALSE  TRUE
 <h2 data-number="7.2" class="anchored" data-anchor-id="visualizing-the-final-data-set"><span class="header-section-number">7.2</span> Visualizing the final data set</h2>
 <p>We plot the final data set in a number of different ways to detect any errors that may have occurred during processing.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the total catches by each factor</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the total landings by each factor</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mex =</span> <span class="fl">0.7</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, d<span class="sc">$</span>Year, sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">las =</span> <span class="dv">2</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total catch by year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total landings by year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, d<span class="sc">$</span>Quarter, sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>, <span class="at">main =</span> <span class="st">"Total catch by quarter"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>, <span class="at">main =</span> <span class="st">"Total landings by quarter"</span>)</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, d<span class="sc">$</span>Fleet, sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, </span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total catch by fleet"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total landings by fleet"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, d<span class="sc">$</span>Area, sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, </span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total catch by area"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total landings by area"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -484,14 +484,14 @@ FALSE  TRUE
 </div>
 </div>
 </div>
-<p>The total catch in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the catch is caught in quarter 2 (March - May). The largest sector is the U.S. private recreational sector, followed by international fleets (all types), the for-hire fleet and then the U.S. commercial fleet. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.</p>
+<p>The total landings in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the landings are caught in quarter 2 (March - May). The largest sector is the U.S. private recreational sector, followed by international fleets (all types), the for-hire fleet and then the U.S. commercial fleet. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, <span class="fu">list</span>(d<span class="sc">$</span>Fleet, d<span class="sc">$</span>Area), sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(tab, <span class="at">beside =</span> T, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"navy"</span>, <span class="st">"blue"</span>, <span class="st">"darkturquoise"</span>, <span class="st">"red"</span>, <span class="st">"pink"</span>)</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        , <span class="at">legend =</span> <span class="fu">rownames</span>(tab),</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total dolphin catch by area and fleet"</span>, </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total dolphin landings by area and fleet"</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -500,7 +500,7 @@ FALSE  TRUE
 </div>
 </div>
 </div>
-<p>As expected, U.S. recreational fishing (private and for-hire) only takes place in the four U.S. EEZ regions (FLK, NCFL, NNC and VBM). The U.S. commercial fishery operates largely in those four U.S. EEZ regions, with small amounts of catch in the high seas of NCA, CAR and NED regions. International catches occur largely in the Caribbean, with lesser amounts in the NCA and NED high seas regions.</p>
+<p>As expected, U.S. recreational fishing (private and for-hire) only takes place in the four U.S. EEZ regions (FLK, NCFL, NNC and VBM). The U.S. commercial fishery operates largely in those four U.S. EEZ regions, with small amounts of landings in the high seas of NCA, CAR and NED regions. International landings occur largely in the Caribbean, with lesser amounts in the NCA and NED high seas regions.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, <span class="fu">list</span>(d<span class="sc">$</span>Quarter, d<span class="sc">$</span>Area), sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tabp <span class="ot">&lt;-</span> <span class="fu">apply</span>(tab, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="sc">/</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> T))</span>
@@ -509,8 +509,8 @@ FALSE  TRUE
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(tabp, <span class="at">beside =</span> T, <span class="at">col =</span> <span class="fu">rainbow</span>(<span class="dv">4</span>, <span class="at">end =</span> <span class="fl">0.8</span>), </span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"winter (DJF)"</span>, <span class="st">"spring (MAM)"</span>, <span class="st">"summer (JJA)"</span>, <span class="st">"fall (SON)"</span>), </span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">args.legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="fl">0.7</span>, <span class="at">bty =</span> <span class="st">"n"</span>), </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total dolphin catch by area and season"</span>, </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"proportion of catch"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total dolphin landings by area and season"</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"proportion of landings"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -519,7 +519,7 @@ FALSE  TRUE
 </div>
 </div>
 </div>
-<p>This plot shows the seasonal movements of dolphin across the different regions, as expressed through the proportion of catch that occurs in each quarter within each area. In the NCA and CAR regions, most of the catch occurs in winter, whereas in the U.S. South Atlantic regions, most of the catch occurs in spring and summer. In the U.S. Mid-Atlantic the catch also occurs largely in spring, and also fall. In the NED region most of the catch occurs in summer.</p>
+<p>This plot shows the seasonal movements of dolphin across the different regions, as expressed through the proportion of landings that occurs in each quarter within each area. In the NCA and CAR regions, most of the landings occur in winter, whereas in the U.S. South Atlantic regions, most of the landings occur in spring and summer. In the U.S. Mid-Atlantic the landings also occur largely in spring, and also fall. In the NED region most of the landings occur in summer.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d<span class="sc">$</span>Catch_lbs, <span class="fu">list</span>(d<span class="sc">$</span>Year, d<span class="sc">$</span>Fleet), sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -527,8 +527,8 @@ FALSE  TRUE
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">rownames</span>(tab), tab, </span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"navy"</span>, <span class="st">"blue"</span>, <span class="st">"darkturquoise"</span>, <span class="st">"red"</span>, <span class="st">"pink"</span>), </span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>), </span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total annual dolphin catch by fleet"</span>, <span class="at">xlab =</span> <span class="st">""</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total annual dolphin landings by fleet"</span>, <span class="at">xlab =</span> <span class="st">""</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">2002</span>, <span class="dv">25</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">bty =</span> <span class="st">"n"</span>, </span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">"U.S. private rec"</span>, <span class="st">"U.S. for-hire"</span>, <span class="st">"U.S. commercial"</span>, </span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">"International"</span>, <span class="st">"Unreported"</span>),</span>
@@ -541,7 +541,7 @@ FALSE  TRUE
 </div>
 </div>
 </div>
-<p>This plot shows the time series of total annual dolphin catches by fleet. We can compare these figures with the plots from the previous chapters to ensure the data were processed correctly. The magnitude and variability of the catches match the expectations.</p>
+<p>This plot shows the time series of total annual dolphin landings by fleet. We can compare these figures with the plots from the previous chapters to ensure the data were processed correctly. The magnitude and variability of the landings match the expectations.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output the final concatenated data file</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(d, <span class="at">file =</span> <span class="st">"data/FINAL_files/complete_catch_dataset_09052025b.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>

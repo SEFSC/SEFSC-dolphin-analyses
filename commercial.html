@@ -150,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,40 +241,40 @@ ul.task-list li input[type="checkbox"] {
 <p>We do not display the commercial data analysis here because it is based on logbook reporting and trip ticket databases, which both contain confidential data. The code for processing the commercial data can be seen in the file “commercial.R” and the steps are outlined below.</p>
 <section id="analysis-of-logbook-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="analysis-of-logbook-data"><span class="header-section-number">4.1</span> Analysis of logbook data</h2>
-<p>We first use the pelagic longline logbook data to understand how the fleet operates in the high seas on a seasonal basis. These numbers are used later to estimate the seasonality of the international catches, because those are only reported on an annual basis but quarterly values are needed.</p>
+<p>We first use the pelagic longline logbook data to understand how the fleet operates in the high seas on a seasonal basis. These numbers are used later to estimate the seasonality of the international landings, because those are only reported on an annual basis but quarterly values are needed.</p>
 <p>The steps are as follows:</p>
 <ol type="1">
 <li><p>Read in the pelagic longline data which contains set level entries including location of fishing, target species, gear used, other details of the fishing trip and number of dolphin caught, discarded alive, discarded dead, and the total pounds of dolphin kept.</p></li>
 <li><p>Format the longitude and latitude of the sets into decimal degrees, and find the points that fall within each of the seven polygons representing the areas of the operating model. Check that subsetting was done correctly and add and area identifier.</p></li>
 <li><p>Look at the characteristics of the dolphin catch and calculate the discard rates by trip. Dead discarding rate is found to be 1.4% on average and total discard rate is 2.9% on average.</p></li>
 <li><p>Standardize date formatting and add identifier for season (quarter). Specify a new year variable to allow December to be grouped with January and February.</p></li>
-<li><p>Summarize the total dolphin catch (in pounds) by year, quarter, and area.</p></li>
+<li><p>Summarize the total dolphin landings (in pounds) by year, quarter, and area.</p></li>
 <li><p>Convert the total pounds by year-quarter and area to proportions such that each year-quarter combination has four seasonal proportions summing to one. Save the matrix of proportions for later analysis.</p></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="plots/PLL_seasonality.png" class="img-fluid figure-img"></p>
-<figcaption>Seasonality of the pelagic longline fleet according to the logbook data. Figure shows the proportion of dolphin catch occurring in each season, for each region of the operating model.</figcaption>
+<figcaption>Seasonality of the pelagic longline fleet according to the logbook data. Figure shows the proportion of dolphin landings occurring in each season, for each region of the operating model.</figcaption>
 </figure>
 </div>
 </section>
 <section id="analysis-of-trip-ticket-data" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="analysis-of-trip-ticket-data"><span class="header-section-number">4.2</span> Analysis of trip ticket data</h2>
-<p>Not all of the commercial dolphin catch activity is reported in the logbooks because dolphin are targeted via a variety of permits and gear types, not all of which have the same reporting requirements. Therefore, in order to parse the commercial catches by year, area and quarter, we use the commercial trip ticket data compiled by NOAA Fisheries. These are the same data used for quota monitoring and thus are the best representation of the total catch.</p>
+<p>Not all of the commercial dolphin catch activity is reported in the logbooks because dolphin are targeted via a variety of permits and gear types, not all of which have the same reporting requirements. Therefore, in order to parse the commercial landings by year, area and quarter, we use the commercial trip ticket data compiled by NOAA Fisheries. These are the same data used for quota monitoring and thus are the best representation of the total landings.</p>
 <p>The steps are as follows:</p>
 <ol type="1">
 <li><p>Read in the trip ticket data file, which contains commercial dolphinfish landings for the Atlantic coast from 1986-2023, including all landings by year even if the gear type or area is unknown. The dataset specifies the year and month of landing, an area of fishing, gear, and the state where landed. Pounds are in units of whole weight.</p></li>
 <li><p>Read in operating model regions and classify the list of logbook areas into those seven regions. Assign each reported area to an operating model region accordingly.</p></li>
 <li><p>Standardize date formatting and add identifier for season (quarter). Specify a new year variable to allow December to be grouped with January and February.</p></li>
 <li><p>Summarize the landings by year-quarter, gear (PLL gear vs.&nbsp;other gears) and region.</p></li>
-<li><p>For most combinations of year-quarter, region and gear, there are substantial landings for which the area of fishing is unknown and therefore the region cannot be defined. We assume that those landings follow the same distribution with regard to region as the other landings for that year-quarter and gear combination. For each year-quarter/gear combination, we calculate the proportion of catch that occurs in each of the seven regions. The total landings of unknown regions are multiplied by those proportions and then added to the landings from known regions. In cases where none of the areas are known for that year-quarter/gear combination, proportions from the quarter immediately previous to that quarter are used. Sum the landings by gear type to get the total landings for each year-quarter and region.</p></li>
-<li><p>Reformat the data according to the specifications needed for input to the operating model (columns specifying the year, quarter, fleet, area and total catch).</p></li>
-<li><p>Sum landings by year from the original data file and the final outputs to ensure that data were processed correctly and no catch is missing.</p></li>
+<li><p>For most combinations of year-quarter, region and gear, there are substantial landings for which the area of fishing is unknown and therefore the region cannot be defined. We assume that those landings follow the same distribution with regard to region as the other landings for that year-quarter and gear combination. For each year-quarter/gear combination, we calculate the proportion of landings that occurs in each of the seven regions. The total landings of unknown regions are multiplied by those proportions and then added to the landings from known regions. In cases where none of the areas are known for that year-quarter/gear combination, proportions from the quarter immediately previous to that quarter are used. Sum the landings by gear type to get the total landings for each year-quarter and region.</p></li>
+<li><p>Reformat the data according to the specifications needed for input to the operating model (columns specifying the year, quarter, fleet, area and total landings).</p></li>
+<li><p>Sum landings by year from the original data file and the final outputs to ensure that data were processed correctly and no landings are missing.</p></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="plots/tripticket_seasonality.png" class="img-fluid figure-img"></p>
-<figcaption>Seasonality of the commercial dolphin catch according to the trip ticket data. Figure shows the proportion of dolphin catch occurring in each season, for each region of the operating model.</figcaption>
+<figcaption>Seasonality of the commercial dolphin landings according to the trip ticket data. Figure shows the proportion of dolphin landings occurring in each season, for each region of the operating model.</figcaption>
 </figure>
 </div>
 
@@ -684,8 +684,8 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./MRIP.html" class="pagination-link" aria-label="NOAA Fisheries recreational catch data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span>
+      <a href="./MRIP.html" class="pagination-link" aria-label="NOAA Fisheries recreational landings data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; NOAA Fisheries recreational catch data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>3&nbsp; NOAA Fisheries recreational landings data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./MRIP.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./MRIP.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -247,10 +247,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#sec-MRIP" id="toc-sec-MRIP" class="nav-link active" data-scroll-target="#sec-MRIP"><span class="header-section-number">3.1</span> Data access and upload</a></li>
-  <li><a href="#separate-gulf-and-atlantic-recreational-catches" id="toc-separate-gulf-and-atlantic-recreational-catches" class="nav-link" data-scroll-target="#separate-gulf-and-atlantic-recreational-catches"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational catches</a></li>
-  <li><a href="#partition-catches-by-area-and-sector" id="toc-partition-catches-by-area-and-sector" class="nav-link" data-scroll-target="#partition-catches-by-area-and-sector"><span class="header-section-number">3.3</span> Partition catches by area and sector</a></li>
+  <li><a href="#separate-gulf-and-atlantic-recreational-landings" id="toc-separate-gulf-and-atlantic-recreational-landings" class="nav-link" data-scroll-target="#separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational landings</a></li>
+  <li><a href="#partition-landings-by-area-and-sector" id="toc-partition-landings-by-area-and-sector" class="nav-link" data-scroll-target="#partition-landings-by-area-and-sector"><span class="header-section-number">3.3</span> Partition landings by area and sector</a></li>
   <li><a href="#looking-at-extent-of-discarding" id="toc-looking-at-extent-of-discarding" class="nav-link" data-scroll-target="#looking-at-extent-of-discarding"><span class="header-section-number">3.4</span> Looking at extent of discarding</a></li>
-  <li><a href="#split-the-catches-by-season" id="toc-split-the-catches-by-season" class="nav-link" data-scroll-target="#split-the-catches-by-season"><span class="header-section-number">3.5</span> Split the catches by season</a></li>
+  <li><a href="#split-the-landings-by-season" id="toc-split-the-landings-by-season" class="nav-link" data-scroll-target="#split-the-landings-by-season"><span class="header-section-number">3.5</span> Split the landings by season</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/edit/main/MRIP.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/blob/main/MRIP.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/tree/main/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -259,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></h1>
 </div>
 
 
@@ -276,10 +276,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Here we will partition recreational catch data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total catches.</p>
+<p>Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total catches.</p>
 <section id="sec-MRIP" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-MRIP"><span class="header-section-number">3.1</span> Data access and upload</h2>
-<p>Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The catches are in FES MRIP and the units are in pounds whole weight.</p>
+<p>Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The landings are in FES MRIP and the units are in pounds whole weight.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
@@ -408,9 +408,9 @@ Coryphaena hippurus
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d<span class="sc">$</span>LBSEST_SECWWT, d<span class="sc">$</span>YEAR, sum, <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="separate-gulf-and-atlantic-recreational-catches" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="separate-gulf-and-atlantic-recreational-catches"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational catches</h2>
-<p>Now we filter the data set to separate out the Gulf versus Atlantic catches.</p>
+<section id="separate-gulf-and-atlantic-recreational-landings" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="separate-gulf-and-atlantic-recreational-landings"><span class="header-section-number">3.2</span> Separate Gulf and Atlantic recreational landings</h2>
+<p>Now we filter the data set to separate out the Gulf versus Atlantic landings.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># codes for WFL regions: 1 (NW FL Panhandle- Escambia to Dixie co.), 2 (SW FL Peninsula- Levy to Collier co), 3 (FL Keys- Monroe co.)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># subregional codes: 6 is Atlantic and 7 is Gulf</span></span>
@@ -440,7 +440,7 @@ Coryphaena hippurus
 6419 </code></pre>
 </div>
 </div>
-<p>Now we can summarize the total dolphin catches in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.</p>
+<p>Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize by year and compare --------------------------</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -448,7 +448,7 @@ Coryphaena hippurus
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#head(tot1)</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv"</span>, <span class="at">skip =</span> <span class="dv">6</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(old<span class="sc">$</span>Year, old<span class="sc">$</span>ATL, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (pounds)"</span>, <span class="at">lwd =</span> <span class="dv">4</span>, </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(old<span class="sc">$</span>Year, old<span class="sc">$</span>ATL, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (pounds)"</span>, <span class="at">lwd =</span> <span class="dv">4</span>, </span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">2025</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">7</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fl">3.3</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">as.numeric</span>(<span class="fu">names</span>(tot1)), tot1, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"previous data"</span>, <span class="st">"new data"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -461,9 +461,9 @@ Coryphaena hippurus
 </div>
 </div>
 </section>
-<section id="partition-catches-by-area-and-sector" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="partition-catches-by-area-and-sector"><span class="header-section-number">3.3</span> Partition catches by area and sector</h2>
-<p>Now we will partition out the total catches according to the dolphin MSE areas. The areas are as follows:</p>
+<section id="partition-landings-by-area-and-sector" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="partition-landings-by-area-and-sector"><span class="header-section-number">3.3</span> Partition landings by area and sector</h2>
+<p>Now we will partition out the total landings according to the dolphin MSE areas. The areas are as follows:</p>
 <ul>
 <li>FLK: Florida Keys to Indian River County County (FL)</li>
 <li>NCFL: Brevard (FL) to Southern NC (South of Hatteras)</li>
@@ -611,7 +611,7 @@ TRUE
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(rec, <span class="at">file =</span> <span class="st">"data/recLandings.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Now we will separate out the catches by recreational sector and plot the totals by region and sector.</p>
+<p>Now we will separate out the landings by recreational sector and plot the totals by region and sector.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># separate out by for hire vs. private rec --------------------------</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector <span class="ot">&lt;-</span> <span class="st">"ForHire"</span></span>
@@ -673,7 +673,7 @@ TRUE
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(<span class="fu">rownames</span>(fin), fin<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(fin), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
@@ -692,7 +692,7 @@ TRUE
 <pre><code>[1] 4.233284e-11</code></pre>
 </div>
 </div>
-<p>Here are the catches (in pounds) for years 1981 to 2024.</p>
+<p>Here are the landings (in pounds) for years 1981 to 2024.</p>
 </section>
 <section id="looking-at-extent-of-discarding" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="looking-at-extent-of-discarding"><span class="header-section-number">3.4</span> Looking at extent of discarding</h2>
@@ -726,9 +726,9 @@ VBM     2.94 12.69</code></pre>
 </div>
 <p>According to the MRIP survey and the reported numbers, discarding generally increases over time, excluding some highly anomalous estimates from the early years which are driven by low sample sizes. Discarding is generally higher in the private sector compared to the for-hire sector, and is highest in the Florida Keys region.</p>
 </section>
-<section id="split-the-catches-by-season" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="split-the-catches-by-season"><span class="header-section-number">3.5</span> Split the catches by season</h2>
-<p>The dolphin MSE operates on a seasonal time step and thus the catches and discards must by parsed apart by individual season and year. This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the catch in that wave occurs in one season and the other half occurs in the next season.</p>
+<section id="split-the-landings-by-season" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="split-the-landings-by-season"><span class="header-section-number">3.5</span> Split the landings by season</h2>
+<p>The dolphin MSE operates on a seasonal time step and thus the landings and discards must by parsed apart by individual season and year. This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the landings in that wave occurs in one season and the other half occurs in the next season.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define seasons -----------------------------</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>WAVE, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -762,7 +762,7 @@ VBM     2.94 12.69</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">1</span>, <span class="dv">4</span>))</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">6</span>, <span class="dv">8</span>))</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)   <span class="co"># table with catches separated by wave and year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)   <span class="co"># table with landings separated by wave and year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          Hire_FLK Hire_NCFL   Hire_NNC Hire_VBM   Rec_FLK  Rec_NCFL Rec_NNC
 1981_2          NA        NA         NA       NA 2793285.5 270968.46      NA
@@ -801,7 +801,7 @@ VBM     2.94 12.69</code></pre>
 15 40 40 40 40 40 40 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with NAs in many locations ---------------</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate percentages of catch by wave, for each region and fleet</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate percentages of landings by wave, for each region and fleet</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>WAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> avw[<span class="sc">-</span><span class="dv">1</span>, , ]</span>
 <span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(avw[, , <span class="dv">1</span>], avw[, , <span class="dv">2</span>]))</span>
@@ -816,10 +816,10 @@ VBM     2.94 12.69</code></pre>
 <span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {      <span class="co"># loop through each column</span></span>
 <span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> lis) {     <span class="co"># loop through list of NA waves</span></span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (f[j, i] <span class="sc">&gt;</span> <span class="dv">0</span>) {  <span class="co"># if there are NA wave catches, split by known proportion from other years</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>      miscatch <span class="ot">&lt;-</span> avwp[, i] <span class="sc">*</span> f[j, i]   <span class="co"># missing catch is known proportion * NA wave catch</span></span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>      f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="sc">+</span> miscatch  <span class="co"># add in missing catch</span></span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>      f[j, i] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># set to zero after catch is attributed to waves</span></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (f[j, i] <span class="sc">&gt;</span> <span class="dv">0</span>) {  <span class="co"># if there are NA wave landings, split by known proportion from other years</span></span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>      miscatch <span class="ot">&lt;-</span> avwp[, i] <span class="sc">*</span> f[j, i]   <span class="co"># missing landings are known proportion * NA wave landings</span></span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>      f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="sc">+</span> miscatch  <span class="co"># add in missing landings</span></span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>      f[j, i] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># set to zero after landings is attributed to waves</span></span>
 <span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -843,18 +843,18 @@ VBM     2.94 12.69</code></pre>
 2015_0         0         0        0        0       0        0       0       0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that catch was parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that landings were parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), ]  <span class="co"># remove NA waves which now contain no catch</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), ]  <span class="co"># remove NA waves which now contain no landings</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split waves 3 and 6 50/50% to parse into seasons ------------------</span></span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">6</span>)  <span class="co"># list of 3 and 6 waves for all years</span></span>
 <span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> lis) {          <span class="co"># go through list of waves</span></span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> f[i, ] <span class="sc">/</span> <span class="dv">2</span>      <span class="co"># split catch in half</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> f[i, ] <span class="sc">/</span> <span class="dv">2</span>      <span class="co"># split landings in half</span></span>
 <span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">9</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[i]    <span class="co"># reformat year and wave data columns</span></span>
 <span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">10</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>WAVE[i]</span>
 <span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(temp, temp)   <span class="co"># create two half-waves and relabel with new wave reference number</span></span>
@@ -866,7 +866,7 @@ VBM     2.94 12.69</code></pre>
 <span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="sc">-</span>lis, ]  <span class="co"># remove waves that have been split in half</span></span>
 <span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
-<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that catch was parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that landings were parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
@@ -901,17 +901,17 @@ VBM     2.94 12.69</code></pre>
 <span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="fu">rownames</span>(temp), <span class="fu">ncol</span>(temp)), temp1)</span>
 <span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"season"</span>, <span class="fu">names</span>(f)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
 <span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(f[, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">na.rm =</span> T) <span class="sc">==</span> <span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)  <span class="co"># check that total catch is equal before and after parsing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(f[, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">na.rm =</span> T) <span class="sc">==</span> <span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)  <span class="co"># check that total landings are equal before and after parsing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
 </div>
 </div>
-<p>We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the catch by region.</p>
+<p>We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the landings by region.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>findat<span class="sc">$</span>yrseas <span class="ot">&lt;-</span> findat<span class="sc">$</span>year <span class="sc">+</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(findat<span class="sc">$</span>season))<span class="sc">/</span><span class="dv">4</span><span class="fl">-0.125</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(findat<span class="sc">$</span>yrseas, findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>

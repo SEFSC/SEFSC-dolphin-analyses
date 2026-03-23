@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -410,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co"># for lowest and highest years, visualize temperature patterns across the Atlantic</span></span>
 <span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span> <span class="fu">length</span>(yrs))  {</span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">which</span>(yr <span class="sc">==</span> yrs[j])</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">data.frame</span>(tim[k], yr[k], mon[k]))</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#  print(data.frame(tim[k], yr[k], mon[k]))</span></span>
 <span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mex =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)<span class="sc">+</span><span class="dv">1</span>)</span>
 <span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(rec<span class="sc">$</span>Year, rec<span class="sc">$</span>ALL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">32</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="st">"rec landings"</span>, </span>
 <span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> yrs[j])</span>
@@ -429,156 +429,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">28.5</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  2024-01-15  2024      1
-2  2024-02-15  2024      2
-3  2024-03-15  2024      3
-4  2024-04-15  2024      4
-5  2024-05-15  2024      5
-6  2024-06-15  2024      6
-7  2024-07-15  2024      7
-8  2024-08-15  2024      8
-9  2024-09-15  2024      9
-10 2024-10-15  2024     10
-11 2024-11-15  2024     11
-12 2024-12-15  2024     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  2023-01-15  2023      1
-2  2023-02-15  2023      2
-3  2023-03-15  2023      3
-4  2023-04-15  2023      4
-5  2023-05-15  2023      5
-6  2023-06-15  2023      6
-7  2023-07-15  2023      7
-8  2023-08-15  2023      8
-9  2023-09-15  2023      9
-10 2023-10-15  2023     10
-11 2023-11-15  2023     11
-12 2023-12-15  2023     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  2020-01-15  2020      1
-2  2020-02-15  2020      2
-3  2020-03-15  2020      3
-4  2020-04-15  2020      4
-5  2020-05-15  2020      5
-6  2020-06-15  2020      6
-7  2020-07-15  2020      7
-8  2020-08-15  2020      8
-9  2020-09-15  2020      9
-10 2020-10-15  2020     10
-11 2020-11-15  2020     11
-12 2020-12-15  2020     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  2022-01-15  2022      1
-2  2022-02-15  2022      2
-3  2022-03-15  2022      3
-4  2022-04-15  2022      4
-5  2022-05-15  2022      5
-6  2022-06-15  2022      6
-7  2022-07-15  2022      7
-8  2022-08-15  2022      8
-9  2022-09-15  2022      9
-10 2022-10-15  2022     10
-11 2022-11-15  2022     11
-12 2022-12-15  2022     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  2021-01-15  2021      1
-2  2021-02-15  2021      2
-3  2021-03-15  2021      3
-4  2021-04-15  2021      4
-5  2021-05-15  2021      5
-6  2021-06-15  2021      6
-7  2021-07-15  2021      7
-8  2021-08-15  2021      8
-9  2021-09-15  2021      9
-10 2021-10-15  2021     10
-11 2021-11-15  2021     11
-12 2021-12-15  2021     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  1995-02-01  1995      1
-2  1995-03-01  1995      2
-3  1995-04-01  1995      3
-4  1995-05-01  1995      4
-5  1995-06-01  1995      5
-6  1995-07-01  1995      6
-7  1995-08-01  1995      7
-8  1995-09-01  1995      8
-9  1995-10-01  1995      9
-10 1995-11-01  1995     10
-11 1995-12-01  1995     11
-12 1996-01-01  1995     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  1990-02-01  1990      1
-2  1990-03-01  1990      2
-3  1990-04-01  1990      3
-4  1990-05-01  1990      4
-5  1990-06-01  1990      5
-6  1990-07-01  1990      6
-7  1990-08-01  1990      7
-8  1990-09-01  1990      8
-9  1990-10-01  1990      9
-10 1990-11-01  1990     10
-11 1990-12-01  1990     11
-12 1991-01-01  1990     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  2015-01-15  2015      1
-2  2015-02-15  2015      2
-3  2015-03-15  2015      3
-4  2015-04-15  2015      4
-5  2015-05-15  2015      5
-6  2015-06-15  2015      6
-7  2015-07-15  2015      7
-8  2015-08-15  2015      8
-9  2015-09-15  2015      9
-10 2015-10-15  2015     10
-11 2015-11-15  2015     11
-12 2015-12-15  2015     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  1997-02-01  1997      1
-2  1997-03-01  1997      2
-3  1997-04-01  1997      3
-4  1997-05-01  1997      4
-5  1997-06-01  1997      5
-6  1997-07-01  1997      6
-7  1997-08-01  1997      7
-8  1997-09-01  1997      8
-9  1997-10-01  1997      9
-10 1997-11-01  1997     10
-11 1997-12-01  1997     11
-12 1998-01-01  1997     12</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       tim.k. yr.k. mon.k.
-1  1991-02-01  1991      1
-2  1991-03-01  1991      2
-3  1991-04-01  1991      3
-4  1991-05-01  1991      4
-5  1991-06-01  1991      5
-6  1991-07-01  1991      6
-7  1991-08-01  1991      7
-8  1991-09-01  1991      8
-9  1991-10-01  1991      9
-10 1991-11-01  1991     10
-11 1991-12-01  1991     11
-12 1992-01-01  1991     12</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -593,30 +443,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.3" class="anchored" data-anchor-id="may-temperature-distributions"><span class="header-section-number">9.3</span> May temperature distributions</h2>
 <p>We will take a closer look at May temperature distributions across the Atlantic for the full time series. Here we display all of the May temperatures from 1990 to present, ordered from lowest to highest years of recreational landings in the U.S. South Atlantic.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># look at May patterns --------------------</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>), <span class="at">mex =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span> <span class="fu">length</span>(sortyr))  {</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">which</span>(yr <span class="sc">==</span> sortyr[j])</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> k[<span class="dv">5</span>])  { </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"world"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="sc">-</span><span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="at">col =</span> <span class="dv">0</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">axis</span>(<span class="dv">1</span>); <span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">las =</span> <span class="dv">2</span>); <span class="fu">box</span>()</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">image</span>(lon, lat, sst[, , i], <span class="at">add =</span> T, <span class="at">col =</span> cols, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="fl">28.5</span>, <span class="dv">30</span>, <span class="dv">32</span>))</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"usa"</span>, <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">gray</span>(<span class="fl">0.5</span>)); <span class="fu">box</span>()</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">0.5</span>, sortyr[j])</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">30</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">28.5</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">32</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">99</span>, <span class="dv">18</span>, <span class="sc">-</span><span class="dv">78</span>, <span class="dv">31</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">7</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"center"</span>, <span class="at">fill =</span> cols, <span class="fu">c</span>(<span class="st">"&lt;26"</span>, <span class="st">"26-27"</span>, <span class="st">"27-28.5"</span>, <span class="st">"28.5-30"</span>, <span class="st">"&gt;30"</span>),</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">border =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>, </span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"SST (deg C)"</span>, <span class="at">title.font =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># look at May patterns --------------------</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>), <span class="at">mex =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span> <span class="fu">length</span>(sortyr))  {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">which</span>(yr <span class="sc">==</span> sortyr[j])</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> k[<span class="dv">5</span>])  { </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"world"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="sc">-</span><span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="at">col =</span> <span class="dv">0</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">axis</span>(<span class="dv">1</span>); <span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">las =</span> <span class="dv">2</span>); <span class="fu">box</span>()</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">image</span>(lon, lat, sst[, , i], <span class="at">add =</span> T, <span class="at">col =</span> cols, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="fl">28.5</span>, <span class="dv">30</span>, <span class="dv">32</span>))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"usa"</span>, <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">gray</span>(<span class="fl">0.5</span>)); <span class="fu">box</span>()</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">0.5</span>, sortyr[j])</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">30</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">28.5</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">32</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">99</span>, <span class="dv">18</span>, <span class="sc">-</span><span class="dv">78</span>, <span class="dv">31</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">7</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"center"</span>, <span class="at">fill =</span> cols, <span class="fu">c</span>(<span class="st">"&lt;26"</span>, <span class="st">"26-27"</span>, <span class="st">"27-28.5"</span>, <span class="st">"28.5-30"</span>, <span class="st">"&gt;30"</span>),</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">border =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>, </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"SST (deg C)"</span>, <span class="at">title.font =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -631,44 +481,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.4" class="anchored" data-anchor-id="quantifying-the-temperature-distribution-in-an-index"><span class="header-section-number">9.4</span> Quantifying the temperature distribution in an index</h2>
 <p>We can attempt to quantify these patterns in an index by calculating a proportion of waters covered by the dark blue water mass. It seems most useful to consider the coverage of this water mass that occurs in U.S. South Atlantic waters (approximately the yellow box; 100°W-78°W and 18°N-32°N) versus the coverage of this water mass in the larger North Atlantic region (the larger red box; 100°W-30°W and 0°-32°N). We first calculate the number of cells in which these 28.5° - 30° C waters occur in each box, and then divide to obtain an overall proportion.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate proportion of 28.5 - 30 degree C waters in US South Atlantic waters</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># subset the temperature data to 100W - 30W and 0N - 32N</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>lons <span class="ot">&lt;-</span> <span class="fu">which</span>(lon <span class="sc">&gt;=</span> (<span class="sc">-</span><span class="dv">100</span>) <span class="sc">&amp;</span> lon <span class="sc">&lt;=</span> (<span class="sc">-</span><span class="dv">30</span>))</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>lats <span class="ot">&lt;-</span> <span class="fu">which</span>(lat <span class="sc">&gt;=</span> (<span class="dv">0</span>) <span class="sc">&amp;</span> lat <span class="sc">&lt;=</span> (<span class="dv">32</span>))</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>lon[lons]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate proportion of 28.5 - 30 degree C waters in US South Atlantic waters</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># subset the temperature data to 100W - 30W and 0N - 32N</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lons <span class="ot">&lt;-</span> <span class="fu">which</span>(lon <span class="sc">&gt;=</span> (<span class="sc">-</span><span class="dv">100</span>) <span class="sc">&amp;</span> lon <span class="sc">&lt;=</span> (<span class="sc">-</span><span class="dv">30</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>lats <span class="ot">&lt;-</span> <span class="fu">which</span>(lat <span class="sc">&gt;=</span> (<span class="dv">0</span>) <span class="sc">&amp;</span> lat <span class="sc">&lt;=</span> (<span class="dv">32</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>lon[lons]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -100  -98  -96  -94  -92  -90  -88  -86  -84  -82  -80  -78  -76  -74  -72
 [16]  -70  -68  -66  -64  -62  -60  -58  -56  -54  -52  -50  -48  -46  -44  -42
 [31]  -40  -38  -36  -34  -32  -30</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lat[lats]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lat[lats]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  0  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find indexing for 100W - 78W and 18N - 32N</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>lonind <span class="ot">&lt;-</span> <span class="fu">which</span>(lon[lons] <span class="sc">&lt;=</span> (<span class="sc">-</span><span class="dv">78</span>) <span class="sc">&amp;</span> lon[lons] <span class="sc">&gt;=</span> (<span class="sc">-</span><span class="dv">100</span>))</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>latind <span class="ot">&lt;-</span> <span class="fu">which</span>(lat[lats] <span class="sc">&lt;=</span><span class="dv">32</span> <span class="sc">&amp;</span> lat[lats] <span class="sc">&gt;=</span> <span class="dv">18</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># subset SST data for all May months</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>kar <span class="ot">&lt;-</span> sst[lons, lats, <span class="fu">which</span>(mon <span class="sc">==</span> <span class="dv">5</span>)]</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create empty data frame</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="fu">dim</span>(kar)[<span class="dv">3</span>], </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"perar"</span>))))</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>ind<span class="sc">$</span>Year <span class="ot">&lt;-</span> yr[<span class="fu">which</span>(mon <span class="sc">==</span> <span class="dv">5</span>)]</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># for each year, identify SST cells between 28.5 and 30 degrees</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the proportion of those waters within the small box out of the large box</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(kar)[<span class="dv">3</span>])  {</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  k1 <span class="ot">&lt;-</span> kar[, , i]</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  k2 <span class="ot">&lt;-</span> (k1 <span class="sc">&gt;</span><span class="fl">28.5</span> <span class="sc">&amp;</span> k1 <span class="sc">&lt;</span> <span class="fl">30.0</span>)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  ind<span class="sc">$</span>perar[i] <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">which</span>(k2[lonind, latind] <span class="sc">==</span> <span class="cn">TRUE</span>))<span class="sc">/</span> <span class="fu">length</span>(<span class="fu">which</span>(k2 <span class="sc">==</span> <span class="cn">TRUE</span>))</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co"># replace NA values with zero</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>ind<span class="sc">$</span>perar[<span class="fu">which</span>(<span class="fu">is.na</span>(ind<span class="sc">$</span>perar))] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>ind</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find indexing for 100W - 78W and 18N - 32N</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>lonind <span class="ot">&lt;-</span> <span class="fu">which</span>(lon[lons] <span class="sc">&lt;=</span> (<span class="sc">-</span><span class="dv">78</span>) <span class="sc">&amp;</span> lon[lons] <span class="sc">&gt;=</span> (<span class="sc">-</span><span class="dv">100</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>latind <span class="ot">&lt;-</span> <span class="fu">which</span>(lat[lats] <span class="sc">&lt;=</span><span class="dv">32</span> <span class="sc">&amp;</span> lat[lats] <span class="sc">&gt;=</span> <span class="dv">18</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># subset SST data for all May months</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>kar <span class="ot">&lt;-</span> sst[lons, lats, <span class="fu">which</span>(mon <span class="sc">==</span> <span class="dv">5</span>)]</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create empty data frame</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="fu">dim</span>(kar)[<span class="dv">3</span>], </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"perar"</span>))))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>ind<span class="sc">$</span>Year <span class="ot">&lt;-</span> yr[<span class="fu">which</span>(mon <span class="sc">==</span> <span class="dv">5</span>)]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># for each year, identify SST cells between 28.5 and 30 degrees</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the proportion of those waters within the small box out of the large box</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(kar)[<span class="dv">3</span>])  {</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  k1 <span class="ot">&lt;-</span> kar[, , i]</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  k2 <span class="ot">&lt;-</span> (k1 <span class="sc">&gt;</span><span class="fl">28.5</span> <span class="sc">&amp;</span> k1 <span class="sc">&lt;</span> <span class="fl">30.0</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  ind<span class="sc">$</span>perar[i] <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">which</span>(k2[lonind, latind] <span class="sc">==</span> <span class="cn">TRUE</span>))<span class="sc">/</span> <span class="fu">length</span>(<span class="fu">which</span>(k2 <span class="sc">==</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co"># replace NA values with zero</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>ind<span class="sc">$</span>perar[<span class="fu">which</span>(<span class="fu">is.na</span>(ind<span class="sc">$</span>perar))] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>ind</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Year     perar
 1  1990 0.8666667
@@ -707,30 +557,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 34 2023 0.2500000
 35 2024 0.1538462</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> sortyr[<span class="fu">order</span>(sortyr)]</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>), <span class="at">mex =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(yrs))  {</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">which</span>(yr <span class="sc">==</span> yrs[j])</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> k[<span class="dv">5</span>])  { </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"world"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="sc">-</span><span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="at">col =</span> <span class="dv">0</span>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">axis</span>(<span class="dv">1</span>); <span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">las =</span> <span class="dv">2</span>); <span class="fu">box</span>()</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">image</span>(lon, lat, sst[, , i], <span class="at">add =</span> T, <span class="at">col =</span> cols, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="fl">28.5</span>, <span class="dv">30</span>, <span class="dv">32</span>))</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"usa"</span>, <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">gray</span>(<span class="fl">0.5</span>)); <span class="fu">box</span>()</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">0.5</span>, yrs[j])</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(<span class="sc">-</span><span class="dv">38</span>, <span class="dv">45</span>, <span class="fu">paste</span>(<span class="st">"index ="</span>, <span class="fu">round</span>(ind<span class="sc">$</span>perar[<span class="fu">which</span>(ind<span class="sc">$</span>Year <span class="sc">==</span> yrs[j])], <span class="dv">2</span>)))</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">30</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">28.5</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">32</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">99</span>, <span class="dv">18</span>, <span class="sc">-</span><span class="dv">78</span>, <span class="dv">31</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">7</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"center"</span>, <span class="at">fill =</span> cols, <span class="fu">c</span>(<span class="st">"&lt;26"</span>, <span class="st">"26-27"</span>, <span class="st">"27-28.5"</span>, <span class="st">"28.5-30"</span>, <span class="st">"&gt;30"</span>),</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">border =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>, </span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"SST (deg C)"</span>, <span class="at">title.font =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> sortyr[<span class="fu">order</span>(sortyr)]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>), <span class="at">mex =</span> <span class="fl">0.5</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(yrs))  {</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">which</span>(yr <span class="sc">==</span> yrs[j])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> k[<span class="dv">5</span>])  { </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"world"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="sc">-</span><span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>), <span class="at">col =</span> <span class="dv">0</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">axis</span>(<span class="dv">1</span>); <span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">las =</span> <span class="dv">2</span>); <span class="fu">box</span>()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">image</span>(lon, lat, sst[, , i], <span class="at">add =</span> T, <span class="at">col =</span> cols, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="fl">28.5</span>, <span class="dv">30</span>, <span class="dv">32</span>))</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="st">"usa"</span>, <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">gray</span>(<span class="fl">0.5</span>)); <span class="fu">box</span>()</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">0.5</span>, yrs[j])</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(<span class="sc">-</span><span class="dv">38</span>, <span class="dv">45</span>, <span class="fu">paste</span>(<span class="st">"index ="</span>, <span class="fu">round</span>(ind<span class="sc">$</span>perar[<span class="fu">which</span>(ind<span class="sc">$</span>Year <span class="sc">==</span> yrs[j])], <span class="dv">2</span>)))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">30</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contour</span>(lon, lat, sst[, , i], <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">28.5</span>), <span class="at">add =</span> T, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">drawlabels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">32</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(<span class="sc">-</span><span class="dv">99</span>, <span class="dv">18</span>, <span class="sc">-</span><span class="dv">78</span>, <span class="dv">31</span>, <span class="at">col =</span> <span class="cn">NA</span>, <span class="at">border =</span> <span class="dv">7</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span>, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"center"</span>, <span class="at">fill =</span> cols, <span class="fu">c</span>(<span class="st">"&lt;26"</span>, <span class="st">"26-27"</span>, <span class="st">"27-28.5"</span>, <span class="st">"28.5-30"</span>, <span class="st">"&gt;30"</span>),</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">border =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>, </span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"SST (deg C)"</span>, <span class="at">title.font =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -745,22 +595,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.5" class="anchored" data-anchor-id="comparison-of-blue-blob-index-with-landings"><span class="header-section-number">9.5</span> Comparison of “blue blob” index with landings</h2>
 <p>Now we plot the “blue blob” index against the recreational landings.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merge new index with landings data</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(rec, ind, <span class="at">by =</span> <span class="st">"Year"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#head(d)</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the "blue blob" index against recreational landings</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>perar, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">col =</span> <span class="dv">0</span>, </span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"proportion of preferred dolphin temperatures near</span><span class="sc">\n</span><span class="st">U.S. jurisdictions (out of entire Caribbean basin) in May"</span>, </span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings</span><span class="sc">\n</span><span class="st">(millions of pounds)"</span>)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>perar, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, d<span class="sc">$</span>Year)</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">~</span> d<span class="sc">$</span>perar)</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(out, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(d<span class="sc">$</span>perar), <span class="at">col =</span> <span class="dv">8</span>)</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">mean</span>(d<span class="sc">$</span>ATL)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">col =</span> <span class="dv">8</span>)</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.7</span>, <span class="dv">28</span>, <span class="st">"preferred temperatures clustered</span><span class="sc">\n</span><span class="st">near U.S. waters == higher landings"</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.25</span>, <span class="fl">10.5</span>, <span class="st">"preferred temperatures extend across</span><span class="sc">\n</span><span class="st">Caribbean and/or absent from</span><span class="sc">\n</span><span class="st">U.S waters == lower landings"</span>, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">font =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merge new index with landings data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(rec, ind, <span class="at">by =</span> <span class="st">"Year"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#head(d)</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the "blue blob" index against recreational landings</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>perar, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">col =</span> <span class="dv">0</span>, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"proportion of preferred dolphin temperatures near</span><span class="sc">\n</span><span class="st">U.S. jurisdictions (out of entire Caribbean basin) in May"</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings</span><span class="sc">\n</span><span class="st">(millions of pounds)"</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>perar, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, d<span class="sc">$</span>Year)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">~</span> d<span class="sc">$</span>perar)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(out, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(d<span class="sc">$</span>perar), <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">mean</span>(d<span class="sc">$</span>ATL)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.7</span>, <span class="dv">28</span>, <span class="st">"preferred temperatures clustered</span><span class="sc">\n</span><span class="st">near U.S. waters == higher landings"</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.25</span>, <span class="fl">10.5</span>, <span class="st">"preferred temperatures extend across</span><span class="sc">\n</span><span class="st">Caribbean and/or absent from</span><span class="sc">\n</span><span class="st">U.S waters == lower landings"</span>, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">font =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -772,7 +622,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We can see that a statistical relationship does exist, whereby above average “blue blob” index values are associated with above average recreational landings in U.S. South Atlantic waters, and below average index values are associated with below average landings. Gray lines denote the mean values for the index and the landings; we see that this relationship holds true for almost all years in the time series.</p>
 <p>The “blue blob” index explains about 45% of the variation in the landings in the U.S. South Atlantic.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -793,8 +643,8 @@ Residual standard error: 4.339 on 33 degrees of freedom
 Multiple R-squared:  0.4655,    Adjusted R-squared:  0.4493 
 F-statistic: 28.74 on 1 and 33 DF,  p-value: 6.352e-06</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output the index</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ind, <span class="at">file =</span> <span class="st">"indices/blue_blob_index.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output the index</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ind, <span class="at">file =</span> <span class="st">"indices/blue_blob_index.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 

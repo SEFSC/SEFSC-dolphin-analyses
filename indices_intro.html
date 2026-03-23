@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./MRIP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational catch data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">NOAA Fisheries recreational landings data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -246,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#recreational-catch-as-a-proxy-for-availability" id="toc-recreational-catch-as-a-proxy-for-availability" class="nav-link active" data-scroll-target="#recreational-catch-as-a-proxy-for-availability"><span class="header-section-number">8.1</span> Recreational catch as a proxy for availability</a></li>
+  <li><a href="#recreational-landings-as-a-proxy-for-availability" id="toc-recreational-landings-as-a-proxy-for-availability" class="nav-link active" data-scroll-target="#recreational-landings-as-a-proxy-for-availability"><span class="header-section-number">8.1</span> Recreational landings as a proxy for availability</a></li>
   <li><a href="#plot-the-recreational-landings" id="toc-plot-the-recreational-landings" class="nav-link" data-scroll-target="#plot-the-recreational-landings"><span class="header-section-number">8.2</span> Plot the recreational landings</a></li>
   <li><a href="#potential-influence-of-el-niño-southern-oscillation" id="toc-potential-influence-of-el-niño-southern-oscillation" class="nav-link" data-scroll-target="#potential-influence-of-el-niño-southern-oscillation"><span class="header-section-number">8.3</span> Potential influence of El Niño Southern Oscillation</a></li>
   <li><a href="#seasonal-influence-of-el-niño-southern-oscillation" id="toc-seasonal-influence-of-el-niño-southern-oscillation" class="nav-link" data-scroll-target="#seasonal-influence-of-el-niño-southern-oscillation"><span class="header-section-number">8.4</span> Seasonal influence of El Niño Southern Oscillation</a></li>
@@ -276,9 +276,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Dolphin abundance in South Atlantic waters is driven by a combination of factors that are mostly outside of U.S. fishery management control, including environmental conditions and catch in international waters. In order to create a management procedure for the dolphin management strategy evaluation we need an index that can predict ahead of time whether the abundance of dolphin in U.S. waters is likely to be above or below average in a given year. Ideally this index can capture the dynamics early in the year or a season ahead in order to allow adequate time for management response. In the following sections we explore potential predictive indices of dolphin abundance.</p>
-<section id="recreational-catch-as-a-proxy-for-availability" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="recreational-catch-as-a-proxy-for-availability"><span class="header-section-number">8.1</span> Recreational catch as a proxy for availability</h2>
-<p>Because the recreational catch is generally unconstrained by management (the total catch quota is rarely reached and catches are on average well below the bag limits), the total recreational catch could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from <a href="@sec-MRIP">Section 3</a> and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America catches because dolphin are not managed in the Gulf region and thus the catch is not constrained by management and is most likely a function of availability.</p>
+<section id="recreational-landings-as-a-proxy-for-availability" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="recreational-landings-as-a-proxy-for-availability"><span class="header-section-number">8.1</span> Recreational landings as a proxy for availability</h2>
+<p>Because the recreational landings is generally unconstrained by management (the total quota is rarely reached and landings are on average well below the bag limits), the total recreational landings could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from <a href="@sec-MRIP">Section 3</a> and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America landings because dolphin are not managed in the Gulf region and thus the landings are not constrained by management and is most likely a function of availability.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear workspace</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
@@ -294,12 +294,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="plot-the-recreational-landings" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="plot-the-recreational-landings"><span class="header-section-number">8.2</span> Plot the recreational landings</h2>
-<p>Plotting the total recreational catch by region and the proportion of catch by region, we can observe that most of the catch in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the catch has been coming from NCFL and further north, with FLK composing only about 50% of the catch. Gulf catches have historically been a small proportion of the total catch and have remained small throughout time. Catches in the VBM region were historically very small (~1%) but in recent years have varied between 10-18% of the catch.</p>
+<p>Plotting the total recreational landings by region and the proportion of landings by region, we can observe that most of the landings in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the landings has been coming from NCFL and further north, with FLK composing only about 50% of the landings. Gulf landings have historically been a small proportion of the total landings and have remained small throughout time. Landings in the VBM region were historically very small (~1%) but in recent years have varied between 10-18% of the landings.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot landings -------------------------------------------------</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(rec<span class="sc">$</span>Year, rec[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>]<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total catch (millions of pounds)"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total recreational catch in U.S. waters by region"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Total recreational landings in U.S. waters by region"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(rec)[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
@@ -314,8 +314,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>rec1[<span class="fu">is.na</span>(rec1)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">barplot</span>(<span class="fu">t</span>(rec1), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">names.arg =</span> rec<span class="sc">$</span>Year, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.05</span>), </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab =</span> <span class="st">"proportion of catch"</span>, </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Proportion of recreational catch in U.S. waters by region"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">ylab =</span> <span class="st">"proportion of landings"</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">main =</span> <span class="st">"Proportion of recreational landings in U.S. waters by region"</span>, </span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">legend.text =</span> <span class="fu">colnames</span>(rec)[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">args.legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="dv">45</span>, <span class="at">y =</span> <span class="fl">1.15</span>, <span class="at">horiz =</span> T, <span class="at">bty =</span> <span class="st">"n"</span>))</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -325,18 +325,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate total catch and South Atlantic catch for later analysis</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate total landings and South Atlantic landings for later analysis</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rec<span class="sc">$</span>ATL <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(rec[<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">na.rm =</span> T)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rec<span class="sc">$</span>ALL <span class="ot">&lt;-</span> rec<span class="sc">$</span>GULF <span class="sc">+</span> rec<span class="sc">$</span>ATL</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># subset data from 1990 forward </span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> rec[<span class="fu">which</span>(rec<span class="sc">$</span>Year <span class="sc">&gt;=</span> <span class="dv">1990</span>), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Recreational monitoring was first established in 1979 and went through a number of changes in the 1980s, particularly related to monitoring of the for-hire fleet. We can see a very large jump in catches in the late 1980s that we suspect is related to some of these changes in methodology. For our data explorations we will use recreational data from 1990 forward as a reference period in which the monitoring was more standardized.</p>
+<p>Recreational monitoring was first established in 1979 and went through a number of changes in the 1980s, particularly related to monitoring of the for-hire fleet. We can see a very large jump in landings in the late 1980s that we suspect is related to some of these changes in methodology. For our data explorations we will use recreational data from 1990 forward as a reference period in which the monitoring was more standardized.</p>
 </section>
 <section id="potential-influence-of-el-niño-southern-oscillation" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="potential-influence-of-el-niño-southern-oscillation"><span class="header-section-number">8.3</span> Potential influence of El Niño Southern Oscillation</h2>
-<p>We note that many large peaks in recreational catch have occurred in years where there were severe El Niño events (e.g., 1997-1998, 2015). We first explore the El Niño Southern Oscillation (ENSO) as a potential environmental predictor of dolphin abundace. An index based on El Niño is potentially attractive because there is some ability for seasonal predictions of El Niño (3-6 months ahead of time). As large-scale disruptors of atmospheric conditions across the globe, El Niño events have impacts on the distribution of temperatures in the Atlantic and could trigger changes in fish distributions.</p>
+<p>We note that many large peaks in recreational landings have occurred in years where there were severe El Niño events (e.g., 1997-1998, 2015). We first explore the El Niño Southern Oscillation (ENSO) as a potential environmental predictor of dolphin abundace. An index based on El Niño is potentially attractive because there is some ability for seasonal predictions of El Niño (3-6 months ahead of time). As large-scale disruptors of atmospheric conditions across the globe, El Niño events have impacts on the distribution of temperatures in the Atlantic and could trigger changes in fish distributions.</p>
 <p>We use the <a href="https://www.psl.noaa.gov/enso/mei/">multivariate ENSO index from NOAA’s Physical Sciences Laboratory</a>, which combines the influences of five different variables related to Pacific Ocean state into one index. The index is updated monthly and historical data can be downloaded directly from the site.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#download ENSO index</span></span>
@@ -366,12 +366,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Here is the raw time series, showing positive and negative anomalies in the ENSO state.</p>
-<p>Now we will compare the ENSO index to the recreational catches. First we compare the annual average ENSO index to the catches from the different regions. We report adjusted R-squared values and p-values for linear regression of the ENSO index versus the catches; significant relationships are highlighted in blue.</p>
+<p>Now we will compare the ENSO index to the recreational landings. First we compare the annual average ENSO index to the landings from the different regions. We report adjusted R-squared values and p-values for linear regression of the ENSO index versus the landings; significant relationships are highlighted in blue.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate mean</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>e<span class="sc">$</span>mean <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(e[<span class="dv">2</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">na.rm =</span> T)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># merge years with recreational catch data</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># merge years with recreational landings data</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(rec, e, <span class="at">by =</span> <span class="st">"Year"</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#head(d)</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -402,11 +402,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The ENSO index appears to be most closely related to the total recreational catch across the South Atlantic (driven primarily by catches in the FLK region). The relationship is highly significant and the ENSO index explains 19% of the variation in the total catches.</p>
+<p>The ENSO index appears to be most closely related to the total recreational landings across the South Atlantic (driven primarily by landings in the FLK region). The relationship is highly significant and the ENSO index explains 19% of the variation in the total landings.</p>
 </section>
 <section id="seasonal-influence-of-el-niño-southern-oscillation" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="seasonal-influence-of-el-niño-southern-oscillation"><span class="header-section-number">8.4</span> Seasonal influence of El Niño Southern Oscillation</h2>
-<p>Now we will consider the seasonal influence of ENSO, looking at correlations between the index during individual months and the catches. Since the strongest relationship occurs with the total South Atlantic catch, we will use these catches in the analysis.</p>
+<p>Now we will consider the seasonal influence of ENSO, looking at correlations between the index during individual months and the landings. Since the strongest relationship occurs with the total South Atlantic landings, we will use these landings in the analysis.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">names</span>(e)[<span class="dv">2</span><span class="sc">:</span><span class="dv">13</span>]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="at">mex =</span> <span class="fl">0.8</span>)</span>
@@ -438,9 +438,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will test the June-July ENSO index in the management procedure as it has the strongest relationship.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">xlab =</span> <span class="st">"June-July ENSO index"</span>, <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings"</span>, <span class="at">col =</span> <span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">xlab =</span> <span class="st">"June-July ENSO index"</span>, <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings"</span>, <span class="at">col =</span> <span class="dv">0</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, d<span class="sc">$</span>Year, <span class="at">col =</span> <span class="dv">8</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL <span class="sc">~</span> d<span class="sc">$</span>JJ)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">~</span> d<span class="sc">$</span>JJ)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(out, <span class="at">col =</span> <span class="dv">1</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)<span class="sc">$</span>coef[<span class="dv">2</span>, <span class="dv">4</span>]</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">paste0</span>(<span class="st">"R^2 = "</span>, <span class="fu">round</span>(<span class="fu">summary</span>(out)<span class="sc">$</span>adj.r.squared, <span class="dv">2</span>), <span class="st">"; p = "</span>, </span>
@@ -456,20 +456,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = d$ATL ~ d$JJ)
+lm(formula = d$ATL/10^6 ~ d$JJ)
 
 Residuals:
-      Min        1Q    Median        3Q       Max 
--10331985  -3885772    -54038   2319662  10606254 
+    Min      1Q  Median      3Q     Max 
+-10.332  -3.886  -0.054   2.320  10.606 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 17237419     864080  19.949  &lt; 2e-16 ***
-d$JJ         3087325     868015   3.557  0.00116 ** 
+(Intercept)  17.2374     0.8641  19.949  &lt; 2e-16 ***
+d$JJ          3.0873     0.8680   3.557  0.00116 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5046000 on 33 degrees of freedom
+Residual standard error: 5.046 on 33 degrees of freedom
 Multiple R-squared:  0.2771,    Adjusted R-squared:  0.2552 
 F-statistic: 12.65 on 1 and 33 DF,  p-value: 0.001161</code></pre>
 </div>
