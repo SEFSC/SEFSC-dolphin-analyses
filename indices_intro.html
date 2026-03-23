@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./blue_blob_index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Impacts of Atlantic temperature distribution</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wider Atlantic temperature distribution index</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./PLL_index_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wintertime pelagic longline index</span></span></a>
   </div>
 </li>
     </ul>
@@ -360,7 +360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="indices_intro_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="indices_intro_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="864"></p>
 </figure>
 </div>
 </div>
@@ -412,8 +412,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="at">mex =</span> <span class="fl">0.8</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>) {</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> d[, <span class="fu">which</span>(<span class="fu">names</span>(d) <span class="sc">==</span> lis[i])]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(ind, d<span class="sc">$</span>ATL, <span class="at">xlab =</span> <span class="fu">paste</span>(lis[i], <span class="st">"ENSO index"</span>), <span class="at">ylab =</span> <span class="st">"landings"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL <span class="sc">~</span> ind)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(ind, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">xlab =</span> <span class="fu">paste</span>(lis[i], <span class="st">"ENSO index"</span>), <span class="at">ylab =</span> <span class="st">"landings (millions of lbs)"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">~</span> ind)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(out)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  r2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)<span class="sc">$</span>r.squared</span>
@@ -434,13 +434,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>A significant relationship between the monthly ENSO index and total South Atlantic recreational landings occurs with the May-June index, but the strongest relationship occurs in June-July (with 28% of the variance in landings explained by the index in that month). The relationship in the late summer and fall months are also significant, which is expected since the ENSO index is highly correlated from month to month.</p>
+<p>A significant relationship between the monthly ENSO index and total South Atlantic recreational landings occurs with the May-June index, but the strongest relationship occurs in June-July (with 26% of the variance in landings explained by the index in that month). The relationship in the late summer and fall months are also significant, which is expected since the ENSO index is highly correlated from month to month.</p>
 <p>We will test the June-July ENSO index in the management procedure as it has the strongest relationship.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ALL, <span class="at">xlab =</span> <span class="st">"June-July ENSO index"</span>, <span class="at">ylab =</span> <span class="st">"total South Atlantic recreational landings"</span>, <span class="at">col =</span> <span class="dv">0</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ALL, d<span class="sc">$</span>Year, <span class="at">col =</span> <span class="dv">8</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ALL <span class="sc">~</span> d<span class="sc">$</span>JJ)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">xlab =</span> <span class="st">"June-July ENSO index"</span>, <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings"</span>, <span class="at">col =</span> <span class="dv">0</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>JJ, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, d<span class="sc">$</span>Year, <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL <span class="sc">~</span> d<span class="sc">$</span>JJ)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(out, <span class="at">col =</span> <span class="dv">1</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)<span class="sc">$</span>coef[<span class="dv">2</span>, <span class="dv">4</span>]</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">paste0</span>(<span class="st">"R^2 = "</span>, <span class="fu">round</span>(<span class="fu">summary</span>(out)<span class="sc">$</span>adj.r.squared, <span class="dv">2</span>), <span class="st">"; p = "</span>, </span>
@@ -456,22 +456,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = d$ALL ~ d$JJ)
+lm(formula = d$ATL ~ d$JJ)
 
 Residuals:
       Min        1Q    Median        3Q       Max 
--10935438  -3445376   -196026   2340561  10363627 
+-10331985  -3885772    -54038   2319662  10606254 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 18110117     866688  20.896  &lt; 2e-16 ***
-d$JJ         3173692     870635   3.645  0.00091 ***
+(Intercept) 17237419     864080  19.949  &lt; 2e-16 ***
+d$JJ         3087325     868015   3.557  0.00116 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5061000 on 33 degrees of freedom
-Multiple R-squared:  0.2871,    Adjusted R-squared:  0.2655 
-F-statistic: 13.29 on 1 and 33 DF,  p-value: 0.0009095</code></pre>
+Residual standard error: 5046000 on 33 degrees of freedom
+Multiple R-squared:  0.2771,    Adjusted R-squared:  0.2552 
+F-statistic: 12.65 on 1 and 33 DF,  p-value: 0.001161</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the index to the indices file </span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -890,8 +890,8 @@ F-statistic: 13.29 on 1 and 33 DF,  p-value: 0.0009095</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./blue_blob_index.html" class="pagination-link" aria-label="Impacts of Atlantic temperature distribution">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Impacts of Atlantic temperature distribution</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./blue_blob_index.html" class="pagination-link" aria-label="Wider Atlantic temperature distribution index">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wider Atlantic temperature distribution index</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

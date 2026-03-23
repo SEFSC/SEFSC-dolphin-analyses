@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; NOAA Fisheries commercial data – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
+<title>11&nbsp; Wintertime pelagic longline index – Analyses to support the Dolphinfish Management Strategy Evaluation in the U.S. Atlantic</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PLL_index_results.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PLL_index_results.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wintertime pelagic longline index</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -220,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./blue_blob_index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Impacts of Atlantic temperature distribution</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wider Atlantic temperature distribution index</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -232,7 +232,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./PLL_index_results.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wintertime pelagic longline index</span></span></a>
   </div>
 </li>
     </ul>
@@ -255,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wintertime pelagic longline index</span></h1>
 </div>
 
 
@@ -279,34 +279,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The steps are as follows:</p>
 <ol type="1">
 <li><p>Read in the pelagic longline data which contains set level entries including location of fishing, target species, gear used, other details of the fishing trip and number of dolphin caught, discarded alive, discarded dead, and the total pounds of dolphin kept.</p></li>
-<li><p>Format the longitude and latitude of the sets into decimal degrees, and find the points that fall in the Caribbean region (we use 70W - 60W and 12N - 23N as boundaries). Check that subsetting was done correctly, and extract the Caribbean data from the data set.</p></li>
-<li><p>Inspect the dolphin catch columns (number of dolphin kept, discarded alive and dead). Replace NA values with zeros. Calculate the total dolphin catch as the total kept and discarded. Remove data for which the number of hooks is not reported. Calcuate the catch rate as total dolphin caught divided by 1,000 hooks.</p></li>
-<li><p>Standardize date formatting and add identifiers for month.</p></li>
+<li><p>Format the longitude and latitude of the sets into decimal degrees, and find the points that fall in the Caribbean region (we use 76°W - 60°W and 12°N - 23°N as boundaries). Check that subsetting was done correctly, and extract the Caribbean data from the data set.</p></li>
+<li><p>Inspect the dolphin catch columns (number of dolphin kept, discarded alive and dead). Replace NA values with zeros. Calculate the total dolphin catch as the total kept and discarded. Remove data for which the number of hooks is not reported. Calculate the catch rate as total dolphin caught divided by 1,000 hooks.</p></li>
+<li><p>Standardize date formatting and add identifiers for month. Index December so that it is included with the winter months of the following year. Subset the data set so that it includes only the winter months (December - February).</p></li>
 <li><p>Explore the different factors to include in the standardization model, relying on previous literature and best practices for standardizing PLL logbook data. Analyze the number of observations for different gear configurations and target species. Factors considered were: temperature, month, number of hooks between floats, bait type, number of lights between hooks, and species targeted. Temperature was binned in 5-degree increments. Month and hooks between floats were converted to factors. There was little resolution in the data for bait type and number of lights per hook, with similar values across all observations. The only major reported species targeted were dolphin, swordfish and mixed; targeting for other species were only listed in a small number of sets.</p></li>
-<li><p>Use the delta-lognormal method to create an index of abundance for dolphin, estimated using a generalized linear model approach. The delta model fits separately the: 1) proportion of positive sets, assuming a binomial error distribution, and 2) the mean catch rate of sets where at least one dolphin was caught, assuming a lognormal error distribution. Inspect the significance of the model factors and calculate the least-squares means from the linear models for the year predictor estimates. The index of abundance is the standardized proportion positive by year multiplied by the standardized abundance when present.</p></li>
+<li><p>Use the delta-lognormal method to create an index of abundance for dolphin, estimated using a generalized linear model approach. The delta model fits separately the: 1) proportion of positive sets, assuming a binomial error distribution, and 2) the mean catch rate of sets where at least one dolphin was caught, assuming a lognormal error distribution. Use a step-wise regression process was used to determine the set of factors that significantly explain the observed variability. Model selection of fixed factors was based on significance with alpha=0.05. Once the final model is determined, calculate the least-squares means from the linear models for the year predictor estimates. The index of abundance is the standardized proportion positive by year multiplied by the standardized abundance when present.</p></li>
 <li><p>Calculate the deviance explained by each model, the standard errors, and the combined variance for the standardized index.</p></li>
 </ol>
 </section>
 <section id="model-results" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="model-results"><span class="header-section-number">11.2</span> Model results</h2>
-<p>We will upload the model results and show the standardized index.</p>
+<p>Here we upload the model results and show the standardized index.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/linear_model_outputs.RData"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Deviance Explained (Binomial): "</span>, <span class="fu">round</span>(d2_bin <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Deviance Explained (Binomial):  10.85 %</code></pre>
+<pre><code>Deviance Explained (Binomial):  7.75 %</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Deviance Explained (Lognormal):"</span>, <span class="fu">round</span>(d2_log <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Deviance Explained (Lognormal): 32.13 %</code></pre>
+<pre><code>Deviance Explained (Lognormal): 17.28 %</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Total Delta-Lognormal D^2: "</span>, <span class="fu">round</span>(total_d2 <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total Delta-Lognormal D^2:  14.56 %</code></pre>
+<pre><code>Total Delta-Lognormal D^2:  9.63 %</code></pre>
 </div>
 </div>
+<p>The deviance explained by the model is relatively low, and thus the standardized index is similar to the nominal CPUE index. The primary impact of standardization is to lower slightly the index of relative abundance in the earlier years of the time series.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"indices/PLL_index.csv"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -326,6 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>Now we compare the nominal and the standardized index with the Atlantic recreational landings. We experimented with altering the forecasting time period (e.g., Dec - Feb versus Jan - Mar) and also with the latitudinal boundaries (e.g., 70°W versus 76°W ). A smaller bounding box of 70°W resulted in very small sample sizes (&lt;10) for some individual years; extending the bounding box to 76°W to cover fishing activity between Cuba and Hispanola resulted in much higher sample sizes and improved correlations. Including only the winter months (Dec - Feb) also resulted in higher correlations than when spring months were included.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/recLandings.csv"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(rec)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"Year"</span></span>
@@ -344,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) { </span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">names</span>(d1) <span class="sc">==</span> lis[i])</span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(d1[, j], d1<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">col =</span> <span class="dv">0</span>, <span class="at">xlab =</span> labs[i], <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">32</span>), <span class="at">las =</span> <span class="dv">1</span>,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"total South Atlantic recreational landings</span><span class="sc">\n</span><span class="st">(millions of pounds)"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings</span><span class="sc">\n</span><span class="st">(millions of pounds)"</span>)</span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(d1[, j], d1<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fu">substr</span>(d1<span class="sc">$</span>Year, <span class="dv">1</span>, <span class="dv">4</span>), <span class="at">col =</span> <span class="dv">1</span>)</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d1<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">~</span> d1[, j ])</span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(out, <span class="at">col =</span> <span class="dv">8</span>)</span>
@@ -365,6 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>Interestingly, the nominal CPUE is more highly correlated with Atlantic recreational landings than the standardized index. However when the standardized index is broken into its two components, we can see that the probability of occurrence is not significantly correlated with the Atlantic landings, while the abundance when present has a highly significant correlation and explains 44% of the variation in the Atlantic landings.</p>
 
 
 </section>

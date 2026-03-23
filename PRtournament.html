@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./blue_blob_index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Impacts of Atlantic temperature distribution</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wider Atlantic temperature distribution index</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./PLL_index_results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wintertime pelagic longline index</span></span></a>
   </div>
 </li>
     </ul>
@@ -811,28 +811,30 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">merge</span>(rec, ind, <span class="at">by =</span> <span class="st">"Year"</span>)</span>
 <span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>response, d<span class="sc">$</span>ATL, <span class="at">col =</span> <span class="dv">0</span>)</span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>response, d<span class="sc">$</span>ATL, d<span class="sc">$</span>Year, <span class="at">col =</span> <span class="dv">1</span>)</span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL <span class="sc">~</span> d<span class="sc">$</span>response)</span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(out, <span class="at">col =</span> <span class="dv">8</span>)</span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(d<span class="sc">$</span>response, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">col =</span> <span class="dv">0</span>, <span class="at">xlab =</span> <span class="st">"standardized tournament CPUE"</span>, </span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"total U.S. Atlantic coast recreational landings</span><span class="sc">\n</span><span class="st">(millions of pounds)"</span>)</span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(d<span class="sc">$</span>response, d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, d<span class="sc">$</span>Year, <span class="at">col =</span> <span class="dv">1</span>)</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">lm</span>(d<span class="sc">$</span>ATL<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">~</span> d<span class="sc">$</span>response)</span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(out, <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = d$ATL ~ d$response)
+lm(formula = d$ATL/10^6 ~ d$response)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--4903925 -2455191 -1423045  2822339  8784468 
+   Min     1Q Median     3Q    Max 
+-4.904 -2.455 -1.423  2.822  8.784 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 11967878    1891752   6.326 4.52e-06 ***
-d$response  10715966    4617982   2.320   0.0316 *  
+(Intercept)   11.968      1.892   6.326 4.52e-06 ***
+d$response    10.716      4.618   2.320   0.0316 *  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 3819000 on 19 degrees of freedom
+Residual standard error: 3.819 on 19 degrees of freedom
 Multiple R-squared:  0.2208,    Adjusted R-squared:  0.1798 
 F-statistic: 5.385 on 1 and 19 DF,  p-value: 0.0316</code></pre>
 </div>
@@ -1261,13 +1263,13 @@ F-statistic: 5.385 on 1 and 19 DF,  p-value: 0.0316</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./blue_blob_index.html" class="pagination-link" aria-label="Impacts of Atlantic temperature distribution">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Impacts of Atlantic temperature distribution</span></span>
+      <a href="./blue_blob_index.html" class="pagination-link" aria-label="Wider Atlantic temperature distribution index">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wider Atlantic temperature distribution index</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./PLL_index_results.html" class="pagination-link" aria-label="NOAA Fisheries commercial data">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">NOAA Fisheries commercial data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./PLL_index_results.html" class="pagination-link" aria-label="Wintertime pelagic longline index">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wintertime pelagic longline index</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
