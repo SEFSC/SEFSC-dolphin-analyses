@@ -76,7 +76,7 @@ abline(h=0)
 
 ## Updated Gulf/Atlantic parsing of data
 
-There are some issues with the way that the FOSS system splits out Gulf and Atlantic catches by Monroe County, which is on the border between the two jurisdictions. We received data from Mike Larkin (SERO) which has the correct split out of data for Monroe County between the Gulf and Atlantic. We compare the total recreational catch for the Gulf and Atlantic between the FOSS data and the updated data. The numbers are very close; the average difference from the FOSS data is 2%.
+There are some issues with the way that the FOSS system splits out Gulf and Atlantic landings by Monroe County, which is on the border between the two jurisdictions. We received data from Mike Larkin (SERO) which has the correct split out of data for Monroe County between the Gulf and Atlantic. We compare the total recreational landings for the Gulf and Atlantic between the FOSS data and the updated data. The numbers are very close; the average difference from the FOSS data is 2%.
 
 ```{r}
 #| echo: true
@@ -122,7 +122,7 @@ tail(datnew)
 
 ## Plots with updated data
 
-We replace the FOSS values for Gulf and South Atlantic recreational catches with these new values and re-plot the full data set. We can also plot the landings as a line graph so that the relative magnitudes of catch across region and sector are more easily compared.
+We replace the FOSS values for Gulf and South Atlantic recreational landings with these new values and re-plot the full data set. We can also plot the landings as a line graph so that the relative magnitudes of landings across region and sector are more easily compared.
 
 ```{r}
 par(mar = c(4, 4, 1, 0), mgp = c(2.5, 1, 0))

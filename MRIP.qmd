@@ -1,10 +1,10 @@
-# NOAA Fisheries recreational catch data
+# NOAA Fisheries recreational landings data
 
-Here we will partition recreational catch data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total catches.
+Here we will partition recreational landings data from NOAA Fisheries’ Marine Recreational Information Program (MRIP), a standardized, peer-reviewed suite of recreational fishing surveys used to produce catch and effort estimates for quota monitoring and stock assessment in the United States. MRIP is a standardized survey suite that employs a complex statistical sampling design stratified across time, regions of the coast, and different fishing modes, which allows the intercept data to be scaled up by effort estimates to calculate total catches.
 
 ## Data access and upload {#sec-MRIP}
 
-Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The catches are in FES MRIP and the units are in pounds whole weight.
+Data are downloaded directly from the Miami server using the files provided to SERO for ACL monitoring. The current location is: M://SFD/SECM-SFD/ACL/2025_Jun23_MRIP_MRFSS/. The landings are in FES MRIP and the units are in pounds whole weight.
 
 ```{r}
 #| warning: false
@@ -30,9 +30,9 @@ tot <- tapply(d$LBSEST_SECWWT, d$YEAR, sum, na.rm = T)
 
 ```
 
-## Separate Gulf and Atlantic recreational catches
+## Separate Gulf and Atlantic recreational landings
 
-Now we filter the data set to separate out the Gulf versus Atlantic catches.
+Now we filter the data set to separate out the Gulf versus Atlantic landings.
 
 ```{r}
 #| echo: true
@@ -48,7 +48,7 @@ table(d1$COUNCILREG)
 
 ```
 
-Now we can summarize the total dolphin catches in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
+Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
 
 ```{r}
 #| echo: true
@@ -59,16 +59,16 @@ tot1 <- tapply(d1$LBSEST_SECWWT, d1$YEAR, sum, na.rm = T)
 #head(tot1)
 
 old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
-plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total catch (pounds)", lwd = 4, 
+plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total landings (pounds)", lwd = 4, 
      xlim = c(1980, 2025), ylim = c(7*10^6, 3.3*10^7), bty = "n")
 lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2, lty = 2)
 legend("topright", c("previous data", "new data"), col = c(1, 2), lwd = c(4, 2), lty = c(1, 2))
 
 ```
 
-## Partition catches by area and sector
+## Partition landings by area and sector
 
-Now we will partition out the total catches according to the dolphin MSE areas. The areas are as follows:
+Now we will partition out the total landings according to the dolphin MSE areas. The areas are as follows:
 
 -   FLK: Florida Keys to Indian River County County (FL)
 -   NCFL: Brevard (FL) to Southern NC (South of Hatteras)
@@ -115,7 +115,7 @@ write.csv(rec, file = "data/recLandings.csv")
 
 ```
 
-Now we will separate out the catches by recreational sector and plot the totals by region and sector.
+Now we will separate out the landings by recreational sector and plot the totals by region and sector.
 
 ```{r}
 #| warning: false
@@ -140,7 +140,7 @@ head(fin)
 
 matplot(rownames(fin), fin/10^6, lty = c(rep(2, 4), rep(1, 4)), 
         col = rep(1:4, 2), type = "l", lwd = 2, 
-        xlab = "year", ylab = "total catch (millions of pounds)")
+        xlab = "year", ylab = "total landings (millions of pounds)")
 legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
 # check that totals match
@@ -148,7 +148,7 @@ cor(rowSums(fin, na.rm = T), tot1)
 mean(rowSums(fin, na.rm = T) - tot1)   # very tiny differences
 
 ```
-Here are the catches (in pounds) for years 1981 to 2024.
+Here are the landings (in pounds) for years 1981 to 2024.
 
 ## Looking at extent of discarding
 
@@ -176,9 +176,9 @@ round(disr * 100, 2)  # discarding rates by region and sector
 
 According to the MRIP survey and the reported numbers, discarding generally increases over time, excluding some highly anomalous estimates from the early years which are driven by low sample sizes. Discarding is generally higher in the private sector compared to the for-hire sector, and is highest in the Florida Keys region.
 
-## Split the catches by season
+## Split the landings by season
 
-The dolphin MSE operates on a seasonal time step and thus the catches and discards must by parsed apart by individual season and year. This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the catch in that wave occurs in one season and the other half occurs in the next season.
+The dolphin MSE operates on a seasonal time step and thus the landings and discards must by parsed apart by individual season and year. This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the landings in that wave occurs in one season and the other half occurs in the next season.
 
 ```{r}
 #| warning: false
@@ -197,7 +197,7 @@ head(f)
 
 f$YEAR <- as.numeric(substr(rownames(f), 1, 4))
 f$WAVE <- as.numeric(substr(rownames(f), 6, 8))
-head(f)   # table with catches separated by wave and year
+head(f)   # table with landings separated by wave and year
 f[is.na(f)] <- 0
 
 f <- f[which(f$YEAR >= 1985), ]
@@ -207,7 +207,7 @@ table(f$YEAR)
 table(f$WAVE)  
 
 # deal with NAs in many locations ---------------
-# calculate percentages of catch by wave, for each region and fleet
+# calculate percentages of landings by wave, for each region and fleet
 avw <- tapply(d1$LBSEST_SECWWT, list(d1$WAVE, d1$region, d1$sector), sum, na.rm = T)
 avw <- avw[-1, , ]
 avw <- data.frame(cbind(avw[, , 1], avw[, , 2]))
@@ -222,24 +222,24 @@ lis <- which(f$WAVE == 0)  # list of rows with NA wave data
 
 for (i in 1:8) {      # loop through each column
   for(j in lis) {     # loop through list of NA waves
-    if (f[j, i] > 0) {  # if there are NA wave catches, split by known proportion from other years
-      miscatch <- avwp[, i] * f[j, i]   # missing catch is known proportion * NA wave catch
-      f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] <- f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] + miscatch  # add in missing catch
-      f[j, i] <- 0   # set to zero after catch is attributed to waves
+    if (f[j, i] > 0) {  # if there are NA wave landings, split by known proportion from other years
+      miscatch <- avwp[, i] * f[j, i]   # missing landings are known proportion * NA wave landings
+      f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] <- f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] + miscatch  # add in missing landings
+      f[j, i] <- 0   # set to zero after landings is attributed to waves
     }
   }
 }
 f[lis, 1:8] # should be all zeros now
 pos_colsum <- colSums(f, na.rm = T) 
-pre_colsum[1:8] == pos_colsum[1:8]  # check that catch was parsed correctly - column sums should be identical 
+pre_colsum[1:8] == pos_colsum[1:8]  # check that landings were parsed correctly - column sums should be identical 
 
-f <- f[which(f$WAVE != 0), ]  # remove NA waves which now contain no catch
+f <- f[which(f$WAVE != 0), ]  # remove NA waves which now contain no landings
 
 # split waves 3 and 6 50/50% to parse into seasons ------------------
 lis <- which(f$WAVE == 3 | f$WAVE == 6)  # list of 3 and 6 waves for all years
 
 for (i in lis) {          # go through list of waves
-  temp <- f[i, ] / 2      # split catch in half
+  temp <- f[i, ] / 2      # split landings in half
   temp[9] <- f$YEAR[i]    # reformat year and wave data columns
   temp[10] <- f$WAVE[i]
   temp <- rbind(temp, temp)   # create two half-waves and relabel with new wave reference number
@@ -251,7 +251,7 @@ for (i in lis) {          # go through list of waves
 f <- f[-lis, ]  # remove waves that have been split in half
 
 pos_colsum <- colSums(f, na.rm = T) 
-pre_colsum[1:8] == pos_colsum[1:8]  # check that catch was parsed correctly - column sums should be identical 
+pre_colsum[1:8] == pos_colsum[1:8]  # check that landings were parsed correctly - column sums should be identical 
 
 f <- f[order(f$YEAR, f$WAVE), ]  # reorder table in chronological order
 
@@ -278,10 +278,10 @@ findat <- data.frame(sort(rep(as.numeric(colnames(temp)), 4)),
                      rep(rownames(temp), ncol(temp)), temp1)
 names(findat) <- c("year", "season", names(f)[1:8])
 
-colSums(f[, 1:8], na.rm = T) == colSums(findat[, 3:10], na.rm = T)  # check that total catch is equal before and after parsing
+colSums(f[, 1:8], na.rm = T) == colSums(findat[, 3:10], na.rm = T)  # check that total landings are equal before and after parsing
 ```
 
-We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the catch by region.
+We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the landings by region.
 
 ```{r}
 #| echo: true
@@ -289,7 +289,7 @@ We plot the results by region and sector, over the time series of year and seaso
 
 findat$yrseas <- findat$year + as.numeric(as.factor(findat$season))/4-0.125
 matplot(findat$yrseas, findat[, 3:10]/10^6, lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), type = "l", lwd = 2, 
-        xlab = "year", ylab = "total catch (millions of pounds)")
+        xlab = "year", ylab = "total landings (millions of pounds)")
 legend("topright", colnames(findat[, 3:10]), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
 # check that totals match

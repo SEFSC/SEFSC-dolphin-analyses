@@ -103,8 +103,8 @@ points(dd$lon, dd$lat, pch = 19, cex = log(dd$DOLPHIN_POUNDS)/4,
        col = transparent(as.numeric(as.factor(dd$area))+1, 0.9))
 
 barplot(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T)/10^6, 
-        main = "Total dolphin catch by area 1986-2022 from PLL logbook", ylab = "millions of pounds")
-barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, mean, na.rm = T), main = "average catch per trip by area")
+        main = "Total dolphin landings by area 1986-2022 from PLL logbook", ylab = "millions of pounds")
+barplot(tapply(dd$DOLPHIN_POUNDS, dd$area, mean, na.rm = T), main = "average landings per trip by area")
 
 dp <- d[which(d$PLL == "Y" & d$TDOL == "Y"), ]  # subset PLL trips
 map("world", xlim = c(-90, -40), ylim = c(15, 48))
@@ -135,8 +135,8 @@ barplot(tapply(dp$cpue, dp$area2, mean, na.rm = T), main = "Average nominal PLL 
         ylab = "dolphin catch per unit effort (pounds / hooks)")
 barplot(tapply(as.numeric(dp$cpue>0), dp$area2, mean, na.rm = T))
 
-tab <- tapply(dp$cpue, list(dp$quarter, dp$area), mean, na.rm = T)
-tab[which(is.na(tab))] <- 0
+#tab <- tapply(dp$cpue, list(dp$quarter, dp$area), mean, na.rm = T)
+#tab[which(is.na(tab))] <- 0
 
 # look at distribution of dolphin PLL trips
 
@@ -186,30 +186,30 @@ d <- d[which(d$year < 2023), ]
 barplot(tapply(d$DOLPHIN_POUNDS, d$yrqrt, sum, na.rm = T))
 
 dev.off()
-# plot seasonality of dolphin catch by month
+# plot seasonality of dolphin landings by month
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$monold, d$area), sum, na.rm = T)
 barplot(tab, beside = T, col = rainbow(12, end = 0.9))
 
 tab <- tab[-1, ]
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
 
-barplot(tabp, beside = T, col = rainbow(12, end = 0.8), main = "seasonality of dolphin catch by region", 
-        xlab = "region", ylab = "proportion of total catch (in pounds landed)",
+barplot(tabp, beside = T, col = rainbow(12, end = 0.8), main = "seasonality of dolphin landings by region", 
+        xlab = "region", ylab = "proportion of total landings (in pounds landed)",
         legend = month.abb, args.legend = list(x = "topleft", col = rainbow(12, end = 0.8), bty = "n"))
 
-# plot seasonality of dolphin catch by quarter
+# plot seasonality of dolphin landings by quarter
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$area), sum, na.rm = T)
 barplot(tab, beside = T, col = rainbow(4))
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
-barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)", las = 1,
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin landings by region", 
+        xlab = "region", ylab = "proportion of total landings (in pounds)", las = 1,
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4, end = 0.8), bty = "n"))
 
 # plot seasonality 
 png(filename = "plots/PLL_seasonality.png", width = 600, height = 300)
-barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- logbook data", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)", las = 1, ylim = c(0, 0.8), 
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin landings by region -- logbook data", 
+        xlab = "region", ylab = "proportion of total landings (in pounds)", las = 1, ylim = c(0, 0.8), 
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 12, y = 0.8, col = rainbow(4, end = 0.8), bty = "n"))
 dev.off()
 
@@ -218,8 +218,8 @@ tab <- tapply(d$DOLK, list(d$quarter, d$area), sum, na.rm = T)
 #barplot(tab, beside = T, col = rainbow(4))
 
 tabp1 <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
-barplot(tabp1, beside = T, col = rainbow(4), main = "seasonality of dolphin catch by region", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)",
+barplot(tabp1, beside = T, col = rainbow(4), main = "seasonality of dolphin landings by region", 
+        xlab = "region", ylab = "proportion of total landings (in pounds)",
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4), bty = "n"))
 
 tabp/tabp1  # numbers are generally very similar - go with weight
@@ -239,11 +239,11 @@ for (i in 1:length(yrs)) {
 # outputs for further analysis ----------------------
 
 # Define seasonality (% of dolphin caught in each quarter), by year, for each of the regions.  
-# For the three high seas regions we will use these percentages to parse the total catch (estimated by SAU) by year into quarters.
+# For the three high seas regions we will use these percentages to parse the total landings (estimated by SAU) by year into quarters.
 # For the four U.S. EEZ regions we will not use these numbers as the trip ticket data are reported by month; 
 # however we will compare the reported percentages to make sure those numbers seem reasonable.  
 
-# summarize total catch in pounds by quarter, year, and area
+# summarize total landings in pounds by quarter, year, and area
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$year, d$area), sum, na.rm = T)
 
 # convert to percentages across quarters of the year, for each year/area combination
@@ -266,36 +266,36 @@ percatch
 
 save(percatch, file = "data/outputs/per_PLLcatch_by_area_yearquarter.RData")
 
-# Look at how PLL catch is distributed by area.  We can use these numbers to fill in missing 
+# Look at how PLL landings are distributed by area.  We can use these numbers to fill in missing 
 # areas of reporting (primarily NCA) from the trip ticket data.  
 
 dev.off()
-# plot total catch by area
+# plot total landings by area
 barplot(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T), col = 2:8, 
-        main = "total dolphin catch by area", xlab = "total pounds landed")
+        main = "total dolphin landings by area", xlab = "total pounds landed")
 
 tab <- tapply(d$DOLPHIN_POUNDS, list(d$area, d$yrqrt), sum, na.rm = T)
 barplot(tab, beside = T, col = 2:8, las = 2)
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
 
-matplot(as.numeric(colnames(tab)), t(tab), col = 2:8, main = "distribution of catch by area and quarter", 
-        xlab = "year", ylab = "total catch (in pounds)", 
+matplot(as.numeric(colnames(tab)), t(tab), col = 2:8, main = "distribution of landings by area and quarter", 
+        xlab = "year", ylab = "total landings (in pounds)", 
         type = "l", pch = 19, lty = 1, lwd = 2)
 legend("top", rownames(tabp), col = 2:8, bty = "n", pch = 19, horiz = T, lty = 1, lwd = 2)
 
-matplot(as.numeric(colnames(tabp)), t(tabp), col = 2:8, main = "Proportional distribution of catch by area and quarter", 
-        xlab = "year", ylab = "proportion of total catch (in pounds)", 
+matplot(as.numeric(colnames(tabp)), t(tabp), col = 2:8, main = "Proportional distribution of landings by area and quarter", 
+        xlab = "year", ylab = "proportion of total landings (in pounds)", 
         type = "l", pch = 19, lty = 1, lwd = 2)
 legend("top", rownames(tabp), col = 2:8, bty = "n", pch = 19, horiz = T, lty = 1, lwd = 2)
 
-# In most years, the majority of the catch comes from the NCFL region
-# As much as quarter of the catch coming from VBM in early years; later tendency to come from NNC
+# In most years, the majority of the landings comes from the NCFL region
+# As much as quarter of the landings coming from VBM in early years; later tendency to come from NNC
 
 round(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T) / sum(tapply(d$DOLPHIN_POUNDS, d$area, sum, na.rm = T)) * 100, 2)
 
 # Reporting areas are here: https://grunt.sefsc.noaa.gov/ttrs/lu_areas_nmfs.jsp
-# On average, 79% of catch comes from NCFL.  Only 1.8% comes from NCA; not reported but probably negligible. 
+# On average, 79% of landings come from NCFL.  Only 1.8% comes from NCA; not reported but probably negligible. 
 
 # NCA   CAR   FLK  NCFL   NNC   VBM   NED 
 # 1.80  1.38  0.92 78.96  7.01  9.34  0.60
@@ -383,7 +383,7 @@ barplot(tapply(d$WW, d$MONTH, sum, na.rm = T))
 barplot(tapply(d$WW, d$GEAR, sum, na.rm = T))
 barplot(tapply(d$WW, d$STATE, sum, na.rm = T))
 barplot(tapply(d$WW, d$AREA, sum, na.rm = T), las = 2)
-barplot(tapply(d$WW, d$region, sum, na.rm = T)/10^6, main = "Total dolphin catch by area 1986 - 2023 from trip tickets", 
+barplot(tapply(d$WW, d$region, sum, na.rm = T)/10^6, main = "Total dolphin landings by area 1986 - 2023 from trip tickets", 
         ylab = "millions of pounds")
 tab <- tapply(d$WW, list(d$GEAR, d$region), sum, na.rm = T)
 barplot(tab/10^6, beside = T, 
@@ -482,7 +482,7 @@ dorig <- dorig[which(dorig$YEAR <= 2022), ]
 check1 <- tapply(dorig$WW, dorig$YEAR, sum, na.rm = T)
 check2 <- tapply(findat$Catch_lbs, findat$Year, sum, na.rm = T)
 plot(check1, check2)
-round(check1 / check2, 2)  # note these should be slightly different because December catch moved to following year
+round(check1 / check2, 2)  # note these should be slightly different because December landings moved to following year
 
 write.csv(findat, file = "data/FINAL_files/commercial_TomFormat.csv", row.names = FALSE)
 
@@ -492,14 +492,14 @@ tab <- tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = 
 barplot(tab, beside = T, col = rainbow(4))
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
-barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- trip ticket data", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)",
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin landings by region -- trip ticket data", 
+        xlab = "region", ylab = "proportion of total landings (in pounds)",
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 10, y = 0.7, col = rainbow(4, end = 0.8), bty = "n"))
 
 dev.off()
 png(filename = "plots/tripticket_seasonality.png", width = 600, height = 300)
-barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin catch by region -- trip ticket data", 
-        xlab = "region", ylab = "proportion of total catch (in pounds)", ylim = c(0, 0.8), 
+barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin landings by region -- trip ticket data", 
+        xlab = "region", ylab = "proportion of total landings (in pounds)", ylim = c(0, 0.8), 
         legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = 12, y = 0.8, col = rainbow(4, end = 0.8), bty = "n"))
 dev.off()
 

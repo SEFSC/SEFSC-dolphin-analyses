@@ -34,7 +34,7 @@ par(mfrow = c(6, 6), mex = 0.3)
   d1 <- dat[which(dat$SET_YEAR == i) ,]
   points(d1$lon, d1$lat, pch = 19, col = "#FF000055")
   mtext(side = 3, i)
-  rect(xleft = -75, ybottom = 12, xright = -60, ytop = 23, col = NA, border = 4)
+  rect(xleft = -76, ybottom = 12, xright = -60, ytop = 23, col = NA, border = 4)
  }
 
 #  find the PLL points that fall in the Caribbean ----------------

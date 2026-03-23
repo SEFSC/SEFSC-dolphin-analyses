@@ -122,7 +122,7 @@ status[10] <- "highest"
 # for lowest and highest years, visualize temperature patterns across the Atlantic
 for (j in 1: length(yrs))  {
   k <- which(yr == yrs[j])
-  print(data.frame(tim[k], yr[k], mon[k]))
+#  print(data.frame(tim[k], yr[k], mon[k]))
   par(mex = 0.5, mar = c(2, 2, 2, 2)+1)
   plot(rec$Year, rec$ALL/10^6, type = "l", col = 4, ylim = c(0, 32), lwd = 2, ylab = "rec landings", 
        main = yrs[j])

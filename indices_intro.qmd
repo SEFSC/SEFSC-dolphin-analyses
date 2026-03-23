@@ -2,9 +2,9 @@
 
 Dolphin abundance in South Atlantic waters is driven by a combination of factors that are mostly outside of U.S. fishery management control, including environmental conditions and catch in international waters. In order to create a management procedure for the dolphin management strategy evaluation we need an index that can predict ahead of time whether the abundance of dolphin in U.S. waters is likely to be above or below average in a given year. Ideally this index can capture the dynamics early in the year or a season ahead in order to allow adequate time for management response. In the following sections we explore potential predictive indices of dolphin abundance.
 
-## Recreational catch as a proxy for availability
+## Recreational landings as a proxy for availability
 
-Because the recreational catch is generally unconstrained by management (the total catch quota is rarely reached and catches are on average well below the bag limits), the total recreational catch could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from [Section 3](@sec-MRIP) and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America catches because dolphin are not managed in the Gulf region and thus the catch is not constrained by management and is most likely a function of availability.
+Because the recreational landings is generally unconstrained by management (the total quota is rarely reached and landings are on average well below the bag limits), the total recreational landings could serve as a proxy for dolphin availability in South Atlantic waters over time. We take the recreational data from [Section 3](@sec-MRIP) and summarize according to the areas specified by the management strategy evaluation: Florida Keys to Indian River County County (FLK), Brevard to Southern NC South of Hatteras (NCFL), Northern NC North of Hatteras to NC/VA border (NNC), and Virginia to Maine (VBM). We also include Gulf of America landings because dolphin are not managed in the Gulf region and thus the landings are not constrained by management and is most likely a function of availability.
 
 ```{r}
 #| warning: false
@@ -25,15 +25,15 @@ names(rec)[1] <- "Year"
 
 ## Plot the recreational landings
 
-Plotting the total recreational catch by region and the proportion of catch by region, we can observe that most of the catch in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the catch has been coming from NCFL and further north, with FLK composing only about 50% of the catch. Gulf catches have historically been a small proportion of the total catch and have remained small throughout time. Catches in the VBM region were historically very small (~1%) but in recent years have varied between 10-18% of the catch.
+Plotting the total recreational landings by region and the proportion of landings by region, we can observe that most of the landings in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the landings has been coming from NCFL and further north, with FLK composing only about 50% of the landings. Gulf landings have historically been a small proportion of the total landings and have remained small throughout time. Landings in the VBM region were historically very small (~1%) but in recent years have varied between 10-18% of the landings. 
 
 ```{r}
 #| echo: true
 
 # plot landings -------------------------------------------------
 matplot(rec$Year, rec[2:6]/10^6, type = "l", lty = 1, lwd = 2, col = 1:5, 
-        xlab = "year", ylab = "total catch (millions of pounds)", 
-        main = "Total recreational catch in U.S. waters by region")
+        xlab = "year", ylab = "total landings (millions of pounds)", 
+        main = "Total recreational landings in U.S. waters by region")
 legend("topright", colnames(rec)[2:6], col = 1:5, lty = 1, lwd = 2, bty = "n")
 
 # plot in terms of percentages ---------------------------------
@@ -42,12 +42,12 @@ rec1 <- as.matrix(rec1/rowSums(rec1, na.rm = T))
 rec1[is.na(rec1)] <- 0
 
 b <- barplot(t(rec1), col = 1:5, names.arg = rec$Year, las = 1, ylim = c(0, 1.05), 
-             ylab = "proportion of catch", 
-             main = "Proportion of recreational catch in U.S. waters by region", 
+             ylab = "proportion of landings", 
+             main = "Proportion of recreational landings in U.S. waters by region", 
              legend.text = colnames(rec)[2:6], args.legend = list(x = 45, y = 1.15, horiz = T, bty = "n"))
 abline(h=0)
 
-# calculate total catch and South Atlantic catch for later analysis
+# calculate total landings and South Atlantic landings for later analysis
 rec$ATL <- rowSums(rec[3:6], na.rm = T)
 rec$ALL <- rec$GULF + rec$ATL
 
@@ -56,11 +56,11 @@ rec <- rec[which(rec$Year >= 1990), ]
 
 ```
 
-Recreational monitoring was first established in 1979 and went through a number of changes in the 1980s, particularly related to monitoring of the for-hire fleet. We can see a very large jump in catches in the late 1980s that we suspect is related to some of these changes in methodology. For our data explorations we will use recreational data from 1990 forward as a reference period in which the monitoring was more standardized.
+Recreational monitoring was first established in 1979 and went through a number of changes in the 1980s, particularly related to monitoring of the for-hire fleet. We can see a very large jump in landings in the late 1980s that we suspect is related to some of these changes in methodology. For our data explorations we will use recreational data from 1990 forward as a reference period in which the monitoring was more standardized.
 
 ## Potential influence of El Niño Southern Oscillation
 
-We note that many large peaks in recreational catch have occurred in years where there were severe El Niño events (e.g., 1997-1998, 2015). We first explore the El Niño Southern Oscillation (ENSO) as a potential environmental predictor of dolphin abundace. An index based on El Niño is potentially attractive because there is some ability for seasonal predictions of El Niño (3-6 months ahead of time). As large-scale disruptors of atmospheric conditions across the globe, El Niño events have impacts on the distribution of temperatures in the Atlantic and could trigger changes in fish distributions.
+We note that many large peaks in recreational landings have occurred in years where there were severe El Niño events (e.g., 1997-1998, 2015). We first explore the El Niño Southern Oscillation (ENSO) as a potential environmental predictor of dolphin abundace. An index based on El Niño is potentially attractive because there is some ability for seasonal predictions of El Niño (3-6 months ahead of time). As large-scale disruptors of atmospheric conditions across the globe, El Niño events have impacts on the distribution of temperatures in the Atlantic and could trigger changes in fish distributions.
 
 We use the [multivariate ENSO index from NOAA's Physical Sciences Laboratory](https://www.psl.noaa.gov/enso/mei/), which combines the influences of five different variables related to Pacific Ocean state into one index. The index is updated monthly and historical data can be downloaded directly from the site.
 
@@ -92,7 +92,7 @@ text(346, -2, "La Niña events")
 
 Here is the raw time series, showing positive and negative anomalies in the ENSO state.
 
-Now we will compare the ENSO index to the recreational catches. First we compare the annual average ENSO index to the catches from the different regions. We report adjusted R-squared values and p-values for linear regression of the ENSO index versus the catches; significant relationships are highlighted in blue.
+Now we will compare the ENSO index to the recreational landings. First we compare the annual average ENSO index to the landings from the different regions. We report adjusted R-squared values and p-values for linear regression of the ENSO index versus the landings; significant relationships are highlighted in blue.
 
 ```{r}
 #| warning: false
@@ -103,7 +103,7 @@ Now we will compare the ENSO index to the recreational catches. First we compare
 # calculate mean
 e$mean <- rowMeans(e[2:13], na.rm = T)
 
-# merge years with recreational catch data
+# merge years with recreational landings data
 d <- merge(rec, e, by = "Year")
 #head(d)
 
@@ -129,11 +129,11 @@ legend("topleft",
 
 ```
 
-The ENSO index appears to be most closely related to the total recreational catch across the South Atlantic (driven primarily by catches in the FLK region). The relationship is highly significant and the ENSO index explains 19% of the variation in the total catches.
+The ENSO index appears to be most closely related to the total recreational landings across the South Atlantic (driven primarily by landings in the FLK region). The relationship is highly significant and the ENSO index explains 19% of the variation in the total landings.
 
 ## Seasonal influence of El Niño Southern Oscillation
 
-Now we will consider the seasonal influence of ENSO, looking at correlations between the index during individual months and the catches. Since the strongest relationship occurs with the total South Atlantic catch, we will use these catches in the analysis.
+Now we will consider the seasonal influence of ENSO, looking at correlations between the index during individual months and the landings. Since the strongest relationship occurs with the total South Atlantic landings, we will use these landings in the analysis.
 
 ```{r}
 #| warning: false
@@ -173,9 +173,9 @@ We will test the June-July ENSO index in the management procedure as it has the 
 #| fig-width: 6
 
 par(mfrow = c(1, 1))
-plot(d$JJ, d$ATL/10^6, xlab = "June-July ENSO index", ylab = "total U.S. Atlantic coast recreational landings", col = 0)
+plot(d$JJ, d$ATL/10^6, xlab = "June-July ENSO index", ylab = "total U.S. Atlantic coast recreational landings", col = 0, las = 1)
 text(d$JJ, d$ATL/10^6, d$Year, col = 8)
-out <- lm(d$ATL ~ d$JJ)
+out <- lm(d$ATL/10^6 ~ d$JJ)
 abline(out, col = 1)
 p <- summary(out)$coef[2, 4]
 legend("topleft", paste0("R^2 = ", round(summary(out)$adj.r.squared, 2), "; p = ", 

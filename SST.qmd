@@ -6,4 +6,3 @@ editor: visual
 # Analysis of ocean temperature trends
 
 Coming soon
-
