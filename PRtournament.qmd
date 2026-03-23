@@ -356,9 +356,11 @@ rec$ATL <- rowSums(rec[3:6], na.rm = T)
 
 d <- merge(rec, ind, by = "Year")
 
-plot(d$response, d$ATL, col = 0)
-text(d$response, d$ATL, d$Year, col = 1)
-out <- lm(d$ATL ~ d$response)
+par(mar = c(4, 6, 2, 1))
+plot(d$response, d$ATL/10^6, col = 0, xlab = "standardized tournament CPUE", 
+     ylab = "total U.S. Atlantic coast recreational landings\n(millions of pounds)")
+text(d$response, d$ATL/10^6, d$Year, col = 1)
+out <- lm(d$ATL/10^6 ~ d$response)
 abline(out, col = 8)
 summary(out)
 

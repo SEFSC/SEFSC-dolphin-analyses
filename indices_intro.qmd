@@ -25,7 +25,7 @@ names(rec)[1] <- "Year"
 
 ## Plot the recreational landings
 
-Plotting the total recreational catch by region and the proportion of catch by region, we can observe that most of the catch in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the catch has been coming from NCFL and further north, with FLK composing only about 50% of the catch. Gulf catches have historically been a small proportion of the total catch and have remained small throughout time. Catches in the VBM region were historically very small (\~1%) but in recent years have varied between 10-18% of the catch.
+Plotting the total recreational catch by region and the proportion of catch by region, we can observe that most of the catch in U.S. waters came from the FLK region, particularly in the earlier years. More recently, an increasing proportion of the catch has been coming from NCFL and further north, with FLK composing only about 50% of the catch. Gulf catches have historically been a small proportion of the total catch and have remained small throughout time. Catches in the VBM region were historically very small (~1%) but in recent years have varied between 10-18% of the catch.
 
 ```{r}
 #| echo: true
@@ -66,7 +66,7 @@ We use the [multivariate ENSO index from NOAA's Physical Sciences Laboratory](ht
 
 ```{r}
 #| echo: true
-#| fig-width: 10
+#| fig-width: 9
 #| fig-height: 5
 
 #download ENSO index
@@ -145,8 +145,8 @@ lis <- names(e)[2:13]
 par(mfrow = c(3, 4), mex = 0.8)
 for(i in 1:12) {
   ind <- d[, which(names(d) == lis[i])]
-  plot(ind, d$ATL, xlab = paste(lis[i], "ENSO index"), ylab = "landings")
-  out <- lm(d$ATL ~ ind)
+  plot(ind, d$ATL/10^6, xlab = paste(lis[i], "ENSO index"), ylab = "landings (millions of lbs)", las = 1)
+  out <- lm(d$ATL/10^6 ~ ind)
   abline(out)
   
   r2 <- summary(out)$r.squared
@@ -162,7 +162,7 @@ legend("topleft",
 
 ```
 
-A significant relationship between the monthly ENSO index and total South Atlantic recreational landings occurs with the May-June index, but the strongest relationship occurs in June-July (with 28% of the variance in landings explained by the index in that month). The relationship in the late summer and fall months are also significant, which is expected since the ENSO index is highly correlated from month to month.
+A significant relationship between the monthly ENSO index and total South Atlantic recreational landings occurs with the May-June index, but the strongest relationship occurs in June-July (with 26% of the variance in landings explained by the index in that month). The relationship in the late summer and fall months are also significant, which is expected since the ENSO index is highly correlated from month to month.
 
 We will test the June-July ENSO index in the management procedure as it has the strongest relationship.
 
@@ -173,9 +173,9 @@ We will test the June-July ENSO index in the management procedure as it has the 
 #| fig-width: 6
 
 par(mfrow = c(1, 1))
-plot(d$JJ, d$ALL, xlab = "June-July ENSO index", ylab = "total South Atlantic recreational landings", col = 0)
-text(d$JJ, d$ALL, d$Year, col = 8)
-out <- lm(d$ALL ~ d$JJ)
+plot(d$JJ, d$ATL/10^6, xlab = "June-July ENSO index", ylab = "total U.S. Atlantic coast recreational landings", col = 0)
+text(d$JJ, d$ATL/10^6, d$Year, col = 8)
+out <- lm(d$ATL ~ d$JJ)
 abline(out, col = 1)
 p <- summary(out)$coef[2, 4]
 legend("topleft", paste0("R^2 = ", round(summary(out)$adj.r.squared, 2), "; p = ", 

@@ -1,4 +1,4 @@
-# Impacts of Atlantic temperature distribution
+# Wider Atlantic temperature distribution index
 
 Dolphin have a circumtropical distribution, migrating to temperate waters in summer and tropical waters in winter, in a circular pattern around the Atlantic Ocean. Studies using satellite tagging have shown that, similar to other highly migratory species, they prefer waters within a narrow temperature range, of 27-30 degrees Celsius [Schlenker et al. 2021](https://doi.org/10.3389/fmars.2021.626082). To determine whether shifting temperature distributions across the Atlantic could be impacting the abundance in U.S. waters, we analyzed Atlantic Ocean temperature patterns at the large spatial and temporal scale.  
 
@@ -93,7 +93,7 @@ rec$ALL <- rec$GULF + rec$ATL
 # consider 1990 and forward
 rec <- rec[which(rec$Year >= 1990), ]
 
-# sort years from lowest to higher catches
+# sort years from lowest to higher landings
 sortyr <- rec$Year[order(rec$ALL)]
 
 # cols <- rainbow(100, start = 0.1, end = 0.65)[100:1]
@@ -124,7 +124,7 @@ for (j in 1: length(yrs))  {
   k <- which(yr == yrs[j])
   print(data.frame(tim[k], yr[k], mon[k]))
   par(mex = 0.5, mar = c(2, 2, 2, 2)+1)
-  plot(rec$Year, rec$ALL/10^6, type = "l", col = 4, ylim = c(0, 32), lwd = 2, ylab = "rec catch", 
+  plot(rec$Year, rec$ALL/10^6, type = "l", col = 4, ylim = c(0, 32), lwd = 2, ylab = "rec landings", 
        main = yrs[j])
   text(1990, 3, status[j], pos = 4)
   abline(v = yrs[j], col = 8, lwd = 3)
@@ -148,7 +148,7 @@ Looking at the set of plots on the left side (low abundance years) versus the ri
 
 ## May temperature distributions
 
-We will take a closer look at May temperature distributions across the Atlantic for the full time series. Here we display all of the May temperatures from 1990 to present, ordered from lowest to highest years of recreational catch in the U.S. South Atlantic.
+We will take a closer look at May temperature distributions across the Atlantic for the full time series. Here we display all of the May temperatures from 1990 to present, ordered from lowest to highest years of recreational landings in the U.S. South Atlantic.
 
 ```{r}
 #| echo: true
@@ -269,7 +269,7 @@ d <- merge(rec, ind, by = "Year")
 par(mar = c(5, 5, 1, 1))
 plot(d$perar, d$ATL/10^6, col = 0, 
      xlab = "proportion of preferred dolphin temperatures near\nU.S. jurisdictions (out of entire Caribbean basin) in May", 
-     ylab = "U.S. South Atlantic recreational landings\n(millions of pounds)")
+     ylab = "total U.S. Atlantic coast recreational landings\n(millions of pounds)")
 text(d$perar, d$ATL/10^6, d$Year)
 out <- lm(d$ATL/10^6 ~ d$perar)
 abline(out, lty = 2, col = 2)
@@ -279,7 +279,7 @@ text(0.7, 28, "preferred temperatures clustered\nnear U.S. waters == higher land
 text(0.25, 10.5, "preferred temperatures extend across\nCaribbean and/or absent from\nU.S waters == lower landings", col = "darkred", font = 3)
 
 ```
-We can see that a statistical relationship does exist, whereby above average "blue blob" index values are associated with above average recreational landings in U.S. South Atlantic waters, and below average index values are associated with below average landings. Gray lines denote the mean values for the index and the catch; we see that this relationship holds true for almost all years in the time series. 
+We can see that a statistical relationship does exist, whereby above average "blue blob" index values are associated with above average recreational landings in U.S. South Atlantic waters, and below average index values are associated with below average landings. Gray lines denote the mean values for the index and the landings; we see that this relationship holds true for almost all years in the time series. 
 
 The "blue blob" index explains about 45% of the variation in the landings in the U.S. South Atlantic.  
 

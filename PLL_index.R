@@ -4,6 +4,7 @@ rm(list = ls())
 
 # load libraries 
 library(maps)
+library(emmeans)
 
 # load pelagic longline data ------------------------------------------
 # data request from June 23, 2023 - sent to M. Damiano by S. Alhale 
@@ -27,28 +28,33 @@ dat$lon <- -(dat$LONDEG + dat$LONMIN/60)
 
 # look at distribution around Caribbean region ------------------
 par(mfrow = c(6, 6), mex = 0.3)
-# for (i in 1990:2022) { 
-#  map('world', xlim = c(-90, -50), ylim = c(10, 30))
-#  axis(1); axis(2, las = 2); box()
-#  d1 <- dat[which(dat$SET_YEAR == i) ,]
-#  points(d1$lon, d1$lat, pch = 19, col = "#FF000055")
-#  mtext(side = 3, i)
-#  rect(xleft = -75, ybottom = 12, xright = -60, ytop = 23, col = NA, border = 4)
-# }
+ for (i in 1990:2022) { 
+  map('world', xlim = c(-90, -50), ylim = c(10, 30))
+  axis(1); axis(2, las = 2); box()
+  d1 <- dat[which(dat$SET_YEAR == i) ,]
+  points(d1$lon, d1$lat, pch = 19, col = "#FF000055")
+  mtext(side = 3, i)
+  rect(xleft = -75, ybottom = 12, xright = -60, ytop = 23, col = NA, border = 4)
+ }
 
 #  find the PLL points that fall in the Caribbean ----------------
 dat$car <- 0
-dat$car[which(dat$lon > (-70) & dat$lon < (-60) & dat$lat > 12 & dat$lat < 23)] <- 1
+dat$car[which(dat$lon > (-76) & dat$lon < (-60) & dat$lat > 12 & dat$lat < 23)] <- 1
 
 # check that subsetting was done correctly - color-coded areas
-dev.off()
-# map("world", xlim = c(-100, -30), ylim = c(5, 55))
-# axis(1); axis(2); box()
-# points(dat$lon, dat$lat, pch = 19, cex = 0.4, col = as.numeric(as.factor(dat$col))+1)
+par(mfrow = c(1, 1))
+dat2002 <- dat[which(dat$SET_YEAR == 2002), ]
+ map("world", xlim = c(-100, -30), ylim = c(5, 55))
+ axis(1); axis(2); box()
+ points(dat2002$lon, dat2002$lat, pch = 19, cex = 1, col = as.numeric(as.factor(dat2002$car))+1)
 
 table(dat$car, useNA = "always")
 d <- dat[which(dat$car == 1), ]
 dim(d)
+
+# number of observations by year 
+table(d$SET_YEAR, useNA = "always")
+barplot(table(d$SET_YEAR, useNA = "always"), las = 2)
 
 # look at dolphin catch within PLL data -----------------------------
 names(d)[grep("DOL", names(d))]
@@ -57,6 +63,9 @@ table(d$TDOL, useNA = "always")  # dolphin targeted trips
 table(d$DOLK, useNA = "always")  # number of dolphin kept
 table(d$DOLA, useNA = "always")  # number of dolphin discarded alive
 table(d$DOLD, useNA = "always")  # number of dolphin discarded dead
+
+dev.off()
+par(mfrow = c(2, 2), mex = 0.7)
 hist(d$DOLK, main = "# dolphin kept")
 hist(d$DOLA, main = "# dolphin discarded alive")
 hist(d$DOLD, main = "# dolphin discarded dead")
@@ -85,13 +94,24 @@ d$mon  <- as.numeric(substr(d$SDATE, 5, 6))
 d$monold  <- d$mon
 table(d$year, useNA = "always")
 table(d$mon, useNA = "always")
+d <- d[-which(d$mon == 0), ]
 table(d$year == d$SET_YEAR)
 
+# convert month December to following year 
+d$mon[which(d$mon == 12)] <- 0.5
+d$year[which(d$mon == 0.5)] <- d$SET_YEAR[which(d$mon == 0.5)] + 1
+table(d$year, useNA = "always")
+table(d$mon, useNA = "always")
+table(as.numeric(substr(d$SDATE, 5, 6)), useNA = "always")
+
 # select months for analysis ------------------------------------
-d <- d[which(d$mon >= 1 & d$mon <= 4), ]
+d <- d[which(d$mon >= 0 & d$mon <= 2), ]
+
+table(d$year, useNA = "always")
+barplot(table(d$year, useNA = "always"), las = 2)
 
 # explore factors to include in model --------------------------
-dev.off()
+
 par(mfrow = c(5, 5))
 for (i in 26:50) {
   f <- tapply(d$cpue, d[, i], mean, na.rm = T)
@@ -160,7 +180,7 @@ d$pres[d$pres > 0] <- 1
 table(d$pres, useNA = "always")
 
 # model the presence-absence as a binomial regression 
-outp <- glm(pres ~ year + mon + tempbin + HBFLbin + TMIX + TSWO, data = d, family = "binomial")
+outp <- glm(pres ~ year + mon + HBFLbin + tempbin + TDOL, data = d, family = "binomial")
 summary(outp)        
 anova(outp) 
 
@@ -168,7 +188,7 @@ anova(outp)
 dp <- d[d$cpue > 0, ]
 
 # model the log abundance when presence
-out <- glm(log(cpue) ~ year + mon + tempbin + HBFLbin + TMIX + TSWO + TDOL, data = dp, family = "gaussian")
+out <- glm(log(cpue) ~ year + mon + HBFLbin + TDOL, data = dp, family = "gaussian")
 summary(out)        
 anova(out) 
 
