@@ -77,6 +77,7 @@ hist(d$DOLTOT, main = "# dolphin caught")   # total dolphin kept or discarded
 
 # calculate CPUE
 d$cpue <- d$DOLPHIN_POUNDS / d$HOOKS
+d$cpue[which(d$cpue == "Inf")] <- NA
 
 d$DISCTOT <- (d$DOLA + d$DOLD) / d$DOLTOT   # calculate discard rate
 d$DISCDEAD <- d$DOLD / d$DOLTOT             # calculate dead discard rate
@@ -140,13 +141,13 @@ barplot(tapply(as.numeric(dp$cpue>0), dp$area2, mean, na.rm = T))
 
 # look at distribution of dolphin PLL trips
 
-map("world", xlim = c(-100, -30), ylim = c(5, 55))
-mtext(side = 3, line = 1, "Distribution of logbook trips with dolphin present", cex = 1.2, font = 2)
-points(d$lon[d$DOLPHIN_POUNDS == 0], d$lat[d$DOLPHIN_POUNDS == 0], pch = 19, cex = 1, 
-       col = transparent(2, 0.9))
-points(d$lon[d$DOLPHIN_POUNDS > 0], d$lat[d$DOLPHIN_POUNDS > 0], pch = 19, cex = 1, col = transparent(3, 0.6))
-axis(1); axis(2, las = 2); box()
-legend("topleft", c("no dolphin", "dolphin present"), pch = 19, col = c(2, 3))
+#map("world", xlim = c(-100, -30), ylim = c(5, 55))
+#mtext(side = 3, line = 1, "Distribution of logbook trips with dolphin present", cex = 1.2, font = 2)
+#points(d$lon[d$DOLPHIN_POUNDS == 0], d$lat[d$DOLPHIN_POUNDS == 0], pch = 19, cex = 1, 
+#       col = transparent(2, 0.9))
+#points(d$lon[d$DOLPHIN_POUNDS > 0], d$lat[d$DOLPHIN_POUNDS > 0], pch = 19, cex = 1, col = transparent(3, 0.6))
+#axis(1); axis(2, las = 2); box()
+#legend("topleft", c("no dolphin", "dolphin present"), pch = 19, col = c(2, 3))
 
 for (i in unique(ar$region)) { 
   ar1 <- ar[which(ar$region == i), ]
@@ -197,9 +198,30 @@ barplot(tabp, beside = T, col = rainbow(12, end = 0.8), main = "seasonality of d
         xlab = "region", ylab = "proportion of total landings (in pounds landed)",
         legend = month.abb, args.legend = list(x = "topleft", col = rainbow(12, end = 0.8), bty = "n"))
 
+
+d$arnew <- as.character(d$area)
+d$arnew[which(d$area == "CAR")] <- "CAR+FLK"
+d$arnew[which(d$area == "FLK")] <- "CAR+FLK"
+d$arnew[which(d$area == "NNC")] <- "NNC+VBM"
+d$arnew[which(d$area == "VBM")] <- "NNC+VBM"
+
+d$arnew <- factor(d$arnew, levels = c("NCA", "CAR+FLK", "NCFL", "NNC+VBM", "NED"))
+
+par(mfrow = c(2, 1), mar = c(3, 4, 2, 1))
+
 # plot seasonality of dolphin landings by quarter
-tab <- tapply(d$DOLPHIN_POUNDS, list(d$quarter, d$area), sum, na.rm = T)
-barplot(tab, beside = T, col = rainbow(4))
+tab <- tapply(d$DOLPHIN_POUNDS/10^6, list(d$quarter, d$arnew), sum, na.rm = T)
+barplot(tab, beside = T, col = rainbow(4, end = 0.8), 
+  main = "Seasonality of dolphin PLL landings by region", 
+  xlab = "region", ylab = "total landings (millions of pounds)", las = 1,
+  legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4, end = 0.8), bty = "n"))
+
+# plot seasonality of longline sets
+tab1 <- table(d$quarter, d$arnew)
+barplot(tab1/1000, beside = T, col = rainbow(4, end = 0.8), 
+        main = "Seasonality of pelagic longline sets by region", 
+        xlab = "region", ylab = "number of sets (thousands)", las = 1,
+        legend = c("DJF", "MAM", "JJA", "SON"), args.legend = list(x = "topleft", col = rainbow(4, end = 0.8), bty = "n"))
 
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
 barplot(tabp, beside = T, col = rainbow(4, end = 0.8), main = "Seasonality of dolphin landings by region", 

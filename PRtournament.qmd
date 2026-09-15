@@ -55,6 +55,7 @@ table(d$month)
 table(d$day)
 table(d$year)
 
+
 ```
 
 In keeping with the definition of seasons in other parts of the MSE, we group December with the following January and February in a winter season.  
@@ -231,7 +232,7 @@ Finally, we subset the years. Data are very sparse prior to 2000 so we only incl
 #| 
 # subset years -----------------------------------
 
-yrs <- 2000:2020
+yrs <- c(2000:2020, 2022)
 
 dat[is.na(dat)] <- NA
 dat <- dat[which(dat$year >= min(yrs)), ]
@@ -375,7 +376,7 @@ summary(out)
 r2 <- summary(out)$adj.r.squared
 p_val <- summary(out)$coefficients[2, 4]
 p_display <- ifelse(p_val < 0.001, "p < 0.001", paste("p =", round(p_val, 3)))
-legend("bottomright", 
+legend("topleft", 
        legend = bquote(R^2 == .(round(r2, 2)) ~ "; " ~ p == .(round(p_val, 3))),
        bty = "n", cex = 1.2, text.col = 4)
 

@@ -122,7 +122,7 @@ Now we will separate out the landings by recreational sector and plot the totals
 #| echo: true
 
 # separate out by for hire vs. private rec --------------------------
-d1$sector <- "ForHire"
+d1$sector <- "Hire"
 
 d1$sector[which(d1$NEW_MODEN == "Shore")] <- "Rec"
 d1$sector[which(d1$NEW_MODEN == "Priv")]  <- "Rec"
@@ -171,6 +171,11 @@ legend("top", c(paste("For hire - ", colnames(dis)), paste("Private - ", colname
        lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
 round(disr * 100, 2)  # discarding rates by region and sector
+
+# output discarding rates for later use
+dismat <- data.frame(rownames(dis), dis[, , 1], dis[, , 2])
+names(dismat) <- c("year", paste0(sort(rep(dimnames(dis)[[3]], 4)), "_", rep(dimnames(dis)[[2]], 2)))
+head(dismat)
 
 ```
 
@@ -297,12 +302,65 @@ cbind(colSums(findat[, 3:10], na.rm = T), colSums(fin[-c(1:5), ], na.rm = T))
 # the values should be close but slightly >1 because the last data set includes December 1985 data as part of 1986
 colSums(findat[, 3:10], na.rm = T) / colSums(fin[-c(1:5), ], na.rm = T)
 ```
+Lastly, we integrate post-release discard mortality into the total catch. MRIP reports dead discards not available for inspection within its B1 category, but there is also mortality in a proportion of fish that are released alive (B2 catch). The percent of fish released alive by year and area was calculated in section 3.4. These B2 catch estimates are only available in numbers, not weight, so in applying these percentages to the landings we must assume that fish released alive are on average the same weight as retained fish. Individual fish may be released alive if they are smaller in size or if they fall under the size limit (only Florida to South Carolina); hence it should be noted that this assumption could bias the post-release mortality estimates in weight high. We use the discard mortality rate of 0.25 as estimated by Rudershausen et al. (2019) and apply it to the percentage of live discards (B2 / total catch).    
+
+```{r}
+#| echo: true
+#| fig-height: 15
+
+names(findat)[3:10] == names(dismat)[2:9]  # check columns are the same
+
+findat <- findat[which(findat$year < 2025), ]
+findat_disc <- findat
+
+# loop through rows and apply discarding rate * 0.25 discard mortality rate
+# LRP is Live Release Proportion = B2 / (AB1 + B2)
+# solving to isolate B2 (fish released alive)
+# B2 = (LRP * AB1) / (1 - LRP)
+
+for (i in 1:nrow(findat)) {
+  LRP <- dismat[which(dismat$year == findat$year[i]), 2:9]  # live release proportion
+  AB1 <- findat[i, 3:10]                                    # AB1 catch in weight
+  B2 <- (LRP * AB1) / (1 - LRP)                             # B2 discards in weight
+  B2_dead <- B2 * 0.25                                      # B2 * 0.25 is estimated dead discards in weight
+  findat_disc[i, 3:10] <- AB1 + B2_dead                     # total death is AB1 + dead proportion of B2
+  } 
+
+# look at catch with discards
+par(mfcol = c(4, 2), mar = c(3, 4, 2, 1), mgp = c(2.5, 1, 0))
+
+for (j in 3:10) { 
+barplot(rbind(tapply(findat[, j], findat$year, sum), tapply(findat_disc[, j], findat_disc$year, sum))/10^6, 
+        col = c(2:3), border = NA, 
+        beside = T, las = 2, # legend.text = c("without discard mortality", "including discard mortality"), 
+        main = names(findat)[j], ylab = "millions of pounds")
+  abline(h = 0)
+  legend("topright", c("without discard mortality", "including discard mortality"), col = 2:3, border = NA, pch = 15, bty = "n")
+  }
+
+# check calculations - LRP = (B2_dead * 4) / (AB1 + B2_dead * 4)
+out <- ((findat_disc[,3:10] - findat[,3:10]) * 4) / (findat[,3:10] + (findat_disc[,3:10] - findat[,3:10]) * 4)  # recalc LRP
+round(dismat[5, 2:9], 3) == round(out[2, ], 3)
+round(dismat[nrow(dismat), 2:9], 3) == round(out[nrow(out), ], 3)
+
+# calculate % of post-release dead discards by area
+round((colSums(findat_disc[, 3:10]) / colSums(findat[, 3:10]) - 1) * 100, 2)
+# calculate recent % of post-release dead discards by area
+round((colSums(findat_disc[149:160, 3:10]) / colSums(findat[149:160, 3:10]) - 1) * 100, 2)
+# calculate overall % of post-release dead discards
+round((sum(findat_disc[, 3:10]) / sum(findat[, 3:10]) - 1) * 100, 2)
+# calculate recent % of post-release dead discards
+round((sum(findat_disc[149:160, 3:10]) / sum(findat[149:160, 3:10]) - 1) * 100, 2)
+
+```
+
 Here we will format the data for input to the operating model.  
 
 ```{r}
 #| echo: true
 
-tab3 <- findat
+# tab3 <- findat  # previous version - this is catch with no post-release discard mortality 
+tab3 <- findat_disc  # this is catch including post-release discard mortality 
 
 flt <- c(rep("Hire", nrow(tab3)*4), rep("Rec", nrow(tab3)*4))
   
