@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -76,10 +79,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-970fd2a262e4848b723953dd848ff4a0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-76f71e5f0df6013166adcff0c54b6e05.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -614,24 +617,24 @@ TRUE
 <p>Now we will separate out the landings by recreational sector and plot the totals by region and sector.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># separate out by for hire vs. private rec --------------------------</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector <span class="ot">&lt;-</span> <span class="st">"ForHire"</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector <span class="ot">&lt;-</span> <span class="st">"Hire"</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector[<span class="fu">which</span>(d1<span class="sc">$</span>NEW_MODEN <span class="sc">==</span> <span class="st">"Shore"</span>)] <span class="ot">&lt;-</span> <span class="st">"Rec"</span></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>sector[<span class="fu">which</span>(d1<span class="sc">$</span>NEW_MODEN <span class="sc">==</span> <span class="st">"Priv"</span>)]  <span class="ot">&lt;-</span> <span class="st">"Rec"</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>sector, d1<span class="sc">$</span>NEW_MODEN, <span class="at">useNA =</span> <span class="st">"always"</span>)    <span class="co"># check classification</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         
-           Cbt Cbt/Hbt  Hbt Priv Shore &lt;NA&gt;
-  ForHire 1616     119 2912    0     0    0
-  Rec        0       0    0 1750    22    0
-  &lt;NA&gt;       0       0    0    0     0    0</code></pre>
+<pre><code>      
+        Cbt Cbt/Hbt  Hbt Priv Shore &lt;NA&gt;
+  Hire 1616     119 2912    0     0    0
+  Rec     0       0    0 1750    22    0
+  &lt;NA&gt;    0       0    0    0     0    0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>YEAR, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>, , ForHire
+<pre><code>, , Hire
 
            FLK      NCFL       NNC       VBM
 1981  354639.5  74702.50 256755.24  1400.247
@@ -717,11 +720,31 @@ TRUE
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(disr <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)  <span class="co"># discarding rates by region and sector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     ForHire   Rec
-FLK    10.79 18.76
-NCFL    9.44 11.23
-NNC     0.94  9.62
-VBM     2.94 12.69</code></pre>
+<pre><code>      Hire   Rec
+FLK  10.79 18.76
+NCFL  9.44 11.23
+NNC   0.94  9.62
+VBM   2.94 12.69</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output discarding rates for later use</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>dismat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rownames</span>(dis), dis[, , <span class="dv">1</span>], dis[, , <span class="dv">2</span>])</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dismat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="fu">paste0</span>(<span class="fu">sort</span>(<span class="fu">rep</span>(<span class="fu">dimnames</span>(dis)[[<span class="dv">3</span>]], <span class="dv">4</span>)), <span class="st">"_"</span>, <span class="fu">rep</span>(<span class="fu">dimnames</span>(dis)[[<span class="dv">2</span>]], <span class="dv">2</span>)))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dismat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     year    Hire_FLK Hire_NCFL Hire_NNC  Hire_VBM    Rec_FLK Rec_NCFL Rec_NNC
+1981 1981 0.034610012       NaN        0       NaN 0.15103009        0      NA
+1982 1982 0.009591116       NaN        0       NaN 0.06317636        0     0.0
+1983 1983 0.004050805         0        0 0.0000000 0.04475684        0     0.0
+1984 1984 0.010592562         0       NA       NaN 0.01764697        0      NA
+1985 1985 0.008499863         0        0 0.1111111 0.00000000        0     0.0
+1986 1986 0.020944661         0        0 0.0000000 0.05868540        0     0.5
+        Rec_VBM
+1981         NA
+1982 0.00000000
+1983 0.00000000
+1984 1.00000000
+1985 0.00000000
+1986 0.07934897</code></pre>
 </div>
 </div>
 <p>According to the MRIP survey and the reported numbers, discarding generally increases over time, excluding some highly anomalous estimates from the early years which are driven by low sample sizes. Discarding is generally higher in the private sector compared to the for-hire sector, and is highest in the Florida Keys region.</p>
@@ -730,20 +753,20 @@ VBM     2.94 12.69</code></pre>
 <h2 data-number="3.5" class="anchored" data-anchor-id="split-the-landings-by-season"><span class="header-section-number">3.5</span> Split the landings by season</h2>
 <p>The dolphin MSE operates on a seasonal time step and thus the landings and discards must by parsed apart by individual season and year. This is not straightforward because MRIP estimates are reported in two-month waves (Jan - Feb, Mar - Apr, May - Jun, etc.), and the seasons are 3-month periods (Dec - Feb, Mar - May, Jun - Aug, Sep - Nov). For the two waves that have to be split into seasons (e.g., December is lumped with January and February; June is lumped with July and August), we split the wave 50/50%, i.e, we make the assumption that half of the landings in that wave occurs in one season and the other half occurs in the next season.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define seasons -----------------------------</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>WAVE, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define seasons -----------------------------</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d1<span class="sc">$</span>WAVE, <span class="at">useNA =</span> <span class="st">"always"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    0    1    2    3    4    5    6 &lt;NA&gt; 
    5  407  718 1230 1439 1095  581  944 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>YRWAVE <span class="ot">&lt;-</span> <span class="fu">paste0</span>(d1<span class="sc">$</span>YEAR, <span class="st">"_"</span>, d1<span class="sc">$</span>WAVE)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>totw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>YRWAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(totw[, , <span class="dv">1</span>], totw[, , <span class="dv">2</span>]))</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(f) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>d1<span class="sc">$</span>YRWAVE <span class="ot">&lt;-</span> <span class="fu">paste0</span>(d1<span class="sc">$</span>YEAR, <span class="st">"_"</span>, d1<span class="sc">$</span>WAVE)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>totw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>YRWAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(totw[, , <span class="dv">1</span>], totw[, , <span class="dv">2</span>]))</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(f) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          Hire_FLK Hire_NCFL   Hire_NNC Hire_VBM   Rec_FLK  Rec_NCFL Rec_NNC
 1981_2          NA        NA         NA       NA 2793285.5 270968.46      NA
@@ -760,9 +783,9 @@ VBM     2.94 12.69</code></pre>
 1981_6       NA
 1981_NA      NA</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">1</span>, <span class="dv">4</span>))</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">6</span>, <span class="dv">8</span>))</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)   <span class="co"># table with landings separated by wave and year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">rownames</span>(f), <span class="dv">6</span>, <span class="dv">8</span>))</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)   <span class="co"># table with landings separated by wave and year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          Hire_FLK Hire_NCFL   Hire_NNC Hire_VBM   Rec_FLK  Rec_NCFL Rec_NNC
 1981_2          NA        NA         NA       NA 2793285.5 270968.46      NA
@@ -779,12 +802,12 @@ VBM     2.94 12.69</code></pre>
 1981_6       NA 1981    6
 1981_NA      NA 1981   NA</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>f[<span class="fu">is.na</span>(f)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">&gt;=</span> <span class="dv">1985</span>), ]</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">&lt;=</span> <span class="dv">2024</span>), ]</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>YEAR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>f[<span class="fu">is.na</span>(f)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">&gt;=</span> <span class="dv">1985</span>), ]</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">&lt;=</span> <span class="dv">2024</span>), ]</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>YEAR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 
@@ -794,36 +817,36 @@ VBM     2.94 12.69</code></pre>
 2017 2018 2019 2020 2021 2022 2023 2024 
    6    6    6    6    6    6    6    6 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>WAVE)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>WAVE)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  0  1  2  3  4  5  6 
 15 40 40 40 40 40 40 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with NAs in many locations ---------------</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate percentages of landings by wave, for each region and fleet</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>WAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> avw[<span class="sc">-</span><span class="dv">1</span>, , ]</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(avw[, , <span class="dv">1</span>], avw[, , <span class="dv">2</span>]))</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(avw) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>avwp <span class="ot">&lt;-</span> <span class="fu">apply</span>(avw, <span class="dv">2</span>, <span class="cf">function</span> (x) x <span class="sc">/</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> T)) </span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="co">#colSums(avwp)</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="co"># go through each column, find NAs and fill in waves by percentages</span></span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>pre_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T)  <span class="co"># column sums to check later</span></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">0</span>)  <span class="co"># list of rows with NA wave data</span></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {      <span class="co"># loop through each column</span></span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> lis) {     <span class="co"># loop through list of NA waves</span></span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (f[j, i] <span class="sc">&gt;</span> <span class="dv">0</span>) {  <span class="co"># if there are NA wave landings, split by known proportion from other years</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>      miscatch <span class="ot">&lt;-</span> avwp[, i] <span class="sc">*</span> f[j, i]   <span class="co"># missing landings are known proportion * NA wave landings</span></span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>      f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="sc">+</span> miscatch  <span class="co"># add in missing landings</span></span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>      f[j, i] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># set to zero after landings is attributed to waves</span></span>
-<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>f[lis, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="co"># should be all zeros now</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># deal with NAs in many locations ---------------</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate percentages of landings by wave, for each region and fleet</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">tapply</span>(d1<span class="sc">$</span>LBSEST_SECWWT, <span class="fu">list</span>(d1<span class="sc">$</span>WAVE, d1<span class="sc">$</span>region, d1<span class="sc">$</span>sector), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> avw[<span class="sc">-</span><span class="dv">1</span>, , ]</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>avw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(avw[, , <span class="dv">1</span>], avw[, , <span class="dv">2</span>]))</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(avw) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hire_FLK"</span>, <span class="st">"Hire_NCFL"</span>, <span class="st">"Hire_NNC"</span>, <span class="st">"Hire_VBM"</span>, <span class="st">"Rec_FLK"</span>, <span class="st">"Rec_NCFL"</span>, <span class="st">"Rec_NNC"</span>, <span class="st">"Rec_VBM"</span>)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>avwp <span class="ot">&lt;-</span> <span class="fu">apply</span>(avw, <span class="dv">2</span>, <span class="cf">function</span> (x) x <span class="sc">/</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> T)) </span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="co">#colSums(avwp)</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="co"># go through each column, find NAs and fill in waves by percentages</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>pre_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T)  <span class="co"># column sums to check later</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">0</span>)  <span class="co"># list of rows with NA wave data</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {      <span class="co"># loop through each column</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> lis) {     <span class="co"># loop through list of NA waves</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (f[j, i] <span class="sc">&gt;</span> <span class="dv">0</span>) {  <span class="co"># if there are NA wave landings, split by known proportion from other years</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>      miscatch <span class="ot">&lt;-</span> avwp[, i] <span class="sc">*</span> f[j, i]   <span class="co"># missing landings are known proportion * NA wave landings</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>      f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>YEAR <span class="sc">==</span> f<span class="sc">$</span>YEAR[j] <span class="sc">&amp;</span> f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), i] <span class="sc">+</span> miscatch  <span class="co"># add in missing landings</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>      f[j, i] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># set to zero after landings is attributed to waves</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>f[lis, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="co"># should be all zeros now</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Hire_FLK Hire_NCFL Hire_NNC Hire_VBM Rec_FLK Rec_NCFL Rec_NNC Rec_VBM
 1985_NA        0         0        0        0       0        0       0       0
@@ -842,66 +865,66 @@ VBM     2.94 12.69</code></pre>
 2014_0         0         0        0        0       0        0       0       0
 2015_0         0         0        0        0       0        0       0       0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that landings were parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that landings were parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), ]  <span class="co"># remove NA waves which now contain no landings</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split waves 3 and 6 50/50% to parse into seasons ------------------</span></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">6</span>)  <span class="co"># list of 3 and 6 waves for all years</span></span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> lis) {          <span class="co"># go through list of waves</span></span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> f[i, ] <span class="sc">/</span> <span class="dv">2</span>      <span class="co"># split landings in half</span></span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">9</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[i]    <span class="co"># reformat year and wave data columns</span></span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">10</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>WAVE[i]</span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(temp, temp)   <span class="co"># create two half-waves and relabel with new wave reference number</span></span>
-<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">1</span>, <span class="dv">10</span>] <span class="ot">&lt;-</span> temp[<span class="dv">1</span>, <span class="dv">10</span>] <span class="sc">-</span> <span class="fl">0.5</span></span>
-<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">2</span>, <span class="dv">10</span>] <span class="ot">&lt;-</span> temp[<span class="dv">2</span>, <span class="dv">10</span>] <span class="sc">+</span> <span class="fl">0.5</span></span>
-<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">rbind</span>(f, temp)         <span class="co"># concatenate with main data table</span></span>
-<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="sc">-</span>lis, ]  <span class="co"># remove waves that have been split in half</span></span>
-<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
-<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that landings were parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
-     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">order</span>(f<span class="sc">$</span>YEAR, f<span class="sc">$</span>WAVE), ]  <span class="co"># reorder table in chronological order</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">!=</span> <span class="dv">0</span>), ]  <span class="co"># remove NA waves which now contain no landings</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="sc">+</span> <span class="dv">1</span>  <span class="co"># add year to December wave so it gets summed with following year</span></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="ot">&lt;-</span> <span class="fl">0.5</span>  <span class="co"># change December wave to small number so it gets summed with Jan/Feb</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split waves 3 and 6 50/50% to parse into seasons ------------------</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>lis <span class="ot">&lt;-</span> <span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="dv">6</span>)  <span class="co"># list of 3 and 6 waves for all years</span></span>
 <span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>WAVE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> lis) {          <span class="co"># go through list of waves</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> f[i, ] <span class="sc">/</span> <span class="dv">2</span>      <span class="co"># split landings in half</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">9</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[i]    <span class="co"># reformat year and wave data columns</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">10</span>] <span class="ot">&lt;-</span> f<span class="sc">$</span>WAVE[i]</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(temp, temp)   <span class="co"># create two half-waves and relabel with new wave reference number</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">1</span>, <span class="dv">10</span>] <span class="ot">&lt;-</span> temp[<span class="dv">1</span>, <span class="dv">10</span>] <span class="sc">-</span> <span class="fl">0.5</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>  temp[<span class="dv">2</span>, <span class="dv">10</span>] <span class="ot">&lt;-</span> temp[<span class="dv">2</span>, <span class="dv">10</span>] <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">rbind</span>(f, temp)         <span class="co"># concatenate with main data table</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="sc">-</span>lis, ]  <span class="co"># remove waves that have been split in half</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>pos_colsum <span class="ot">&lt;-</span> <span class="fu">colSums</span>(f, <span class="at">na.rm =</span> T) </span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>pre_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">==</span> pos_colsum[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]  <span class="co"># check that landings were parsed correctly - column sums should be identical </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f[<span class="fu">order</span>(f<span class="sc">$</span>YEAR, f<span class="sc">$</span>WAVE), ]  <span class="co"># reorder table in chronological order</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>YEAR[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="ot">&lt;-</span> f<span class="sc">$</span>YEAR[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="sc">+</span> <span class="dv">1</span>  <span class="co"># add year to December wave so it gets summed with following year</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>WAVE[<span class="fu">which</span>(f<span class="sc">$</span>WAVE <span class="sc">==</span> <span class="fl">6.5</span>)] <span class="ot">&lt;-</span> <span class="fl">0.5</span>  <span class="co"># change December wave to small number so it gets summed with Jan/Feb</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(f<span class="sc">$</span>WAVE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 0.5   1   2 2.5 3.5   4   5 5.5 
  40  40  40  40  40  40  40  40 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas <span class="ot">&lt;-</span> <span class="fu">cut</span>(f<span class="sc">$</span>WAVE, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.5</span>, <span class="dv">3</span>, <span class="fl">4.5</span>, <span class="dv">6</span>))</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co">#table(f$seas)</span></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1 <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(0,1.5]"</span>)] <span class="ot">&lt;-</span> <span class="st">"DJF"</span>  <span class="co"># Dec Jan Feb is 0.5 and 1</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(1.5,3]"</span>)] <span class="ot">&lt;-</span> <span class="st">"MAM"</span>  <span class="co"># Mar Apr May is 2 and 2.5</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(3,4.5]"</span>)] <span class="ot">&lt;-</span> <span class="st">"JJA"</span>  <span class="co"># Jun Jul Aug is 3.5 and 4</span></span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(4.5,6]"</span>)] <span class="ot">&lt;-</span> <span class="st">"SON"</span>  <span class="co"># Sep Oct Nov is 5 and 5.5</span></span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tapply</span>(f[, <span class="dv">1</span>], <span class="fu">list</span>(f<span class="sc">$</span>seas1, f<span class="sc">$</span>YEAR), sum, <span class="at">na.rm =</span> T)</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>temp1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(temp)</span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>) {</span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>  temp2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">tapply</span>(f[, i], <span class="fu">list</span>(f<span class="sc">$</span>seas1, f<span class="sc">$</span>YEAR), sum, <span class="at">na.rm =</span> T))</span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>  temp1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(temp1, temp2)</span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sort</span>(<span class="fu">rep</span>(<span class="fu">as.numeric</span>(<span class="fu">colnames</span>(temp)), <span class="dv">4</span>)), </span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="fu">rownames</span>(temp), <span class="fu">ncol</span>(temp)), temp1)</span>
-<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"season"</span>, <span class="fu">names</span>(f)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
-<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(f[, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">na.rm =</span> T) <span class="sc">==</span> <span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)  <span class="co"># check that total landings are equal before and after parsing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas <span class="ot">&lt;-</span> <span class="fu">cut</span>(f<span class="sc">$</span>WAVE, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.5</span>, <span class="dv">3</span>, <span class="fl">4.5</span>, <span class="dv">6</span>))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co">#table(f$seas)</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1 <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(0,1.5]"</span>)] <span class="ot">&lt;-</span> <span class="st">"DJF"</span>  <span class="co"># Dec Jan Feb is 0.5 and 1</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(1.5,3]"</span>)] <span class="ot">&lt;-</span> <span class="st">"MAM"</span>  <span class="co"># Mar Apr May is 2 and 2.5</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(3,4.5]"</span>)] <span class="ot">&lt;-</span> <span class="st">"JJA"</span>  <span class="co"># Jun Jul Aug is 3.5 and 4</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>f<span class="sc">$</span>seas1[<span class="fu">which</span>(f<span class="sc">$</span>seas <span class="sc">==</span> <span class="st">"(4.5,6]"</span>)] <span class="ot">&lt;-</span> <span class="st">"SON"</span>  <span class="co"># Sep Oct Nov is 5 and 5.5</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tapply</span>(f[, <span class="dv">1</span>], <span class="fu">list</span>(f<span class="sc">$</span>seas1, f<span class="sc">$</span>YEAR), sum, <span class="at">na.rm =</span> T)</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>temp1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(temp)</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>  temp2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">tapply</span>(f[, i], <span class="fu">list</span>(f<span class="sc">$</span>seas1, f<span class="sc">$</span>YEAR), sum, <span class="at">na.rm =</span> T))</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>  temp1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(temp1, temp2)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sort</span>(<span class="fu">rep</span>(<span class="fu">as.numeric</span>(<span class="fu">colnames</span>(temp)), <span class="dv">4</span>)), </span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(<span class="fu">rownames</span>(temp), <span class="fu">ncol</span>(temp)), temp1)</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"season"</span>, <span class="fu">names</span>(f)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(f[, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">na.rm =</span> T) <span class="sc">==</span> <span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)  <span class="co"># check that total landings are equal before and after parsing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE      TRUE </code></pre>
@@ -909,10 +932,10 @@ VBM     2.94 12.69</code></pre>
 </div>
 <p>We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the landings by region.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>findat<span class="sc">$</span>yrseas <span class="ot">&lt;-</span> findat<span class="sc">$</span>year <span class="sc">+</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(findat<span class="sc">$</span>season))<span class="sc">/</span><span class="dv">4</span><span class="fl">-0.125</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(findat<span class="sc">$</span>yrseas, findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>findat<span class="sc">$</span>yrseas <span class="ot">&lt;-</span> findat<span class="sc">$</span>year <span class="sc">+</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(findat<span class="sc">$</span>season))<span class="sc">/</span><span class="dv">4</span><span class="fl">-0.125</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(findat<span class="sc">$</span>yrseas, findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"year"</span>, <span class="at">ylab =</span> <span class="st">"total landings (millions of pounds)"</span>)</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">colnames</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]), <span class="at">lty =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>)), <span class="at">col =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -920,8 +943,8 @@ VBM     2.94 12.69</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check that totals match</span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T), <span class="fu">colSums</span>(fin[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), ], <span class="at">na.rm =</span> T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check that totals match</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T), <span class="fu">colSums</span>(fin[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), ], <span class="at">na.rm =</span> T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               [,1]      [,2]
 Hire_FLK   55604999  54887476
@@ -933,64 +956,140 @@ Rec_NCFL   70803866  69641157
 Rec_NNC    32556596  32479119
 Rec_VBM    40081529  39968585</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the values should be close but slightly &gt;1 because the last data set includes December 1985 data as part of 1986</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">colSums</span>(fin[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), ], <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the values should be close but slightly &gt;1 because the last data set includes December 1985 data as part of 1986</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T) <span class="sc">/</span> <span class="fu">colSums</span>(fin[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), ], <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
  1.013073  1.010336  1.001011  1.001524  1.021800  1.016696  1.002385  1.002826 </code></pre>
 </div>
 </div>
+<p>Lastly, we integrate post-release discard mortality into the total catch. MRIP reports dead discards not available for inspection within its B1 category, but there is also mortality in a proportion of fish that are released alive (B2 catch). The percent of fish released alive by year and area was calculated in section 3.4. These B2 catch estimates are only available in numbers, not weight, so in applying these percentages to the landings we must assume that fish released alive are on average the same weight as retained fish. Individual fish may be released alive if they are smaller in size or if they fall under the size limit (only Florida to South Carolina); hence it should be noted that this assumption could bias the post-release mortality estimates in weight high. We use the discard mortality rate of 0.25 as estimated by Rudershausen et al.&nbsp;(2019) and apply it to the percentage of live discards (B2 / total catch).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat)[<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">==</span> <span class="fu">names</span>(dismat)[<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>]  <span class="co"># check columns are the same</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> findat[<span class="fu">which</span>(findat<span class="sc">$</span>year <span class="sc">&lt;</span> <span class="dv">2025</span>), ]</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>findat_disc <span class="ot">&lt;-</span> findat</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="co"># loop through rows and apply discarding rate * 0.25 discard mortality rate</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="co"># LRP is Live Release Proportion = B2 / (AB1 + B2)</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a><span class="co"># solving to isolate B2 (fish released alive)</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="co"># B2 = (LRP * AB1) / (1 - LRP)</span></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(findat)) {</span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  LRP <span class="ot">&lt;-</span> dismat[<span class="fu">which</span>(dismat<span class="sc">$</span>year <span class="sc">==</span> findat<span class="sc">$</span>year[i]), <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>]  <span class="co"># live release proportion</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>  AB1 <span class="ot">&lt;-</span> findat[i, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]                                    <span class="co"># AB1 catch in weight</span></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>  B2 <span class="ot">&lt;-</span> (LRP <span class="sc">*</span> AB1) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> LRP)                             <span class="co"># B2 discards in weight</span></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>  B2_dead <span class="ot">&lt;-</span> B2 <span class="sc">*</span> <span class="fl">0.25</span>                                      <span class="co"># B2 * 0.25 is estimated dead discards in weight</span></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>  findat_disc[i, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>] <span class="ot">&lt;-</span> AB1 <span class="sc">+</span> B2_dead                     <span class="co"># total death is AB1 + dead proportion of B2</span></span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>  } </span>
+<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a><span class="co"># look at catch with discards</span></span>
+<span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>) { </span>
+<span id="cb71-21"><a href="#cb71-21" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">rbind</span>(<span class="fu">tapply</span>(findat[, j], findat<span class="sc">$</span>year, sum), <span class="fu">tapply</span>(findat_disc[, j], findat_disc<span class="sc">$</span>year, sum))<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, </span>
+<span id="cb71-22"><a href="#cb71-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>), <span class="at">border =</span> <span class="cn">NA</span>, </span>
+<span id="cb71-23"><a href="#cb71-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">beside =</span> T, <span class="at">las =</span> <span class="dv">2</span>, <span class="co"># legend.text = c("without discard mortality", "including discard mortality"), </span></span>
+<span id="cb71-24"><a href="#cb71-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="fu">names</span>(findat)[j], <span class="at">ylab =</span> <span class="st">"millions of pounds"</span>)</span>
+<span id="cb71-25"><a href="#cb71-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>)</span>
+<span id="cb71-26"><a href="#cb71-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"without discard mortality"</span>, <span class="st">"including discard mortality"</span>), <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">border =</span> <span class="cn">NA</span>, <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb71-27"><a href="#cb71-27" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="MRIP_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check calculations - LRP = (B2_dead * 4) / (AB1 + B2_dead * 4)</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> ((findat_disc[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">-</span> findat[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">*</span> <span class="dv">4</span>) <span class="sc">/</span> (findat[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">+</span> (findat_disc[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">-</span> findat[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">*</span> <span class="dv">4</span>)  <span class="co"># recalc LRP</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(dismat[<span class="dv">5</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>], <span class="dv">3</span>) <span class="sc">==</span> <span class="fu">round</span>(out[<span class="dv">2</span>, ], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Hire_FLK Hire_NCFL Hire_NNC Hire_VBM Rec_FLK Rec_NCFL Rec_NNC Rec_VBM
+1985     TRUE      TRUE     TRUE     TRUE    TRUE     TRUE    TRUE    TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(dismat[<span class="fu">nrow</span>(dismat), <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>], <span class="dv">3</span>) <span class="sc">==</span> <span class="fu">round</span>(out[<span class="fu">nrow</span>(out), ], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Hire_FLK Hire_NCFL Hire_NNC Hire_VBM Rec_FLK Rec_NCFL Rec_NNC Rec_VBM
+2024     TRUE      TRUE     TRUE     TRUE    TRUE     TRUE      NA    TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate % of post-release dead discards by area</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>((<span class="fu">colSums</span>(findat_disc[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">/</span> <span class="fu">colSums</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     2.78      1.63      0.30      0.98      5.72      3.68      2.38      3.98 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate recent % of post-release dead discards by area</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>((<span class="fu">colSums</span>(findat_disc[<span class="dv">149</span><span class="sc">:</span><span class="dv">160</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">/</span> <span class="fu">colSums</span>(findat[<span class="dv">149</span><span class="sc">:</span><span class="dv">160</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
+     8.02      4.12      0.09      1.64     15.10      2.84      0.10      7.32 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate overall % of post-release dead discards</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>((<span class="fu">sum</span>(findat_disc[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">/</span> <span class="fu">sum</span>(findat[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.34</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate recent % of post-release dead discards</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>((<span class="fu">sum</span>(findat_disc[<span class="dv">149</span><span class="sc">:</span><span class="dv">160</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">/</span> <span class="fu">sum</span>(findat[<span class="dv">149</span><span class="sc">:</span><span class="dv">160</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.52</code></pre>
+</div>
+</div>
 <p>Here we will format the data for input to the operating model.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>tab3 <span class="ot">&lt;-</span> findat</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>flt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Hire"</span>, <span class="fu">nrow</span>(tab3)<span class="sc">*</span><span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"Rec"</span>, <span class="fu">nrow</span>(tab3)<span class="sc">*</span><span class="dv">4</span>))</span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>yrmon <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(tab3<span class="sc">$</span>yrseas)</span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">floor</span>(yrmon)</span>
-<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>qrt <span class="ot">&lt;-</span> (yrmon <span class="sc">-</span> <span class="fu">floor</span>(yrmon)) <span class="sc">*</span> <span class="dv">4</span> <span class="sc">+</span> <span class="fl">0.5</span></span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>area <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"FLK"</span>, <span class="fu">nrow</span>(tab3)), <span class="fu">rep</span>(<span class="st">"NCFL"</span>, <span class="fu">nrow</span>(tab3)), </span>
-<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">rep</span>(<span class="st">"NNC"</span>, <span class="fu">nrow</span>(tab3)), <span class="fu">rep</span>(<span class="st">"VBM"</span>, <span class="fu">nrow</span>(tab3)))</span>
-<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>area <span class="ot">&lt;-</span> <span class="fu">rep</span>(area, <span class="dv">2</span>)</span>
-<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>findat1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(yrs, qrt, flt, area, <span class="fu">matrix</span>(<span class="fu">as.matrix</span>(tab3[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>])))</span>
-<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Quarter"</span>, <span class="st">"Fleet"</span>, <span class="st">"Area"</span>, <span class="st">"Catch_lbs"</span>)</span>
-<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(findat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tab3 &lt;- findat  # previous version - this is catch with no post-release discard mortality </span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>tab3 <span class="ot">&lt;-</span> findat_disc  <span class="co"># this is catch including post-release discard mortality </span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>flt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Hire"</span>, <span class="fu">nrow</span>(tab3)<span class="sc">*</span><span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"Rec"</span>, <span class="fu">nrow</span>(tab3)<span class="sc">*</span><span class="dv">4</span>))</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>yrmon <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(tab3<span class="sc">$</span>yrseas)</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>yrs <span class="ot">&lt;-</span> <span class="fu">floor</span>(yrmon)</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>qrt <span class="ot">&lt;-</span> (yrmon <span class="sc">-</span> <span class="fu">floor</span>(yrmon)) <span class="sc">*</span> <span class="dv">4</span> <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>area <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"FLK"</span>, <span class="fu">nrow</span>(tab3)), <span class="fu">rep</span>(<span class="st">"NCFL"</span>, <span class="fu">nrow</span>(tab3)), </span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>          <span class="fu">rep</span>(<span class="st">"NNC"</span>, <span class="fu">nrow</span>(tab3)), <span class="fu">rep</span>(<span class="st">"VBM"</span>, <span class="fu">nrow</span>(tab3)))</span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>area <span class="ot">&lt;-</span> <span class="fu">rep</span>(area, <span class="dv">2</span>)</span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>findat1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(yrs, qrt, flt, area, <span class="fu">matrix</span>(<span class="fu">as.matrix</span>(tab3[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>])))</span>
+<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Quarter"</span>, <span class="st">"Fleet"</span>, <span class="st">"Area"</span>, <span class="st">"Catch_lbs"</span>)</span>
+<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(findat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Year Quarter Fleet Area Catch_lbs
-1 1985       1  Hire  FLK   4462.09
-2 1985       2  Hire  FLK 253487.38
-3 1985       3  Hire  FLK 380811.37
-4 1985       4  Hire  FLK  41469.99
-5 1986       1  Hire  FLK  40545.41
-6 1986       2  Hire  FLK 501184.61</code></pre>
+<pre><code>  Year Quarter Fleet Area  Catch_lbs
+1 1985       1  Hire  FLK   4471.653
+2 1985       2  Hire  FLK 254030.649
+3 1985       3  Hire  FLK 381627.520
+4 1985       4  Hire  FLK  41558.870
+5 1986       1  Hire  FLK  40762.254
+6 1986       2  Hire  FLK 503865.031</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs, type = "l")</span></span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs ~ factor(findat1$Area))</span></span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs ~ factor(findat1$Quarter))</span></span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs ~ factor(findat1$Year))</span></span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>findat1 <span class="ot">&lt;-</span> findat1[<span class="fu">which</span>(findat1<span class="sc">$</span>Year <span class="sc">&lt;=</span> <span class="dv">2022</span>), ]</span>
-<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>findat1 <span class="ot">&lt;-</span> findat1[<span class="fu">which</span>(findat1<span class="sc">$</span>Year <span class="sc">&gt;=</span> <span class="dv">1986</span>), ]</span>
-<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="co">#apply(findat1, 2, table)</span></span>
-<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> findat[<span class="fu">which</span>(findat<span class="sc">$</span>year <span class="sc">&gt;=</span><span class="dv">1986</span> <span class="sc">&amp;</span> findat<span class="sc">$</span>year <span class="sc">&lt;=</span> <span class="dv">2022</span>), ]</span>
-<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="co">#check that the numbers are exactly the same</span></span>
-<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(findat1<span class="sc">$</span>Catch_lbs, <span class="fu">list</span>(findat1<span class="sc">$</span>Area, findat1<span class="sc">$</span>Fleet), sum, <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs, type = "l")</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs ~ factor(findat1$Area))</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs ~ factor(findat1$Quarter))</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(findat1$Catch_lbs ~ factor(findat1$Year))</span></span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>findat1 <span class="ot">&lt;-</span> findat1[<span class="fu">which</span>(findat1<span class="sc">$</span>Year <span class="sc">&lt;=</span> <span class="dv">2022</span>), ]</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>findat1 <span class="ot">&lt;-</span> findat1[<span class="fu">which</span>(findat1<span class="sc">$</span>Year <span class="sc">&gt;=</span> <span class="dv">1986</span>), ]</span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="co">#apply(findat1, 2, table)</span></span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>findat <span class="ot">&lt;-</span> findat[<span class="fu">which</span>(findat<span class="sc">$</span>year <span class="sc">&gt;=</span><span class="dv">1986</span> <span class="sc">&amp;</span> findat<span class="sc">$</span>year <span class="sc">&lt;=</span> <span class="dv">2022</span>), ]</span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a><span class="co">#check that the numbers are exactly the same</span></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(findat1<span class="sc">$</span>Catch_lbs, <span class="fu">list</span>(findat1<span class="sc">$</span>Area, findat1<span class="sc">$</span>Fleet), sum, <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Hire       Rec
-FLK  54012811 357091651
-NCFL 16532764  65643193
-NNC  56097190  32197622
-VBM   5736592  37749487</code></pre>
+FLK  55478644 377580042
+NCFL 16800175  68063202
+NNC  56269610  32971138
+VBM   5792004  39150014</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(findat[<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(findat[<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire_FLK Hire_NCFL  Hire_NNC  Hire_VBM   Rec_FLK  Rec_NCFL   Rec_NNC   Rec_VBM 
  54012811  16532764  56097190   5736592 357091651  65643193  32197622  37749487 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output final numbers in correct format</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(findat1, <span class="at">file =</span> <span class="st">"data/FINAL_files/rec_catch_TomFormat.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output final numbers in correct format</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(findat1, <span class="at">file =</span> <span class="st">"data/FINAL_files/rec_catch_TomFormat.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
