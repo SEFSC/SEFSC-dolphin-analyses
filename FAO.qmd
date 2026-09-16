@@ -1,10 +1,10 @@
 # Compilation of international catches from FAO
 
-## Compile catch in jurisdictional waters by discards and reporting type
-
 The Food and Agriculture Organization (FAO) is a specialized agency of the United Nations that monitors global agriculture, forestry, and fisheries. Its fisheries database provides one of the most comprehensive long-term records of international wild-capture fishing, drawing directly from official national reporting and standardized estimation models. Unlike the Sea Around Us (SAU) database, the FAO database contains only data officially declared by member countries and does not apply any catch algorithms to fill in missing data. However, as a transparent and standardized database it offers a useful comparison to the SAU database.    
 
-Annual catch data for common dolphinfish (Coryphaena hippurus) were pulled from the [FAO Global Capture Production database](https://www.fao.org/fishery/collection/capture/en) (FAO, 2024). We filtered the dataset for FAO Fishing Areas 21 (Northwest Atlantic) and 31 (Western Central Atlantic) using the 3-alpha species code DOL. The code for the data pull is in the FAO_access_data.R file; the data are saved and accessed locally here.  
+Annual catch data for common dolphinfish (Coryphaena hippurus) were pulled from the [FAO Global Capture Production database](https://www.fao.org/fishery/collection/capture/en) (FAO, 2024). We filtered the dataset for FAO Fishing Areas 21 (Northwest Atlantic) and 31 (Western Central Atlantic) using the 3-alpha species code DOL. The code for the data pull is in the FAO_access_data.R file; the data are saved and accessed locally here. 
+
+## Download FAO data and summarize
 
 ```{r}
 #| echo: true
@@ -14,14 +14,13 @@ rm(list = ls())  # clear the workspace
 # libraries
 library(pals)
 
-df <- read.csv("data/FAO_dolphin_data.csv")
+df <- read.csv("data/FAO_dolphin_data.csv")  # open the FAO data file
 head(df)
 apply(df[, 1:4], 2, table)
 
 df$lbs <- df$Landings_Tonnes * 2204.62
 
 ```
-
 We first look at the major countries reporting dolphin catches in the FAO database, for the historical period and the recent period. Note that only commercial catches are included for the United States.  
 
 ```{r}
@@ -37,6 +36,8 @@ barplot(sort(tapply(df$lbs/10^6, df$JURISDICTION, mean, na.rm = T)), las = 2, ho
 barplot(sort(tapply(df_recent$lbs/10^6, df_recent$JURISDICTION, mean, na.rm = T)), las = 2, horiz = F, 
         ylab = "millions of pounds", main = "average annual recent landings (FAO 2015 - 2022)")
 ```
+## Compare FAO to SAU database
+
 Now we will compare the international catches from FAO with the SAU catches compiled in the previous section.  
 
 ```{r}
@@ -128,6 +129,8 @@ The figure shows a stacked barplot of the reported (in green) and unreported (in
 
 The comparison of FAO versus SAU databases reveals notable differences and some similarities. In a few cases, the SAU reported estimates line up closely or exactly with the FAO estimates for parts of the time series (Guadeloupe, Martinique, Saint Lucia, Venezuela). The majority of the jurisdictions have very small amounts of landings in the SAU database and no FAO reporting. Bahamas has substantial reconstructed catches and Haiti has a high number of "reported" catches in the SAU database, but neither of these countries have any reporting in the FAO database.  In some cases, the FAO database contains significant landings that do not appear in the SAU database (Barbados, Cuba, French Guiana, and more recent years in Guadeloupe and Venezuela.) 
 
+## Create a new maximum landings scenario dataset
+
 Given the discrepancies revealed by the jurisdiction-level comparison, it seems likely that both SAU and FAO could potentially be missing key aspects of the international fishing. A maximum estimate of total international landings could be compiled by summarizing the maximum reported value of landings for each year, within each jurisdiction. We calculate these maxima at this resolution and recompile the data. 
 
 ```{r}
@@ -183,7 +186,9 @@ barplot(sort(colMeans(maxland, na.rm = T)/10^6), las = 2, horiz = F, cex.names =
 barplot(sort(colMeans(tail(maxland, 8), na.rm = T)/10^6), las = 2, horiz = F, 
         ylab = "millions of pounds", main = "average annual recent landings (maximum of FAO or SAU, 2015 - 2022)")
 ```
-The top contributors to landings overall, according to this new combined data set, are: Barbardos (substantial landings from FAO but limited reported landings from SAU), Bahamas (no FAO data, with mostly unreported reconstructed SAU landings), and Guadeloupe (exactly the same landings reported in SAU and FAO from 1950 - 2007 with significant divergence in recent years).  
+The top contributors to landings overall, according to this new combined data set, are: Barbardos (substantial landings from FAO but limited reported landings from SAU), Bahamas (no FAO data, with mostly unreported reconstructed SAU landings), and Guadeloupe (exactly the same landings reported in SAU and FAO from 1950 - 2007 with significant divergence in recent years).
+
+## Compare landings scenarios
 
 We compare the three different time series: FAO landings, SAU landings, and maximum landings, across the entire time series.  
 
