@@ -23,6 +23,8 @@ book:
     - commercial.qmd
     - SAU_highseas.qmd
     - SAU_EEZs.qmd
+    - FAO.qmd
+    - compile_intl.qmd
     - compile_all_data.qmd
     - indices_intro.qmd
     - blue_blob_index.qmd
