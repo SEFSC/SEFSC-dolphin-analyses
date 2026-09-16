@@ -261,8 +261,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#compile-catch-in-jurisdictional-waters-by-discards-and-reporting-type" id="toc-compile-catch-in-jurisdictional-waters-by-discards-and-reporting-type" class="nav-link active" data-scroll-target="#compile-catch-in-jurisdictional-waters-by-discards-and-reporting-type"><span class="header-section-number">7.1</span> Compile catch in jurisdictional waters by discards and reporting type</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.2</span> References</a></li>
+  <li><a href="#download-fao-data-and-summarize" id="toc-download-fao-data-and-summarize" class="nav-link active" data-scroll-target="#download-fao-data-and-summarize"><span class="header-section-number">7.1</span> Download FAO data and summarize</a></li>
+  <li><a href="#compare-fao-to-sau-database" id="toc-compare-fao-to-sau-database" class="nav-link" data-scroll-target="#compare-fao-to-sau-database"><span class="header-section-number">7.2</span> Compare FAO to SAU database</a></li>
+  <li><a href="#create-a-new-maximum-landings-scenario-dataset" id="toc-create-a-new-maximum-landings-scenario-dataset" class="nav-link" data-scroll-target="#create-a-new-maximum-landings-scenario-dataset"><span class="header-section-number">7.3</span> Create a new maximum landings scenario dataset</a></li>
+  <li><a href="#compare-landings-scenarios" id="toc-compare-landings-scenarios" class="nav-link" data-scroll-target="#compare-landings-scenarios"><span class="header-section-number">7.4</span> Compare landings scenarios</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.5</span> References</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/edit/main/FAO.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/blob/main/FAO.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -288,17 +291,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="compile-catch-in-jurisdictional-waters-by-discards-and-reporting-type" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="compile-catch-in-jurisdictional-waters-by-discards-and-reporting-type"><span class="header-section-number">7.1</span> Compile catch in jurisdictional waters by discards and reporting type</h2>
 <p>The Food and Agriculture Organization (FAO) is a specialized agency of the United Nations that monitors global agriculture, forestry, and fisheries. Its fisheries database provides one of the most comprehensive long-term records of international wild-capture fishing, drawing directly from official national reporting and standardized estimation models. Unlike the Sea Around Us (SAU) database, the FAO database contains only data officially declared by member countries and does not apply any catch algorithms to fill in missing data. However, as a transparent and standardized database it offers a useful comparison to the SAU database.</p>
 <p>Annual catch data for common dolphinfish (Coryphaena hippurus) were pulled from the <a href="https://www.fao.org/fishery/collection/capture/en">FAO Global Capture Production database</a> (FAO, 2024). We filtered the dataset for FAO Fishing Areas 21 (Northwest Atlantic) and 31 (Western Central Atlantic) using the 3-alpha species code DOL. The code for the data pull is in the FAO_access_data.R file; the data are saved and accessed locally here.</p>
+<section id="download-fao-data-and-summarize" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="download-fao-data-and-summarize"><span class="header-section-number">7.1</span> Download FAO data and summarize</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())  <span class="co"># clear the workspace</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># libraries</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pals)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/FAO_dolphin_data.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/FAO_dolphin_data.csv"</span>)  <span class="co"># open the FAO data file</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        JURISDICTION AREA     SCIENTIFIC_NAME YEAR
@@ -391,6 +394,9 @@ $YEAR
 </div>
 </div>
 </div>
+</section>
+<section id="compare-fao-to-sau-database" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="compare-fao-to-sau-database"><span class="header-section-number">7.2</span> Compare FAO to SAU database</h2>
 <p>Now we will compare the international catches from FAO with the SAU catches compiled in the previous section.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_int <span class="ot">&lt;-</span> df[<span class="fu">which</span>(df<span class="sc">$</span>JURISDICTION <span class="sc">!=</span> <span class="st">"United States of America"</span>), ]</span>
@@ -481,6 +487,9 @@ $YEAR
 </div>
 <p>The figure shows a stacked barplot of the reported (in green) and unreported (in red) landings from the SAU database, with the FAO landings overlaid (black line). The numbers in the upper left corner are the average landings over the entire time series (in millions of pounds per year; green = reported SAU, red = unreported SAU, black = FAO); panels with missing numbers indicate that no data were available.</p>
 <p>The comparison of FAO versus SAU databases reveals notable differences and some similarities. In a few cases, the SAU reported estimates line up closely or exactly with the FAO estimates for parts of the time series (Guadeloupe, Martinique, Saint Lucia, Venezuela). The majority of the jurisdictions have very small amounts of landings in the SAU database and no FAO reporting. Bahamas has substantial reconstructed catches and Haiti has a high number of “reported” catches in the SAU database, but neither of these countries have any reporting in the FAO database. In some cases, the FAO database contains significant landings that do not appear in the SAU database (Barbados, Cuba, French Guiana, and more recent years in Guadeloupe and Venezuela.)</p>
+</section>
+<section id="create-a-new-maximum-landings-scenario-dataset" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="create-a-new-maximum-landings-scenario-dataset"><span class="header-section-number">7.3</span> Create a new maximum landings scenario dataset</h2>
 <p>Given the discrepancies revealed by the jurisdiction-level comparison, it seems likely that both SAU and FAO could potentially be missing key aspects of the international fishing. A maximum estimate of total international landings could be compiled by summarizing the maximum reported value of landings for each year, within each jurisdiction. We calculate these maxima at this resolution and recompile the data.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SAU <span class="ot">&lt;-</span> <span class="fu">tapply</span>(ds<span class="sc">$</span>lbs, <span class="fu">list</span>(ds<span class="sc">$</span>year, ds<span class="sc">$</span>area_name), sum, <span class="at">na.rm =</span> T)  <span class="co"># summary of SAU </span></span>
@@ -538,6 +547,9 @@ $YEAR
 </div>
 </div>
 <p>The top contributors to landings overall, according to this new combined data set, are: Barbardos (substantial landings from FAO but limited reported landings from SAU), Bahamas (no FAO data, with mostly unreported reconstructed SAU landings), and Guadeloupe (exactly the same landings reported in SAU and FAO from 1950 - 2007 with significant divergence in recent years).</p>
+</section>
+<section id="compare-landings-scenarios" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="compare-landings-scenarios"><span class="header-section-number">7.4</span> Compare landings scenarios</h2>
 <p>We compare the three different time series: FAO landings, SAU landings, and maximum landings, across the entire time series.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">2.2</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
@@ -585,8 +597,8 @@ $YEAR
 </div>
 <p>The more recent data show that assumptions regarding levels of international catches vary quite widely depending on the data source. The maximum landings data suggest that catches have increased significantly from 1986 to 2011, followed by a substantial decrease with the most recent landings just below the average of the time series. The SAU data suggest an increase from 1986 to the late 1990s, with relatively stable landings over the last 20 years. Finally, the FAO data suggests an increase in the early years with a large peak in 2011, followed by a significant decline, with the most recent landings falling back to the late 1980s levels.</p>
 </section>
-<section id="references" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="references"><span class="header-section-number">7.2</span> References</h2>
+<section id="references" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="references"><span class="header-section-number">7.5</span> References</h2>
 <p>FAO. (2024). Fisheries and Aquaculture Division: Global Capture Production 1950–2022 (Release 2024.1.0) [Data set]. Food and Agriculture Organization of the United Nations. https://www.fao.org/fishery/collection/capture/en</p>
 
 
