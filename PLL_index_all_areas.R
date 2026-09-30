@@ -120,9 +120,27 @@ legend(-90, 45, legend = c(paste(round(min(d$depth)), "m (Shallow)"),
 
 
 
+
+
+
+
+
+
+######################################################################################
+
 ## start here with PLL data including depth and area fields -------------------------
 
 rm(list = ls())
+
+#load libraries -------------
+
+library(lme4)
+library(glmmTMB)
+library(ggeffects)
+library(DHARMa)
+
+# read in processed data from previous section -------------------
+
 d <- read.csv("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/PLL_1986_2022_rawdata.csv")
 
 # number of observations by year 
@@ -206,6 +224,7 @@ barplot(tapply(d$cpue, d$year, mean, na.rm = T), las = 2)
 barplot(tapply(d$cpue, d$mon, mean, na.rm = T))
 barplot(tapply(d$cpue, d$PLL, mean, na.rm = T))
 barplot(tapply(d$cpue, d$TDOL, mean, na.rm = T))
+barplot(tapply(d$cpue, d$arnew, mean, na.rm = T))
 
 # depth bins 
 hist(d$depth)
@@ -278,7 +297,69 @@ d$TSWO <- as.factor(d$TSWO)
 d$TMIX <- as.factor(d$TMIX)
 d$TDOL <- as.factor(d$TDOL)
 
+##################################################################
 # standardize the CPUE -------------------------------------------
+
+
+# first try tweedie GLMM approach ---------------------
+
+out_tweedie <- glmmTMB(cpue ~ (1 | year)  + arnew*season  + tempbin + depbin + TDOL + TSWO + TMIX, 
+      data = d, family = glmmTMB::tweedie(link = "log"))
+res <- predict_response(out_tweedie, terms = "year [all]", type = "random")
+res <- as.data.frame(res)
+
+# calculate the nominal CPUE
+nom <- tapply(d$cpue, d$year, mean, na.rm = T)
+table(as.numeric(names(nom)) == res$x)
+
+dev.off()
+plot(res$x, res$predicted, type = "l", main = "Nominal versus standardized CPUE from PLL data",
+      xlab = "year", ylab = "CPUE (dolphin / 1000 hooks)", ylim = c(0, 8), col = 0, pch = 1, cex = 0)
+ points(res$x, res$predicted, pch = 1, lwd = 2, col = 4) 
+ lines(res$x, res$conf.low, col = 4, lty = 2)
+ lines(res$x, res$conf.high, col = 4, lty = 2)
+ lines(res$x, nom, col = 2, lwd = 2)
+ points(res$x, nom, col = 2, lwd = 2, pch = 1)
+ legend("topleft", c("nominal CPUE", "standardized CPUE"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")
+
+tweedie_preds <- predict_response(out_tweedie, 
+                                  terms = c("year [all]", "arnew [all]", "season [all]"), 
+                                  type = "random")
+ 
+# Convert to a standard data frame
+df_preds <- as.data.frame(tweedie_preds) %>%
+   rename(
+     year      = x,
+     arnew     = group,
+     season    = facet,
+     pred_cpue = predicted,
+     ci_low    = conf.low,
+     ci_high   = conf.high)
+head(df_preds)
+
+df_preds$season.1 <- as.numeric(df_preds$season)
+df_preds$yrseas <- as.numeric(as.vector(df_preds$year)) + (df_preds$season.1-1)/4
+
+lis <- levels(df_preds$arnew)
+lis <- lis[c(1:3, 5, 4)]
+
+scols <- rep(c("red", "green", "blue", "purple"), 37)
+par(mfcol = c(3, 2), mex = 0.7) 
+for (i in 1:5)  {
+  m <- which(df_preds$arnew == lis[i])
+  plot(df_preds$yrseas[m], df_preds$pred_cpue[m], col = 8, type = "l", main = lis[i], 
+       xlab = "", ylab = "relative cpue", ylim = c(0, 16))
+  points(df_preds$yrseas[m], df_preds$pred_cpue[m], col = scols, pch = 19)
+}
+plot.new()
+legend("center", c("Winter", "Spring", "Summer", "Fall"),
+       col = scols[1:4], lty = 0, pch = 19)
+
+#save(res, df_preds, file = "data/tweedie_res.RData")
+
+
+
+# two-stage Delta-lognormal GLM approach ---------------------------------------
 
 # make presence/absence variable 
 table(d$cpue == 0, useNA = "always")                 # # of observations > 1
@@ -286,11 +367,11 @@ d$pres <- d$cpue
 d$pres[d$pres > 0] <- 1
 table(d$pres, useNA = "always")
 
-# model the presence-absence as a binomial regression 
-outp <- glm(pres ~ year + arnew*season  + tempbin + depbin + TDOL + TSWO + TMIX, data = d, family = "binomial")  #  + HBFLbin
+# BINOMIAL REGRESSION COMPONENT: model the presence-absence as a binomial regression 
+outp <- glm(pres ~ year  + arnew*season  + tempbin + depbin + TDOL + TSWO + TMIX,  #  + HBFLbin
+                data = d, family = "binomial")  
 summary(outp)        
 a_table <- anova(outp, test = "Chisq")
-
 total_deviance <- outp$null.deviance
 factor_deviance <- a_table$Deviance  # Extract deviance explained by each factor
 factors <- rownames(a_table)[!is.na(factor_deviance)]  # Filter out the first row (which is NA for the NULL model)
@@ -302,20 +383,22 @@ deviance_table <- data.frame(
   `Pct Deviance Explained (%)` = round(c(dev_values, residual_dev) / total_deviance * 100, 2),
   check.names = FALSE)
 print(deviance_table)
-
 overall_r2 <- (outp$null.deviance - outp$deviance) / outp$null.deviance * 100
 cat("Total Deviance Explained by Model:", round(overall_r2, 2), "%\n")
 
+resid <- simulateResiduals(outp, n = 250)  # Simulate randomized quantile residuals
+plot(resid)
 
+
+# ABUNDANCE WHEN PRESENT COMPONENT: model the log abundance when present
 # subset abundance when present data
 dp <- d[d$cpue > 0, ]
 
 # model the log abundance when presence
-out <- glm(log(cpue) ~  year + arnew*season + depbin + TDOL + TSWO + TMIX, data = dp, family = "gaussian")  # + HBFLbin + tempbin 
-summary(out)        
-#anova(out) 
-b_table <- anova(out, test = "Chisq")
+out <- glm(log(cpue) ~  year + arnew*season + depbin + TDOL + TSWO + TMIX, data = dp)  # + HBFLbin + tempbin 
+summary(out) 
 
+b_table <- anova(out, test = "Chisq")
 total_deviance <- out$null.deviance
 factor_deviance <- b_table$Deviance  # Extract deviance explained by each factor
 factors <- rownames(b_table)[!is.na(factor_deviance)]  # Filter out the first row (which is NA for the NULL model)
@@ -331,48 +414,176 @@ print(deviance_table)
 overall_r2 <- (out$null.deviance - out$deviance) / out$null.deviance * 100
 cat("Total Deviance Explained by Model:", round(overall_r2, 2), "%\n")
 
-# combined variance function 
+resid <- simulateResiduals(out, n = 250)  # Simulate randomized quantile residuals
+plot(resid)
+
+# combined variance function
 comb.var <- function(A, Ase, P, Pse, p) { (P^2 * Ase^2 + A^2 * Pse^2 + 2 * p * A * P * Ase * Pse)  }   # combined var
-
-
 
 # yearly index --------------------------------
 # calculate the least-squares means from the linear models
-# emm_options(rg.limit = 300000)
-# predlogit <- as.data.frame(emmeans(outp, specs = ~ year, type = "response"))
-# predpos  <- as.data.frame(emmeans(out, specs = ~ year, type = "response"))
-# table(predpos$year == predlogit$year)  # check that years are the same
-# predlogit
-# predpos
-# 
-# # calculate correlation between indices 
-# co <- cor(predlogit$prob, predpos$response, method="pearson")
-# co  
-# # calculate the combined index and the combined SE
-# predind <-  predlogit$prob * predpos$response    # estimated abundance is prob. of occurrence * estimated abundance when present
-# predse <- sqrt(comb.var(predpos$response, predpos$SE, predlogit$prob, predlogit$SE, co))
-# # year variable
-# yrs <- as.numeric(as.vector(predpos$year))
-# # calculate the nominal CPUE
-# nom <- tapply(d$cpue, d$year, mean, na.rm = T)
-# table(as.numeric(names(nom)) == yrs)
-# 
-# # output in data frame adn plot
-# ind <- data.frame(cbind(yrs, predind, predse, predlogit$prob, predpos$response, nom))
-# names(ind) <- c("Year", "index", "SE", "predpos", "Npres", "nominal")
-# ind
-# 
-# dev.off()
-# plot(ind$Year, ind$index, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from PLL data",
-#      xlab = "year", ylab = "CPUE (dolphin / 1000 hooks)", ylim = c(0, 14))
-# points(ind$Year, ind$index, pch = 1, lwd = 2, col = 4) 
-# lines(ind$Year, ind$index - 1.96*ind$SE, col = 4, lty = 2)
-# lines(ind$Year, ind$index + 1.96*ind$SE, col = 4, lty = 2)
-# lines(ind$Year, ind$nominal, col = 2, lwd = 2)
-# points(ind$Year, ind$nominal, col = 2, lwd = 2, pch = 1)
-# legend("topleft", c("nominal CPUE", "standardized CPUE"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")
-# 
+emm_options(rg.limit = 300000)
+
+predlogit <- as.data.frame(emmeans(outp, specs = ~ year, type = "response"))
+predpos  <- as.data.frame(emmeans(out, specs = ~ year, type = "response", tran = "log"))
+table(predpos$year == predlogit$year)  # check that years are the same
+predlogit
+predpos
+
+# calculate correlation between indices
+co <- cor(predlogit$prob, predpos$response, method="pearson")
+co
+# calculate the combined index and the combined SE
+predind <-  predlogit$prob * predpos$response    # estimated abundance is prob. of occurrence * estimated abundance when present
+predse <- sqrt(comb.var(predpos$response, predpos$SE, predlogit$prob, predlogit$SE, co))
+# year variable
+yrs <- as.numeric(as.vector(predpos$year))
+# calculate the nominal CPUE
+nom <- tapply(d$cpue, d$year, mean, na.rm = T)
+table(as.numeric(names(nom)) == yrs)
+
+# output in data frame adn plot
+ind <- data.frame(cbind(yrs, predind, predse, predlogit$prob, predpos$response, nom))
+names(ind) <- c("Year", "index", "SE", "predpos", "Npres", "nominal")
+ind
+
+par(mfrow = c(1, 1))
+plot(ind$Year, ind$index, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from PLL data",
+     xlab = "year", ylab = "CPUE (dolphin / 1000 hooks)", ylim = c(0, 14))
+points(ind$Year, ind$index, pch = 1, lwd = 2, col = 4)
+lines(ind$Year, ind$index - 1.96*ind$SE, col = 4, lty = 2)
+lines(ind$Year, ind$index + 1.96*ind$SE, col = 4, lty = 2)
+lines(ind$Year, ind$nominal, col = 2, lwd = 2)
+points(ind$Year, ind$nominal, col = 2, lwd = 2, pch = 1)
+legend("topleft", c("nominal CPUE", "standardized CPUE"), lwd = 2, pch = 19, col = c(2, 4), bty = "n")
+
 #save(outp, out, d2_bin, d2_log, total_d2, file = "data/linear_model_outputs.RData")
+
+plot(ind$index, res$predicted)
+cor(ind$index, res$predicted)
+
+mean(ind$nominal)
+mean(ind$index)
+mean(res$predicted)
+
+# year + area x season
+
+# now look at migration patterns -----------------------------------
+# only area and season
+
+# calculate the least-squares means from the linear models
+predlogit <- as.data.frame(emmeans(outp, specs = ~ arnew * season + year, type = "response"))
+predpos   <- as.data.frame(emmeans(out, specs = ~ arnew * season + year, tran = "log", type = "response"))
+predlogit  
+predpos
+
+# calculate correlation between indices 
+co <- cor(predlogit$prob, predpos$response, method="pearson")
+co  
+
+fin <- data.frame(predlogit, predpos)
+
+# calculate the combined index and the combined SE
+fin$predind <-  fin$prob * fin$response    # estimated abundance is prob. of occurrence * estimated abundance when present
+fin$predse <- sqrt(comb.var(fin$response, fin$SE.1, fin$prob, fin$SE, co))
+
+fin$season.1 <- as.numeric(fin$season)
+fin$yrseas <- as.numeric(as.vector(fin$year)) + (fin$season.1-1)/4
+fin <- fin[order(fin$yrseas), ]
+
+plot(0, col = 0, xlim = c(1986, 2022), ylim = c(0, 18), las = 1, xlab = "", ylab = "standardized catch rate")
+lis <- levels(fin$arnew)
+cols <- rainbow(5)
+
+for (i in 1:5)  {
+  m <- which(fin$arnew == lis[i])
+  lines(fin$yrseas[m], fin$predind[m], col = cols[i])
+  points(fin$yrseas[m], fin$predind[m], col = cols[i])
+}
+legend("topright", lis, col = cols, lty = 1)
+
+
+# formatting for Tom
+tomform <- fin[which(fin$arnew == "NED"), c(3, 2)]
+names(tomform) <- c("Year", "Season")
+tomform
+tomform$NED <- fin$predind[which(fin$arnew == "NED")]
+tomform$NNCVBM <- fin$predind[which(fin$arnew == "NNC+VBM")]
+tomform$NCFL <- fin$predind[which(fin$arnew == "NCFL")]
+tomform$NCA <- fin$predind[which(fin$arnew == "NCA")]
+tomform$CARFLK <- fin$predind[which(fin$arnew == "CAR+FLK")]
+  
+# plot to match Tom's plot ------------------------------
+
+scols <- rep(c("red", "green", "blue", "purple"), 37)
+par(mfcol = c(3, 2), mex = 0.7) 
+
+lis <- levels(fin$arnew)
+lis <- lis[c(1:3, 5, 4)]
+
+for (i in 1:5)  {
+  m <- which(fin$arnew == lis[i])
+  plot(fin$yrseas[m], fin$predind[m], col = 8, type = "l", main = lis[i], 
+       xlab = "", ylab = "relative cpue", ylim = c(0, 20))
+  points(fin$yrseas[m], fin$predind[m], col = scols, pch = 19)
+}
+plot.new()
+legend("center", c("Winter", "Spring", "Summer", "Fall"),
+       col = scols[1:4], lty = 0, pch = 19)
+
+
+# compare with enso ---------------------
+
+enso <- read.csv("indices/enso_index.csv")
+enso$X1[1:33]
+el_nino <- enso$X2[1:33]
+
+fin$yrseas[which(fin$arnew == "CAR+FLK" & fin$season == "winter")][5:37]
+
+lis1 <- unique(fin$season)
+
+par(mfrow = c(3, 2), mar = c(4, 4, 1, 1), mgp = c(2.2, 1, 0))
+
+for (i in 1:5) { 
+  ind <- fin$predind[which(fin$arnew == lis[i] & fin$season == "spring")]
+  st_ind <- ind[5:37]
+  
+  dat <- data.frame(st_ind, el_nino)
+  plot(dat$el_nino, dat$st_ind, xlab = "El Nino index", ylab = "standardized CPUE", 
+      main = paste(lis[i], "- spring"), col = 0)
+  text(dat$el_nino, dat$st_ind, 1990:2022)
+  res <- lm(dat$st_ind ~ dat$el_nino)
+  abline(res, col = 3)
+  p <- summary(res)$coef[2, 4]
+  legend("topleft", paste0("R^2 = ", round(summary(res)$adj.r.squared, 2)), cex = 1, bty = "n", text.col = 1)
+}
+summary(res)
+
+# get year + area level means to add to output file -----------------------------------
+# calculate the least-squares means from the linear models
+predlogit1 <- as.data.frame(emmeans(outp, specs = ~ year + season, type = "response"))
+predpos1  <- as.data.frame(emmeans(out, specs = ~ year + season, type = "response"))
+
+fin1 <- data.frame(predlogit1, predpos1)
+fin1$predind <-  fin1$prob * fin1$response    # estimated abundance is prob. of occurrence * estimated abundance when present
+
+fin1$season.1 <- as.numeric(fin1$season)
+fin1$yrseas <- as.numeric(as.vector(fin1$year)) + (fin1$season.1-1)/4
+fin1 <- fin1[order(fin1$yrseas), ]
+
+head(fin1)
+
+dim(tomform)
+dim(fin1)
+fin1$year == tomform$Year
+fin1$season == tomform$Season
+
+tomform$ALL <- fin1$predind
+
+#write.csv(tomform, file = "data/outputs/GLM_index.csv", row.names = FALSE)
+
+
+############# END #############
 
 
 # now look at migration patterns -----------------------------------
@@ -417,62 +628,9 @@ axis(2, las = 2); box()
 legend("topright", col = 1:5, rownames(mat), lty = 1, lwd = 2)
 
 
-# year + area x season
 
-# now look at migration patterns -----------------------------------
-# only area and season
 
-# calculate the least-squares means from the linear models
-emm_options(rg.limit = 300000)
-predlogit <- as.data.frame(emmeans(outp, specs = ~ year + arnew*season, type = "response"))
-predpos  <- as.data.frame(emmeans(out, specs = ~ year + arnew*season, type = "response"))
-predlogit  
-predpos
 
-# calculate correlation between indices 
-co <- cor(predlogit$prob, predpos$response, method="pearson")
-co  # correlation between indices is very small 
-
-fin <- data.frame(predlogit, predpos)
-
-# calculate the combined index and the combined SE
-fin$predind <-  fin$prob * fin$response    # estimated abundance is prob. of occurrence * estimated abundance when present
-fin$predse <- sqrt(comb.var(fin$response, fin$SE.1, fin$prob, fin$SE, co))
-
-fin$season.1 <- as.numeric(fin$season)
-fin$yrseas <- as.numeric(as.vector(fin$year)) + (fin$season.1-1)/4
-
-fin <- fin[order(fin$yrseas), ]
-
-plot(0, col = 0, xlim = c(1986, 2022), ylim = c(0, 18), las = 1, xlab = "", ylab = "standardized catch rate")
-lis <- levels(fin$arnew)
-cols <- rainbow(5)
-
-for (i in 1:5)  {
-  m <- which(fin$arnew == lis[i])
-  lines(fin$yrseas[m], fin$predind[m], col = cols[i])
-  points(fin$yrseas[m], fin$predind[m], col = cols[i])
-}
-legend("topright", lis, col = cols, lty = 1)
-
-  
-# plot to match Tom's plot ------------------------------
-
-scols <- rep(c("red", "green", "blue", "purple"), 37)
-par(mfcol = c(3, 2)) 
-
-lis <- levels(fin$arnew)
-lis <- lis[c(1:3, 5, 4)]
-
-for (i in 1:5)  {
-  m <- which(fin$arnew == lis[i])
-  plot(fin$yrseas[m], fin$predind[m], col = 8, type = "l", main = lis[i], 
-       xlab = "", ylab = "relative cpue", ylim = c(0, 20))
-  points(fin$yrseas[m], fin$predind[m], col = scols, pch = 19)
-}
-plot.new()
-legend("center", c("Winter", "Spring", "Summer", "Fall"),
-       col = scols[1:4], lty = 0, pch = 19)
 
 
 
@@ -509,6 +667,10 @@ for (i in lis)  {
   axis(2, las = 2); box()
   legend("topright", col = 1:5, rownames(mat), lty = 1, lwd = 2, bty = "n")
   }
+
+
+
+
 
 
 
