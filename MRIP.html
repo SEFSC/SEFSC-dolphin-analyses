@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-76f71e5f0df6013166adcff0c54b6e05.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a01ad134b821f094570d5f8adb318e63.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -266,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#partition-landings-by-area-and-sector" id="toc-partition-landings-by-area-and-sector" class="nav-link" data-scroll-target="#partition-landings-by-area-and-sector"><span class="header-section-number">3.3</span> Partition landings by area and sector</a></li>
   <li><a href="#looking-at-extent-of-discarding" id="toc-looking-at-extent-of-discarding" class="nav-link" data-scroll-target="#looking-at-extent-of-discarding"><span class="header-section-number">3.4</span> Looking at extent of discarding</a></li>
   <li><a href="#split-the-landings-by-season" id="toc-split-the-landings-by-season" class="nav-link" data-scroll-target="#split-the-landings-by-season"><span class="header-section-number">3.5</span> Split the landings by season</a></li>
+  <li><a href="#add-the-post-release-discard-mortality" id="toc-add-the-post-release-discard-mortality" class="nav-link" data-scroll-target="#add-the-post-release-discard-mortality"><span class="header-section-number">3.6</span> Add the post-release discard mortality</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/edit/main/MRIP.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/blob/main/MRIP.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -975,6 +976,9 @@ Rec_VBM    40081529  39968585</code></pre>
  1.013073  1.010336  1.001011  1.001524  1.021800  1.016696  1.002385  1.002826 </code></pre>
 </div>
 </div>
+</section>
+<section id="add-the-post-release-discard-mortality" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="add-the-post-release-discard-mortality"><span class="header-section-number">3.6</span> Add the post-release discard mortality</h2>
 <p>Lastly, we integrate post-release discard mortality into the total catch. MRIP reports dead discards not available for inspection within its B1 category, but there is also mortality in a proportion of fish that are released alive (B2 catch). The percent of fish released alive by year and area was calculated in section 3.4. These B2 catch estimates are only available in numbers, not weight, so in applying these percentages to the landings we must assume that fish released alive are on average the same weight as retained fish. Individual fish may be released alive if they are smaller in size or if they fall under the size limit (only Florida to South Carolina); hence it should be noted that this assumption could bias the post-release mortality estimates in weight high. We use the discard mortality rate of 0.25 as estimated by Rudershausen et al.&nbsp;(2019) and apply it to the percentage of live discards (B2 / total catch).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(findat)[<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">==</span> <span class="fu">names</span>(dismat)[<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>]  <span class="co"># check columns are the same</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
