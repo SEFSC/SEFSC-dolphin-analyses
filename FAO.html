@@ -265,7 +265,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#compare-fao-to-sau-database" id="toc-compare-fao-to-sau-database" class="nav-link" data-scroll-target="#compare-fao-to-sau-database"><span class="header-section-number">7.2</span> Compare FAO to SAU database</a></li>
   <li><a href="#create-a-new-maximum-landings-scenario-dataset" id="toc-create-a-new-maximum-landings-scenario-dataset" class="nav-link" data-scroll-target="#create-a-new-maximum-landings-scenario-dataset"><span class="header-section-number">7.3</span> Create a new maximum landings scenario dataset</a></li>
   <li><a href="#compare-landings-scenarios" id="toc-compare-landings-scenarios" class="nav-link" data-scroll-target="#compare-landings-scenarios"><span class="header-section-number">7.4</span> Compare landings scenarios</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.5</span> References</a></li>
+  <li><a href="#output-scenarios" id="toc-output-scenarios" class="nav-link" data-scroll-target="#output-scenarios"><span class="header-section-number">7.5</span> Output scenarios</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.6</span> References</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/edit/main/FAO.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/blob/main/FAO.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/SEFSC/SEFSC-dolphin-analyses/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -597,8 +598,41 @@ $YEAR
 </div>
 <p>The more recent data show that assumptions regarding levels of international catches vary quite widely depending on the data source. The maximum landings data suggest that catches have increased significantly from 1986 to 2011, followed by a substantial decrease with the most recent landings just below the average of the time series. The SAU data suggest an increase from 1986 to the late 1990s, with relatively stable landings over the last 20 years. Finally, the FAO data suggests an increase in the early years with a large peak in 2011, followed by a significant decline, with the most recent landings falling back to the late 1980s levels.</p>
 </section>
-<section id="references" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="references"><span class="header-section-number">7.5</span> References</h2>
+<section id="output-scenarios" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="output-scenarios"><span class="header-section-number">7.5</span> Output scenarios</h2>
+<p>For the management strategy evaluation, we build into the operating model multiple international landings scenarios to account for the wide uncertainty in international removals. The FAO time series (blue) versus the maximum landings scenario (green) provides good contrast in terms of the magnitude of removals as well as recent trends. We acknowledge that the FAO landings, which only include reported data, are likely an underestimate of true landings as there are likely to be unreported landings in this region. However, this scenario provides a more robust test of the management procedures, because lower international landings will result in changes to domestic U.S. fisheries having a greater influence on the stock.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fao1 <span class="ot">&lt;-</span> <span class="fu">t</span>(fao)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dim(fao1)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#dim(maxland)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># remove Canada and St. Pierre and Miquelon as these are already accounted for in the NED</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fao1 <span class="ot">&lt;-</span> fao1[, <span class="sc">-</span><span class="fu">grep</span>(<span class="st">"Canada"</span>, <span class="fu">colnames</span>(fao1))]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>maxland <span class="ot">&lt;-</span> maxland[, <span class="sc">-</span><span class="fu">grep</span>(<span class="st">"Canada"</span>, <span class="fu">colnames</span>(maxland))]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>maxland <span class="ot">&lt;-</span> maxland[, <span class="sc">-</span><span class="fu">grep</span>(<span class="st">"Pierre"</span>, <span class="fu">colnames</span>(maxland))]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>hi <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(maxland, <span class="at">na.rm =</span> T)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>lo <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(fao1, <span class="at">na.rm =</span> T)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>fin <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="dv">1950</span><span class="sc">:</span><span class="dv">2022</span>, lo, hi))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fin)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"year"</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     year      lo      hi
+1950 1950 2204620 2888241
+1951 1951 2204620 3011134
+1952 1952 2866006 3714998
+1953 1953 2866006 3765129
+1954 1954 2425082 3392490
+1955 1955 2425082 3453073</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output high and low scenarios for further compilation </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(fin, <span class="at">file =</span> <span class="st">"data/hi_lo_CAR_landings.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="references" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="references"><span class="header-section-number">7.6</span> References</h2>
 <p>FAO. (2024). Fisheries and Aquaculture Division: Global Capture Production 1950–2022 (Release 2024.1.0) [Data set]. Food and Agriculture Organization of the United Nations. https://www.fao.org/fishery/collection/capture/en</p>
 
 
