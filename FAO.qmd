@@ -131,7 +131,7 @@ The comparison of FAO versus SAU databases reveals notable differences and some 
 
 ## Create a new maximum landings scenario dataset
 
-Given the discrepancies revealed by the jurisdiction-level comparison, it seems likely that both SAU and FAO could potentially be missing key aspects of the international fishing. A maximum estimate of total international landings could be compiled by summarizing the maximum reported value of landings for each year, within each jurisdiction. We calculate these maxima at this resolution and recompile the data. 
+Given the discrepancies revealed by the jurisdiction-level comparison, it seems likely that both SAU and FAO could potentially be missing key aspects of the international fishing. A maximum estimate of total international landings could be compiled by summarizing the maximum reported value of landings for each year, within each jurisdiction. We calculate these maxima at this resolution and recompile the data. At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022, prior to calculating the maxima.  
 
 ```{r}
 #| echo: true

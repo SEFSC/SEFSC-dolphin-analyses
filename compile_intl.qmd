@@ -2,7 +2,7 @@
 
 ## Compile catch in CAR and NED jurisdictional waters by discards and reporting type
 
-Now that we have separated the EEZ catch by region, we will summarize it according to the areas used in the dolphin management strategy evaluation operating model. We will separate the catch by discards versus landings and reported versus unreported data so that we can use these data in various sensitivity analyses.  
+Now that we have separated the EEZ catch by region, we will summarize it according to the areas used in the dolphin management strategy evaluation operating model. For the Caribbean region, we have the high and low international catch scenarios that we compile for the sensitivity analyses in the operating model.  
 
 ```{r}
 #| echo: true
@@ -11,51 +11,26 @@ rm(list = ls())  # clear the workspace
 
 # load data
 load("data/outputs/SAU_EEZs_WCA.RData")  # SAU EEZ data for NED and NCA saved from earlier
-d <- dwest
 
-# summarize the catch by area, discards/landings and reported/unreported
-tapply(d$lbs, list(d$catch_type, d$reporting_status, d$reg), sum, na.rm = T)
+# summarize the catch by area and separate out Canadian landings
+tapply(dwest$lbs, dwest$reg, sum, na.rm = T)
 
-```
+dwest$year <- factor(dwest$year, levels = 1950:2019)
+dc <- dwest[which(dwest$reg == "Canadian EEZ"), ]
 
-The catch from the Canadian EEZs is 100% landings, with no unreported data and no discards. In the WCA there are no reported discards, only unreported discards.  Thus, we only need to separate out unreported discards and landings for the WCA.  
+CAN <- tapply(dc$lbs, dc$year, sum, na.rm = T)
+#tail(CAN)
 
-```{r}
-#| echo: true
-
-# summarize the catch by year, area, discards/landings and reported/unreported
-
-d$year <- factor(d$year, levels = 1950:2019)
-dc <- d[which(d$reg == "Canadian EEZ"), ]
-dw <- d[which(d$reg == "Western Central Atlantic EEZs"), ]
-
-#  remove those erroneous catches identified previously from the database prior to summarizing
-#dim(dw)
-dw <- dw[-which(dw$area_name == "Venezuela" & dw$fishing_entity == "Unknown Fishing Country"), ]
-dw <- dw[-which(dw$area_name == "Curaçao (Netherlands)" & dw$fishing_entity == "USA"), ]
-#dim(dw)
-
-CAN <- tapply(dc$lbs, list(dc$year, dc$catch_type, dc$reporting_status), sum, na.rm = T)
-tail(CAN)
-
-tab_dw <- tapply(dw$lbs, list(dw$year, dw$catch_type, dw$reporting_status), sum, na.rm = T)
-tail(tab_dw)
+# load Caribbean international landings scenarios 
+car_sc <- read.csv("data/hi_lo_CAR_landings.csv")
+car_sc <- car_sc[which(car_sc$year >= 1986), ]    # only need data 1986 and onwards
+head(car_sc)
 
 # combine CAR reported landings, unreported discards, unreported landings
-CAR <- data.frame(cbind(tab_dw[, 2, 1], tab_dw[, , 2]))  
-names(CAR) <- c("landings", "discards", "unreported")
-
-matplot(rownames(CAR), cbind(CAN, CAR)/10^6, type = "l", lwd = 2, lty = 1, col = 2:5,
-        xlab = "", ylab = "total catch (millions of pounds)",
-        main = "Total dolphinfish catches in NED and NCA jurisdictional waters")
-legend("topleft", col = 2:5, c("Canadian reported landings", "Caribbean landings", 
-                    "Caribbean discards", "Caribbean unreported landings"), lty = 1, lwd = 3, bty = "n")
-
-round(sum(CAR$discards, na.rm = T) / (sum(CAR$discards, na.rm = T) + sum(CAR$landings, na.rm = T)) * 100, 2)  # discards are 0.6% of landings
+CARlo <- car_sc$lo
+CARhi <- car_sc$hi
 
 ```
-
-Note that the Caribbean unreported discards in the database are negligible (< 1%) and we exclude them from further analysis.  
 
 ## Distribute the territorial international catches across quarters of the year
 
@@ -63,20 +38,15 @@ The international catches are only reported as annual catches and do not have an
 
 The pelagic longline logbook data is only available going back to 1997, but there are Caribbean catches extending back to the 1950s. To interpolate the seasonality for 1986 - 1996, we take the average seasonality of the oldest 10 years of logbook data (1997 - 2006) and use those averages for the unknown years.  
 
-At the time of analysis, the SAU database only contained catches to 2019, so we interpolated the 2019 values to cover years 2020 - 2022.  
-
 ```{r}
 #| echo: true
-
-#par(mar = c(5, 10, 3, 1))
-#barplot(tapply(dw$lbs, dw$gear_type, sum, na.rm = T), horiz = T, las = 2)
-#barplot(tapply(dc$lbs, dc$gear_type, sum, na.rm = T), horiz = T, las = 2)
 
 # read in the percentage of the catch by area and year-quarter combinations from the U.S. PLL
 load("data/outputs/per_PLLcatch_by_area_yearquarter.RData")  
 
 names(percatch[1, 1, ]) # matrix 2 == Caribbean, matrix 7 == NED (Atlantic Northwest)
 
+# parse Canada data into quarters
 CAN <- CAN[which(rownames(CAN) >= 1997)]  # PLL data are only available from 1997 on 
 CAN <- c(CAN, CAN[length(CAN)], CAN[length(CAN)], CAN[length(CAN)])  # interpolate 2019 catches for 2020-2022
 
@@ -89,26 +59,22 @@ int <- rowMeans(percatch_car[, 1:10]) # calculate the average seasonality using 
 percatch_car <- cbind(matrix(rep(int, length(1986:1996)), nrow = 4), percatch_car)  # attach those 10-year averages to years 1986:1996
 colnames(percatch_car) <- 1986:2022   # full data frame for Caribbean seasonality 1986 - 2022
 
-CAR <- CAR[which(rownames(CAR) >= 1986), ]  # only need Caribbean data from 1986 on 
-CAR <- rbind(CAR, CAR[nrow(CAR), ], CAR[nrow(CAR), ], CAR[nrow(CAR), ])  # interpolate 2019 catches for 2020-2022
+length(CARlo)
+dim(percatch_car)
 
-#dim(CAR)
-#dim(percatch_car)
-
-CARrep <- percatch_car   # create matrices for final catch data
-CARunr <- percatch_car
+CARlo_qrt <- percatch_car   # create matrices for final catch data
+CARhi_qrt <- percatch_car
 
 for (i in 1:ncol(percatch_car))  { 
-  CARrep[, i] <- percatch_car[, i] * CAR[i, 1]
-  CARunr[, i] <- percatch_car[, i] * CAR[i, 3]
+  CARlo_qrt[, i] <- percatch_car[, i] * CARlo[i]
+  CARhi_qrt[, i] <- percatch_car[, i] * CARhi[i]
 }
 
 # ensure sums are equal after parsing
-sum(CARrep); sum(CAR$landings)
-sum(CARunr); sum(CAR$unreported)
+sum(CARlo_qrt); sum(CARlo)
+sum(CARhi_qrt); sum(CARhi)
 sum(CAN, na.rm = T); sum(CANqrt, na.rm = T)
 ```
-
 The Canada jurisdictional data need to be combined with the NED high seas data calculated in the previous section, because both of these are a component of the international catches in the NED area. 
 
 ```{r}
@@ -123,17 +89,19 @@ sum(NED, na.rm = T) + sum(CANqrt, na.rm = T); sum(NEDtot, na.rm = T)
 NEDtot <- NEDtot[, !is.na(colSums(NEDtot))] # remove NA columns from CAN data
 
 # plot the parsed out data by year-quarter
-yrs <- sort(rep(as.numeric(colnames(CARrep)), 4))
+yrs <- sort(rep(as.numeric(colnames(CARlo_qrt)), 4))
 qrt <- rep(1:4, length(yrs)/4)
 yrs1 <- sort(rep(as.numeric(colnames(NEDtot)), 4))
 qrt1 <- rep(1:4, length(yrs1)/4)
 
-matplot(yrs + qrt/4, cbind(matrix(CARrep), matrix(CARunr))/10^6, lty = 1, lwd = 2, 
+matplot(yrs + qrt/4, cbind(matrix(CARhi_qrt), matrix(CARlo_qrt))/10^6, lty = 1, lwd = 2, 
         col = 2:3, type = "l", main = "International jurisdictional catches by quarter", 
         xlab = "", ylab = "total catch (millions of pounds)")
 lines(yrs1 + qrt1/4, as.numeric(matrix(NEDtot))/10^6, lwd = 2, col = 4)
-legend("topleft", c("Caribbean reported landings", "Caribbean unreported landings", "NED reported landings"),        
+legend("topleft", c("Caribbean landings - high scenario", 
+                    "Caribbean landings - low scenario", "NED reported landings"),        
        lwd = 2, col = 2:4, bty = "n")
+
 ```
 Finally, we format the data in the format for input into the operating model. 
 
@@ -143,23 +111,30 @@ Finally, we format the data in the format for input into the operating model.
 # format for operating model - Caribbean 
 flt <- rep("Intl", length(yrs))
 are <- rep("CAR", length(yrs))
-fin1 <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARrep)))
-flt <- rep("UnRep", length(yrs))
-fin2 <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARunr)))
 
-findat <- data.frame(rbind(fin1, fin2), stringsAsFactors = FALSE)
-names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
-findat$Catch_lbs <- as.numeric(findat$Catch_lbs)
-head(findat)
+# high and low landings scenarios
+finhi <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARhi_qrt)))
+finlo <- data.frame(cbind(yrs, qrt, flt, are, matrix(CARlo_qrt)))
 
-#plot(findat$Catch_lbs, type = "l")
-#plot(findat$Catch_lbs ~ factor(findat$Fleet))
-#plot(findat$Catch_lbs ~ factor(findat$Quarter))
-#plot(findat$Catch_lbs ~ factor(findat$Year))
-#apply(findat, 2, table)
+# format final matrices
+names(finhi) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
+finhi$Catch_lbs <- as.numeric(finhi$Catch_lbs)
+head(finhi)
 
-# write the output file
-write.csv(findat, file = "data/FINAL_files/CAR_Intl_unrep_TomFormat.csv", row.names = FALSE)
+names(finlo) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
+finlo$Catch_lbs <- as.numeric(finlo$Catch_lbs)
+head(finlo)
+
+#par(mfrow = c(2, 2))
+#plot(finhi$Catch_lbs, type = "l")
+#plot(finhi$Catch_lbs ~ factor(finhi$Fleet))
+#plot(finhi$Catch_lbs ~ factor(finhi$Quarter))
+#plot(finhi$Catch_lbs ~ factor(finhi$Year))
+#apply(finhi, 2, table)
+
+# write the output files for both scenarios
+write.csv(finhi, file = "data/FINAL_files/CAR_Intl_hi_TomFormat.csv", row.names = FALSE)
+write.csv(finlo, file = "data/FINAL_files/CAR_Intl_lo_TomFormat.csv", row.names = FALSE)
 
 # format for operating model - NED 
 flt <- rep("Intl", length(yrs1))
