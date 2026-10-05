@@ -232,7 +232,36 @@ legend("bottomright", c("maximum of either SAU or FAO", "SAU (Sea Around Us)",
                    "FAO (Food and Agriculture Organization)", "average over time series"), 
        col = c(3, 2, 4, "#00000030"), lty = c(1, 1, 1, 3), lwd = c(2, 2, 2, 3), bty = "n")
 ```
-The more recent data show that assumptions regarding levels of international catches vary quite widely depending on the data source.  The maximum landings data suggest that catches have increased significantly from 1986 to 2011, followed by a substantial decrease with the most recent landings just below the average of the time series. The SAU data suggest an increase from 1986 to the late 1990s, with relatively stable landings over the last 20 years. Finally, the FAO data suggests an increase in the early years with a large peak in 2011, followed by a significant decline, with the most recent landings falling back to the late 1980s levels.  
+The more recent data show that assumptions regarding levels of international catches vary quite widely depending on the data source.  The maximum landings data suggest that catches have increased significantly from 1986 to 2011, followed by a substantial decrease with the most recent landings just below the average of the time series. The SAU data suggest an increase from 1986 to the late 1990s, with relatively stable landings over the last 20 years. Finally, the FAO data suggests an increase in the early years with a large peak in 2011, followed by a significant decline, with the most recent landings falling back to the late 1980s levels. 
+
+## Output scenarios
+
+For the management strategy evaluation, we build into the operating model multiple international landings scenarios to account for the wide uncertainty in international removals. The FAO time series (blue) versus the maximum landings scenario (green) provides good contrast in terms of the magnitude of removals as well as recent trends. We acknowledge that the FAO landings, which only include reported data, are likely an underestimate of true landings as there are likely to be unreported landings in this region. However, this scenario provides a more robust test of the management procedures, because lower international landings will result in changes to domestic U.S. fisheries having a greater influence on the stock.
+
+```{r}
+#| echo: true
+
+fao1 <- t(fao)
+
+#dim(fao1)
+#dim(maxland)
+
+# remove Canada and St. Pierre and Miquelon as these are already accounted for in the NED
+fao1 <- fao1[, -grep("Canada", colnames(fao1))]
+maxland <- maxland[, -grep("Canada", colnames(maxland))]
+maxland <- maxland[, -grep("Pierre", colnames(maxland))]
+
+hi <- rowSums(maxland, na.rm = T)
+lo <- rowSums(fao1, na.rm = T)
+
+fin <- data.frame(cbind(1950:2022, lo, hi))
+names(fin)[1] <- "year"
+head(fin)
+
+# output high and low scenarios for further compilation 
+write.csv(fin, file = "data/hi_lo_CAR_landings.csv", row.names = FALSE)
+
+```
 
 ## References
 

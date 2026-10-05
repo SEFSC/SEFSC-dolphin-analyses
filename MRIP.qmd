@@ -13,6 +13,15 @@ Data are downloaded directly from the Miami server using the files provided to S
 # clear workspace
 rm(list = ls())
 
+# libraries
+#library(ROracle)
+
+#con = dbConnect(dbDriver("Oracle"), username = keyring::key_list("SECPR")[1,2],
+#                password = keyring::key_get("SECPR", keyring::key_list("SECPR")[1,2]), dbname = "SECPR")
+
+#dat <- dbGetQuery(con, "SELECT *
+#                     FROM rdi.V_REC_ACL_MRIP_FES_IMP@secapxdv_dblk.sfsc.noaa.gov")
+
 # read in data file
 load("data/mrip_fes_rec81_25wv2_23June25.RData")  # most recent file on SFD server
 head(dat)
@@ -170,7 +179,12 @@ matplot(rownames(dis), cbind(dis[, , 1], dis[, , 2]), lty = c(rep(2, 4), rep(1, 
 legend("top", c(paste("For hire - ", colnames(dis)), paste("Private - ", colnames(dis))), 
        lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
 
+cat("Discarding rates by region and sector - all years:\n")
 round(disr * 100, 2)  # discarding rates by region and sector
+cat("Discarding rates by region and sector - last 5 years:\n")
+round(colMeans(tail(dis, 5)) * 100, 2)  # discarding rates by region and sector - last 5 years
+cat("Discarding rates by region and sector - most recent year:\n")
+round(colMeans(tail(dis, 1)) * 100, 2)  # discarding rates by region and sector - most recent year
 
 # output discarding rates for later use
 dismat <- data.frame(rownames(dis), dis[, , 1], dis[, , 2])
@@ -309,7 +323,7 @@ Lastly, we integrate post-release discard mortality into the total catch. MRIP r
 
 ```{r}
 #| echo: true
-#| fig-height: 15
+#| fig-height: 12
 
 names(findat)[3:10] == names(dismat)[2:9]  # check columns are the same
 
