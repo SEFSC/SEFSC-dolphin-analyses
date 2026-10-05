@@ -4,6 +4,8 @@ In this last step we will compile all of the output data files from the differen
 
 Recall that there are seven defined areas in the operating model, over which the landings are summed. Four of these areas are within the U.S. EEZ and the other three areas are international waters (high seas and jurisdictional waters of other countries).
 
+** Later due to computational issues in resolving the very fine spatial scales, we collapsed the seven areas into five areas, combining CAR + FLK into one area and NNC + VBM into another area.  
+
 ![Areas defined in the operating model.](data/eez/new_spatial_zones1.png)
 
 ## Data upload
@@ -19,46 +21,61 @@ rm(list = ls())
 # view data files in directory
 dir("data/FINAL_files/")
 
-intc <- read.csv("data/FINAL_files/CAR_Intl_unrep_TomFormat.csv")
+scenario <- "high"
+
+if (scenario == "high") { intc <- read.csv("data/FINAL_files/CAR_Intl_hi_TomFormat.csv") } # high intl scenario
+if (scenario == "low")  { intc <- read.csv("data/FINAL_files/CAR_Intl_lo_TomFormat.csv") } # low intl scenario
+
 intn <- read.csv("data/FINAL_files/NCA_Intl_TomFormat.csv")
 intw <- read.csv("data/FINAL_files/NED_Intl_TomFormat.csv")
 com <- read.csv("data/FINAL_files/commercial_TomFormat.csv")
 rec <- read.csv("data/FINAL_files/rec_catch_TomFormat.csv")
 ```
-
-This file contains all international landings and unreported catches for the greater Caribbean region (jurisdictional waters of all countries). Recall that estimated discards were very small (\< 1%) and were removed from the summary.
+The "CAR_Intl_hi_TomFormat.csv" file contains all international landings and unreported catches for the greater Caribbean region (jurisdictional waters of all countries). This includes unreported data and discards, which were very small (\< 1%). Recall that we consider two scenarios: a high and a low international removals scenario. For the visualization here we use the high catch scenario. 
 
 ```{r}
 #| echo: true
 apply(intc[1:4], 2, table, useNA = "always")
+intc$Area <- "FLKCAR"
 ```
 
-This file contains all international landings for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.
+The "NCA_Intl_TomFormat.csv" file contains all international landings for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.
 
 ```{r}
 #| echo: true
 apply(intn[1:4], 2, table, useNA = "always")
 ```
 
-This file contains all international landings for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas landings, as well as landings from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.
+The "NED_Intl_TomFormat.csv" file contains all international landings for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas landings, as well as landings from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.
 
 ```{r}
 #| echo: true
 apply(intw[1:4], 2, table, useNA = "always")
 ```
 
-This file contains all landings for the U.S. commercial fleet, including landings from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (\< 2%) and were removed from the summary.
+The "commercial_TomFormat.csv" file contains all landings for the U.S. commercial fleet, including landings from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (\< 2%) and were removed from the summary.
 
 ```{r}
 #| echo: true
 apply(com[1:4], 2, table, useNA = "always")
+
+com$Area[which(com$Area == "CAR")] <- "FLKCAR"
+com$Area[which(com$Area == "FLK")] <- "FLKCAR"
+com$Area[which(com$Area == "NNC")] <- "NNCVBM"
+com$Area[which(com$Area == "VBM")] <- "NNCVBM"
+table(com$Area, useNA = "always")
 ```
 
-This file contains all landings for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region.
+The "rec_catch_TomFormat.csv" file contains all landings for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region. This file also includes dead discards, which were calculated from the database by year and region and added into the total catch.  
 
 ```{r}
 #| echo: true
 apply(rec[1:4], 2, table, useNA = "always")
+
+rec$Area[which(rec$Area == "FLK")] <- "FLKCAR"
+rec$Area[which(rec$Area == "NNC")] <- "NNCVBM"
+rec$Area[which(rec$Area == "VBM")] <- "NNCVBM"
+table(rec$Area, useNA = "always")
 ```
 
 Now we combine the data files and create some figures with the final composite data file.
@@ -72,8 +89,8 @@ d <- rbind(intc, intn, intw, com, rec)
 table(d$Catch_lbs == 0)
 
 # resort levels geographically
-d$Area <- factor(d$Area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
-d$Fleet <- factor(d$Fleet, levels = c("Rec", "Hire", "UScom", "Intl", "UnRep"))
+d$Area <- factor(d$Area, levels = c("NCA", "FLKCAR", "NCFL", "NNCVBM", "NED"))
+d$Fleet <- factor(d$Fleet, levels = c("Rec", "Hire", "UScom", "Intl"))
 ```
 
 ## Visualizing the final data set
@@ -101,11 +118,11 @@ The total landings in the regions analyzed is highly variable but relatively sta
 ```{r}
 #| echo: true
 #| fig-height: 4
+cols <- c("blue", "deepskyblue", "chartreuse3", "red")
 
 par(mfrow = c(1, 1), mar = c(2, 5, 3, 1))
 tab <- tapply(d$Catch_lbs, list(d$Fleet, d$Area), sum, na.rm = T)/10^6
-barplot(tab, beside = T, col = c("navy", "blue", "darkturquoise", "red", "pink")
-        , legend = rownames(tab),
+barplot(tab, beside = T, col = cols, legend = rownames(tab),
         main = "Total dolphin landings by area and fleet", 
         ylab = "total landings (millions of pounds)")
 ```
@@ -118,7 +135,7 @@ tab <- tapply(d$Catch_lbs, list(d$Quarter, d$Area), sum, na.rm = T)/10^6
 tabp <- apply(tab, 2, function(x) x / sum(x, na.rm = T))
 
 par(mar = c(2, 4, 3, 1))
-barplot(tabp, beside = T, col = rainbow(4, end = 0.8), 
+barplot(tabp, beside = T, col = c("#8CD3DF", "#78B781", "#FFC107", "#A33851"), 
         legend = c("winter (DJF)", "spring (MAM)", "summer (JJA)", "fall (SON)"), 
         args.legend = list(x = 15, y = 0.7, bty = "n"), 
         main = "Total dolphin landings by area and season", 
@@ -131,27 +148,28 @@ This plot shows the seasonal movements of dolphin across the different regions, 
 #| echo: true
 
 tab <- tapply(d$Catch_lbs, list(d$Year, d$Fleet), sum, na.rm = T)/10^6
-
+  
 par(mar = c(2, 4, 3, 1))
 matplot(rownames(tab), tab, 
-        col = c("navy", "blue", "darkturquoise", "red", "pink"), 
+        col = cols, 
         type = "l", lwd = 2, lty = c(rep(1, 3), 2, 2), 
         main = "Total annual dolphin landings by fleet", xlab = "",
         ylab = "total landings (millions of pounds)")
-legend(2002, 25, lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
+legend(2000, 27, lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
        c("U.S. private rec", "U.S. for-hire", "U.S. commercial", 
-         "International", "Unreported"),
-       col = c("navy", "blue", "darkturquoise", "red", "pink"))
+         "International"),
+       col = cols)
 ```
-
 This plot shows the time series of total annual dolphin landings by fleet. We can compare these figures with the plots from the previous chapters to ensure the data were processed correctly. The magnitude and variability of the landings match the expectations.
 
 ```{r}
 #| echo: true
 
 # output the final concatenated data file
-write.csv(d, file = "data/FINAL_files/complete_catch_dataset_09052025b.csv", row.names = FALSE)
-
+if (scenario == "high") { 
+  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_100526_high.csv", row.names = FALSE)  } # high intl scenario
+if (scenario == "low")  { 
+  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_100526_low.csv", row.names = FALSE) } # low intl scenario
 
 d1 <- d[which(d$Year == 2022), ]
 d1$ar2 <- ""
@@ -166,6 +184,3 @@ round(tapply(d1$Catch_lbs, d1$cat, sum, na.rm = T)/10^6/2.205, 3)
 
 
 ```
-
-
-
