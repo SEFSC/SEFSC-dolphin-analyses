@@ -80,12 +80,17 @@ d$cpue <- d$DOLPHIN_POUNDS / d$HOOKS
 d$cpue[which(d$cpue == "Inf")] <- NA
 
 d$DISCTOT <- (d$DOLA + d$DOLD) / d$DOLTOT   # calculate discard rate
+d$DISCLIVE <- d$DOLA / d$DOLTOT             # calculate dead discard rate
 d$DISCDEAD <- d$DOLD / d$DOLTOT             # calculate dead discard rate
 
 hist(d$DISCTOT, main = "rate of discarding (proportion)")
 mean(d$DISCTOT, na.rm = T) * 100  # total discarding rate is 2.9%
+hist(d$DISCLIVE, main = "rate of live discarding (proportion)")
+mean(d$DISCLIVE, na.rm = T) * 100 # live discarding rate is 1.47%
 hist(d$DISCDEAD, main = "rate of dead discarding (proportion)")
-mean(d$DISCDEAD, na.rm = T) * 100 # dead discarding rate is 1.4%
+mean(d$DISCDEAD, na.rm = T) * 100 # dead discarding rate is 1.43%
+
+(mean(d$DISCLIVE, na.rm = T) * 0.25 + mean(d$DISCDEAD, na.rm = T)) * 100  # total discard mortality = 1.8%
 
 d$area <- factor(d$area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
 
@@ -489,6 +494,17 @@ findat <- data.frame(yrs, qrt, flt, labs, matrix(tab3))
 findat
 names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
 
+nodisc <- findat$Catch_lbs
+
+# add the dead discards based on rate calculated in first section 
+# catch with discards is 1.018 times catch with no discards 
+disc <- findat$Catch_lbs * 1.018
+sum(disc)
+sum(findat$Catch_lbs)
+(sum(disc) -  sum(findat$Catch_lbs)) / sum(findat$Catch_lbs) * 100
+
+# ADD DISCARDS INTO FINAL NUMBERS !!!!!!!!!!!!!!!!!!!!
+findat$Catch_lbs <- disc
 head(findat)
 
 plot(findat$Catch_lbs, type = "l")
@@ -496,16 +512,17 @@ plot(findat$Catch_lbs ~ factor(findat$Area))
 plot(findat$Catch_lbs ~ factor(findat$Quarter))
 plot(findat$Catch_lbs ~ factor(findat$Year))
 
-findat <- findat[which(findat$Year <= 2022), ]
+#findat <- findat[which(findat$Year <= 2022), ]
 
 apply(findat, 2, table, useNA = "always")
 
 dorig <- dorig[which(dorig$YEAR <= 2022), ]
 check1 <- tapply(dorig$WW, dorig$YEAR, sum, na.rm = T)
-check2 <- tapply(findat$Catch_lbs, findat$Year, sum, na.rm = T)
+check2 <- tapply(nodisc, findat$Year, sum, na.rm = T)[1:37]
 plot(check1, check2)
 round(check1 / check2, 2)  # note these should be slightly different because December landings moved to following year
 
+# OUTPUT FINAL DATA FILE  ---------------------
 write.csv(findat, file = "data/FINAL_files/commercial_TomFormat.csv", row.names = FALSE)
 
 findat$Area <- factor(findat$Area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))

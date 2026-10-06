@@ -21,7 +21,7 @@ rm(list = ls())
 # view data files in directory
 dir("data/FINAL_files/")
 
-scenario <- "high"
+scenario <- "low"
 
 if (scenario == "high") { intc <- read.csv("data/FINAL_files/CAR_Intl_hi_TomFormat.csv") } # high intl scenario
 if (scenario == "low")  { intc <- read.csv("data/FINAL_files/CAR_Intl_lo_TomFormat.csv") } # low intl scenario
