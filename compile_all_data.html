@@ -316,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [7] "NED_Intl_TomFormat.csv"                
 [8] "rec_catch_TomFormat.csv"               </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>scenario <span class="ot">&lt;-</span> <span class="st">"high"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>scenario <span class="ot">&lt;-</span> <span class="st">"low"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (scenario <span class="sc">==</span> <span class="st">"high"</span>) { intc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/FINAL_files/CAR_Intl_hi_TomFormat.csv"</span>) } <span class="co"># high intl scenario</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (scenario <span class="sc">==</span> <span class="st">"low"</span>)  { intc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/FINAL_files/CAR_Intl_lo_TomFormat.csv"</span>) } <span class="co"># low intl scenario</span></span>
@@ -420,23 +420,23 @@ $Area
   28   28   28   28   28   28   28   28   28   28   28   28   28   28   28   28 
 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 
   28   28   28   28   28   28   28   28   28   28   28   28   28   28   28   28 
-2018 2019 2020 2021 2022 &lt;NA&gt; 
-  28   28   28   28   28    0 
+2018 2019 2020 2021 2022 2023 2024 &lt;NA&gt; 
+  28   28   28   28   28   28    7    0 
 
 $Quarter
 
    1    2    3    4 &lt;NA&gt; 
- 259  259  259  259    0 
+ 273  266  266  266    0 
 
 $Fleet
 
 UScom  &lt;NA&gt; 
- 1036     0 
+ 1071     0 
 
 $Area
 
  CAR  FLK  NCA NCFL  NED  NNC  VBM &lt;NA&gt; 
- 148  148  148  148  148  148  148    0 </code></pre>
+ 153  153  153  153  153  153  153    0 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>com<span class="sc">$</span>Area[<span class="fu">which</span>(com<span class="sc">$</span>Area <span class="sc">==</span> <span class="st">"CAR"</span>)] <span class="ot">&lt;-</span> <span class="st">"FLKCAR"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>com<span class="sc">$</span>Area[<span class="fu">which</span>(com<span class="sc">$</span>Area <span class="sc">==</span> <span class="st">"FLK"</span>)] <span class="ot">&lt;-</span> <span class="st">"FLKCAR"</span></span>
@@ -446,7 +446,7 @@ $Area
 <div class="cell-output cell-output-stdout">
 <pre><code>
 FLKCAR    NCA   NCFL    NED NNCVBM   &lt;NA&gt; 
-   296    148    148    148    296      0 </code></pre>
+   306    153    153    153    306      0 </code></pre>
 </div>
 </div>
 <p>The “rec_catch_TomFormat.csv” file contains all landings for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region. This file also includes dead discards, which were calculated from the database by year and region and added into the total catch.</p>
@@ -497,7 +497,7 @@ FLKCAR   NCFL NNCVBM   &lt;NA&gt;
 <div class="cell-output cell-output-stdout">
 <pre><code>
 FALSE  TRUE 
- 1904   632 </code></pre>
+ 1920   651 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># resort levels geographically</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Area <span class="ot">&lt;-</span> <span class="fu">factor</span>(d<span class="sc">$</span>Area, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"NCA"</span>, <span class="st">"FLKCAR"</span>, <span class="st">"NCFL"</span>, <span class="st">"NNCVBM"</span>, <span class="st">"NED"</span>))</span>
@@ -604,7 +604,7 @@ FALSE  TRUE
 <span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(d1<span class="sc">$</span>Catch_lbs, d1<span class="sc">$</span>cat, sum, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span><span class="sc">/</span><span class="fl">2.205</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Hire HireS  Intl   Rec  RecS UScom 
-0.509 0.044 6.337 2.784 1.248 0.104 </code></pre>
+0.509 0.044 2.513 2.784 1.248 0.106 </code></pre>
 </div>
 </div>
 
