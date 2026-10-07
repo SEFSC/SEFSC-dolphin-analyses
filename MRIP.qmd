@@ -14,16 +14,18 @@ Data are downloaded directly from the Miami server using the files provided to S
 rm(list = ls())
 
 # libraries
-#library(ROracle)
+library(ROracle)
+library(keyring)
 
-#con = dbConnect(dbDriver("Oracle"), username = keyring::key_list("SECPR")[1,2],
-#                password = keyring::key_get("SECPR", keyring::key_list("SECPR")[1,2]), dbname = "SECPR")
+#con = dbConnect(dbDriver("Oracle"), username = keyring::key_list()[1,2],
+#                password = key_get("mandy.karnauskas@noaa.gov", keyring::key_list()[1,2]),
+#                dbname = "SECPR")
 
 #dat <- dbGetQuery(con, "SELECT *
 #                     FROM rdi.V_REC_ACL_MRIP_FES_IMP@secapxdv_dblk.sfsc.noaa.gov")
 
 # read in data file
-load("data/mrip_fes_rec81_25wv2_23June25.RData")  # most recent file on SFD server
+dat <- readRDS("data/rec_data_for_mandy.rds")
 head(dat)
 
 #apply(dat[2:18], 2, table, useNA = "always")
@@ -34,7 +36,11 @@ table(dat$NEW_SCI[grep("dolphin", dat$NEW_COM)])
 
 d <- dat[which(dat$NEW_COM == "dolphin"), ]
 #apply(d[2:18], 2, table, useNA = "always")
-d <- d[which(d$YEAR < 2025), ]    # take out 2025 because incomplete year   
+
+d <- d[which(d$YEAR <= 2024), ]    # set terminal year here
+
+d <- d[which(d$COUNCILREG != 11), ]   # take out PR catches
+
 tot <- tapply(d$LBSEST_SECWWT, d$YEAR, sum, na.rm = T)
 
 ```
@@ -68,10 +74,11 @@ tot1 <- tapply(d1$LBSEST_SECWWT, d1$YEAR, sum, na.rm = T)
 #head(tot1)
 
 old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
-plot(old$Year, old$ATL, type = "l", xlab = "year", ylab = "total landings (pounds)", lwd = 4, 
-     xlim = c(1980, 2025), ylim = c(7*10^6, 3.3*10^7), bty = "n")
-lines(as.numeric(names(tot1)), tot1, lwd = 2, col = 2, lty = 2)
-legend("topright", c("previous data", "new data"), col = c(1, 2), lwd = c(4, 2), lty = c(1, 2))
+plot(old$Year, old$ATL/10^6, type = "l", xlab = "year", 
+     ylab = "total landings (millions of pounds)", lwd = 3, 
+     xlim = c(1980, 2025), ylim = c(0, 33), bty = "n")
+lines(as.numeric(names(tot1)), tot1/10^6, lwd = 2, col = 2, lty = 1)
+legend("topright", c("previous data", "new data"), col = c(1, 2), lwd = c(3, 2), lty = c(1, 1), bty = "n")
 
 ```
 
@@ -100,6 +107,7 @@ d1$region[which(d1$FL_REG == 3 | d1$FL_REG == 4)] <- "FLK"
 d1$region[which(d1$FL_REG == 5)] <- "NCFL"
 lis <- c("SC", "GA", "FLE/GA")           # NCFL states
 d1$region[which(d1$NEW_STA %in% lis)] <- "NCFL"
+
 # NC_REG codes: N: North of Cape Hatteras; S: South of Cape Hatteras
 table(d1$NC_REG, d1$NEW_STA, useNA = "always")
 d1$region[which(d1$NC == "S")] <- "NCFL"
@@ -150,7 +158,8 @@ head(fin)
 matplot(rownames(fin), fin/10^6, lty = c(rep(2, 4), rep(1, 4)), 
         col = rep(1:4, 2), type = "l", lwd = 2, 
         xlab = "year", ylab = "total landings (millions of pounds)")
-legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), lwd = 2, ncol = 2, bty = "n")
+legend("top", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), 
+       lwd = 2, ncol = 2, bty = "n", cex = 0.8)
 
 # check that totals match
 cor(rowSums(fin, na.rm = T), tot1)
@@ -220,7 +229,6 @@ head(f)   # table with landings separated by wave and year
 f[is.na(f)] <- 0
 
 f <- f[which(f$YEAR >= 1985), ]
-f <- f[which(f$YEAR <= 2024), ]
 
 table(f$YEAR)
 table(f$WAVE)  
@@ -232,7 +240,7 @@ avw <- avw[-1, , ]
 avw <- data.frame(cbind(avw[, , 1], avw[, , 2]))
 names(avw) <- c("Hire_FLK", "Hire_NCFL", "Hire_NNC", "Hire_VBM", "Rec_FLK", "Rec_NCFL", "Rec_NNC", "Rec_VBM")
 avwp <- apply(avw, 2, function (x) x / sum(x, na.rm = T)) 
-#colSums(avwp)
+#colSums(avwp, na.rm = T)
 
 # go through each column, find NAs and fill in waves by percentages
 pre_colsum <- colSums(f, na.rm = T)  # column sums to check later
@@ -243,7 +251,8 @@ for (i in 1:8) {      # loop through each column
   for(j in lis) {     # loop through list of NA waves
     if (f[j, i] > 0) {  # if there are NA wave landings, split by known proportion from other years
       miscatch <- avwp[, i] * f[j, i]   # missing landings are known proportion * NA wave landings
-      f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] <- f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] + miscatch  # add in missing landings
+      f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] <- 
+        f[which(f$YEAR == f$YEAR[j] & f$WAVE != 0), i] + miscatch  # add in missing landings
       f[j, i] <- 0   # set to zero after landings is attributed to waves
     }
   }
@@ -298,6 +307,8 @@ findat <- data.frame(sort(rep(as.numeric(colnames(temp)), 4)),
 names(findat) <- c("year", "season", names(f)[1:8])
 
 colSums(f[, 1:8], na.rm = T) == colSums(findat[, 3:10], na.rm = T)  # check that total landings are equal before and after parsing
+
+findat <- findat[- which(findat$year == max(findat$year)), ]  # take out partial year that was created with Dec rolling over last year
 ```
 
 We plot the results by region and sector, over the time series of year and season. We can clearly see the seasonality in the landings by region.
@@ -327,7 +338,6 @@ Lastly, we integrate post-release discard mortality into the total catch. MRIP r
 
 names(findat)[3:10] == names(dismat)[2:9]  # check columns are the same
 
-findat <- findat[which(findat$year < 2025), ]
 findat_disc <- findat
 
 # loop through rows and apply discarding rate * 0.25 discard mortality rate
@@ -397,14 +407,14 @@ head(findat1)
 #plot(findat1$Catch_lbs ~ factor(findat1$Quarter))
 #plot(findat1$Catch_lbs ~ factor(findat1$Year))
 
-findat1 <- findat1[which(findat1$Year <= 2022), ]
 findat1 <- findat1[which(findat1$Year >= 1986), ]
 #apply(findat1, 2, table)
 
-findat <- findat[which(findat$year >=1986 & findat$year <= 2022), ]
+findat_disc <- findat_disc[which(findat_disc$year >= 1986), ]
+
 #check that the numbers are exactly the same
-tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)
-colSums(findat[3:10], na.rm = T)
+cbind(as.vector(tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)), 
+as.vector(colSums(findat_disc[3:10], na.rm = T)))
 
 # output final numbers in correct format
 write.csv(findat1, file = "data/FINAL_files/rec_catch_TomFormat.csv", row.names = FALSE)

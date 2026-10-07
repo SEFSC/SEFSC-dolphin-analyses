@@ -4,7 +4,9 @@ In this last step we will compile all of the output data files from the differen
 
 Recall that there are seven defined areas in the operating model, over which the landings are summed. Four of these areas are within the U.S. EEZ and the other three areas are international waters (high seas and jurisdictional waters of other countries).
 
-** Later due to computational issues in resolving the very fine spatial scales, we collapsed the seven areas into five areas, combining CAR + FLK into one area and NNC + VBM into another area.  
+** Later due to computational issues in resolving the very fine spatial scales, we collapsed the seven areas into five areas, combining CAR + FLK into one area and NNC + VBM into another area. 
+
+__*** Note that the magnitudes of the recreational catch estimates changed substantially in an October 2026 update, due to revised FES estimates. The most recent data were pulled and are shown here.__
 
 ![Areas defined in the operating model.](data/eez/new_spatial_zones1.png)
 
@@ -21,7 +23,7 @@ rm(list = ls())
 # view data files in directory
 dir("data/FINAL_files/")
 
-scenario <- "low"
+scenario <- "high"
 
 if (scenario == "high") { intc <- read.csv("data/FINAL_files/CAR_Intl_hi_TomFormat.csv") } # high intl scenario
 if (scenario == "low")  { intc <- read.csv("data/FINAL_files/CAR_Intl_lo_TomFormat.csv") } # low intl scenario
@@ -37,6 +39,11 @@ The "CAR_Intl_hi_TomFormat.csv" file contains all international landings and unr
 #| echo: true
 apply(intc[1:4], 2, table, useNA = "always")
 intc$Area <- "FLKCAR"
+
+temp <- temp1 <- intc[which(intc$Year == max(intc$Year)), ]
+temp$Year <- max(intc$Year) + 1
+temp1$Year <- max(intc$Year) + 2
+intc <- rbind(intc, temp, temp1)   # impute last two years of data
 ```
 
 The "NCA_Intl_TomFormat.csv" file contains all international landings for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.
@@ -44,6 +51,11 @@ The "NCA_Intl_TomFormat.csv" file contains all international landings for the NC
 ```{r}
 #| echo: true
 apply(intn[1:4], 2, table, useNA = "always")
+
+temp <- temp1 <- intn[which(intn$Year == max(intn$Year)), ]
+temp$Year <- max(intn$Year) + 1
+temp1$Year <- max(intn$Year) + 2
+intn <- rbind(intn, temp, temp1)   # impute last two years of data
 ```
 
 The "NED_Intl_TomFormat.csv" file contains all international landings for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas landings, as well as landings from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.
@@ -51,6 +63,11 @@ The "NED_Intl_TomFormat.csv" file contains all international landings for the NE
 ```{r}
 #| echo: true
 apply(intw[1:4], 2, table, useNA = "always")
+
+temp <- temp1 <- intw[which(intw$Year == max(intw$Year)), ]
+temp$Year <- max(intw$Year) + 1
+temp1$Year <- max(intw$Year) + 2
+intw <- rbind(intw, temp, temp1)   # impute last two years of data
 ```
 
 The "commercial_TomFormat.csv" file contains all landings for the U.S. commercial fleet, including landings from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (\< 2%) and were removed from the summary.
@@ -111,9 +128,11 @@ barplot(tapply(d$Catch_lbs, d$Fleet, sum, na.rm = T)/10^6,
         main = "Total landings by fleet", ylab = "total landings (millions of pounds)")
 barplot(tapply(d$Catch_lbs, d$Area, sum, na.rm = T)/10^6, 
         main = "Total landings by area", ylab = "total landings (millions of pounds)")
+
+tapply(d$Catch_lbs, d$Fleet=="Intl", sum, na.rm = T)/ sum(d$Catch_lbs, na.rm = T) * 100
 ```
 
-The total landings in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the landings are caught in quarter 2 (March - May). The largest sector is the U.S. private recreational sector, followed by international fleets (all types), the for-hire fleet and then the U.S. commercial fleet. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.
+The total landings in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the landings are caught in quarter 2 (March - May). The largest sector in the U.S. is the private recreational sector, followed by the for-hire fleet and then the U.S. commercial fleet. International landings are 49% of the total removals in the "low" scenario and 62% of the total removals in the "high" scenario. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.
 
 ```{r}
 #| echo: true
@@ -155,7 +174,7 @@ matplot(rownames(tab), tab,
         type = "l", lwd = 2, lty = c(rep(1, 3), 2, 2), 
         main = "Total annual dolphin landings by fleet", xlab = "",
         ylab = "total landings (millions of pounds)")
-legend(2000, 27, lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
+legend("topleft", lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
        c("U.S. private rec", "U.S. for-hire", "U.S. commercial", 
          "International"),
        col = cols)
@@ -171,7 +190,7 @@ if (scenario == "high") {
 if (scenario == "low")  { 
   write.csv(d, file = "data/FINAL_files/complete_catch_dataset_100526_low.csv", row.names = FALSE) } # low intl scenario
 
-d1 <- d[which(d$Year == 2022), ]
+d1 <- d[which(d$Year == 2024), ]
 d1$ar2 <- ""
 d1$ar2[which(d1$Area == "FLK")] <- "S"
 d1$ar2[which(d1$Area == "NCFL")] <- "S"

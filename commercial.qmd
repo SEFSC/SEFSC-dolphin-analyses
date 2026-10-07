@@ -12,7 +12,7 @@ The steps are as follows:
 
 2.  Format the longitude and latitude of the sets into decimal degrees, and find the points that fall within each of the seven polygons representing the areas of the operating model. Check that subsetting was done correctly and add and area identifier.
 
-3.  Look at the characteristics of the dolphin catch and calculate the discard rates by trip. Dead discarding rate is found to be 1.4% on average and total discard rate is 2.9% on average.
+3.  Look at the characteristics of the dolphin catch and calculate the discard rates by trip. Dead discarding rate is found to be 1.4% on average and live discard rate is 1.5% on average.
 
 4.  Standardize date formatting and add identifier for season (quarter). Specify a new year variable to allow December to be grouped with January and February.
 
@@ -41,5 +41,9 @@ The steps are as follows:
 6.  Reformat the data according to the specifications needed for input to the operating model (columns specifying the year, quarter, fleet, area and total landings).
 
 7.  Sum landings by year from the original data file and the final outputs to ensure that data were processed correctly and no landings are missing.
+
+8.  Add dead discards into the catch, using the average rate of 1.4% for dead discarding and 1.5% for live discarding. We assume a post-release mortality rate of 25%, i.e., total dead discards are 1.8% (1.4% + 1.5% * 0.25) of the catch. We multiply the total landings by 1.018 to account for dead discards. 
+
+9.  Check the final matrix to ensure accuracy and output the data in the required format.  
 
 ![Seasonality of the commercial dolphin landings according to the trip ticket data. Figure shows the proportion of dolphin landings occurring in each season, for each region of the operating model.](plots/tripticket_seasonality.png)

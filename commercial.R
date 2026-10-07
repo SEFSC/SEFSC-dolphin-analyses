@@ -90,6 +90,9 @@ mean(d$DISCLIVE, na.rm = T) * 100 # live discarding rate is 1.47%
 hist(d$DISCDEAD, main = "rate of dead discarding (proportion)")
 mean(d$DISCDEAD, na.rm = T) * 100 # dead discarding rate is 1.43%
 
+barplot(tapply(d$DISCDEAD, d$SET_YEAR, mean, na.rm = T) * 100, las = 1)
+barplot(tapply(d$DISCLIVE, d$SET_YEAR, mean, na.rm = T) * 100, las = 1)
+
 (mean(d$DISCLIVE, na.rm = T) * 0.25 + mean(d$DISCDEAD, na.rm = T)) * 100  # total discard mortality = 1.8%
 
 d$area <- factor(d$area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
@@ -469,6 +472,7 @@ head(tab3)
 
 tab3 <- tab3[, 2:8]
 
+dev.off()
 barplot(colSums(tab3))
 
 matplot(rownames(tab3), tab3/10^6, type = "l", col = 2:8, lty = 1, lwd = 2, 
@@ -494,6 +498,13 @@ findat <- data.frame(yrs, qrt, flt, labs, matrix(tab3))
 findat
 names(findat) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
 
+findat <- findat[which(findat$Year <=2023), ]
+findat2 <- findat[which(findat$Year == 2023), ]
+dim(findat2)
+findat2$Year <- 2024
+
+findat <- rbind(findat, findat2)
+
 nodisc <- findat$Catch_lbs
 
 # add the dead discards based on rate calculated in first section 
@@ -511,6 +522,7 @@ plot(findat$Catch_lbs, type = "l")
 plot(findat$Catch_lbs ~ factor(findat$Area))
 plot(findat$Catch_lbs ~ factor(findat$Quarter))
 plot(findat$Catch_lbs ~ factor(findat$Year))
+plot(findat$Catch_lbs ~ factor(findat$Fleet))
 
 #findat <- findat[which(findat$Year <= 2022), ]
 
