@@ -3,6 +3,9 @@
 .Ruserdata
 *.Rproj
 
+rec_data_for_mandy.rds
+
+
 .DS_Store
 /.quarto/
 /_site/

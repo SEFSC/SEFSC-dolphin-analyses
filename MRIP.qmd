@@ -25,7 +25,7 @@ library(keyring)
 #                     FROM rdi.V_REC_ACL_MRIP_FES_IMP@secapxdv_dblk.sfsc.noaa.gov")
 
 # read in data file
-dat <- readRDS("data/rec_data_for_mandy.rds")
+dat <- readRDS("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/rec_data_for_mandy.rds")
 head(dat)
 
 #apply(dat[2:18], 2, table, useNA = "always")
