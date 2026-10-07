@@ -14,8 +14,8 @@ Data are downloaded directly from the Miami server using the files provided to S
 rm(list = ls())
 
 # libraries
-library(ROracle)
-library(keyring)
+#library(ROracle)
+#library(keyring)
 
 #con = dbConnect(dbDriver("Oracle"), username = keyring::key_list()[1,2],
 #                password = key_get("mandy.karnauskas@noaa.gov", keyring::key_list()[1,2]),
