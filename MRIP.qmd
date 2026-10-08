@@ -25,21 +25,23 @@ rm(list = ls())
 #            FROM rdi.V_REC_ACL_MRIP_FES_IMP@secapxdv_dblk.sfsc.noaa.gov")
 
 # read in data file
-dat <- readRDS("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/rec_data_for_mandy.rds")
-head(dat)
-
+#dat <- readRDS("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/rec_data_for_mandy.rds")
+#head(dat)
 #apply(dat[2:18], 2, table, useNA = "always")
 
 # confirm nomenclature for dolphin and subset by species --------------------------
-table(dat$NEW_COM[grep("dolphin", dat$NEW_COM)])
-table(dat$NEW_SCI[grep("dolphin", dat$NEW_COM)])
+#table(dat$NEW_COM[grep("dolphin", dat$NEW_COM)])
+#table(dat$NEW_SCI[grep("dolphin", dat$NEW_COM)])
 
-d <- dat[which(dat$NEW_COM == "dolphin"), ]
+#d <- dat[which(dat$NEW_COM == "dolphin"), ]
 #apply(d[2:18], 2, table, useNA = "always")
 
-d <- d[which(d$YEAR <= 2024), ]    # set terminal year here
+#d <- d[which(d$YEAR <= 2024), ]    # set terminal year here
+#d <- d[which(d$COUNCILREG != 11), ]   # take out PR catches
 
-d <- d[which(d$COUNCILREG != 11), ]   # take out PR catches
+#write.csv(d, file = "data/MRIP_data_Oct2026.csv")
+
+d <- read.csv("data/MRIP_data_Oct2026.csv")
 
 tot <- tapply(d$LBSEST_SECWWT, d$YEAR, sum, na.rm = T)
 
@@ -63,7 +65,7 @@ table(d1$COUNCILREG)
 
 ```
 
-Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. New FES calibrations done in 2026 have significantly changed the landings estimates.  
+Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values used for quota monitoring. The Fishing Effort Survey (FES) was revised in 2026 to improve the accuracy of estimates by mitigating potential overreporting of fishing trips. The calibrations resulting from this survey revision have significantly changed the recreational estimates from the previous FES design.  
 
 ```{r}
 #| echo: true
