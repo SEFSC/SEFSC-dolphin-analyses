@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-a01ad134b821f094570d5f8adb318e63.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -645,18 +645,18 @@ lm(formula = d$ATL/10^6 ~ d$perar)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--9.9082 -3.0254  0.0927  2.6638  9.6171 
+-3.0026 -1.4112 -0.5335  1.3840  6.4179 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   12.391      1.094  11.324 6.58e-13 ***
-d$perar       10.079      1.880   5.361 6.35e-06 ***
+(Intercept)   7.4162     0.5569  13.317 7.97e-15 ***
+d$perar       0.7671     0.9568   0.802    0.428    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 4.339 on 33 degrees of freedom
-Multiple R-squared:  0.4655,    Adjusted R-squared:  0.4493 
-F-statistic: 28.74 on 1 and 33 DF,  p-value: 6.352e-06</code></pre>
+Residual standard error: 2.208 on 33 degrees of freedom
+Multiple R-squared:  0.0191,    Adjusted R-squared:  -0.01062 
+F-statistic: 0.6427 on 1 and 33 DF,  p-value: 0.4285</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output the index</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ind, <span class="at">file =</span> <span class="st">"indices/blue_blob_index.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

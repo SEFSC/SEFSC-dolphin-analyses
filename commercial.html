@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -44,7 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-a01ad134b821f094570d5f8adb318e63.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -261,7 +261,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li><p>Read in the pelagic longline data which contains set level entries including location of fishing, target species, gear used, other details of the fishing trip and number of dolphin caught, discarded alive, discarded dead, and the total pounds of dolphin kept.</p></li>
 <li><p>Format the longitude and latitude of the sets into decimal degrees, and find the points that fall within each of the seven polygons representing the areas of the operating model. Check that subsetting was done correctly and add and area identifier.</p></li>
-<li><p>Look at the characteristics of the dolphin catch and calculate the discard rates by trip. Dead discarding rate is found to be 1.4% on average and total discard rate is 2.9% on average.</p></li>
+<li><p>Look at the characteristics of the dolphin catch and calculate the discard rates by trip. Dead discarding rate is found to be 1.4% on average and live discard rate is 1.5% on average.</p></li>
 <li><p>Standardize date formatting and add identifier for season (quarter). Specify a new year variable to allow December to be grouped with January and February.</p></li>
 <li><p>Summarize the total dolphin landings (in pounds) by year, quarter, and area.</p></li>
 <li><p>Convert the total pounds by year-quarter and area to proportions such that each year-quarter combination has four seasonal proportions summing to one. Save the matrix of proportions for later analysis.</p></li>
@@ -285,6 +285,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p>For most combinations of year-quarter, region and gear, there are substantial landings for which the area of fishing is unknown and therefore the region cannot be defined. We assume that those landings follow the same distribution with regard to region as the other landings for that year-quarter and gear combination. For each year-quarter/gear combination, we calculate the proportion of landings that occurs in each of the seven regions. The total landings of unknown regions are multiplied by those proportions and then added to the landings from known regions. In cases where none of the areas are known for that year-quarter/gear combination, proportions from the quarter immediately previous to that quarter are used. Sum the landings by gear type to get the total landings for each year-quarter and region.</p></li>
 <li><p>Reformat the data according to the specifications needed for input to the operating model (columns specifying the year, quarter, fleet, area and total landings).</p></li>
 <li><p>Sum landings by year from the original data file and the final outputs to ensure that data were processed correctly and no landings are missing.</p></li>
+<li><p>Add dead discards into the catch, using the average rate of 1.4% for dead discarding and 1.5% for live discarding. We assume a post-release mortality rate of 25%, i.e., total dead discards are 1.8% (1.4% + 1.5% * 0.25) of the catch. We multiply the total landings by 1.018 to account for dead discards.</p></li>
+<li><p>Check the final matrix to ensure accuracy and output the data in the required format.</p></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
