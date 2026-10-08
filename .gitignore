@@ -10,3 +10,5 @@ rec_data_for_mandy.rds
 /.quarto/
 /_site/
 /_book/
+
+**/*.quarto_ipynb

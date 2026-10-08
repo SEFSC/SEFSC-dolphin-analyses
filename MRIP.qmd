@@ -21,8 +21,8 @@ rm(list = ls())
 #                password = key_get("mandy.karnauskas@noaa.gov", keyring::key_list()[1,2]),
 #                dbname = "SECPR")
 
-#dat <- dbGetQuery(con, "SELECT *
-#                     FROM rdi.V_REC_ACL_MRIP_FES_IMP@secapxdv_dblk.sfsc.noaa.gov")
+#dat <- dbGetQuery(con, "SELECT * 
+#            FROM rdi.V_REC_ACL_MRIP_FES_IMP@secapxdv_dblk.sfsc.noaa.gov")
 
 # read in data file
 dat <- readRDS("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/rec_data_for_mandy.rds")
@@ -63,7 +63,7 @@ table(d1$COUNCILREG)
 
 ```
 
-Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. We see that the values are almost identical.
+Now we can summarize the total dolphin landings in weight for the U.S. Atlantic, and compare to previous values sent for quota monitoring. New FES calibrations done in 2026 have significantly changed the landings estimates.  
 
 ```{r}
 #| echo: true
