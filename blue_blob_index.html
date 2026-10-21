@@ -645,18 +645,18 @@ lm(formula = d$ATL/10^6 ~ d$perar)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--3.0026 -1.4112 -0.5335  1.3840  6.4179 
+-4.9012 -1.8070 -0.6586  1.3941  6.6889 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   7.4162     0.5569  13.317 7.97e-15 ***
-d$perar       0.7671     0.9568   0.802    0.428    
+(Intercept)   8.9666     0.7221  12.418 5.51e-14 ***
+d$perar       4.1415     1.2406   3.338   0.0021 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.208 on 33 degrees of freedom
-Multiple R-squared:  0.0191,    Adjusted R-squared:  -0.01062 
-F-statistic: 0.6427 on 1 and 33 DF,  p-value: 0.4285</code></pre>
+Residual standard error: 2.863 on 33 degrees of freedom
+Multiple R-squared:  0.2525,    Adjusted R-squared:  0.2298 
+F-statistic: 11.14 on 1 and 33 DF,  p-value: 0.002099</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output the index</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ind, <span class="at">file =</span> <span class="st">"indices/blue_blob_index.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
