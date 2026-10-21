@@ -67,17 +67,17 @@ d1 <- d[which(d$COUNCILREG == 6), ]
 dg <- d[which(d$COUNCILREG == 7), ]
 table(d1$COUNCILREG)
 
-#d$SUB_REG2 <- d$SUB_REG
-#d$SUB_REG2[which(d$SUB_REG == 4)] <- "NE"
-#d$SUB_REG2[which(d$SUB_REG == 5)] <- "MA"
-#d$SUB_REG2[which(d$SUB_REG == 6)] <- "SA"
-#d$SUB_REG2[which(d$SUB_REG == 7)] <- "GU"
-#d$SUB_REG2[which(d$NEW_STA == "NC")] <- "NC"
+d$SUB_REG2 <- d$SUB_REG
+d$SUB_REG2[which(d$SUB_REG == 4)] <- "NE"
+d$SUB_REG2[which(d$SUB_REG == 5)] <- "MA"
+d$SUB_REG2[which(d$SUB_REG == 6)] <- "SA"
+d$SUB_REG2[which(d$SUB_REG == 7)] <- "GU"
+d$SUB_REG2[which(d$NEW_STA == "NC")] <- "NC"
 
-#d$SUB_REG2 <- factor(d$SUB_REG2, levels = c("GU", "SA", "NC", "MA", "NE"))
+d$SUB_REG2 <- factor(d$SUB_REG2, levels = c("GU", "SA", "NC", "MA", "NE"))
 
-#mat <- tapply(d$LBSEST_SECWWT, list(d$YEAR, d$SUB_REG2), sum, na.rm = T)
-#write.csv(mat, file = "data/rec_catch_by_subreg.csv", row.names = TRUE)
+mat <- tapply(d$LBSEST_SECWWT, list(d$YEAR, d$SUB_REG2), sum, na.rm = T)
+write.csv(mat, file = "data/rec_catch_by_subreg.csv", row.names = TRUE)
 
 ```
 
@@ -176,7 +176,7 @@ head(fin)
 matplot(rownames(fin), fin/10^6, lty = c(rep(2, 4), rep(1, 4)), 
         col = rep(1:4, 2), type = "l", lwd = 2, 
         xlab = "year", ylab = "total landings (millions of pounds)")
-legend("top", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), 
+legend("topright", colnames(fin), lty = c(rep(2, 4), rep(1, 4)), col = rep(1:4, 2), 
        lwd = 2, ncol = 2, bty = "n", cex = 0.8)
 
 # check that totals match

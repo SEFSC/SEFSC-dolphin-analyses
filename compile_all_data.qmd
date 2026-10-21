@@ -132,7 +132,7 @@ barplot(tapply(d$Catch_lbs, d$Area, sum, na.rm = T)/10^6,
 tapply(d$Catch_lbs, d$Fleet=="Intl", sum, na.rm = T)/ sum(d$Catch_lbs, na.rm = T) * 100
 ```
 
-The total catch in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the catch occurs in quarter 2 (March - May). The largest sector in the U.S. is the private recreational sector, followed by the for-hire fleet and then the U.S. commercial fleet. International catch is 49% of the total removals in the "low" scenario and 62% of the total removals in the "high" scenario. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.
+The total catch in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the catch occurs in quarter 2 (March - May). The largest sector in the U.S. is the private recreational sector, followed by the for-hire fleet and then the U.S. commercial fleet. International catch is 41% of the total removals in the "low" scenario and 55% of the total removals in the "high" scenario. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.
 
 ```{r}
 #| echo: true
