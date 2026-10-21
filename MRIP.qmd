@@ -56,12 +56,28 @@ Now we filter the data set to separate out the Gulf versus Atlantic landings.
 
 # codes for WFL regions: 1 (NW FL Panhandle- Escambia to Dixie co.), 2 (SW FL Peninsula- Levy to Collier co), 3 (FL Keys- Monroe co.)
 # subregional codes: 6 is Atlantic and 7 is Gulf
-table(d$FL_REG, d$SUB_REG, useNA = "always")
+table(d$FL_REG, d$COUNCILREG, useNA = "always")
 unique(d$NEW_STA)
+
+# ensure Keys are assigned to the Atlantic not the Gulf
+d$COUNCILREG[which(d$FL_REG == 3)] <- 6
+table(d$FL_REG, d$COUNCILREG, useNA = "always")
 
 d1 <- d[which(d$COUNCILREG == 6), ]
 dg <- d[which(d$COUNCILREG == 7), ]
 table(d1$COUNCILREG)
+
+#d$SUB_REG2 <- d$SUB_REG
+#d$SUB_REG2[which(d$SUB_REG == 4)] <- "NE"
+#d$SUB_REG2[which(d$SUB_REG == 5)] <- "MA"
+#d$SUB_REG2[which(d$SUB_REG == 6)] <- "SA"
+#d$SUB_REG2[which(d$SUB_REG == 7)] <- "GU"
+#d$SUB_REG2[which(d$NEW_STA == "NC")] <- "NC"
+
+#d$SUB_REG2 <- factor(d$SUB_REG2, levels = c("GU", "SA", "NC", "MA", "NE"))
+
+#mat <- tapply(d$LBSEST_SECWWT, list(d$YEAR, d$SUB_REG2), sum, na.rm = T)
+#write.csv(mat, file = "data/rec_catch_by_subreg.csv", row.names = TRUE)
 
 ```
 

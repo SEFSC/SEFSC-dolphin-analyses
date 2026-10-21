@@ -10,7 +10,8 @@ library(dplyr)
 library(readr)
 library(sp)
 library(maps) 
-
+library(sf)
+library(units)
 
 # load pelagic longline data ------------------------------------------
 # data request from June 23, 2023 - sent to M. Damiano by S. Alhale 
@@ -38,6 +39,18 @@ ar <- read.csv("data/eez/dolphin_OM_areas.csv")
 dat$area <- NA
 table(ar$region)
 lis <- unique(ar$region)
+ars <- rep(NA, 7)
+
+for (i in 1:7) {
+  # 1. Define coordinates as (Longitude, Latitude) matrix
+  pol <- ar[which(ar$region == lis[i]), 1:2]  
+  coords <- rbind(pol, pol[1, ])
+  area_m2 <- areaPolygon(coords)
+  area_km2 <- area_m2 / 1e6  # Convert to square kilometers (1 km² = 1,000,000 m²)
+  ars[i] <- area_km2
+}
+areas_km <- data.frame(cbind(lis, ars))
+#write.csv(areas_km, file = "data/eez/areas_km.csv")
 
 # for each area, find the PLL points that fall in the polygon and label the area
 for (i in lis) {
@@ -147,6 +160,8 @@ d <- read.csv("C://Users/mandy.karnauskas/Desktop/CONFIDENTIAL/PLL_1986_2022_raw
 table(d$SET_YEAR, useNA = "always")
 barplot(table(d$SET_YEAR, useNA = "always"), las = 2)
 
+barplot(table(d$area, useNA = "always"), las = 2)
+
 # look at dolphin catch within PLL data -----------------------------
 names(d)[grep("DOL", names(d))]
 
@@ -188,6 +203,19 @@ hist(log(d$cpue))
 d <- d[!is.na(d$cpue), ]
 dim(d)
 
+d$cpuelev <- cut(d$cpue, breaks = c(2, 4, 6, 10, 50, 1000))
+
+dev.off()
+map("world", xlim = c(-100, -30), ylim = c(5, 55))
+axis(1); axis(2); box()
+points(d$lon, d$lat, pch = 1,  
+       col = as.numeric(as.factor(d$area))+1, 
+       cex = as.numeric(d$cpuelev)/8)
+
+
+d$cpuelev <- cut(d$cpue, breaks = c(2, 4, 6, 10, 50, 100, 500, 1000))
+table(d$area, d$cpuelev)
+
 # make new date variables 
 d$year <- as.numeric(substr(d$SDATE, 1, 4))
 d$mon  <- as.numeric(substr(d$SDATE, 5, 6))
@@ -211,14 +239,16 @@ d$arnew <- factor(d$arnew, levels = c("CAR+FLK", "NCFL", "NNC+VBM", "NED", "NCA"
 
 # explore factors to include in model --------------------------
 
-par(mfrow = c(5, 5))
-for (i in 26:50) {
-  f <- tapply(d$cpue, d[, i], mean, na.rm = T)
-  barplot(f, las = 1, main = names(d[i]))
-}
+#dev.off()
+#par(mfrow = c(5, 5))
+#for (i in 26:50) {
+#  f <- tapply(d$cpue, d[, i], mean, na.rm = T)
+#  barplot(f, las = 1, main = names(d[i]))
+#}
 
 d <- d[which(d$year >= 1986 & d$year <= 2022), ]
 
+dev.off()
 par(mfrow = c(2, 2))
 barplot(tapply(d$cpue, d$year, mean, na.rm = T), las = 2)
 barplot(tapply(d$cpue, d$mon, mean, na.rm = T))
@@ -301,9 +331,22 @@ d$TDOL <- as.factor(d$TDOL)
 # standardize the CPUE -------------------------------------------
 
 
+# try using only dolphin target trips
+#dall <- d
+
+#d <- d[which(d$TDOL == 0), ]
+#quantile(d$cpue, probs = c(0.9, 0.95, 0.99))
+
+dim(d)
+#d <- d[which(d$cpue <= 10), ]
+#dim(d)
+
+#d$cpue[which(d$cpue > 12.5)] <- 12.5
+
+
 # first try tweedie GLMM approach ---------------------
 
-out_tweedie <- glmmTMB(cpue ~ (1 | year)  + arnew*season  + tempbin + depbin + TDOL + TSWO + TMIX, 
+out_tweedie <- glmmTMB(cpue ~ (1 | year)  + arnew*season  + depbin, +  tempbin + TDOL + TSWO + TMIX, 
       data = d, family = glmmTMB::tweedie(link = "log"))
 res <- predict_response(out_tweedie, terms = "year [all]", type = "random")
 res <- as.data.frame(res)
@@ -348,7 +391,7 @@ par(mfcol = c(3, 2), mex = 0.7)
 for (i in 1:5)  {
   m <- which(df_preds$arnew == lis[i])
   plot(df_preds$yrseas[m], df_preds$pred_cpue[m], col = 8, type = "l", main = lis[i], 
-       xlab = "", ylab = "relative cpue", ylim = c(0, 16))
+       xlab = "", ylab = "relative cpue", ylim = c(0, 80))
   points(df_preds$yrseas[m], df_preds$pred_cpue[m], col = scols, pch = 19)
 }
 plot.new()
@@ -368,7 +411,7 @@ d$pres[d$pres > 0] <- 1
 table(d$pres, useNA = "always")
 
 # BINOMIAL REGRESSION COMPONENT: model the presence-absence as a binomial regression 
-outp <- glm(pres ~ year  + arnew*season  + tempbin + depbin + TDOL + TSWO + TMIX,  #  + HBFLbin
+outp <- glm(pres ~ year  + arnew*season + tempbin + depbin + TDOL + TSWO + TMIX,  #  + HBFLbin
                 data = d, family = "binomial")  
 summary(outp)        
 a_table <- anova(outp, test = "Chisq")
@@ -386,8 +429,8 @@ print(deviance_table)
 overall_r2 <- (outp$null.deviance - outp$deviance) / outp$null.deviance * 100
 cat("Total Deviance Explained by Model:", round(overall_r2, 2), "%\n")
 
-resid <- simulateResiduals(outp, n = 250)  # Simulate randomized quantile residuals
-plot(resid)
+#resid <- simulateResiduals(outp, n = 250)  # Simulate randomized quantile residuals
+#plot(resid)
 
 
 # ABUNDANCE WHEN PRESENT COMPONENT: model the log abundance when present
@@ -395,7 +438,8 @@ plot(resid)
 dp <- d[d$cpue > 0, ]
 
 # model the log abundance when presence
-out <- glm(log(cpue) ~  year + arnew*season + depbin + TDOL + TSWO + TMIX, data = dp)  # + HBFLbin + tempbin 
+out <- glm(log(cpue) ~  year + arnew*season + depbin + TDOL + TSWO + TMIX, 
+           data = dp)  # + HBFLbin + tempbin 
 summary(out) 
 
 b_table <- anova(out, test = "Chisq")
@@ -414,8 +458,8 @@ print(deviance_table)
 overall_r2 <- (out$null.deviance - out$deviance) / out$null.deviance * 100
 cat("Total Deviance Explained by Model:", round(overall_r2, 2), "%\n")
 
-resid <- simulateResiduals(out, n = 250)  # Simulate randomized quantile residuals
-plot(resid)
+#resid <- simulateResiduals(out, n = 250)  # Simulate randomized quantile residuals
+#plot(resid)
 
 # combined variance function
 comb.var <- function(A, Ase, P, Pse, p) { (P^2 * Ase^2 + A^2 * Pse^2 + 2 * p * A * P * Ase * Pse)  }   # combined var
@@ -449,7 +493,7 @@ ind
 
 par(mfrow = c(1, 1))
 plot(ind$Year, ind$index, type = "l", lwd = 2, col = 4, main = "Nominal versus standardized CPUE from PLL data",
-     xlab = "year", ylab = "CPUE (dolphin / 1000 hooks)", ylim = c(0, 14))
+     xlab = "year", ylab = "CPUE (dolphin / 1000 hooks)", ylim = c(0, 8))
 points(ind$Year, ind$index, pch = 1, lwd = 2, col = 4)
 lines(ind$Year, ind$index - 1.96*ind$SE, col = 4, lty = 2)
 lines(ind$Year, ind$index + 1.96*ind$SE, col = 4, lty = 2)
@@ -459,8 +503,8 @@ legend("topleft", c("nominal CPUE", "standardized CPUE"), lwd = 2, pch = 19, col
 
 #save(outp, out, d2_bin, d2_log, total_d2, file = "data/linear_model_outputs.RData")
 
-plot(ind$index, res$predicted)
-cor(ind$index, res$predicted)
+#plot(ind$index, res$predicted)
+#cor(ind$index, res$predicted)
 
 mean(ind$nominal)
 mean(ind$index)
@@ -491,14 +535,27 @@ fin$season.1 <- as.numeric(fin$season)
 fin$yrseas <- as.numeric(as.vector(fin$year)) + (fin$season.1-1)/4
 fin <- fin[order(fin$yrseas), ]
 
-plot(0, col = 0, xlim = c(1986, 2022), ylim = c(0, 18), las = 1, xlab = "", ylab = "standardized catch rate")
+areas <- read.csv("data/eez/areas_km.csv")[2:3]
+names(areas) <- c("region", "area")
+
+fin$areas <- NA
+fin$areas[which(fin$arnew == "CAR+FLK")]  <- areas$area[1] + areas$area[7]
+fin$areas[which(fin$arnew == "NCFL")]  <- areas$area[2]
+fin$areas[which(fin$arnew == "NED")]  <- areas$area[5]
+fin$areas[which(fin$arnew == "NCA")]  <- areas$area[6]
+fin$areas[which(fin$arnew == "NNC+VBM")]  <- areas$area[3] + areas$area[4]
+sum(unique(fin$areas)) == sum(areas$area)
+
+fin$predind2 <- fin$predind * fin$areas/10^6
+
+plot(0, col = 0, xlim = c(1986, 2022), ylim = c(0, 45), las = 1, xlab = "", ylab = "standardized catch rate")
 lis <- levels(fin$arnew)
 cols <- rainbow(5)
 
 for (i in 1:5)  {
   m <- which(fin$arnew == lis[i])
-  lines(fin$yrseas[m], fin$predind[m], col = cols[i])
-  points(fin$yrseas[m], fin$predind[m], col = cols[i])
+  lines(fin$yrseas[m], fin$predind2[m], col = cols[i])
+  points(fin$yrseas[m], fin$predind2[m], col = cols[i])
 }
 legend("topright", lis, col = cols, lty = 1)
 
@@ -507,11 +564,14 @@ legend("topright", lis, col = cols, lty = 1)
 tomform <- fin[which(fin$arnew == "NED"), c(3, 2)]
 names(tomform) <- c("Year", "Season")
 tomform
-tomform$NED <- fin$predind[which(fin$arnew == "NED")]
-tomform$NNCVBM <- fin$predind[which(fin$arnew == "NNC+VBM")]
-tomform$NCFL <- fin$predind[which(fin$arnew == "NCFL")]
-tomform$NCA <- fin$predind[which(fin$arnew == "NCA")]
-tomform$CARFLK <- fin$predind[which(fin$arnew == "CAR+FLK")]
+tomform$NED <- fin$predind2[which(fin$arnew == "NED")]
+tomform$NNCVBM <- fin$predind2[which(fin$arnew == "NNC+VBM")]
+tomform$NCFL <- fin$predind2[which(fin$arnew == "NCFL")]
+tomform$NCA <- fin$predind2[which(fin$arnew == "NCA")]
+tomform$CARFLK <- fin$predind2[which(fin$arnew == "CAR+FLK")]
+tomform
+
+write.csv(tomform, file = "data/outputs/GLM_index_times_area.csv", row.names = FALSE)
   
 # plot to match Tom's plot ------------------------------
 
@@ -523,13 +583,14 @@ lis <- lis[c(1:3, 5, 4)]
 
 for (i in 1:5)  {
   m <- which(fin$arnew == lis[i])
-  plot(fin$yrseas[m], fin$predind[m], col = 8, type = "l", main = lis[i], 
-       xlab = "", ylab = "relative cpue", ylim = c(0, 20))
-  points(fin$yrseas[m], fin$predind[m], col = scols, pch = 19)
+  plot(fin$yrseas[m], fin$predind2[m], col = 8, type = "l", main = lis[i], 
+       xlab = "", ylab = "relative cpue", ylim = c(0, 42))
+  points(fin$yrseas[m], fin$predind2[m], col = scols, pch = 19)
 }
 plot.new()
 legend("center", c("Winter", "Spring", "Summer", "Fall"),
-       col = scols[1:4], lty = 0, pch = 19)
+       col = scols[1:4], lty = 0, pch = 19, 
+       title = "relative density * area adjustment", title.cex = 2, bty = "n")
 
 
 # compare with enso ---------------------
