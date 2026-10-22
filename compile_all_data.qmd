@@ -186,9 +186,9 @@ This plot shows the time series of total annual dolphin catch by fleet. We can c
 
 # output the final concatenated data file
 if (scenario == "high") { 
-  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_100526_high.csv", row.names = FALSE)  } # high intl scenario
+  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_102226_high.csv", row.names = FALSE)  } # high intl scenario
 if (scenario == "low")  { 
-  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_100526_low.csv", row.names = FALSE) } # low intl scenario
+  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_102226_low.csv", row.names = FALSE) } # low intl scenario
 
 d1 <- d[which(d$Year == 2024), ]
 d1$ar2 <- ""
@@ -200,6 +200,5 @@ d1$cat <- paste0(d1$Fleet, d1$ar2)
 d1$cat[which(d1$Fleet == "UScom")] <- "UScom"
 
 round(tapply(d1$Catch_lbs, d1$cat, sum, na.rm = T)/10^6/2.205, 3)
-
 
 ```
