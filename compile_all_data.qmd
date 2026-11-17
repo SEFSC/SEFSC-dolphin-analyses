@@ -23,7 +23,7 @@ rm(list = ls())
 # view data files in directory
 dir("data/FINAL_files/")
 
-scenario <- "high"
+scenario <- "low"
 
 if (scenario == "high") { intc <- read.csv("data/FINAL_files/CAR_Intl_hi_TomFormat.csv") } # high intl scenario
 if (scenario == "low")  { intc <- read.csv("data/FINAL_files/CAR_Intl_lo_TomFormat.csv") } # low intl scenario
@@ -40,10 +40,14 @@ The "CAR_Intl_hi_TomFormat.csv" file contains all international landings and unr
 apply(intc[1:4], 2, table, useNA = "always")
 intc$Area <- "FLKCAR"
 
-temp <- temp1 <- intc[which(intc$Year == max(intc$Year)), ]
+temp <- temp1 <- temp2 <- temp3 <- intc[which(intc$Year == max(intc$Year)), ]
 temp$Year <- max(intc$Year) + 1
 temp1$Year <- max(intc$Year) + 2
-intc <- rbind(intc, temp, temp1)   # impute last two years of data
+temp2$Year <- max(intc$Year) + 3
+temp3$Year <- max(intc$Year) + 4
+intc <- rbind(intc, temp, temp1, temp2, temp3)   # impute last four years of data
+
+apply(intc[1:4], 2, table, useNA = "always")
 ```
 
 The "NCA_Intl_TomFormat.csv" file contains all international landings for the NCA region (i.e., FAO region 31), also known as the Western Central Atlantic. There are no territorial waters in this area (except for Bermuda, which as discussed previously is summarized with the CAR region) and there are no unreported catches or discards in the database.
@@ -52,10 +56,14 @@ The "NCA_Intl_TomFormat.csv" file contains all international landings for the NC
 #| echo: true
 apply(intn[1:4], 2, table, useNA = "always")
 
-temp <- temp1 <- intn[which(intn$Year == max(intn$Year)), ]
+temp <- temp1 <- temp2 <- temp3 <- intn[which(intn$Year == max(intn$Year)), ]
 temp$Year <- max(intn$Year) + 1
 temp1$Year <- max(intn$Year) + 2
-intn <- rbind(intn, temp, temp1)   # impute last two years of data
+temp2$Year <- max(intn$Year) + 3
+temp3$Year <- max(intn$Year) + 4
+intn <- rbind(intn, temp, temp1, temp2, temp3)   # impute last four years of data
+
+apply(intn[1:4], 2, table, useNA = "always")
 ```
 
 The "NED_Intl_TomFormat.csv" file contains all international landings for the NED region (i.e., FAO region 21), also known as the Northwest Atlantic. This includes NED high seas landings, as well as landings from Canadian and French territorial waters which fall in this region. There are no unreported catches or discards for this region in the database.
@@ -64,10 +72,14 @@ The "NED_Intl_TomFormat.csv" file contains all international landings for the NE
 #| echo: true
 apply(intw[1:4], 2, table, useNA = "always")
 
-temp <- temp1 <- intw[which(intw$Year == max(intw$Year)), ]
+temp <- temp1 <- temp2 <- temp3 <- intw[which(intw$Year == max(intw$Year)), ]
 temp$Year <- max(intw$Year) + 1
 temp1$Year <- max(intw$Year) + 2
-intw <- rbind(intw, temp, temp1)   # impute last two years of data
+temp2$Year <- max(intw$Year) + 3
+temp3$Year <- max(intw$Year) + 4
+intw <- rbind(intw, temp, temp1, temp2, temp3)   # impute last four years of data
+
+apply(intw[1:4], 2, table, useNA = "always")
 ```
 
 The "commercial_TomFormat.csv" file contains all catch for the U.S. commercial fleet, including catch from U.S. EEZs and high seas. There are no unreported catches in this region. Recall that estimated dead discards were very small (\< 2%) and were removed from the summary.
@@ -76,11 +88,12 @@ The "commercial_TomFormat.csv" file contains all catch for the U.S. commercial f
 #| echo: true
 apply(com[1:4], 2, table, useNA = "always")
 
-com$Area[which(com$Area == "CAR")] <- "FLKCAR"
-com$Area[which(com$Area == "FLK")] <- "FLKCAR"
-com$Area[which(com$Area == "NNC")] <- "NNCVBM"
-com$Area[which(com$Area == "VBM")] <- "NNCVBM"
-table(com$Area, useNA = "always")
+temp <- temp1 <- com[which(com$Year == max(com$Year)), ]
+temp$Year <- max(com$Year) + 1
+temp1$Year <- max(com$Year) + 2
+com <- rbind(com, temp, temp1) 
+
+apply(com[1:4], 2, table, useNA = "always")
 ```
 
 The "rec_catch_TomFormat.csv" file contains all landings for the U.S. recreational fleet, which are all assumed to occur within the U.S. EEZs. There are no unreported catches in this region. This file also includes dead discards, which were calculated from the database by year and region and added into the total catch.  
@@ -89,10 +102,19 @@ The "rec_catch_TomFormat.csv" file contains all landings for the U.S. recreation
 #| echo: true
 apply(rec[1:4], 2, table, useNA = "always")
 
-rec$Area[which(rec$Area == "FLK")] <- "FLKCAR"
-rec$Area[which(rec$Area == "NNC")] <- "NNCVBM"
-rec$Area[which(rec$Area == "VBM")] <- "NNCVBM"
-table(rec$Area, useNA = "always")
+rec$Fleet[which(rec$Fleet == "Rec" & rec$Area == "NNCVBM")] <- "RecN"
+rec$Fleet[which(rec$Fleet == "Rec" & rec$Area != "NNCVBM")] <- "RecS"
+rec$Fleet[which(rec$Fleet == "Hire" & rec$Area == "NNCVBM")] <- "HireN"
+rec$Fleet[which(rec$Fleet == "Hire" & rec$Area != "NNCVBM")] <- "HireS"
+table(rec$Fleet, rec$Area)
+
+temp <- temp1 <- rec[which(rec$Year == max(rec$Year)), ]
+temp$Year <- max(rec$Year) + 1
+temp1$Year <- max(rec$Year) + 2
+rec <- rbind(rec, temp, temp1) 
+
+apply(rec[1:4], 2, table, useNA = "always")
+
 ```
 
 Now we combine the data files and create some figures with the final composite data file.
@@ -107,7 +129,14 @@ table(d$Catch_lbs == 0)
 
 # resort levels geographically
 d$Area <- factor(d$Area, levels = c("NCA", "FLKCAR", "NCFL", "NNCVBM", "NED"))
-d$Fleet <- factor(d$Fleet, levels = c("Rec", "Hire", "UScom", "Intl"))
+d$Fleet <- factor(d$Fleet, levels = c("RecS", "RecN", "HireS", "HireN", "UScom", "Intl"))
+
+d <- d[order(d$Fleet, d$Area, d$Year, d$Quarter), ]
+
+table(diff(d$Year))
+table(diff(d$Quarter))
+table(diff(as.numeric(d$Fleet)))
+table(diff(as.numeric(d$Area)))
 ```
 
 ## Visualizing the final data set
@@ -130,6 +159,9 @@ barplot(tapply(d$Catch_lbs, d$Area, sum, na.rm = T)/10^6,
         main = "Total catch by area", ylab = "total catch (millions of pounds)")
 
 tapply(d$Catch_lbs, d$Fleet=="Intl", sum, na.rm = T)/ sum(d$Catch_lbs, na.rm = T) * 100
+dl <- d[which(d$Year == max(d$Year)), ]
+tapply(dl$Catch_lbs, dl$Fleet=="Intl", sum, na.rm = T)/ sum(dl$Catch_lbs, na.rm = T) * 100
+
 ```
 
 The total catch in the regions analyzed is highly variable but relatively stable over time with a slight decrease in recent years. Most of the catch occurs in quarter 2 (March - May). The largest sector in the U.S. is the private recreational sector, followed by the for-hire fleet and then the U.S. commercial fleet. International catch is 41% of the total removals in the "low" scenario and 55% of the total removals in the "high" scenario. Most of the fishing activity takes place in the Florida Keys and the Greater Caribbean, with other regions contributing much less.
@@ -137,7 +169,7 @@ The total catch in the regions analyzed is highly variable but relatively stable
 ```{r}
 #| echo: true
 #| fig-height: 4
-cols <- c("blue", "deepskyblue", "chartreuse3", "red")
+cols <- c("blue", "deepskyblue", "darkgreen", "chartreuse3", "yellow", "red")
 
 par(mfrow = c(1, 1), mar = c(2, 5, 3, 1))
 tab <- tapply(d$Catch_lbs, list(d$Fleet, d$Area), sum, na.rm = T)/10^6
@@ -171,12 +203,13 @@ tab <- tapply(d$Catch_lbs, list(d$Year, d$Fleet), sum, na.rm = T)/10^6
 par(mar = c(2, 4, 3, 1))
 matplot(rownames(tab), tab, 
         col = cols, 
-        type = "l", lwd = 2, lty = c(rep(1, 3), 2, 2), 
+        type = "l", lwd = 2, lty = c(rep(1, 5), 2, 2), 
         main = "Total annual dolphin catch by fleet", xlab = "",
         ylab = "total catch (millions of pounds)")
-legend("topleft", lwd = 2, lty = c(rep(1, 3), 2, 2), bty = "n", 
-       c("U.S. private rec", "U.S. for-hire", "U.S. commercial", 
-         "International"),
+legend("topleft", lwd = 2, lty = c(rep(1, 5), 2, 2), bty = "n", 
+       c("U.S. private rec - S", "U.S. private rec - N", 
+         "U.S. for-hire - S", "U.S. for-hire - N",
+         "U.S. commercial",  "International"),
        col = cols)
 ```
 This plot shows the time series of total annual dolphin catch by fleet. We can compare these figures with the plots from the previous chapters to ensure the data were processed correctly. The magnitude and variability of the catch match the expectations.
@@ -186,19 +219,11 @@ This plot shows the time series of total annual dolphin catch by fleet. We can c
 
 # output the final concatenated data file
 if (scenario == "high") { 
-  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_102226_high.csv", row.names = FALSE)  } # high intl scenario
+  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_111626_high_fixed.csv", row.names = FALSE)  } # high intl scenario
 if (scenario == "low")  { 
-  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_102226_low.csv", row.names = FALSE) } # low intl scenario
+  write.csv(d, file = "data/FINAL_files/complete_catch_dataset_111626_low_fixed.csv", row.names = FALSE) } # low intl scenario
 
 d1 <- d[which(d$Year == 2024), ]
-d1$ar2 <- ""
-d1$ar2[which(d1$Area == "FLK")] <- "S"
-d1$ar2[which(d1$Area == "NCFL")] <- "S"
-d1$ar2[which(d1$Area == "NNC")] <- "N"
-d1$ar2[which(d1$Area == "VBM")] <- "N"
-d1$cat <- paste0(d1$Fleet, d1$ar2)
-d1$cat[which(d1$Fleet == "UScom")] <- "UScom"
-
-round(tapply(d1$Catch_lbs, d1$cat, sum, na.rm = T)/10^6/2.205, 3)
+round(tapply(d1$Catch_lbs, d1$Fleet, sum, na.rm = T)/10^6/2.205, 3)
 
 ```

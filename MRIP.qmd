@@ -93,10 +93,11 @@ tot1 <- tapply(d1$LBSEST_SECWWT, d1$YEAR, sum, na.rm = T)
 
 old <- read.csv("data/RecreationalDolphinLandings_SAandGOM_MLarkin.csv", skip = 6)
 plot(old$Year, old$ATL/10^6, type = "l", xlab = "year", 
-     ylab = "total landings (millions of pounds)", lwd = 3, 
-     xlim = c(1980, 2025), ylim = c(0, 33), bty = "n")
+     ylab = "millions of pounds", lwd = 3, las = 1, 
+     xlim = c(1980, 2025), ylim = c(0, 31), bty = "n")
 lines(as.numeric(names(tot1)), tot1/10^6, lwd = 2, col = 2, lty = 1)
-legend("topright", c("previous data", "new data"), col = c(1, 2), lwd = c(3, 2), lty = c(1, 1), bty = "n")
+legend("bottom", c("previous data", "updated data"), col = c(1, 2), lwd = c(3, 2), lty = c(1, 1), bty = "n")
+box()
 
 ```
 
@@ -405,18 +406,25 @@ Here we will format the data for input to the operating model.
 #| echo: true
 
 # tab3 <- findat  # previous version - this is catch with no post-release discard mortality 
-tab3 <- findat_disc  # this is catch including post-release discard mortality 
+tabfin <- findat_disc  # this is catch including post-release discard mortality 
 
-flt <- c(rep("Hire", nrow(tab3)*4), rep("Rec", nrow(tab3)*4))
+# collapse to 5 areas
+tabfin$Hire_NNCVBM <- tabfin$Hire_NNC + tabfin$Hire_VBM
+tabfin$Rec_NNCVBM <- tabfin$Rec_NNC + tabfin$Rec_VBM
+
+tab3 <- data.frame(tabfin$Hire_FLK, tabfin$Hire_NCFL, tabfin$Hire_NNCVBM, 
+                   tabfin$Rec_FLK,  tabfin$Rec_NCFL,  tabfin$Rec_NNCVBM)
+
+flt <- c(rep("Hire", nrow(tab3) * 3), rep("Rec", nrow(tab3) * 3))
   
-yrmon <- as.numeric(tab3$yrseas)
+yrmon <- as.numeric(tabfin$yrseas)
 yrs <- floor(yrmon)
 qrt <- (yrmon - floor(yrmon)) * 4 + 0.5
-area <- c(rep("FLK", nrow(tab3)), rep("NCFL", nrow(tab3)), 
-          rep("NNC", nrow(tab3)), rep("VBM", nrow(tab3)))
+area <- c(rep("FLKCAR", nrow(tab3)), rep("NCFL", nrow(tab3)), 
+          rep("NNCVBM", nrow(tab3)))
 area <- rep(area, 2)
 
-findat1 <- data.frame(yrs, qrt, flt, area, matrix(as.matrix(tab3[,3:10])))
+findat1 <- data.frame(yrs, qrt, flt, area, matrix(as.matrix(tab3)))
 names(findat1) <- c("Year", "Quarter", "Fleet", "Area", "Catch_lbs")
 head(findat1)
 
@@ -431,8 +439,8 @@ findat1 <- findat1[which(findat1$Year >= 1986), ]
 findat_disc <- findat_disc[which(findat_disc$year >= 1986), ]
 
 #check that the numbers are exactly the same
-cbind(as.vector(tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T)), 
-as.vector(colSums(findat_disc[3:10], na.rm = T)))
+as.vector(tapply(findat1$Catch_lbs, list(findat1$Area, findat1$Fleet), sum, na.rm = T))
+as.vector(colSums(findat_disc[3:10], na.rm = T))
 
 # output final numbers in correct format
 write.csv(findat1, file = "data/FINAL_files/rec_catch_TomFormat.csv", row.names = FALSE)

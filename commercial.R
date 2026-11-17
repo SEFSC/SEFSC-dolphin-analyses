@@ -358,8 +358,10 @@ apply(d, 2, table, useNA = "always")
 
 # read in file with NMFS area codes
 f <- read.csv("data/fin_nmfs_codes.csv")
+unique(f$area)
 f$latc <- f$lat + 0.5
 f$lonc <- -(f$lon + 0.5)
+unique(f$area)
 f$area2 <- f$area
 
 # read in operating model shapefiles
@@ -373,11 +375,19 @@ for (i in lis) {
   f$area2[which(pts == 1)] <- i
 }
 
+# collapse to 5 areas
+unique(f$area2)
+f$area2[which(f$area2 == "CAR")] <- "FLKCAR"
+f$area2[which(f$area2 == "FLK")] <- "FLKCAR"
+f$area2[which(f$area2 == "NNC")] <- "NNCVBM"
+f$area2[which(f$area2 == "VBM")] <- "NNCVBM"
+unique(f$area2)
+
 map("world", xlim = c(-90, -50), ylim = c(20, 55))
 axis(1); axis(2); box()
 points(f$lonc, f$latc, pch = 19, cex = 1, col = as.numeric(as.factor(f$area2)))
 
-f$area2[which(f$latc > 36 & f$area2 == "")] <- "VBM"
+f$area2[which(f$latc > 36 & f$area2 == "")] <- "NNCVBM"
 abline(h = 41)
 abline(v = -72)
 
@@ -386,7 +396,9 @@ abline(v = c(-77.5, -81.5, -80.5))
 abline(h = c(35, 28))
 f$area2[which(f$latc < 35 & f$latc > 28)] <- "NCFL"
 
-f$area2[which(f$latc < 28)] <- "FLK"
+f$area2[which(f$latc < 28)] <- "FLKCAR"
+
+unique(f$area2)
 
 # look at areas defined by region and make sure correctly specified
 map("world", xlim = c(-90, -50), ylim = c(20, 55))
@@ -406,7 +418,7 @@ table(d$STATE, d$region, d$gear2)
 
 d$region[d$region == ""] <- "unknown"
 unique(d$region)
-d$region <- factor(d$region, levels = c("unknown", "NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
+d$region <- factor(d$region, levels = c("unknown", "NCA", "FLKCAR", "NCFL", "NNCVBM", "NED"))
 
 barplot(tapply(d$WW, d$YEAR, sum, na.rm = T), las = 2)
 barplot(tapply(d$WW, d$MONTH, sum, na.rm = T))
@@ -443,15 +455,15 @@ for (i in 1:2) {
   for (j in 1:dim(tab)[1]) {
     unk <- tab[j, 1, i]
     if (unk > 0) {
-    knw <- tab[j, 2:8, i]
+    knw <- tab[j, 2:6, i]
     if (sum(knw) > 0)  { 
     rec <- knw/sum(knw, na.rm = T) * unk
-    tab2[j, 2:8, i] <- tab[j, 2:8, i] + rec
+    tab2[j, 2:6, i] <- tab[j, 2:6, i] + rec
     tab2[j, 1, i] <- 0
     }  else  { 
-    knw <- tab[(j-1), 2:8, i]
+    knw <- tab[(j-1), 2:6, i]
     rec <- knw/sum(knw, na.rm = T) * unk
-    tab2[j, 2:8, i] <- tab[j, 2:8, i] + rec
+    tab2[j, 2:6, i] <- tab[j, 2:6, i] + rec
     tab2[j, 1, i] <- 0  
         }
       }
@@ -470,7 +482,7 @@ tab3 <- tab2[, , 1] + tab2[, , 2]
 head(tab2)
 head(tab3)
 
-tab3 <- tab3[, 2:8]
+tab3 <- tab3[, 2:6]
 
 dev.off()
 barplot(colSums(tab3))
@@ -537,7 +549,10 @@ round(check1 / check2, 2)  # note these should be slightly different because Dec
 # OUTPUT FINAL DATA FILE  ---------------------
 write.csv(findat, file = "data/FINAL_files/commercial_TomFormat.csv", row.names = FALSE)
 
-findat$Area <- factor(findat$Area, levels = c("NCA", "CAR", "FLK", "NCFL", "NNC", "VBM", "NED"))
+
+
+
+findat$Area <- factor(findat$Area, levels = c("NCA", "FLKCAR", "NCFL", "NNCVBM", "NED"))
 
 tab <- tapply(findat$Catch_lbs, list(findat$Quarter, findat$Area), sum, na.rm = T)
 barplot(tab, beside = T, col = rainbow(4))
